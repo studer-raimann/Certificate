@@ -1,0 +1,119 @@
+msg_default_language_must_be_set#:#Standard-Language must be set
+decrypt_failed#:#The signature value could not be decrypted.
+signature#:#Signature
+signature_check#:#Check certificate signature
+decrypt_successful#:#The decryption was successful.
+in_process#:#in process
+general#:#General
+template#:#Template
+certificate_placeholders#:#Certificate placeholders
+save#:#Save
+always#:#Always
+placeholders#:#Placeholders
+back_to_overview#:#Overview
+manage_cert_types#:#Manage certificate types
+save_preview#:#Save & Preview
+course_templates#:#Enable support for course templates
+course_templates_info#:#If enabled, the plugin offers additional certificate settings depending if a course is marked as "course template"
+course_templates_ref_ids#:#Ref-IDs categories
+course_templates_ref_ids_info#:#Comma separated list of Ref-IDs of categories containing the template courses
+time_format_utc#:#Print date/times on certificate in UTC timezone
+time_format_utc_info#:#If checked, all date and time data calculated with the standard placeholders is converted in UTC timezone (by using PHPs gmdate() over date())
+certificate#:#Certificate
+back_to_course#:#Back to Course
+str_format_date#:#Date format
+str_format_date_info#:#Date format used to format all dates from the standard placeholders
+str_format_datetime#:#Datetime format
+str_format_datetime_info#:#Date format used to format all dates with time from the standard placeholders
+path_hook_class#:#Path to Hook class
+path_hook_class_info#:#Path to the class 'srCertificateCustomHooks', e.g. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
+
+valid_from#:#Valid from
+valid_to#:#Valid to
+lastname#:#Lastname
+firstname#:#Firstname
+file_version#:#File version
+actions#:#Actions
+
+msg_no_permission_certificates#:#No permission to view certificates
+msg_definition_created#:#Definition successfully created
+msg_definition_updated#:#Definition successfully updated
+msg_placeholders_updated#:#Placeholders successfully updated
+msg_type_updated#:#Certificate type changed
+msg_no_types_available#:#No certificate types available
+msg_reserved_identifier#:#Identifier '%s' is reserved by an existing standard placeholder
+msg_identifier_not_valid#:#Identifier '%s' is not valid
+msg_reset_validity#:#The default value of the validity setting was reset
+msg_type_saved#:#Saved type
+msg_setting_saved#:#Saved setting
+msg_placeholder_saved#:#Saved placeholder
+msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols
+
+change_cert_type#:#Change certificate type
+choose_cert_type#:#Choose certificate type
+edit_settings#:#Edit settings
+
+setting_id_type#:#Certificate type
+setting_id_type_info_new#:#After choosing the type, additional settings will be available
+setting_id_type_info_change#:#Warning: By changing the Type, the current settings and placeholders are deleted
+setting_id_generation#:#Generation
+setting_id_validity#:#Validity
+setting_id_validity_type#:#Validity type
+setting_id_default_lang#:#Default language
+setting_id_default_lang_info#:#The certificate is generated with this language, if the language of the user does not match one of the languages defined by the certificate type
+setting_id_downloadable#:#Certificate downloadable
+setting_id_downloadable_info#:#If checked, a user has the possibility to download the certificate
+setting_generation_auto#:#After course is completed (auto)
+setting_generation_manually#:#Manually
+setting_validity_range#:#Date range after creation of certificate
+setting_validity_1#:#Always
+setting_validity_2#:#Date range
+setting_validity_3#:#Date
+date_range#:#Date range
+setting_validity_date#:#Specific date
+date#:#Date
+setting_id_notification#:#Notification
+setting_id_notification_info#:#Separate multiple addresses with comma
+setting_id_notification_user#:#User Notification
+setting_id_notification_user_info#:#If checked, an email with the attached certificate is sent to the user
+validity_date_range#:#%s months, %s days
+
+confirm_type_change#:#Confirm certificate type change
+confirm_type_change_text#:#By changing the certificate type, all existing placeholders and settings are deleted. New placeholders defined by the type will be available.
+
+add_new_type#:#Add new certificate type
+languages#:#Languages
+template_type_id#:#Template type
+roles#:#Roles
+roles_info#:#Roles that are allowed to choose this certificate type in an object. If no role is selected, all users are able to choose the type.
+available_objects#:#Available in objects
+available_objects_info#:#Define in which objects this certificate type can be chosen
+edit_type#:#Edit Certificate Type
+add_type#:#Add Certificate Type
+assets#:#Assets
+assets_info#:#Check the assets you want to delete after saving
+add_assets#:#Add assets
+template_file#:#Template file
+template_file_info#:#The file must be a valid template for the chosen Template type. If there exists already a template file, the current one is overridden.
+
+edit_setting#:#Edit '%s'
+edit_type_template#:#Edit template related settings
+setting#:#Setting
+editable_in#:#Editable in
+default_value#:#Default value
+default_value_lang#:#Default value '%s'
+label_lang#:#Label '%s'
+label#:#Label
+
+identifier#:#Identifier
+identifier_info#:#Valid characters: %s
+max_characters#:#Max characters
+max_characters_info#:#If you allow more than 128 characters, a textarea is used for entering the text
+mandatory#:#Mandatory
+add_new_placeholder#:#Add new Placeholder
+edit_placeholder#:#Edit placeholder
+add_placeholder#:#Add placeholder
+standard_placeholders#:#Standard Placeholders
+standard_placeholders_desc#:#These are the standard placeholders provided by the plugin.
+update_cert_definitions#:#Update certificate definitions
+update_cert_definitions_info#:#If checked, the placeholder is also created for existing certificate definitions of this type (with the default value)
