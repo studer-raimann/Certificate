@@ -47,6 +47,7 @@ class srCertificateStandardPlaceholders
         'LP_READ_COUNT' => 'Read count',
         'LP_STATUS' => 'Status code',
         'LP_AVG_PERCENTAGE' => 'Avg. percentage of course',
+        'CERT_TEMPLATE_PATH' => 'Path where certificate template file and assets are stored'
     );
 
 
@@ -181,6 +182,7 @@ class srCertificateStandardPlaceholders
                 'LP_READ_COUNT' => $lp_crs['read_count'],
                 'LP_STATUS' => $lp_crs['status'],
                 'LP_AVG_PERCENTAGE' => $lp_avg,
+                'CERT_TEMPLATE_PATH' => $this->cert->getDefinition()->getType()->getCertificateTemplatesPath(),
             )
         );
         return $this->parsed_placeholders;

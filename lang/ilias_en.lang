@@ -83,6 +83,8 @@ confirm_type_change_text#:#By changing the certificate type, all existing placeh
 
 add_new_type#:#Add new certificate type
 languages#:#Languages
+description#:#Description
+title#:#Title
 template_type_id#:#Template type
 roles#:#Roles
 roles_info#:#Roles that are allowed to choose this certificate type in an object. If no role is selected, all users are able to choose the type.

@@ -50,6 +50,7 @@ class srCertificateType extends ActiveRecord
      * @db_fieldtype    integer
      * @db_length       8
      * @db_is_primary   true
+     * @db_sequence     true
      */
     protected $id = 0;
 
@@ -209,6 +210,9 @@ class srCertificateType extends ActiveRecord
      */
     public function getAssets()
     {
+        if (!is_dir($this->getCertificateTemplatesPath())) {
+            ilUtil::makeDirParents($this->getCertificateTemplatesPath());
+        }
         $files = scandir($this->getCertificateTemplatesPath());
         $tpl_filename = srCertificateTemplateTypeFactory::getById($this->getTemplateTypeId())->getTemplateFilename();
         $ignore = array('.', '..', '.DS_Store', $tpl_filename);
@@ -247,12 +251,14 @@ class srCertificateType extends ActiveRecord
     public function storeTemplateFile(array $file_data)
     {
         if ($file_data['name'] && !$file_data['error']) {
-            $file_name = srCertificateTemplateTypeFactory::getById($this->getTemplateTypeId())->getTemplateFilename();
-            $file_path = $this->getCertificateTemplatesPath() . DIRECTORY_SEPARATOR . $file_name;
+            $file_path = $this->getCertificateTemplatesPath();
             if (!is_dir($file_path)) {
                 ilUtil::makeDirParents($file_path);
             }
-            return ilUtil::moveUploadedFile($file_data['tmp_name'], $file_name, $file_path, false);
+            $file = $this->getCertificateTemplatesPath() . DIRECTORY_SEPARATOR . $file_data['name'];
+            if (move_uploaded_file($file_data['tmp_name'], $file)) {
+                return rename($file, $this->getCertificateTemplatesPath(true));
+            }
         }
         return false;
     }

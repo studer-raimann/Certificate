@@ -355,6 +355,7 @@ class srCertificateTypeGUI
         $form = new srCertificateTypeFormGUI($this, $type);
         if ($form->saveObject()) {
             ilUtil::sendSuccess($this->pl->txt('msg_type_saved'), true);
+            $this->ctrl->setParameter($this, 'type_id', $this->type->getId());
             $this->ctrl->redirect($this, 'editType');
         } else {
             $this->tpl->setContent($form->getHTML());

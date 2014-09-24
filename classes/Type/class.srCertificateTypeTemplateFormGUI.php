@@ -133,17 +133,31 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->pl->txt('edit_type_template'));
 
+        $types_available = array();
+        $types = array(
+            srCertificateTemplateTypeFactory::getById(srCertificateTemplateType::TEMPLATE_TYPE_HTML),
+            srCertificateTemplateTypeFactory::getById(srCertificateTemplateType::TEMPLATE_TYPE_JASPER),
+        );
+        /** @var $type srCertificateTemplateType */
+        foreach ($types as $type) {
+            if ($type->isAvailable()) {
+                $types_available[$type->getId()] = $type->getTitle();
+            }
+        }
+
+        if (!count($types_available)) {
+            ilUtil::sendInfo($this->pl->txt('msg_no_template_types'));
+        }
         $item = new ilSelectInputGUI($this->pl->txt('template_type_id'), 'template_type_id');
-        $item->setOptions(array(
-            1 => srCertificateTemplateTypeFactory::getById(1)->getTitle(),
-//           2 => srCertificateTemplateTypeFactory::getById(2)->getTitle(),
-        ));
+        $item->setOptions($types_available);
         $item->setRequired(true);
         $this->addItem($item);
 
         $item = new ilFileInputGUI($this->pl->txt('template_file'), 'template_file');
         $template_file = $this->type->getCertificateTemplatesPath(true);
-        $item->setValue($template_file);
+        if (is_file($template_file)) {
+            $item->setValue($template_file);
+        }
         $item->setFilename($template_file);
         $item->setInfo($this->pl->txt('template_file_info'));
         $item->setRequired(!is_file($template_file));

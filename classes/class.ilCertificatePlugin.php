@@ -118,9 +118,13 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
     public function checkPreConditions()
     {
         global $ilPluginAdmin;
+
         /** @var $ilPluginAdmin ilPluginAdmin */
+//        die('checkpreconditions');
         $exists = $ilPluginAdmin->exists(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
+
         $active = $ilPluginAdmin->isActive(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
+
         return ($exists && $active);
     }
 
@@ -131,6 +135,8 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     protected function beforeActivation()
     {
+        ilUtil::sendFailure("You need to install the 'CertificateEvents' plugin");
+
         if (!$this->checkPreConditions()) {
             ilUtil::sendFailure("You need to install the 'CertificateEvents' plugin");
             return false;

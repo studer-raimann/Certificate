@@ -29,6 +29,7 @@ class srCertificate extends ActiveRecord
      * @db_fieldtype    integer
      * @db_length       8
      * @db_is_primary   true
+     * @db_sequence     true
      */
     protected $id = 0;
 
