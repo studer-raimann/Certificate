@@ -15,7 +15,7 @@ require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php
  *
  * @author            Stefan Wanzenried <sw@studer-raimann.ch>
  * @version           $Id:
- * @ilCtrl_isCalledBy srCertificateTypeGUI: ilRouterGUI
+ * @ilCtrl_isCalledBy srCertificateTypeGUI: ilRouterGUI, ilUIPluginRouterGUI
  */
 class srCertificateTypeGUI
 {
@@ -96,6 +96,10 @@ class srCertificateTypeGUI
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
+        // needed for ILIAS >= 4.5
+        if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
+            $this->tpl->getStandardTemplate();
+        }
         switch ($next_class) {
             case '':
                 switch ($cmd) {
@@ -156,6 +160,10 @@ class srCertificateTypeGUI
                         break;
                 }
                 break;
+        }
+        // needed for ILIAS >= 4.5
+        if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
+            $this->tpl->show();
         }
     }
 

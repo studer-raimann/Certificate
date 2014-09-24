@@ -34,6 +34,13 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     protected $hooks;
 
+    /**
+     * This will be ilRouterGUI for ILIAS <= 4.4.x if the corresponding Router service is installed
+     * and ilUIPluginRouterGUI for ILIAS >= 4.5.x
+     *
+     * @var string
+     */
+    protected static $base_class;
 
     /**
      * @return string
@@ -122,7 +129,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         /** @var $ilPluginAdmin ilPluginAdmin */
         $exists = $ilPluginAdmin->exists(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
         $active = $ilPluginAdmin->isActive(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
-        return ($exists && $active);
+        return (self::getBaseClass() && $exists && $active);
     }
 
     /**
@@ -137,6 +144,31 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
             return false;
         }
         return true;
+    }
+
+
+    /**
+     * Returns in what class the command/ctrl chain should start for this plugin.
+     * Return value is ilRouterGUI for ILIAS <= 4.4.x, ilUIPluginRouterGUI for ILIAS >= 4.5, of false otherwise
+     *
+     * @return bool|string
+     */
+    public static function getBaseClass()
+    {
+        if (!is_null(self::$base_class)) {
+            return self::$base_class;
+        }
+
+        global $ilCtrl;
+        if ($ilCtrl->lookupClassPath('ilUIPluginRouterGUI')) {
+            self::$base_class = 'ilUIPluginRouterGUI';
+        } elseif($ilCtrl->lookupClassPath('ilRouterGUI')) {
+            self::$base_class = 'ilRouterGUI';
+        } else {
+            self::$base_class = false;
+        }
+
+        return self::$base_class;
     }
 
 }
