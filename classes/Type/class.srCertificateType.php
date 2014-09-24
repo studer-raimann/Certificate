@@ -1,6 +1,4 @@
 <?php
-
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
 require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemplateType.php');
 require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholder.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSetting.php');

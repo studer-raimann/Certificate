@@ -1,5 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/exceptions/class.srCertificateException.php');
 require_once('class.srCertificateStandardPlaceholders.php');
 

@@ -51,6 +51,19 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
     }
 
 
+    public function init()
+    {
+        // Include ActiveRecord base class
+        if (is_file('./Services/ActiveRecord/class.ActiveRecord.php')) {
+            include_once('./Services/ActiveRecord/class.ActiveRecord.php');
+        } elseif (is_file('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php')) {
+            include_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
+        } else {
+            throw new ilException("Certificate plugin needs ActiveRecord (https://github.com/studer-raimann/ActiveRecord) or ILIAS 4.5");
+        }
+    }
+
+
     /**
      * @return ilCertificateConfig
      */
@@ -170,7 +183,6 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
 
         return self::$base_class;
     }
-
 }
 
 ?>
