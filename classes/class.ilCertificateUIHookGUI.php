@@ -47,7 +47,6 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI
 
     function modifyGUI($a_comp, $a_part, $a_par = array())
     {
-        include_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholderValue.php');
         /**
          * @var $ilTabsGUI ilTabsGUI
          */
