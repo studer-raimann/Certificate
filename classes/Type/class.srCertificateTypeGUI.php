@@ -8,8 +8,6 @@ require_once(dirname(__FILE__) . '/class.srCertificateTypeStandardPlaceholdersTa
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSettingFormGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php');
 
-//require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
-
 /**
  * GUI-Class srCertificateTypeGUI
  *
@@ -107,8 +105,11 @@ class srCertificateTypeGUI
                         $this->showTypes();
                         break;
                     case 'editType':
-                    case 'addType':
                         $this->editType();
+                        $this->setTabs('general');
+                        break;
+                    case 'addType':
+                        $this->addType();
                         $this->setTabs('general');
                         break;
                     case 'saveType':
@@ -175,7 +176,7 @@ class srCertificateTypeGUI
     protected function setTabs($active_tab_id = 'general')
     {
         $this->tabs->addTab('general', $this->pl->txt('general'), $this->ctrl->getLinkTarget($this, 'editType'));
-        if ($this->ctrl->getCmd() != 'addType') {
+        if ($this->type) {
             $this->tabs->addTab('template', $this->pl->txt('template'), $this->ctrl->getLinkTarget($this, 'editTemplate'));
             $this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'showSettings'));
             $this->tabs->addTab('placeholders', $this->pl->txt('placeholders'), $this->ctrl->getLinkTarget($this, 'showPlaceholders'));
@@ -197,12 +198,20 @@ class srCertificateTypeGUI
     }
 
     /**
-     * Show form for creating/editing a type (General)
+     * Show form for creating a type
+     */
+    public function addType()
+    {
+        $form = new srCertificateTypeFormGUI($this, new srCertificateType());
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    /**
+     * Show form for editing a type (General)
      */
     public function editType()
     {
-        $type = ($this->type === NULL) ? new srCertificateType() : $this->type;
-        $form = new srCertificateTypeFormGUI($this, $type);
+        $form = new srCertificateTypeFormGUI($this, $this->type);
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -363,7 +372,7 @@ class srCertificateTypeGUI
         $form = new srCertificateTypeFormGUI($this, $type);
         if ($form->saveObject()) {
             ilUtil::sendSuccess($this->pl->txt('msg_type_saved'), true);
-            $this->ctrl->setParameter($this, 'type_id', $this->type->getId());
+            $this->ctrl->setParameter($this, 'type_id', $type->getId());
             $this->ctrl->redirect($this, 'editType');
         } else {
             $this->tpl->setContent($form->getHTML());
