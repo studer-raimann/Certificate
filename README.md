@@ -27,12 +27,12 @@ The following plugin and services are needed in order to run the certificate plu
 
 **Mandatory**
 
-* ActiveRecord (https://github.com/studer-raimann/ActiveRecord) 
 * CertificateEvents (https://github.com/studer-raimann/CertificateEvents)
+* *ILIAS < 4.5* ActiveRecord (https://github.com/studer-raimann/ActiveRecord)
 * *ILIAS < 4.5* Router Service (https://github.com/studer-raimann/RouterService)
 * *ILIAS <= 4.4* Jasper Report (https://github.com/studer-raimann/JasperReport)
 
-In ILIAS >= 4.5, the Router service is already included in the core. The Jasper Report service is needed if the PDF files should be rendered with JasperReport. As an alternative in ILIAS >= 4.4, the integrated PDF service can be used. We recommend to use JasperSoft because it offers superior possibilites to create pretty certificate layouts. They can be for example generated with the "JasperSoft Studio" application, please visit https://community.jaspersoft.com/ for more informations.
+In ILIAS >= 4.5, the Router and ActiveRecord service is already included in the core. The Jasper Report service is needed if the PDF files should be rendered with JasperReport. As an alternative in ILIAS >= 4.4, the integrated PDF service can be used. We recommend to use JasperSoft because it offers superior possibilites to create pretty certificate layouts. They can be for example generated with the "JasperSoft Studio" application, please visit https://community.jaspersoft.com/ for more informations.
 
 **Optional**
 * CtrlMainMenu (https://github.com/studer-raimann/CtrlMainMenu)
