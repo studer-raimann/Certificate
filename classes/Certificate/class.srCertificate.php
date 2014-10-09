@@ -1,5 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
 require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificateStandardPlaceholders.php');
 require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholder.php');
 require_once(dirname(dirname(__FILE__)) . '/Definition/class.srCertificateDefinition.php');
@@ -29,6 +28,7 @@ class srCertificate extends ActiveRecord
      * @db_fieldtype    integer
      * @db_length       8
      * @db_is_primary   true
+     * @db_sequence     true
      */
     protected $id = 0;
 

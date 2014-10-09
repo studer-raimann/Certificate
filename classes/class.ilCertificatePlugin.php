@@ -1,4 +1,12 @@
 <?php
+
+// Include ActiveRecord base class, in ILIAS >= 4.5 use ActiveRecord from Core
+if (is_file('./Services/ActiveRecord/class.ActiveRecord.php')) {
+    require_once('./Services/ActiveRecord/class.ActiveRecord.php');
+} elseif (is_file('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php')) {
+    require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
+}
+
 require_once('./Services/UIComponent/classes/class.ilUserInterfaceHookPlugin.php');
 require_once('class.ilCertificateConfig.php');
 require_once('class.srCertificateHooks.php');
@@ -34,6 +42,13 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     protected $hooks;
 
+    /**
+     * This will be ilRouterGUI for ILIAS <= 4.4.x if the corresponding Router service is installed
+     * and ilUIPluginRouterGUI for ILIAS >= 4.5.x
+     *
+     * @var string
+     */
+    protected static $base_class;
 
     /**
      * @return string
@@ -42,7 +57,6 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
     {
         return 'Certificate';
     }
-
 
     /**
      * @return ilCertificateConfig
@@ -118,10 +132,11 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
     public function checkPreConditions()
     {
         global $ilPluginAdmin;
+
         /** @var $ilPluginAdmin ilPluginAdmin */
         $exists = $ilPluginAdmin->exists(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
         $active = $ilPluginAdmin->isActive(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
-        return ($exists && $active);
+        return (self::getBaseClass() && $exists && $active);
     }
 
     /**
@@ -138,6 +153,30 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         return true;
     }
 
+
+    /**
+     * Returns in what class the command/ctrl chain should start for this plugin.
+     * Return value is ilRouterGUI for ILIAS <= 4.4.x, ilUIPluginRouterGUI for ILIAS >= 4.5, of false otherwise
+     *
+     * @return bool|string
+     */
+    public static function getBaseClass()
+    {
+        if (!is_null(self::$base_class)) {
+            return self::$base_class;
+        }
+
+        global $ilCtrl;
+        if ($ilCtrl->lookupClassPath('ilUIPluginRouterGUI')) {
+            self::$base_class = 'ilUIPluginRouterGUI';
+        } elseif($ilCtrl->lookupClassPath('ilRouterGUI')) {
+            self::$base_class = 'ilRouterGUI';
+        } else {
+            self::$base_class = false;
+        }
+
+        return self::$base_class;
+    }
 }
 
 ?>

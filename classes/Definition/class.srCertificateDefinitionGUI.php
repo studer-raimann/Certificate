@@ -13,7 +13,7 @@ require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificatePrevi
  *
  * @author            Stefan Wanzenried <sw@studer-raimann.ch>
  * @version           $Id:
- * @ilCtrl_isCalledBy srCertificateDefinitionGUI: ilRouterGUI
+ * @ilCtrl_isCalledBy srCertificateDefinitionGUI: ilRouterGUI, ilUIPluginRouterGUI
  */
 class srCertificateDefinitionGUI
 {
@@ -107,6 +107,10 @@ class srCertificateDefinitionGUI
         $this->setSubTabs();
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
+        // needed for ILIAS >= 4.5
+        if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
+            $this->tpl->getStandardTemplate();
+        }
         switch ($next_class) {
             case '':
                 switch ($cmd) {
@@ -154,6 +158,10 @@ class srCertificateDefinitionGUI
                         }
                 }
                 break;
+        }
+        // needed for ILIAS >= 4.5
+        if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
+            $this->tpl->show();
         }
     }
 

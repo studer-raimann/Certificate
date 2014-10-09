@@ -63,6 +63,16 @@ abstract class srCertificateTemplateType
     abstract public function generate(srCertificate $certificate);
 
 
+    /**
+     * Return false if the template type is not available for rendering certificates
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return true;
+    }
+
     // Getters & Setters
 
     /**

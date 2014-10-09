@@ -1,7 +1,5 @@
 <?php
 
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
-
 /**
  * srCertificateDefinitionSetting
  *
@@ -24,6 +22,7 @@ class srCertificateDefinitionSetting extends ActiveRecord
      * @db_fieldtype    integer
      * @db_length       8
      * @db_is_primary   true
+     * @db_sequence     true
      */
     protected $id = 0;
 

@@ -51,33 +51,34 @@ class ilCertificateConfigGUI extends ilPluginConfigGUI
     public function getFields()
     {
         $this->fields = array(
-            'async' => array(
-                'type' => 'ilCheckboxInputGUI',
-                'info' => false,
-                'subelements' => array(
-                    'username' => array(
-                        'type' => 'ilTextInputGUI',
-                    ),
-                    'password' => array(
-                        'type' => 'ilTextInputGUI',
-                    ),
-                    'client' => array(
-                        'type' => 'ilTextInputGUI',
-                    )
-                )
-            ),
-            'signature' => array(
-                'type' => 'ilCheckboxInputGUI',
-                'info' => false,
-                'subelements' => array(
-                    'privatekey' => array(
-                        'type' => 'ilTextInputGUI',
-                    ),
-                    'publickey' => array(
-                        'type' => 'ilTextInputGUI',
-                    ),
-                )
-            ),
+// SW: Not yet implemented for first release
+//            'async' => array(
+//                'type' => 'ilCheckboxInputGUI',
+//                'info' => false,
+//                'subelements' => array(
+//                    'username' => array(
+//                        'type' => 'ilTextInputGUI',
+//                    ),
+//                    'password' => array(
+//                        'type' => 'ilTextInputGUI',
+//                    ),
+//                    'client' => array(
+//                        'type' => 'ilTextInputGUI',
+//                    )
+//                )
+//            ),
+//            'signature' => array(
+//                'type' => 'ilCheckboxInputGUI',
+//                'info' => false,
+//                'subelements' => array(
+//                    'privatekey' => array(
+//                        'type' => 'ilTextInputGUI',
+//                    ),
+//                    'publickey' => array(
+//                        'type' => 'ilTextInputGUI',
+//                    ),
+//                )
+//            ),
             'course_templates' => array(
                 'type' => 'ilCheckboxInputGUI',
                 'info' => true,

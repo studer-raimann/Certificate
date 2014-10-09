@@ -47,7 +47,6 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI
 
     function modifyGUI($a_comp, $a_part, $a_par = array())
     {
-        include_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholderValue.php');
         /**
          * @var $ilTabsGUI ilTabsGUI
          */
@@ -58,7 +57,7 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI
             if ($this->access->checkAccess('write', '', (int)$_GET['ref_id'])) {
                 $ilTabsGUI = $a_par['tabs'];
                 $this->ctrl->setParameterByClass('srCertificateDefinitionGUI', 'ref_id', $_GET['ref_id']);
-                $link = $this->ctrl->getLinkTargetByClass(array('ilRouterGUI', 'srCertificateDefinitionGUI'));
+                $link = $this->ctrl->getLinkTargetByClass(array(ilCertificatePlugin::getBaseClass(), 'srCertificateDefinitionGUI'));
                 $ilTabsGUI->addTarget('certificate', $link, 'show', 'srCertificateDefinitionGUI');
             }
         }

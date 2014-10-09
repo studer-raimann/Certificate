@@ -1,6 +1,5 @@
 <?php
 require_once('class.srCertificateTemplateType.php');
-require_once('./Customizing/global/plugins/Libraries/JasperReport/classes/class.JasperReport.php');
 
 /**
  * srCertificateTemplateTypeJasper
@@ -11,6 +10,7 @@ require_once('./Customizing/global/plugins/Libraries/JasperReport/classes/class.
 class srCertificateTemplateTypeJasper extends srCertificateTemplateType
 {
 
+    const JASPER_CLASS = './Customizing/global/plugins/Libraries/JasperReport/classes/class.JasperReport.php';
 
     public function __construct()
     {
@@ -21,13 +21,26 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
     }
 
     /**
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return is_file(self::JASPER_CLASS);
+    }
+
+    /**
      * Generate the report for given certificate
      *
      * @param srCertificate $cert
+     * @throws ilException
      * @return bool
      */
     public function generate(srCertificate $cert)
     {
+        if (!$this->isAvailable()) {
+            throw new ilException("Generating certificates with TemplateTypeJasper is only available if the JasperReport service is installed");
+        }
+        require_once(self::JASPER_CLASS);
         $path_tpl = $cert->getDefinition()->getType()->getCertificateTemplatesPath(true);
         $placeholders = $cert->getPlaceholders();
         $defined_placeholders = $this->parseDefinedPlaceholders($path_tpl);
