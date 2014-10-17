@@ -92,6 +92,23 @@ class srCertificate extends ActiveRecord
      */
     protected $filename = '';
 
+    /**
+     * @var boolean
+     *
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       1
+     * @db_is_notnull   true
+     */
+    protected $active = false;
+
+    /**
+     * @var string
+     *
+     * @db_has_field    true
+     * @db_fieldtype    timestamp
+     */
+    protected $created_at;
 
     /**
      * @var int
@@ -179,6 +196,22 @@ class srCertificate extends ActiveRecord
 
 
     /**
+     * Convert fields before saving to DB
+     *
+     * @param $field_name
+     * @return mixed
+     */
+    public function sleep($field_name)
+    {
+        switch ($field_name) {
+            case 'active':
+                return (int) $this->active;
+        }
+        return null;
+    }
+
+
+    /**
      * Create certificate
      * Before calling parent::create(), the valid_from and valid_to are are calculated based on the chosen validity in the definition
      * If there exists already a certificate for the given definition and user, the version is increased
@@ -187,7 +220,7 @@ class srCertificate extends ActiveRecord
      */
     public function create()
     {
-        if ($this->getDefinition() === NULL || !$this->getUserId())
+        if (is_null($this->getDefinition()) || !$this->getUserId())
             throw new Exception("srCertificate::create() must have valid Definition and User-ID");
 
         // Set validity dates
@@ -197,19 +230,32 @@ class srCertificate extends ActiveRecord
         $this->setValidTo($valid_to);
 
         // Check if we need to increase the version if a certificate for same user & definition already exists
-        /** @var srCertificate $cert_existing */
-        $cert_existing = srCertificate::where(
+        /** @var srCertificate $cert_last_version */
+        $certs = srCertificate::where(
             array(
                 'definition_id' => $this->getDefinitionId(),
                 'user_id' => $this->getUserId(),
             )
-        )->orderBy('file_version', 'DESC')->first();
-        if ($cert_existing !== null) {
-            $this->setFileVersion((int)$cert_existing->getFileVersion() + 1);
+        )->orderBy('file_version', 'DESC');
+        $cert_last_version = $certs->first();
+        if (!is_null($cert_last_version)) {
+            $this->setFileVersion((int) $cert_last_version->getFileVersion() + 1);
         }
+
+        // Remove active flag from other versions of this certificate
+        /** @var srCertificate $cert */
+        foreach ($certs->get() as $cert) {
+            $cert->setActive(false);
+            $cert->save();
+        }
+
+        // Set active flag
+        $this->setActive(true);
 
         // Set the filename for certificate
         $this->filename = $this->createFilename();
+
+        $this->created_at = date('Y-m-d H:m:s');
         parent::create();
     }
 
@@ -306,7 +352,7 @@ class srCertificate extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }
@@ -321,7 +367,7 @@ class srCertificate extends ActiveRecord
      * @param bool $only_newest_version If false, returns multiple file versions of the same certificate
      * @return array
      */
-    static public function getCertificateData($filters = array(), $sort = array(), $only_newest_version = true)
+    public static function getCertificateData($filters = array(), $sort = array(), $only_newest_version = true)
     {
         global $ilDB;
         /** @var ilDB $ilDB */
@@ -632,6 +678,30 @@ class srCertificate extends ActiveRecord
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param boolean $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return (bool) $this->active;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
     }
 
 }

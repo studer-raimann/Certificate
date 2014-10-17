@@ -80,3 +80,28 @@
     $conf->setValue('path_hook_class', ilCertificatePlugin::DEFAULT_PATH_HOOK_CLASS);
     $conf->initDB();
     ?>
+<#6>
+    <?php
+    // Update database schema, added created_at timestamp and active flag to certificates
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
+    srCertificate::updateDB();
+    ?>
+<#7>
+    <?php
+    // Flag latest version of each certificate as active
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
+    /** @var ilDB $ilDB */
+    $set = $ilDB->query('SELECT user_id, definition_id, MAX(file_version) AS max_file_version FROM cert_obj GROUP BY definition_id, user_id');
+    while ($row = $ilDB->fetchObject($set)) {
+        /** @var srCertificate $cert */
+        $cert = srCertificate::where(array(
+            'definition_id' => $row->definition_id,
+            'user_id' => $row->user_id,
+            'file_version' => $row->max_file_version,
+        ))->first();
+        if ($cert) {
+            $cert->setActive(true);
+            $cert->save();
+        }
+    }
+    ?>

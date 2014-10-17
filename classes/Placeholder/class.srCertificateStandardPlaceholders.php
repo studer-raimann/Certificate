@@ -139,7 +139,7 @@ class srCertificateStandardPlaceholders
         $lp_data = ilTrQuery::getObjectsDataForUser($user->getId(), $course->getId(), $course->getRefId(), '', '', 0, 9999, null, $lp_fields);
         $lp_avg = $this->buildAvgPercentageOfCourseObjects($lp_data);
         $lp_crs = array();
-        $max_last_access = null;
+        $max_last_access = null; // TODO Set this to first access of course for starting!
         foreach ($lp_data['set'] as $v) {
             if ($v['type'] == 'crs') {
                 $lp_crs = $v;
@@ -174,6 +174,7 @@ class srCertificateStandardPlaceholders
                 'CERT_VALID_FROM' => $this->formatDate('CERT_VALID_FROM', strtotime($cert->getValidFrom())),
                 'CERT_VALID_TO' => $this->formatDate('CERT_VALID_TO', strtotime($cert->getValidTo())),
                 'CERT_ID' => $cert->getId(),
+                'CERT_TEMPLATE_PATH' => $this->cert->getDefinition()->getType()->getCertificateTemplatesPath(),
                 'COURSE_TITLE' => $course->getTitle(),
                 'LP_FIRST_ACCESS' => $this->formatDateTime('LP_FIRST_ACCESS', (int)$lp_crs['first_access']),
                 'LP_LAST_ACCESS' => $this->formatDateTime('LP_LAST_ACCESS', (int)$lp_crs['last_access']),
@@ -182,7 +183,6 @@ class srCertificateStandardPlaceholders
                 'LP_READ_COUNT' => $lp_crs['read_count'],
                 'LP_STATUS' => $lp_crs['status'],
                 'LP_AVG_PERCENTAGE' => $lp_avg,
-                'CERT_TEMPLATE_PATH' => $this->cert->getDefinition()->getType()->getCertificateTemplatesPath(),
             )
         );
         return $this->parsed_placeholders;
