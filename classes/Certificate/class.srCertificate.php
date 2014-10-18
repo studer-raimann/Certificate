@@ -360,40 +360,59 @@ class srCertificate extends ActiveRecord
 
     /**
      * Get Certificate data as array
+     * Take a look at the code to see what fields can be used to filter on. To get only the newest version
+     * of a certificate, the filter must include the following:
      *
-     * @param array $filters Optional filtering query with the following keys:
-     *                                      definition_id, user_id, file_version, status
+     * 'active' => 1
+     *
+     * @param array $filters Array containing fields to filter
      * @param array $sort Fields as keys, direction as values. E.g. array('usr.lastname' => 'ASC')
-     * @param bool $only_newest_version If false, returns multiple file versions of the same certificate
+     *
      * @return array
      */
-    public static function getCertificateData($filters = array(), $sort = array(), $only_newest_version = true)
+    public static function getCertificateData($filters = array(), $sort = array())
     {
         global $ilDB;
+
         /** @var ilDB $ilDB */
-        $sql = "SELECT cert.*, usr.firstname, usr.lastname FROM cert_obj AS cert
-                INNER JOIN usr_data AS usr ON (usr.usr_id = cert.user_id)";
+        $sql = "SELECT cert.*, usr.firstname, usr.lastname, cert_type.title AS cert_type, " .
+               "obj_data.title AS crs_title FROM cert_obj AS cert " .
+               "INNER JOIN cert_definition AS cert_def ON (cert_def.id = cert.definition_id) " .
+               "INNER JOIN cert_type ON (cert_type.id = cert_def.type_id) " .
+               "LEFT JOIN usr_data AS usr ON (usr.usr_id = cert.user_id) " .
+               "LEFT JOIN object_reference AS obj_ref ON (obj_ref.ref_id = cert_def.ref_id) " .
+               "LEFT JOIN object_data AS obj_data ON (obj_data.obj_id = obj_ref.obj_id)";
         if (count($filters) || $only_newest_version) {
             $sql .= " WHERE ";
             $and = "";
-            if (isset($filters['definition_id'])) {
-                $sql .= "{$and} cert.definition_id = " . $ilDB->quote($filters['definition_id'], 'integer');
+            foreach ($filters as $filter => $value) {
+                switch ($filter) {
+                    case 'firstname':
+                    case 'lastname':
+                        $sql .= "{$and} usr.{$filter} LIKE " . $ilDB->quote("%{$value}%", 'text');
+                        break;
+                    case 'crs_title':
+                        $sql .= "{$and} obj_data.title LIKE " . $ilDB->quote("%{$value}%", 'text');
+                        break;
+                    case 'definition_id':
+                    case 'user_id':
+                    case 'file_version':
+                    case 'status':
+                    case 'id':
+                    case 'active':
+                        $sql .= "{$and} cert.{$filter} = " . $ilDB->quote($value, 'integer');
+                        break;
+                    case 'valid_from':
+                        $sql .= "{$and} cert.valid_from >= " . $ilDB->quote($value, 'date');
+                        break;
+                    case 'valid_to':
+                        $sql .= "{$and} cert.valid_to <= " . $ilDB->quote($value, 'date');
+                        break;
+                    case 'type_id':
+                        $sql .= "{$and} cert_type.id = " . $ilDB->quote($value, 'integer');
+                        break;
+                }
                 $and = " AND ";
-            }
-            if (isset($filters['user_id'])) {
-                $sql .= "{$and} cert.user_id = " . $ilDB->quote($filters['user_id'], 'integer');
-                $and = " AND ";
-            }
-            if (isset($filters['file_version'])) {
-                $sql .= "{$and} cert.file_version = " . $ilDB->quote($filters['file_version'], 'integer');
-                $and = " AND ";
-            }
-            if (isset($filters['status'])) {
-                $sql .= "{$and} cert.status = " . $ilDB->quote($filters['status'], 'integer');
-                $and = " AND ";
-            }
-            if ($only_newest_version) {
-                $sql .= "{$and} cert.file_version IN (SELECT MAX(file_version) FROM cert_obj WHERE cert_obj.definition_id = cert.definition_id AND cert_obj.user_id = cert.user_id)";
             }
         }
         if (count($sort)) {
