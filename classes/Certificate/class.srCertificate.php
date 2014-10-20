@@ -301,6 +301,8 @@ class srCertificate extends ActiveRecord
 
     /**
      * Download certificate
+     * Note: No permission checking, this must be done by the controller calling this method
+     *
      */
     public function download()
     {
@@ -355,6 +357,42 @@ class srCertificate extends ActiveRecord
     public static function returnDbTableName()
     {
         return self::TABLE_NAME;
+    }
+
+
+    /**
+     * Download the given IDs of certificates as ZIP-File.
+     * Note: No permission checking, this must be done by the controller calling this method
+     *
+     * @param array $cert_ids
+     */
+    public static function downloadAsZip(array $cert_ids=array(), $filename='certificates')
+    {
+        if (count($cert_ids)) {
+            $zip_filename = date('d-m-Y') . '-' . $filename;
+            // Make a random temp dir in ilias data directory
+            $tmp_dir = ilUtil::ilTempnam();
+            ilUtil::makeDir($tmp_dir);
+            $zip_base_dir = $tmp_dir . DIRECTORY_SEPARATOR . $zip_filename;
+            ilUtil::makeDir($zip_base_dir);
+            // Copy all PDFs in folder
+            foreach ($cert_ids as $cert_id) {
+                /** @var srCertificate $cert */
+                $cert = srCertificate::find((int)$cert_id);
+                if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED) {
+                    copy($cert->getFilePath(), $zip_base_dir . DIRECTORY_SEPARATOR . $cert->getFilename(true));
+                }
+            }
+            $tmp_zip_file = $tmp_dir . DIRECTORY_SEPARATOR . $zip_filename . '.zip';
+            try {
+                ilUtil::zip($zip_base_dir, $tmp_zip_file);
+                rename($tmp_zip_file, $zip_file = ilUtil::ilTempnam());
+                ilUtil::delDir($tmp_dir);
+                ilUtil::deliverFile($zip_file, $zip_filename . '.zip', '', false, true);
+            } catch (ilFileException $e) {
+                ilUtil::sendInfo($e->getMessage());
+            }
+        }
     }
 
 
@@ -417,7 +455,7 @@ class srCertificate extends ActiveRecord
                         $sql .= "{$and} cert.valid_from >= " . $ilDB->quote($value, 'date');
                         break;
                     case 'valid_to':
-                        $sql .= "{$and} cert.valid_to <= " . $ilDB->quote($value, 'date');
+                        $sql .= "{$and} cert.valid_to >= " . $ilDB->quote($value, 'date');
                         break;
                     case 'type_id':
                         $sql .= "{$and} cert_type.id = " . $ilDB->quote($value, 'integer');

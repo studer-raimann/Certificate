@@ -7,6 +7,8 @@ require_once(dirname(__FILE__) . '/class.srCertificateDefinitionPlaceholdersForm
 require_once(dirname(__FILE__) . '/class.srCertificateDefinitionTableGUI.php');
 require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificatePreview.php');
+require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificateTableGUI.php');
+require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php');
 
 /**
  * GUI-Class srCertificateDefinitionGUI
@@ -167,6 +169,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Show Definition settings Form
+     *
      */
     public function showDefinition()
     {
@@ -178,6 +181,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Show available Placeholders of Definition
+     *
      */
     public function showPlaceholders()
     {
@@ -189,17 +193,24 @@ class srCertificateDefinitionGUI
 
     /**
      * Show all certificates
+     *
      */
     public function showCertificates()
     {
         $this->tabs->setSubTabActive("show_certificates");
-        $table = new srCertificateDefinitionTableGUI($this, 'showCertificates', $this->definition);
+        $options = array(
+            'columns' => array('firstname', 'lastname', 'valid_from', 'valid_to', 'file_version'),
+            'show_filter' => false,
+            'definition_id' => $this->definition->getId(),
+        );
+        $table = new srCertificateTableGUI($this, 'showCertificates', $options);
         $this->tpl->setContent($table->getHTML());
     }
 
 
     /**
      * Create definition
+     *
      */
     public function createDefinition()
     {
@@ -216,6 +227,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Update definition settings
+     *
      */
     public function updateDefinition()
     {
@@ -235,6 +247,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Update placeholders
+     *
      */
     public function updatePlaceholders($redirect_cmd = 'showPlaceholders')
     {
@@ -263,6 +276,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Download a certificate
+     *
      */
     public function downloadCertificate()
     {
@@ -277,40 +291,18 @@ class srCertificateDefinitionGUI
 
     /**
      * Download multiple certificates as ZIP file
+     *
      */
     public function downloadCertificates()
     {
         $cert_ids = $_POST['cert_id'];
-        if (count($cert_ids)) {
-            $zip_filename = date('d-m-Y') . '-' . $this->ref_id . '-certificates';
-            // Make a random temp dir in ilias data directory
-            $tmp_dir = ilUtil::ilTempnam();
-            ilUtil::makeDir($tmp_dir);
-            $zip_base_dir = $tmp_dir . DIRECTORY_SEPARATOR . $zip_filename;
-            ilUtil::makeDir($zip_base_dir);
-            // Copy all PDFs in folder
-            foreach ($cert_ids as $cert_id) {
-                /** @var srCertificate $cert */
-                $cert = srCertificate::find((int)$cert_id);
-                if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED) {
-                    copy($cert->getFilePath(), $zip_base_dir . DIRECTORY_SEPARATOR . $cert->getFilename(true));
-                }
-            }
-            $tmp_zip_file = $tmp_dir . DIRECTORY_SEPARATOR . $zip_filename . '.zip';
-            try {
-                ilUtil::zip($zip_base_dir, $tmp_zip_file);
-                rename($tmp_zip_file, $zip_file = ilUtil::ilTempnam());
-                ilUtil::delDir($tmp_dir);
-                ilUtil::deliverFile($zip_file, $zip_filename . '.zip', '', false, true);
-            } catch (ilFileException $e) {
-                ilUtil::sendInfo($e->getMessage());
-            }
-        }
+        srCertificate::downloadAsZip($cert_ids, $this->ref_id . '-certificates');
         $this->showCertificates();
     }
 
     /**
      * Display INFO/Warning Screen if the type was changed by user
+     *
      */
     public function confirmTypeChange()
     {
@@ -327,6 +319,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Update type of definition
+     *
      */
     public function updateType()
     {
@@ -343,6 +336,7 @@ class srCertificateDefinitionGUI
     /**
      * Check permission of user
      * Redirect to course if permission check fails
+     *
      */
     protected function checkPermission()
     {
@@ -356,6 +350,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Set Subtabs
+     *
      */
     protected function setSubTabs()
     {
@@ -371,6 +366,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Set Course title and icon in header
+     *
      */
     protected function initHeader()
     {

@@ -29,6 +29,7 @@ class srCertificateGUI
 
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
+        $this->checkPermission();
     }
 
     public function executeCommand()
@@ -43,6 +44,12 @@ class srCertificateGUI
                 break;
             case 'resetFilter':
                 $this->resetFilter();
+                break;
+            case 'downloadCertificate':
+                $this->downloadCertificate();
+                break;
+            case 'downloadCertificates':
+                $this->downloadCertificates();
                 break;
         }
     }
@@ -67,6 +74,42 @@ class srCertificateGUI
         $table->resetOffset();
         $table->resetFilter();
         $this->index();
+    }
+
+
+    /**
+     * Download a certificate
+     *
+     */
+    public function downloadCertificate()
+    {
+        if ($cert_id = (int) $_GET['cert_id']) {
+            /** @var srCertificate $cert */
+            $cert = srCertificate::find($cert_id);
+            $cert->download();
+        }
+        $this->index();
+    }
+
+
+    /**
+     * Download multiple certificates as ZIP file
+     *
+     */
+    public function downloadCertificates()
+    {
+        $cert_ids = (isset($_POST['cert_id'])) ? (array) $_POST['cert_id'] : array();
+        srCertificate::downloadAsZip($cert_ids);
+        $this->index();
+    }
+
+
+    /**
+     * Check permissions
+     */
+    protected function checkPermission()
+    {
+        // TODO How are the permissions checked for this GUI?
     }
 
 }

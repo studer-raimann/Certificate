@@ -78,6 +78,11 @@ class srCertificateTableGUI extends ilTable2GUI{
      */
     protected $ctrl;
 
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
+
 
     /**
      * Options array can contain the following key/value pairs
@@ -94,7 +99,7 @@ class srCertificateTableGUI extends ilTable2GUI{
      */
     public function __construct($a_parent_obj, $a_parent_cmd = "", array $options=array())
     {
-        global $ilCtrl;
+        global $ilCtrl, $ilUser;
 
         $ref_id = (isset($_GET['ref_id'])) ? $_GET['ref_id'] : '';
         $this->setId("srCertificateTableGUI_{$ref_id}_{$a_parent_cmd}");
@@ -118,6 +123,7 @@ class srCertificateTableGUI extends ilTable2GUI{
         $this->newest_version_only = $options['newest_version_only'];
         $this->pl = new ilCertificatePlugin();
         $this->ctrl = $ilCtrl;
+        $this->user = $ilUser;
         $this->setRowTemplate('tpl.cert_row.html', $this->pl->getDirectory());
         if (count($this->actions_multi)) {
             $this->addColumn("", "", "1", true);
@@ -185,6 +191,17 @@ class srCertificateTableGUI extends ilTable2GUI{
                 $this->tpl->setVariable('VALUE', $value);
                 $this->tpl->parseCurrentBlock();
             }
+            // Format dates
+            if ($column == 'valid_to' || $column == 'valid_from') {
+                switch ($this->user->getDateFormat()) {
+                    case ilCalendarSettings::DATE_FORMAT_DMY:
+                        $value = date('d.m.Y', strtotime($value));
+                        break;
+                    case ilCalendarSettings::DATE_FORMAT_MDY:
+                        $value = date('m/d/Y', strtotime($value));
+                        break;
+                }
+            }
             $this->tpl->setCurrentBlock('COL');
             $this->tpl->setVariable('VALUE', $value);
             $this->tpl->parseCurrentBlock();
@@ -197,6 +214,21 @@ class srCertificateTableGUI extends ilTable2GUI{
             }
         }
     }
+
+
+    /**
+     * @param $worksheet
+     * @param int $row
+     */
+    public function fillHeaderExcel($worksheet, &$row)
+    {
+        $col = 0;
+        foreach ($this->columns as $column) {
+            $worksheet->writeString($row, $col, $this->pl->txt($column));
+            $col++;
+        }
+    }
+
 
     /**
      * @param object $a_worksheet

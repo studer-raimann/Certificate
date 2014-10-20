@@ -39,6 +39,7 @@ id#:#Certificate ID
 cert_type#:#Certificate type
 only_newest_version#:#Show newest version only
 crs_title#:#Course title
+download_zip#:#Download as ZIP
 
 msg_no_permission_certificates#:#No permission to view certificates
 msg_definition_created#:#Definition successfully created

@@ -32,13 +32,6 @@ class srCertificateDefinitionTableGUI extends ilTable2GUI
         'file_version',
     );
 
-    /**
-     * @var array
-     */
-    protected $date_columns = array(
-        'valid_from',
-        'valid_to',
-    );
 
     /**
      * @var srCertificateDefinition
@@ -64,7 +57,6 @@ class srCertificateDefinitionTableGUI extends ilTable2GUI
         $this->setExportFormats(array(self::EXPORT_EXCEL));
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->buildData();
-        $this->enable('sort');
     }
 
     /**
@@ -146,8 +138,10 @@ class srCertificateDefinitionTableGUI extends ilTable2GUI
      */
     protected function buildData()
     {
-        $filters = array('definition_id' => $this->definition->getId());
-        $data = srCertificate::getCertificateData($filters);
+        $options = array(
+            'filters' => array('definition_id' => $this->definition->getId(), 'active' => 1),
+        );
+        $data = srCertificate::getCertificateData($options);
         $this->setData($data);
     }
 
