@@ -359,33 +359,44 @@ class srCertificate extends ActiveRecord
 
 
     /**
-     * Get Certificate data as array
-     * Take a look at the code to see what fields can be used to filter on. To get only the newest version
-     * of a certificate, the filter must include the following:
+     * Get Certificate data as array.
+     * This method accepts an array with the following keys:
+     * - filters: Array containing key/value pairs to filter the data, please take a look at the code for the available fields
+     * - sort: Sorting the data, e.g. array('usr.lastname' => 'ASC')
+     * - limit: Limit from/to, e.g. array(0,30)
+     * - count: True if the query counts the number of affected records and returns the count
      *
+     * To get only the newest version of a certificate, add the following constraint to your filters array:
      * 'active' => 1
      *
-     * @param array $filters Array containing fields to filter
-     * @param array $sort Fields as keys, direction as values. E.g. array('usr.lastname' => 'ASC')
-     *
-     * @return array
+     * @param array $options
+     * @return array|int
      */
-    public static function getCertificateData($filters = array(), $sort = array())
+    public static function getCertificateData(array $options=array())
     {
         global $ilDB;
 
+        $_options = array(
+            'filters' => array(),
+            'sort' => array(),
+            'limit' => array(),
+            'count' => false,
+        );
+        $options = array_merge($_options, $options);
+
         /** @var ilDB $ilDB */
-        $sql = "SELECT cert.*, usr.firstname, usr.lastname, cert_type.title AS cert_type, " .
-               "obj_data.title AS crs_title FROM cert_obj AS cert " .
-               "INNER JOIN cert_definition AS cert_def ON (cert_def.id = cert.definition_id) " .
-               "INNER JOIN cert_type ON (cert_type.id = cert_def.type_id) " .
-               "LEFT JOIN usr_data AS usr ON (usr.usr_id = cert.user_id) " .
-               "LEFT JOIN object_reference AS obj_ref ON (obj_ref.ref_id = cert_def.ref_id) " .
-               "LEFT JOIN object_data AS obj_data ON (obj_data.obj_id = obj_ref.obj_id)";
-        if (count($filters) || $only_newest_version) {
+        $sql  = "SELECT ";
+        $sql .= ($options['count']) ? 'COUNT(*) AS count ' : 'cert.*, usr.firstname, usr.lastname, cert_type.title AS cert_type, obj_data.title AS crs_title ';
+        $sql .= "FROM cert_obj AS cert " .
+                "INNER JOIN cert_definition AS cert_def ON (cert_def.id = cert.definition_id) " .
+                "INNER JOIN cert_type ON (cert_type.id = cert_def.type_id) " .
+                "LEFT JOIN usr_data AS usr ON (usr.usr_id = cert.user_id) " .
+                "LEFT JOIN object_reference AS obj_ref ON (obj_ref.ref_id = cert_def.ref_id) " .
+                "LEFT JOIN object_data AS obj_data ON (obj_data.obj_id = obj_ref.obj_id)";
+        if (count($options['filters'])) {
             $sql .= " WHERE ";
             $and = "";
-            foreach ($filters as $filter => $value) {
+            foreach ($options['filters'] as $filter => $value) {
                 switch ($filter) {
                     case 'firstname':
                     case 'lastname':
@@ -415,14 +426,27 @@ class srCertificate extends ActiveRecord
                 $and = " AND ";
             }
         }
-        if (count($sort)) {
+        if (count($options['sort']) && !$options['count']) {
+            $replaces = array(
+                'crs_title' => 'obj_data.title',
+                'cert_type' => 'cert_type.title',
+            );
             $sql .= " ORDER BY ";
-            foreach ($sort as $field => $dir) {
+            foreach ($options['sort'] as $field => $dir) {
+                if (isset($replaces[$field])) {
+                    $field = $replaces[$field];
+                }
                 $sql .= " {$field} {$dir},";
             }
-            $sql = rtrim(',', $sql);
+            $sql = rtrim($sql, ',');
+        }
+        if (count($options['limit']) && !$options['count']) {
+            $sql .= " LIMIT " . implode(',', $options['limit']);
         }
         $set = $ilDB->query($sql);
+        if ($options['count']) {
+            return (int) $ilDB->fetchObject($set)->count;
+        }
         $data = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $data[] = $row;
