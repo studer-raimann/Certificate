@@ -365,6 +365,7 @@ class srCertificate extends ActiveRecord
      * Note: No permission checking, this must be done by the controller calling this method
      *
      * @param array $cert_ids
+     * @param string $filename Filename of zip, appended to the current date
      */
     public static function downloadAsZip(array $cert_ids=array(), $filename='certificates')
     {
