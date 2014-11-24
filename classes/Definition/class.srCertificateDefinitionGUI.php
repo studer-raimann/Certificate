@@ -200,7 +200,6 @@ class srCertificateDefinitionGUI
         $this->tabs->setSubTabActive("show_certificates");
         $options = array(
             'columns' => array('firstname', 'lastname', 'valid_from', 'valid_to', 'file_version'),
-            'show_filter' => false,
             'definition_id' => $this->definition->getId(),
         );
         $table = new srCertificateTableGUI($this, 'showCertificates', $options);

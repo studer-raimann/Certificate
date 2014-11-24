@@ -1,13 +1,15 @@
 <?php
 require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 require_once('class.srCertificate.php');
+require_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
  * Class srCertificateTableGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class srCertificateTableGUI extends ilTable2GUI{
+class srCertificateTableGUI extends ilTable2GUI
+{
 
     /**
      * All available columns
@@ -33,35 +35,9 @@ class srCertificateTableGUI extends ilTable2GUI{
     protected $columns = array();
 
     /**
-     * Stores available actions
-     *
      * @var array
      */
-    protected $actions = array();
-
-    /**
-     * Stores available multiple actions
-     *
-     * @var array
-     */
-    protected $actions_multi = array();
-
-    /**
-     * True if filter is showed
-     *
-     * @var bool
-     */
-    protected $show_filter = true;
-
-    /**
-     * @var int
-     */
-    protected $definition_id = 0;
-
-    /**
-     * @var bool
-     */
-    protected $newest_version_only = true;
+    protected $options = array();
 
     /**
      * @var array
@@ -89,8 +65,9 @@ class srCertificateTableGUI extends ilTable2GUI{
      * - show_filter : True if filtering data is possible
      * - columns : Array of columns to display
      * - definition_id: ID of a definition  -> shows certificates only from this definition
+     * - user_id: ID of a user -> shows certificates only from the given user
      * - newest_version_only : True to display the newest versions of certificates only
-     * - actions : Array of possible actions, currently possible: array('download')
+     * - actions : Array of possible actions, currently possible: atm array('download')
      * - actions_multi: Array of possible multi-actions, atm: array('download_zip')
      *
      * @param $a_parent_obj
@@ -101,42 +78,30 @@ class srCertificateTableGUI extends ilTable2GUI{
     {
         global $ilCtrl, $ilUser;
 
-        $ref_id = (isset($_GET['ref_id'])) ? $_GET['ref_id'] : '';
-        $this->setId("srCertificateTableGUI_{$ref_id}_{$a_parent_cmd}");
-        parent::__construct($a_parent_obj, $a_parent_cmd, "");
-
         $_options = array(
             'show_filter' => true,
             'columns' => self::$default_columns,
             'definition_id' => 0,
+            'user_id' => 0,
             'newest_version_only' => true,
             'actions' => array('download'),
             'actions_multi' => array('download_zip')
         );
-        $options = array_merge($_options, $options);
-
-        $this->columns = $options['columns'];
-        $this->show_filter = $options['show_filter'];
-        $this->actions = $options['actions'];
-        $this->actions_multi = $options['actions_multi'];
-        $this->definition_id = $options['definition_id'];
-        $this->newest_version_only = $options['newest_version_only'];
+        $this->options = array_merge($_options, $options);
+        $this->setPrefix('cert_');
+        $this->setId($this->getOption('user_id') . '_' . $this->getOption('definition_id'));
+        $this->columns = $this->getOption('columns');
         $this->pl = new ilCertificatePlugin();
         $this->ctrl = $ilCtrl;
         $this->user = $ilUser;
+
+        parent::__construct($a_parent_obj, $a_parent_cmd, "");
+
         $this->setRowTemplate('tpl.cert_row.html', $this->pl->getDirectory());
-        if (count($this->actions_multi)) {
-            $this->addColumn("", "", "1", true);
-            $this->setSelectAllCheckbox("cert_id[]");
-            $this->addMultiCommand("downloadCertificates", $this->pl->txt('download_zip'));
-        }
-        $this->addColumns();
-        if (count($this->actions)) {
-            $this->addColumn($this->pl->txt('actions'));
-        }
-        $this->setExportFormats(array(self::EXPORT_EXCEL));
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        if ($this->show_filter) {
+        $this->addColumns();
+        $this->setExportFormats(array(self::EXPORT_EXCEL));
+        if ($this->getOption('show_filter')) {
             $this->initFilter();
         }
         $this->buildData();
@@ -149,24 +114,24 @@ class srCertificateTableGUI extends ilTable2GUI{
      */
     public function initFilter()
     {
-        if (in_array('id', $this->columns)) $this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('cert_id'), 'id'));
-        if (in_array('firstname', $this->columns)) $this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('firstname'), 'firstname'));
-        if (in_array('lastname', $this->columns)) $this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('lastname'), 'lastname'));
-        if (in_array('crs_title', $this->columns)) $this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('crs_title'), 'crs_title'));
+        if ($this->isColumnSelected('id')) $this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('cert_id'), 'id'));
+        if ($this->isColumnSelected('firstname')) $this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('firstname'), 'firstname'));
+        if ($this->isColumnSelected('lastname')) $this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('lastname'), 'lastname'));
+        if ($this->isColumnSelected('crs_title')) $this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('crs_title'), 'crs_title'));
 
-        if (in_array('valid_from', $this->columns)) {
+        if ($this->isColumnSelected('valid_from')) {
             $item = new ilDateTimeInputGUI($this->pl->txt('valid_from'), 'valid_from');
             $item->setMode(ilDateTimeInputGUI::MODE_INPUT);
             $this->addFilterItemWithValue($item);
         }
 
-        if (in_array('valid_to', $this->columns)) {
+        if ($this->isColumnSelected('valid_to')) {
             $item = new ilDateTimeInputGUI($this->pl->txt('valid_to'), 'valid_to');
             $item->setMode(ilDateTimeInputGUI::MODE_INPUT);
             $this->addFilterItemWithValue($item);
         }
 
-        if (in_array('cert_type', $this->columns)) {
+        if ($this->isColumnSelected('cert_type')) {
             $item = new ilSelectInputGUI($this->pl->txt('cert_type'), 'type_id');
             $options = array('' => '') + srCertificateType::getArray('id', 'title');
             $item->setOptions($options);
@@ -184,35 +149,46 @@ class srCertificateTableGUI extends ilTable2GUI{
     protected function fillRow(array $a_set)
     {
         foreach ($this->columns as $k => $column) {
+
             $value = (is_null($a_set[$column])) ? '' : $a_set[$column];
+
             // For checkboxes in first column
-            if (count($this->actions_multi) && $k == 0) {
-                $this->tpl->setCurrentBlock('CERT_ID');
+            if (count($this->getOption('actions_multi')) && $column == 'id') {
+                $this->tpl->setCurrentBlock('CHECKBOXES');
                 $this->tpl->setVariable('VALUE', $value);
                 $this->tpl->parseCurrentBlock();
             }
-            // Format dates
-            if ($column == 'valid_to' || $column == 'valid_from') {
-                switch ($this->user->getDateFormat()) {
-                    case ilCalendarSettings::DATE_FORMAT_DMY:
-                        $value = date('d.m.Y', strtotime($value));
-                        break;
-                    case ilCalendarSettings::DATE_FORMAT_MDY:
-                        $value = date('m/d/Y', strtotime($value));
-                        break;
-                }
-            }
-            $this->tpl->setCurrentBlock('COL');
-            $this->tpl->setVariable('VALUE', $value);
-            $this->tpl->parseCurrentBlock();
 
-            // Download action is only possible if status is processed
-            if (count($this->actions) && $a_set['status'] == srCertificate::STATUS_PROCESSED) {
-                $this->tpl->setCurrentBlock('ACTIONS');
-                $this->tpl->setVariable('ACTIONS', $this->buildActions($a_set)->getHTML());
+            if ($this->isColumnSelected($column)) {
+
+                // Format dates
+                if (in_array($column, array('valid_from', 'valid_to'))) {
+                    switch ($this->user->getDateFormat()) {
+                        case ilCalendarSettings::DATE_FORMAT_DMY:
+                            $value = date('d.m.Y', strtotime($value));
+                            break;
+                        case ilCalendarSettings::DATE_FORMAT_MDY:
+                            $value = date('m/d/Y', strtotime($value));
+                            break;
+                    }
+                }
+
+                // Set value
+                $this->tpl->setCurrentBlock('COL');
+                $this->tpl->setVariable('VALUE', $value);
                 $this->tpl->parseCurrentBlock();
+
             }
         }
+
+        // Download action is only possible if status is processed
+        if (count($this->getOption('actions'))) {
+            $actions = ($a_set['status'] == srCertificate::STATUS_PROCESSED) ? $this->buildActions($a_set)->getHTML() : '&nbsp;';
+            $this->tpl->setCurrentBlock('ACTIONS');
+            $this->tpl->setVariable('ACTIONS', $actions);
+            $this->tpl->parseCurrentBlock();
+        }
+
     }
 
 
@@ -224,8 +200,10 @@ class srCertificateTableGUI extends ilTable2GUI{
     {
         $col = 0;
         foreach ($this->columns as $column) {
-            $worksheet->writeString($row, $col, $this->pl->txt($column));
-            $col++;
+            if ($this->isColumnSelected($column)) {
+                $worksheet->writeString($row, $col, $this->pl->txt($column));
+                $col++;
+            }
         }
     }
 
@@ -239,9 +217,11 @@ class srCertificateTableGUI extends ilTable2GUI{
     {
         $col = 0;
         foreach ($this->columns as $column) {
-            $value = (is_null($a_set[$column])) ? '' : $a_set[$column];
-            $a_worksheet->write($a_row, $col, strip_tags($value));
-            $col++;
+            if ($this->isColumnSelected($column)) {
+                $value = (is_null($a_set[$column])) ? '' : $a_set[$column];
+                $a_worksheet->write($a_row, $col, strip_tags($value));
+                $col++;
+            }
         }
     }
 
@@ -299,9 +279,38 @@ class srCertificateTableGUI extends ilTable2GUI{
      */
     protected function addColumns()
     {
-        foreach ($this->columns as $column) {
-            $this->addColumn($this->pl->txt($column), $column);
+        // Multi actions
+        if (count($this->getOption('actions_multi'))) {
+            $this->addColumn("", "", "1", true);
+            $this->setSelectAllCheckbox("cert_id[]");
+            $this->addMultiCommand("downloadCertificates", $this->pl->txt('download_zip'));
         }
+
+        // Main columns
+        foreach ($this->columns as $column) {
+            if (in_array($column, self::$default_columns) && $this->isColumnSelected($column)) {
+                $this->addColumn($this->pl->txt($column), $column);
+            }
+        }
+
+        // Actions column
+        if (count($this->getOption('actions'))) {
+            $this->addColumn($this->pl->txt('actions'));
+        }
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getSelectableColumns()
+    {
+        $columns = array();
+        foreach ($this->columns as $column) {
+            $columns[$column] = array('txt' => $this->pl->txt($column), 'default' => true);
+        }
+
+        return $columns;
     }
 
 
@@ -312,23 +321,16 @@ class srCertificateTableGUI extends ilTable2GUI{
     protected function buildData()
     {
         $filters = $this->filter_names;
-        if (isset($filters['valid_from'])) {
-            $filters['valid_from'] = date('Y-m-d', $filters['valid_from']->getUnixTime());
-        }
-        if (isset($filters['valid_to'])) {
-            $filters['valid_to'] = date('Y-m-d', $filters['valid_to']->getUnixTime());
-        }
-        if ($this->definition_id) {
-            $filters['definition_id'] = $this->definition_id;
-        }
-        if ($this->newest_version_only && !$this->show_filter) {
-            $filters['active'] = 1;
-        }
+        if ($this->getOption('definition_id')) $filters['definition_id'] = $this->definition_id;
+        if ($this->getOption('newest_version_only') && ! $this->getOption('show_filter')) $filters['active'] = 1;
+        if ($this->getOption('user_id')) $filters['user_id'] = $this->user_id;
+
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         $this->setDefaultOrderField($this->columns[0]);
         $this->determineLimit();
         $this->determineOffsetAndOrder();
+
         $options = array(
             'filters' => $filters,
             'count' => true,
@@ -341,5 +343,16 @@ class srCertificateTableGUI extends ilTable2GUI{
         $this->setData($data);
     }
 
+
+    /**
+     * Get option
+     *
+     * @param $key
+     * @return mixed
+     */
+    protected function getOption($key)
+    {
+        return (isset($this->options[$key])) ? $this->options[$key] : null;
+    }
 
 }
