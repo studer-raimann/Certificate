@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(dirname(__FILE__)) . '/Setting/srCertificateSetting.php');
+require_once(dirname(dirname(__FILE__)) .'/Setting/class.srCertificateSetting.php');
 
 /**
  * srCertificateDefinitionSetting
@@ -8,7 +8,7 @@ require_once(dirname(dirname(__FILE__)) . '/Setting/srCertificateSetting.php');
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
-class srCertificateDefinitionSetting extends ActiveRecord implements srCertificateSetting
+class srCertificateDefinitionSetting extends srCertificateSetting
 {
 
     /**
@@ -23,39 +23,8 @@ class srCertificateDefinitionSetting extends ActiveRecord implements srCertifica
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
-     * @db_is_primary   true
-     * @db_sequence     true
-     */
-    protected $id = 0;
-
-    /**
-     * @var int
-     *
-     * @db_has_field    true
-     * @db_fieldtype    integer
-     * @db_length       8
      */
     protected $definition_id;
-
-
-    /**
-     * @var string
-     *
-     * @db_has_field    true
-     * @db_fieldtype    text
-     * @db_length       256
-     */
-    protected $identifier;
-
-
-    /**
-     * @var string
-     *
-     * @db_has_field    true
-     * @db_fieldtype    text
-     * @db_length       1204
-     */
-    protected $value;
 
     /**
      * @var ilCertificatePlugin
@@ -99,22 +68,7 @@ class srCertificateDefinitionSetting extends ActiveRecord implements srCertifica
         $definition = srCertificateDefinition::find($this->getDefinitionId());
         $type = $definition->getType();
         $setting = $type->getSettingByIdentifier($this->getIdentifier());
-        return $setting->getDefaultValue();
-    }
-
-
-
-
-    // Static
-
-
-    /**
-     * @return string
-     * @description Return the Name of your Database Table
-     */
-    static function returnDbTableName()
-    {
-        return self::TABLE_NAME;
+        return $setting->getValue();
     }
 
 
@@ -137,21 +91,6 @@ class srCertificateDefinitionSetting extends ActiveRecord implements srCertifica
         return $this->definition_id;
     }
 
-    /**
-     * @param string $identifier
-     */
-    public function setIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIdentifier()
-    {
-        return $this->identifier;
-    }
 
     /**
      * @param string $value
@@ -167,22 +106,6 @@ class srCertificateDefinitionSetting extends ActiveRecord implements srCertifica
         }
 
         $this->value = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
 }

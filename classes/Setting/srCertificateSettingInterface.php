@@ -4,7 +4,7 @@
 /**
  * Interface srCertificateSetting
  */
-interface srCertificateSetting {
+interface srCertificateSettingInterface {
 
     /**
      * @param $value

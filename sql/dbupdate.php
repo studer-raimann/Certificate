@@ -47,7 +47,7 @@
         if (is_null($type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER))) {
             $setting = new srCertificateTypeSetting();
             $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER);
-            $setting->setDefaultValue(0);
+            $setting->setValue(0);
             $setting->setEditableIn($type->getAvailableObjects());
             $setting->setTypeId($type->getId());
             $setting->create();
@@ -103,5 +103,11 @@
             $cert->setActive(true);
             $cert->save();
         }
+    }
+    ?>
+<#8>
+    <?php
+    if ( ! $ilDB->tableColumnExists('cert_type_setting', 'value')) {
+        $ilDB->renameTableColumn('cert_type_setting', 'default_value', 'value');
     }
     ?>

@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(dirname(__FILE__)) . '/Setting/srCertificateSetting.php');
+require_once(dirname(dirname(__FILE__)) .'/Setting/class.srCertificateSetting.php');
 
 /**
  * srCertificateTypeSetting
@@ -8,7 +8,7 @@ require_once(dirname(dirname(__FILE__)) . '/Setting/srCertificateSetting.php');
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
-class srCertificateTypeSetting extends ActiveRecord implements srCertificateSetting
+class srCertificateTypeSetting extends srCertificateSetting
 {
 
     /**
@@ -38,30 +38,8 @@ class srCertificateTypeSetting extends ActiveRecord implements srCertificateSett
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
-     * @db_is_primary   true
-     * @db_sequence     true
-     */
-    protected $id = 0;
-
-    /**
-     * @var int
-     *
-     * @db_has_field    true
-     * @db_fieldtype    integer
-     * @db_length       8
      */
     protected $type_id;
-
-
-    /**
-     * @var string
-     *
-     * @db_has_field    true
-     * @db_fieldtype    text
-     * @db_length       256
-     */
-    protected $identifier;
-
 
     /**
      * @var array
@@ -72,15 +50,6 @@ class srCertificateTypeSetting extends ActiveRecord implements srCertificateSett
      */
     protected $editable_in = '';
 
-
-    /**
-     * @var string
-     *
-     * @db_has_field    true
-     * @db_fieldtype    text
-     * @db_length       1204
-     */
-    protected $default_value;
 
 
     public function __construct($id = 0)
@@ -127,38 +96,6 @@ class srCertificateTypeSetting extends ActiveRecord implements srCertificateSett
     }
 
 
-    // Static
-
-
-    /**
-     * @return string
-     * @description Return the Name of your Database Table
-     */
-    static function returnDbTableName()
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    // Getters & Setters
-
-
-    /**
-     * @param string $default_value
-     */
-    public function setDefaultValue($default_value)
-    {
-        $this->setValue($default_value);
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultValue()
-    {
-        return $this->default_value;
-    }
-
     /**
      * @param array $editable_in
      */
@@ -175,21 +112,6 @@ class srCertificateTypeSetting extends ActiveRecord implements srCertificateSett
         return $this->editable_in;
     }
 
-    /**
-     * @param string $identifier
-     */
-    public function setIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIdentifier()
-    {
-        return $this->identifier;
-    }
 
     /**
      * @param int $type_id
@@ -205,15 +127,6 @@ class srCertificateTypeSetting extends ActiveRecord implements srCertificateSett
     public function getTypeId()
     {
         return $this->type_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
 
@@ -256,15 +169,8 @@ class srCertificateTypeSetting extends ActiveRecord implements srCertificateSett
             $value = self::formatValidityBasedOnType($type->getSettingByIdentifier(self::IDENTIFIER_VALIDITY_TYPE)->getValue(), $value);
         }
 
-        $this->default_value = $value;
+        $this->value = $value;
     }
 
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->getDefaultValue();
-    }
 }
