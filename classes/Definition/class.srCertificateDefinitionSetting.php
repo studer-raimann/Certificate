@@ -1,12 +1,14 @@
 <?php
 
+require_once(dirname(dirname(__FILE__)) . '/Setting/srCertificateSetting.php');
+
 /**
  * srCertificateDefinitionSetting
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
-class srCertificateDefinitionSetting extends ActiveRecord
+class srCertificateDefinitionSetting extends ActiveRecord implements srCertificateSetting
 {
 
     /**
@@ -156,6 +158,14 @@ class srCertificateDefinitionSetting extends ActiveRecord
      */
     public function setValue($value)
     {
+        // This should be factored out, currently there is one exception where a value needs to be parsed before storing in DB
+        if ($value && $this->getIdentifier() == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
+            /** @var srCertificateDefinition $definition */
+            $definition = srCertificateDefinition::find($this->getDefinitionId());
+            $validity_type = $definition->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getValue();
+            $value = srCertificateTypeSetting::formatValidityBasedOnType($validity_type, $value);
+        }
+
         $this->value = $value;
     }
 
@@ -176,5 +186,3 @@ class srCertificateDefinitionSetting extends ActiveRecord
     }
 
 }
-
-?>

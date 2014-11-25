@@ -112,23 +112,11 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
             // Set new settings values
             /** @var $setting srCertificateDefinitionSetting */
             foreach ($this->definition->getSettings() as $setting) {
-                if (!$setting->isEditable()) continue; // Don't set values if setting can't change its value
+                if ( ! $setting->isEditable()) continue; // Don't set values if setting can't change its value
                 $value = $this->getInput($setting->getIdentifier());
                 if ($setting->getIdentifier() == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
                     $validity_type = $this->getInput(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE);
                     $value = $this->getInput(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE . '_' . $validity_type);
-                    // TODO Refactor, should not belong here...
-                    switch ($validity_type) {
-                        case srCertificateTypeSetting::VALIDITY_TYPE_ALWAYS:
-                            $value = "";
-                            break;
-                        case srCertificateTypeSetting::VALIDITY_TYPE_DATE:
-                            $value = date('Y-m-d', strtotime($value['date']));
-                            break;
-                        case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
-                            $value = json_encode(array('d' => $value['dd'], 'm' => $value['MM']));
-                            break;
-                    }
                 }
                 $setting->setValue($value);
             }
@@ -330,5 +318,3 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         return $item;
     }
 }
-
-?>

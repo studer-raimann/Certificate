@@ -1,12 +1,14 @@
 <?php
 
+require_once(dirname(dirname(__FILE__)) . '/Setting/srCertificateSetting.php');
+
 /**
  * srCertificateTypeSetting
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
-class srCertificateTypeSetting extends ActiveRecord
+class srCertificateTypeSetting extends ActiveRecord implements srCertificateSetting
 {
 
     /**
@@ -146,7 +148,7 @@ class srCertificateTypeSetting extends ActiveRecord
      */
     public function setDefaultValue($default_value)
     {
-        $this->default_value = $default_value;
+        $this->setValue($default_value);
     }
 
     /**
@@ -214,6 +216,55 @@ class srCertificateTypeSetting extends ActiveRecord
         return $this->id;
     }
 
-}
 
-?>
+    /**
+     * @param $validity_type
+     * @param $value
+     * @return mixed
+     */
+    public static function formatValidityBasedOnType($validity_type, $value)
+    {
+        switch ($validity_type) {
+            case srCertificateTypeSetting::VALIDITY_TYPE_ALWAYS:
+                $value = "";
+                break;
+            case srCertificateTypeSetting::VALIDITY_TYPE_DATE:
+                $value = (isset($value['date'])) ? date('Y-m-d', strtotime($value['date'])) : '';
+                break;
+            case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
+                if (is_array($value) && isset($value['dd']) && isset($value['MM'])) {
+                    $value = json_encode(array('d' => $value['dd'], 'm' => $value['MM']));
+                } else {
+                    $value = '';
+                }
+                break;
+        }
+
+        return $value;
+    }
+
+
+    /**
+     * @param mixed $value
+     */
+    public function setValue($value)
+    {
+        // This should be factored out, currently there is one exception where a value needs to be parsed before storing in DB
+        if ($value && $this->getIdentifier() == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
+            /** @var srCertificateType $type */
+            $type = srCertificateType::find($this->getTypeId());
+            $value = self::formatValidityBasedOnType($type->getSettingByIdentifier(self::IDENTIFIER_VALIDITY_TYPE)->getValue(), $value);
+        }
+
+        $this->default_value = $value;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->getDefaultValue();
+    }
+}

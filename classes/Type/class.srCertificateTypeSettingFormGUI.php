@@ -121,23 +121,9 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI
             }
         }
 
-        // TODO Refactor, should not belong here
-        if ($this->identifier == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
-            $validity_type = $this->type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getDefaultValue();
-            switch ($validity_type) {
-                case srCertificateTypeSetting::VALIDITY_TYPE_ALWAYS:
-                    $value = "";
-                    break;
-                case srCertificateTypeSetting::VALIDITY_TYPE_DATE:
-                    $value = ($value['date']) ? date('Y-m-d', strtotime($value['date'])) : "";
-                    break;
-                case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
-                    $value = json_encode(array('d' => $value['dd'], 'm' => $value['MM']));
-                    break;
-            }
-        }
         $this->setting->setDefaultValue($value);
         $this->setting->setEditableIn($this->getInput('editable_in'));
+
         return true;
     }
 

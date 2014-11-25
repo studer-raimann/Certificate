@@ -539,7 +539,4 @@ class srCertificateType extends ActiveRecord
         return $this->id;
     }
 
-
 }
-
-?>

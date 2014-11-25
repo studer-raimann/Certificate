@@ -385,5 +385,3 @@ class srCertificateDefinition extends ActiveRecord
     }
 
 }
-
-?>
