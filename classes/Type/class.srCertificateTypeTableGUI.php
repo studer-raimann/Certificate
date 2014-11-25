@@ -62,7 +62,7 @@ class srCertificateTypeTableGUI extends ilTable2GUI
         $this->tpl->setVariable('LANGUAGES', implode(', ', $a_set['languages']));
         $template_type = srCertificateTemplateTypeFactory::getById((int)$a_set['template_type_id']);
         $this->tpl->setVariable('TEMPLATE_TYPE_ID', $template_type->getTitle());
-        $this->tpl->setVariable('ROLES', implode(', ', json_decode($a_set['roles'], true)));
+        $this->tpl->setVariable('ROLES', is_array($a_set['roles']) ? implode(',', $a_set['roles']) : '');
         $this->tpl->setVariable('AVAILABLE_OBJECTS', implode(',', $a_set['available_objects']));
         $this->tpl->setVariable('ACTIONS', $this->buildActionMenu($a_set)->getHTML());
     }

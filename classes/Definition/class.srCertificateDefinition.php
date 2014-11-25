@@ -55,6 +55,11 @@ class srCertificateDefinition extends ActiveRecord
     protected $settings = array();
 
     /**
+     * @var array
+     */
+    protected $custom_settings;
+
+    /**
      * @var array srCertificatePlaceholderValue[]
      */
     protected $placeholder_values = array();
@@ -258,7 +263,7 @@ class srCertificateDefinition extends ActiveRecord
             $setting = new srCertificateDefinitionSetting();
             $setting->setIdentifier($type_setting->getIdentifier());
             $setting->setDefinitionId($this->getId());
-            $setting->setValue($type_setting->getDefaultValue());
+            $setting->setValue($type_setting->getValue());
             $setting->create();
             $this->settings[] = $setting;
         }
@@ -342,6 +347,19 @@ class srCertificateDefinition extends ActiveRecord
     public function getSettings()
     {
         return $this->settings;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getCustomSettings()
+    {
+        if (is_null($this->custom_settings)) {
+            $this->custom_settings = srCertificateCustomDefinitionSetting::where(array('definition_id' => $this->getId()))->get();
+        }
+
+        return $this->custom_settings;
     }
 
     /**

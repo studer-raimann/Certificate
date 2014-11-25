@@ -112,16 +112,16 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI
         $value = $this->getInput('default_value');
         // If the validity type is changed, the default value of the validity should be cleared
         if ($this->identifier == srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE) {
-            if ($this->setting->getDefaultValue() != $value) {
+            if ($this->setting->getValue() != $value) {
                 // Validity type did change. Reset validity value and produce info message
                 $validity = $this->type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY);
-                $validity->setDefaultValue('');
+                $validity->setValue('');
                 $validity->update();
                 ilUtil::sendInfo($this->pl->txt('msg_reset_validity'), true);
             }
         }
 
-        $this->setting->setDefaultValue($value);
+        $this->setting->setValue($value);
         $this->setting->setEditableIn($this->getInput('editable_in'));
 
         return true;
@@ -176,7 +176,7 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI
                     $options[$lang] = $this->lng->txt("meta_l_{$lang}");
                 }
                 $input->setOptions($options);
-                $input->setValue($this->setting->getDefaultValue());
+                $input->setValue($this->setting->getValue());
                 break;
             case srCertificateTypeSetting::IDENTIFIER_GENERATION:
                 $input = new ilRadioGroupInputGUI($title, $name);
@@ -184,7 +184,7 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI
                 $input->addOption($option);
                 $option = new ilRadioOption($this->pl->txt('setting_generation_manually'), srCertificateTypeSetting::GENERATION_MANUAL);
                 $input->addOption($option);
-                $input->setValue($this->setting->getDefaultValue());
+                $input->setValue($this->setting->getValue());
                 break;
             case srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE:
                 $input = new ilRadioGroupInputGUI($title, $name);
@@ -194,11 +194,11 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI
                 $input->addOption($option);
                 $option = new ilRadioOption($this->pl->txt('setting_validity_date'), srCertificateTypeSetting::VALIDITY_TYPE_DATE);
                 $input->addOption($option);
-                $input->setValue($this->setting->getDefaultValue());
+                $input->setValue($this->setting->getValue());
                 break;
             case srCertificateTypeSetting::IDENTIFIER_VALIDITY:
-                $validity_value = $this->setting->getDefaultValue();
-                switch ($this->type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getDefaultValue()) {
+                $validity_value = $this->setting->getValue();
+                switch ($this->type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getValue()) {
                     case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
                         $input = new ilDurationInputGUI($title, $name);
                         $input->setShowMinutes(false);
@@ -231,13 +231,13 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI
             case srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE:
             case srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER:
                 $input = new ilCheckboxInputGUI($title, $name);
-                if ($this->setting->getDefaultValue()) {
+                if ($this->setting->getValue()) {
                     $input->setChecked(true);
                 }
                 break;
             default:
                 $input = new ilTextInputGUI($title, $name);
-                $input->setValue($this->setting->getDefaultValue());
+                $input->setValue($this->setting->getValue());
         }
         return $input;
     }

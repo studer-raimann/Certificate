@@ -55,6 +55,7 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->addColumn($this->pl->txt('actions'));
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
+        $this->setTitle($this->pl->txt('standard_settings'));
         $this->buildData();
     }
 
@@ -109,13 +110,13 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
             $row['identifier'] = $setting->getIdentifier();
             $row['setting'] = $this->pl->txt("setting_id_" . $setting->getIdentifier());
             $row['editable_in'] = implode(',', $setting->getEditableIn());
-            $default_value = $setting->getDefaultValue();
+            $default_value = $setting->getValue();
             switch ($setting->getIdentifier()) {
                 case srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE:
                     $default_value = $this->pl->txt("setting_validity_{$default_value}");
                     break;
                 case srCertificateTypeSetting::IDENTIFIER_VALIDITY:
-                    $validity_type = $this->type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getDefaultValue();
+                    $validity_type = $this->type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getValue();
                     if ($default_value && $validity_type == srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE) {
                         $date_data = json_decode($default_value);
                         $default_value = sprintf($this->pl->txt('validity_date_range'), $date_data->m, $date_data->d);
@@ -125,6 +126,7 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
             $row['default_value'] = $default_value;
             $data[] = $row;
         }
+//        var_dump($data);die();
         $this->setData($data);
     }
 

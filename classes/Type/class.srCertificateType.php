@@ -3,7 +3,6 @@ require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemp
 require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholder.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSetting.php');
 
-
 /**
  * srCertificateType
  *
@@ -125,6 +124,11 @@ class srCertificateType extends ActiveRecord
      * @var array srCertificateTypeSetting[]
      */
     protected $settings = array();
+
+    /**
+     * @var array
+     */
+    protected $custom_settings;
 
 
     public function __construct($id = 0)
@@ -301,6 +305,18 @@ class srCertificateType extends ActiveRecord
         return null;
     }
 
+
+    /**
+     * Get a custom setting by identifier
+     *
+     * @param $identifier
+     */
+    public function getCustomSettingByIdentifier($identifier)
+    {
+
+    }
+
+
     /**
      * Delete also related certificate definitions and assets
      */
@@ -350,7 +366,7 @@ class srCertificateType extends ActiveRecord
      */
     static function returnDbTableName()
     {
-        return self::TABLE_NAME;
+        return static::TABLE_NAME;
     }
 
     /**
@@ -394,7 +410,7 @@ class srCertificateType extends ActiveRecord
             $setting->setIdentifier($identifier);
             $setting->setEditableIn($this->available_objects);
             $setting->setTypeId($this->getId());
-            $setting->setDefaultValue($config['default_value']);
+            $setting->setValue($config['default_value']);
             $setting->create();
             $this->settings[] = $setting;
         }
@@ -497,6 +513,19 @@ class srCertificateType extends ActiveRecord
     public function getSettings()
     {
         return $this->settings;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getCustomSettings()
+    {
+        if (is_null($this->custom_settings)) {
+            $this->custom_settings = srCertificateCustomTypeSetting::where(array('type_id' => $this->getId()))->get();
+        }
+
+        return $this->custom_settings;
     }
 
     /**
