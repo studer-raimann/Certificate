@@ -2,6 +2,7 @@
 require_once (dirname(dirname(__FILE__))) . '/Type/class.srCertificateType.php';
 require_once (dirname(__FILE__)) . '/class.srCertificateDefinitionSetting.php';
 require_once (dirname(dirname(__FILE__))) . '/Placeholder/class.srCertificatePlaceholderValue.php';
+require_once (dirname(dirname(__FILE__))) . '/CustomSetting/class.srCertificateCustomDefinitionSetting.php';
 
 /**
  * srCertificateDefinition
@@ -52,7 +53,7 @@ class srCertificateDefinition extends ActiveRecord
     /**
      * @var array srCertificateDefinitionSetting[]
      */
-    protected $settings = array();
+    protected $settings;
 
     /**
      * @var array
@@ -62,7 +63,7 @@ class srCertificateDefinition extends ActiveRecord
     /**
      * @var array srCertificatePlaceholderValue[]
      */
-    protected $placeholder_values = array();
+    protected $placeholder_values;
 
     /**
      * Set to true if type changed
@@ -77,15 +78,6 @@ class srCertificateDefinition extends ActiveRecord
         parent::__construct($id);
     }
 
-
-    // Public
-
-    public function afterObjectLoad()
-    {
-        $this->placeholder_values = srCertificatePlaceholderValue::where(array('definition_id' => $this->getId()))->get();
-        $this->type = srCertificateType::find($this->getTypeId());
-        $this->setSettings(srCertificateDefinitionSetting::where(array('definition_id' => $this->getId()))->get());
-    }
 
 
     public function create()
@@ -108,8 +100,11 @@ class srCertificateDefinition extends ActiveRecord
         parent::update();
         // If the type did change, we destroy all settings + placeholder values from the old type and create new ones
         if ($this->type_changed) {
-            foreach ($this->settings as $setting) {
+            foreach ($this->getSettings() as $setting) {
                 $setting->delete();
+            }
+            foreach ($this->getCustomSettings() as $custom_setting) {
+                $custom_setting->delete();
             }
             foreach ($this->getPlaceholderValues() as $pl) {
                 $pl->delete();
@@ -118,6 +113,9 @@ class srCertificateDefinition extends ActiveRecord
             $this->createPlaceholderValues();
         } else {
             foreach ($this->getSettings() as $setting) {
+                $setting->update();
+            }
+            foreach ($this->getCustomSettings() as $setting) {
                 $setting->update();
             }
             foreach ($this->getPlaceholderValues() as $pl) {
@@ -267,6 +265,14 @@ class srCertificateDefinition extends ActiveRecord
             $setting->create();
             $this->settings[] = $setting;
         }
+        foreach ($this->type->getCustomSettings() as $custom_setting) {
+            $setting = new srCertificateCustomDefinitionSetting();
+            $setting->setDefinitionId($this->getId());
+            $setting->setValue($custom_setting->getValue());
+            $setting->setIdentifier($custom_setting->getIdentifier());
+            $setting->save();
+            $this->custom_settings[] = $setting;
+        }
     }
 
     /**
@@ -346,6 +352,10 @@ class srCertificateDefinition extends ActiveRecord
      */
     public function getSettings()
     {
+        if (is_null($this->settings)) {
+            $this->settings = srCertificateDefinitionSetting::where(array('definition_id' => $this->getId()))->get();
+        }
+
         return $this->settings;
     }
 
@@ -367,7 +377,7 @@ class srCertificateDefinition extends ActiveRecord
      */
     public function getType()
     {
-        return $this->type;
+        return srCertificateType::find($this->getTypeId());
     }
 
     /**
@@ -383,6 +393,10 @@ class srCertificateDefinition extends ActiveRecord
      */
     public function getPlaceholderValues()
     {
+        if (is_null($this->placeholder_values)) {
+            $this->placeholder_values = srCertificatePlaceholderValue::where(array('definition_id' => $this->getId()))->get();
+        }
+
         return $this->placeholder_values;
     }
 

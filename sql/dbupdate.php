@@ -111,3 +111,11 @@
         $ilDB->renameTableColumn('cert_type_setting', 'default_value', 'value');
     }
     ?>
+<#9>
+    <?php
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/CustomSetting/class.srCertificateCustomTypeSetting.php');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/CustomSetting/class.srCertificateCustomDefinitionSetting.php');
+
+    srCertificateCustomTypeSetting::installDB();
+    srCertificateCustomDefinitionSetting::installDB();
+    ?>

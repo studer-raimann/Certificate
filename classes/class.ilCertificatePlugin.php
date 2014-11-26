@@ -51,6 +51,24 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
     protected static $base_class;
 
     /**
+     * @var ilCertificatePlugin
+     */
+    protected static $instance;
+
+
+    /**
+     * @return ilCertificatePlugin
+     */
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static();
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * @return string
      */
     public function getPluginName()

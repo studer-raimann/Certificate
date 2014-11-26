@@ -296,12 +296,13 @@ class srCertificateType extends ActiveRecord
     public function getSettingByIdentifier($identifier)
     {
         /** @var $setting srCertificateTypeSetting */
-        foreach ($this->settings as $setting) {
+        foreach ($this->getSettings() as $setting) {
             if ($setting->getIdentifier() == $identifier) {
                 return $setting;
                 break;
             }
         }
+
         return null;
     }
 
@@ -310,10 +311,19 @@ class srCertificateType extends ActiveRecord
      * Get a custom setting by identifier
      *
      * @param $identifier
+     * @return null|\srCertificateTypeSetting
      */
     public function getCustomSettingByIdentifier($identifier)
     {
+        /** @var $setting srCertificateTypeSetting */
+        foreach ($this->getCustomSettings() as $setting) {
+            if ($setting->getIdentifier() == $identifier) {
+                return $setting;
+                break;
+            }
+        }
 
+        return null;
     }
 
 

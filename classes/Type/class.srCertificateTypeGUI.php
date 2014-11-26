@@ -7,6 +7,10 @@ require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholdersTableGUI.p
 require_once(dirname(__FILE__) . '/class.srCertificateTypeStandardPlaceholdersTableGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSettingFormGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php');
+require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateCustomTypeSettingFormGUI.php');
+require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateCustomTypeSetting.php');
+require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateTypeCustomSettingsTableGUI.php');
+
 
 /**
  * GUI-Class srCertificateTypeGUI
@@ -17,7 +21,6 @@ require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php
  */
 class srCertificateTypeGUI
 {
-
 
     /**
      * @var ilTabsGUI
@@ -136,6 +139,18 @@ class srCertificateTypeGUI
                         $this->updateSetting();
                         $this->setTabs('settings');
                         break;
+                    case 'addCustomSetting':
+                        $this->addCustomSetting();
+                        $this->setTabs('settings');
+                        break;
+                    case 'editCustomSetting':
+                        $this->editCustomSetting();
+                        $this->setTabs('settings');
+                        break;
+                    case 'saveCustomSetting':
+                        $this->saveCustomSetting();
+                        $this->setTabs('settings');
+                        break;
                     case 'showPlaceholders':
                         $this->showPlaceholders();
                         $this->setTabs('placeholders');
@@ -243,8 +258,11 @@ class srCertificateTypeGUI
      */
     public function showSettings()
     {
+        $this->toolbar->addButton($this->pl->txt('add_new_custom_setting'), $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addCustomSetting'));
         $table = new srCertificateTypeSettingsTableGUI($this, 'showSettings', $this->type);
-        $this->tpl->setContent($table->getHTML());
+        $table_custom_settings = new srCertificateTypeCustomSettingsTableGUI($this, 'showSettings', $this->type);
+        $spacer = '<div style="height: 30px;"></div>';
+        $this->tpl->setContent($table->getHTML() . $spacer . $table_custom_settings->getHTML());
     }
 
     /**
@@ -280,6 +298,47 @@ class srCertificateTypeGUI
         }
     }
 
+
+    /**
+     * @return string
+     */
+    public function addCustomSetting()
+    {
+        $form = new srCertificateCustomTypeSettingFormGUI($this, new srCertificateCustomTypeSetting());
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    /**
+     * @return string
+     */
+    public function editCustomSetting()
+    {
+        $form = new srCertificateCustomTypeSettingFormGUI($this, srCertificateCustomTypeSetting::find((int) $_GET['custom_setting_id']));
+        $this->tpl->setContent($form->getHTML());
+    }
+
+
+    /**
+     * Create/Update a custom setting
+     */
+    public function saveCustomSetting()
+    {
+        if (isset($_POST['custom_setting_id']) && $_POST['custom_setting_id']) {
+            $setting = srCertificateCustomTypeSetting::find((int) $_POST['custom_setting_id']);
+        } else {
+            $setting = new srCertificateCustomTypeSetting();
+        }
+
+        $form = new srCertificateCustomTypeSettingFormGUI($this, $setting);
+        if ($form->saveObject()) {
+            ilUtil::sendSuccess($this->pl->txt('msg_setting_saved'), true);
+            $this->ctrl->redirect($this, 'showSettings');
+        } else {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
+    }
+    
     /**
      * Show table with available placeholders for this type
      */

@@ -1,22 +1,16 @@
 <?php
 require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-require_once(dirname(__FILE__) . '/class.srCertificateType.php');
-require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemplateTypeFactory.php');
+require_once(dirname(dirname(__FILE__)) . '/Type/class.srCertificateType.php');
 
 
 /**
- * Table class srCertificateTypeSettingsTableGUI
+ * Table class srCertificateTypeCustomSettingsTableGUI
  *
  * @author            Stefan Wanzenried <sw@studer-raimann.ch>
  * @version           $Id:
  **/
-class srCertificateTypeSettingsTableGUI extends ilTable2GUI
+class srCertificateTypeCustomSettingsTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
 
     /**
      * @var ilCertificatePlugin
@@ -32,8 +26,9 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
      * @var array
      */
     protected $columns = array(
-        'setting',
+        'identifier',
         'editable_in',
+        'type',
         'default_value',
     );
 
@@ -44,18 +39,18 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd, srCertificateType $type)
     {
-        global $ilCtrl, $ilToolbar;
-        $this->setId('cert_type_table_settings');
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        global $ilCtrl;
         $this->type = $type;
+        $this->setPrefix('cert_type_custom_settings');
+        $this->setId($type->getId());
+        parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->pl = new ilCertificatePlugin();
         $this->ctrl = $ilCtrl;
-        $this->toolbar = $ilToolbar;
-        $this->setRowTemplate('tpl.type_settings_row.html', $this->pl->getDirectory());
+        $this->setRowTemplate('tpl.type_custom_settings_row.html', $this->pl->getDirectory());
         $this->initColumns();
         $this->addColumn($this->pl->txt('actions'));
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setTitle($this->pl->txt('standard_settings'));
+        $this->setTitle($this->pl->txt('custom_settings'));
         $this->buildData();
     }
 
@@ -64,8 +59,9 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
      */
     public function fillRow($a_set)
     {
-        $this->tpl->setVariable('SETTING', $a_set['setting']);
+        $this->tpl->setVariable('IDENTIFIER', $a_set['identifier']);
         $this->tpl->setVariable('EDITABLE_IN', $a_set['editable_in']);
+        $this->tpl->setVariable('SETTING_TYPE', $a_set['setting_type']);
         $this->tpl->setVariable('DEFAULT_VALUE', $a_set['default_value']);
         $this->tpl->setVariable('ACTIONS', $this->buildActionMenu($a_set)->getHTML());
     }
@@ -80,11 +76,11 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
     protected function buildActionMenu(array $a_set)
     {
         $list = new ilAdvancedSelectionListGUI();
-        $list->setId($a_set['identifier']);
+        $list->setId($a_set['id']);
         $list->setListTitle($this->pl->txt('actions'));
         $this->ctrl->setParameterByClass('srcertificatetypegui', 'type_id', $this->type->getId());
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'identifier', $a_set['identifier']);
-        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editSetting'));
+        $this->ctrl->setParameterByClass('srcertificatetypegui', 'custom_setting_id', $a_set['id']);
+        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editCustomSetting'));
         $this->ctrl->clearParametersByClass('srcertificatetypegui');
         return $list;
     }
@@ -105,26 +101,14 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
     protected function buildData()
     {
         $data = array();
-        /** @var $setting srCertificateTypeSetting */
-        foreach ($this->type->getSettings() as $setting) {
+        /** @var $setting srCertificateCustomTypeSetting */
+        foreach ($this->type->getCustomSettings() as $setting) {
             $row = array();
+            $row['id'] = $setting->getId();
             $row['identifier'] = $setting->getIdentifier();
-            $row['setting'] = $this->pl->txt("setting_id_" . $setting->getIdentifier());
             $row['editable_in'] = implode(',', $setting->getEditableIn());
-            $default_value = $setting->getValue();
-            switch ($setting->getIdentifier()) {
-                case srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE:
-                    $default_value = $this->pl->txt("setting_validity_{$default_value}");
-                    break;
-                case srCertificateTypeSetting::IDENTIFIER_VALIDITY:
-                    $validity_type = $this->type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getValue();
-                    if ($default_value && $validity_type == srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE) {
-                        $date_data = json_decode($default_value);
-                        $default_value = sprintf($this->pl->txt('validity_date_range'), $date_data->m, $date_data->d);
-                    }
-                    break;
-            }
-            $row['default_value'] = $default_value;
+            $row['setting_type'] = $this->pl->txt('custom_setting_type_' . $setting->getSettingTypeId());
+            $row['default_value'] = $setting->getValue();
             $data[] = $row;
         }
         $this->setData($data);
