@@ -167,7 +167,7 @@ class srCertificateDefinition extends ActiveRecord
     public function getSettingByIdentifier($identifier)
     {
         /** @var $setting srCertificateDefinitionSetting */
-        foreach ($this->settings as $setting) {
+        foreach ($this->getSettings() as $setting) {
             if ($setting->getIdentifier() == $identifier) {
                 return $setting;
                 break;

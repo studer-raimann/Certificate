@@ -85,7 +85,8 @@ class srCertificateTableGUI extends ilTable2GUI
             'user_id' => 0,
             'newest_version_only' => true,
             'actions' => array('download'),
-            'actions_multi' => array('download_zip')
+            'actions_multi' => array('download_zip'),
+            'build_data' => true,
         );
         $this->options = array_merge($_options, $options);
         $this->setPrefix('cert_');
@@ -104,7 +105,10 @@ class srCertificateTableGUI extends ilTable2GUI
         if ($this->getOption('show_filter')) {
             $this->initFilter();
         }
-        $this->buildData();
+
+        if ($this->getOption('build_data')) {
+            $this->buildData();
+        }
     }
 
 
@@ -321,9 +325,9 @@ class srCertificateTableGUI extends ilTable2GUI
     protected function buildData()
     {
         $filters = $this->filter_names;
-        if ($this->getOption('definition_id')) $filters['definition_id'] = $this->definition_id;
         if ($this->getOption('newest_version_only') && ! $this->getOption('show_filter')) $filters['active'] = 1;
-        if ($this->getOption('user_id')) $filters['user_id'] = $this->user_id;
+        if ($this->getOption('definition_id')) $filters['definition_id'] = $this->getOption('definition_id');
+        if ($this->getOption('user_id')) $filters['user_id'] = $this->getOption('user_id');
 
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);

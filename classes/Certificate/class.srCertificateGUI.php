@@ -10,7 +10,7 @@ require_once('class.srCertificateTableGUI.php');
  *
  * @ilCtrl_IsCalledBy srCertificateGUI : ilRouterGUI, ilUIPluginRouterGUI
  */
-class srCertificateGUI
+abstract class srCertificateGUI
 {
 
     /**
@@ -23,17 +23,24 @@ class srCertificateGUI
      */
     protected $tpl;
 
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
+
+
     public function __construct()
     {
-        global $ilCtrl, $tpl;
+        global $ilCtrl, $tpl, $ilUser;
 
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
-        $this->checkPermission();
+        $this->user = $ilUser;
     }
 
     public function executeCommand()
     {
+        $this->checkPermission();
         $cmd = $this->ctrl->getCmd('index');
         switch ($cmd) {
             case 'index':
@@ -56,13 +63,13 @@ class srCertificateGUI
 
     public function index()
     {
-        $table = new srCertificateTableGUI($this, 'index');
+        $table = $this->getTable('index');
         $this->tpl->setContent($table->getHTML());
     }
 
     public function applyFilter()
     {
-        $table = new srCertificateTableGUI($this, 'index');
+        $table = $this->getTable('index');
         $table->writeFilterToSession();
         $table->resetOffset();
         $this->index();
@@ -70,7 +77,7 @@ class srCertificateGUI
 
     public function resetFilter()
     {
-        $table = new srCertificateTableGUI($this, 'index');
+        $table = $this->getTable('index');
         $table->resetOffset();
         $table->resetFilter();
         $this->index();
@@ -107,9 +114,16 @@ class srCertificateGUI
     /**
      * Check permissions
      */
-    protected function checkPermission()
-    {
-        // TODO How are the permissions checked for this GUI?
+    abstract protected function checkPermission();
+
+
+    /**
+     * @param $cmd
+     * @return srCertificateTableGUI
+     */
+    protected function getTable($cmd) {
+        $options = (in_array($cmd, array('resetFilter', 'applyFilter'))) ? array('build_data' => false) : array();
+        return new srCertificateTableGUI($this, $cmd, $options);
     }
 
 }

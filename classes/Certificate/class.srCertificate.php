@@ -157,17 +157,23 @@ class srCertificate extends ActiveRecord
         global $ilLog;
         parent::__construct($id);
         $this->log = $ilLog;
-        $this->pl = new ilCertificatePlugin();
-        $this->standard_placeholders = new srCertificateStandardPlaceholders($this);
+        $this->pl = ilCertificatePlugin::getInstance();
     }
 
 
     // Public
 
-
-    public function afterObjectLoad()
+    /**
+     * @param bool $anonymized
+     * @return srCertificateStandardPlaceholders
+     */
+    public function getStandardPlaceholders($anonymized = false)
     {
-        $this->definition = srCertificateDefinition::find($this->getDefinitionId());
+        if (is_null($this->standard_placeholders)) {
+            $this->standard_placeholders = new srCertificateStandardPlaceholders($this, $anonymized);
+        }
+
+        return $this->standard_placeholders;
     }
 
 
@@ -571,10 +577,12 @@ class srCertificate extends ActiveRecord
      * Custom placeholders are loaded in the correct language
      * All placeholders are passed to the hook class to do custom logic.
      * Finally keys are wrapped with the start/end symbols, e.g. [[key]]
+     *
+     * @param bool $anonymized
      */
-    protected function loadPlaceholders()
+    protected function loadPlaceholders($anonymized = false)
     {
-        $placeholders = $this->standard_placeholders->getParsedPlaceholders();
+        $placeholders = $this->getStandardPlaceholders($anonymized)->getParsedPlaceholders();
         $available_langs = $this->definition->getType()->getLanguages();
         $user_lang = $this->getUser()->getLanguage();
         $default_lang = $this->definition->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_DEFAULT_LANG);
@@ -616,17 +624,21 @@ class srCertificate extends ActiveRecord
         if ($this->user === NULL) {
             $this->user = new ilObjUser($this->getUserId());
         }
+
         return $this->user;
     }
 
+
     /**
+     * @param bool $anonymized If true, placeholders are anonymize
      * @return array
      */
-    public function getPlaceholders()
+    public function getPlaceholders($anonymized = false)
     {
         if ($this->placeholders === NULL) {
-            $this->loadPlaceholders();
+            $this->loadPlaceholders($anonymized);
         }
+
         return $this->placeholders;
     }
 
@@ -661,6 +673,10 @@ class srCertificate extends ActiveRecord
      */
     public function getDefinition()
     {
+        if (is_null($this->definition)) {
+            $this->definition = srCertificateDefinition::find($this->getDefinitionId());
+        }
+
         return $this->definition;
     }
 
