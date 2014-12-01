@@ -43,6 +43,7 @@ msg_setting_saved#:#Saved setting
 msg_placeholder_saved#:#Saved placeholder
 msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols
 msg_no_permission#:#Permission denied
+msg_save_config#:#Configuration saved
 
 change_cert_type#:#Change certificate type
 choose_cert_type#:#Choose certificate type
