@@ -1,0 +1,223 @@
+<?php
+
+require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
+require_once('class.ilCertificateConfig.php');
+
+
+/**
+ * Class ilCertificateConfigFormGUI
+ *
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ */
+class ilCertificateConfigFormGUI extends ilPropertyFormGUI
+{
+
+    /**
+     * @var ilCertificateConfigGUI
+     */
+    protected $parent_gui;
+    /**
+     * @var  ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var ilCertificatePlugin
+     */
+    protected $pl;
+
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
+
+
+    /**
+     * @param ilCertificateConfigGUI $parent_gui
+     */
+    public function __construct(ilCertificateConfigGUI $parent_gui)
+    {
+        global $ilCtrl, $lng;
+
+        $this->parent_gui = $parent_gui;
+        $this->ctrl = $ilCtrl;
+        $this->lng = $lng;
+        $this->pl = ilCertificatePlugin::getInstance();
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
+        $this->initForm();
+    }
+
+
+    /**
+     * @param $field
+     *
+     * @return string
+     */
+    public function txt($field)
+    {
+        return $this->pl->txt('admin_form_' . $field);
+    }
+
+
+    protected function initForm()
+    {
+        global $rbacreview, $ilUser;
+
+        $this->setTitle($this->txt('title'));
+
+        // Course templates
+        $item = new ilCheckboxInputGUI($this->txt('course_templates'), 'course_templates');
+        $item->setInfo($this->txt('course_templates_info'));
+        $subitem = new ilTextAreaInputGUI($this->txt('course_templates_ref_ids'), 'course_templates_ref_ids');
+        $subitem->setInfo($this->txt('course_templates_ref_ids_info'));
+        $item->addSubItem($subitem);
+        $this->addItem($item);
+
+        // UTC
+        $item = new ilCheckboxInputGUI($this->txt('time_format_utc'), 'time_format_utc');
+        $item->setInfo($this->txt('time_format_utc'));
+        $this->addItem($item);
+
+        // Date format
+        $item = new ilTextInputGUI($this->txt('str_format_date'), 'str_format_date');
+        $item->setInfo($this->txt('str_format_date_info'));
+        $item->setRequired(true);
+        $this->addItem($item);
+
+        // Datetime format
+        $item = new ilTextInputGUI($this->txt('str_format_datetime'), 'str_format_datetime');
+        $item->setInfo($this->txt('str_format_datetime_info'));
+        $item->setRequired(true);
+        $this->addItem($item);
+
+        // Hook class
+        $item = new ilTextInputGUI($this->txt('path_hook_class'), 'path_hook_class');
+        $item->setInfo($this->txt('path_hook_class_info'));
+        $this->addItem($item);
+
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->txt('permission_settings'));
+        $this->addItem($section);
+
+        /** @var ilRbacReview $rbacreview $roles */
+        $roles = array();
+        foreach ($rbacreview->getGlobalRoles() as $role_id) {
+            $roles[$role_id] = ilObject::_lookupTitle($role_id);
+        }
+
+        // Administrate types
+        $item = new ilMultiSelectInputGUI($this->txt('roles_administrate_certificate_types'), 'roles_administrate_certificate_types');
+        $item->setOptions($roles);
+        $item->setInfo($this->txt('roles_administrate_certificate_types_info'));
+        $this->addItem($item);
+
+        // Administrate certificates
+        $item = new ilMultiSelectInputGUI($this->txt('roles_administrate_certificates'), 'roles_administrate_certificates');
+        $item->setOptions($roles);
+        $item->setInfo($this->txt('roles_administrate_certificates_info'));
+        $this->addItem($item);
+
+        $this->addCommandButtons();
+    }
+
+
+    public function fillForm()
+    {
+        $array = array();
+        foreach ($this->getItems() as $item) {
+            $this->getValuesForItem($item, $array);
+        }
+        $this->setValuesByArray($array);
+    }
+
+
+    /**
+     * @param ilFormPropertyGUI $item
+     * @param                   $array
+     *
+     * @internal param $key
+     */
+    private function getValuesForItem($item, &$array)
+    {
+        if (self::checkItem($item)) {
+            $key = $item->getPostVar();
+            $array[$key] = ilCertificateConfig::get($key);
+            if ($item instanceof ilMultiSelectInputGUI) {
+                $array[$key] = json_decode($array[$key], true);
+            }
+            if (self::checkForSubItem($item)) {
+                foreach ($item->getSubItems() as $subitem) {
+                    $this->getValuesForItem($subitem, $array);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function saveObject()
+    {
+        if ( ! $this->checkInput()) {
+            return false;
+        }
+        foreach ($this->getItems() as $item) {
+            $this->saveValueForItem($item);
+        }
+
+        return true;
+    }
+
+
+    /**
+     * @param  ilFormPropertyGUI $item
+     */
+    private function saveValueForItem($item)
+    {
+        if (self::checkItem($item)) {
+            $key = $item->getPostVar();
+            if ($item instanceof ilMultiSelectInputGUI) {
+                ilCertificateConfig::set($key, json_encode($this->getInput($key)));
+            } else {
+                ilCertificateConfig::set($key, $this->getInput($key));
+            }
+
+            if (self::checkForSubItem($item)) {
+                foreach ($item->getSubItems() as $subitem) {
+                    $this->saveValueForItem($subitem);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * @param $item
+     *
+     * @return bool
+     */
+    public static function checkForSubItem($item)
+    {
+        return ! $item instanceof ilFormSectionHeaderGUI AND ! $item instanceof ilMultiSelectInputGUI;
+    }
+
+
+    /**
+     * @param $item
+     *
+     * @return bool
+     */
+    public static function checkItem($item)
+    {
+        return ! $item instanceof ilFormSectionHeaderGUI;
+    }
+
+
+    protected function addCommandButtons()
+    {
+        $this->addCommandButton('save', $this->lng->txt('save'));
+        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
+    }
+}

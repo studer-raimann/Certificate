@@ -28,19 +28,34 @@ abstract class srCertificateGUI
      */
     protected $user;
 
+    /**
+     * @var ilCertificatePlugin
+     */
+    protected $pl;
+
+    /**
+     * @var ilRbacReview
+     */
+    protected $rbac;
 
     public function __construct()
     {
-        global $ilCtrl, $tpl, $ilUser;
+        global $ilCtrl, $tpl, $ilUser, $rbacreview;
 
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->user = $ilUser;
+        $this->rbac = $rbacreview;
+        $this->pl = ilCertificatePlugin::getInstance();
     }
 
     public function executeCommand()
     {
-        $this->checkPermission();
+        if ( ! $this->checkPermission()) {
+            ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
+            $this->ctrl->redirectByClass('ilpersonaldesktopgui');
+        }
+
         $cmd = $this->ctrl->getCmd('index');
         switch ($cmd) {
             case 'index':

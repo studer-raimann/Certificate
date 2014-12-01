@@ -72,29 +72,44 @@ class srCertificateTypeGUI
      */
     protected $db;
 
+    /**
+     * @var ilRbacReview
+     */
+    protected $rbac;
+
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
 
     public function __construct()
     {
-        global $tpl, $ilCtrl, $ilToolbar, $ilTabs, $lng, $ilAccess, $ilDB;
+        global $tpl, $ilCtrl, $ilToolbar, $ilTabs, $lng, $ilAccess, $ilDB, $rbacreview, $ilUser;
         /** @var ilCtrl ctrl */
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->toolbar = $ilToolbar;
         $this->tabs = $ilTabs;
         $this->type = (isset($_GET['type_id'])) ? srCertificateType::find((int)$_GET['type_id']) : null;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->access = $ilAccess;
         $this->db = $ilDB;
-//        $this->pl->updateLanguages();
         $this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
         $this->lng->loadLanguageModule('common');
         $this->ctrl->saveParameter($this, 'type_id');
         $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cert_b.png'));
+        $this->rbac = $rbacreview;
+        $this->user = $ilUser;
     }
 
     public function executeCommand()
     {
+        if ( ! $this->checkPermission()) {
+            ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
+            $this->ctrl->redirectByClass('ilpersonaldesktopgui');
+        }
+
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         // needed for ILIAS >= 4.5
@@ -438,5 +453,14 @@ class srCertificateTypeGUI
         }
     }
 
+
+    /**
+     * Check permissions
+     */
+    protected function checkPermission()
+    {
+        $allowed_roles = ilCertificateConfig::get('roles_administrate_certificate_types');
+        return $this->rbac->isAssignedToAtLeastOneGivenRole($this->user->getId(), json_decode($allowed_roles, true));
+    }
 
 }

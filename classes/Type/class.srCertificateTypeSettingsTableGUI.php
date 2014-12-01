@@ -48,7 +48,7 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
         $this->setId('cert_type_table_settings');
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->type = $type;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->ctrl = $ilCtrl;
         $this->toolbar = $ilToolbar;
         $this->setRowTemplate('tpl.type_settings_row.html', $this->pl->getDirectory());

@@ -9,15 +9,16 @@ require_once('class.srCertificateGUI.php');
  *
  * @ilCtrl_IsCalledBy srCertificateAdministrationGUI : ilRouterGUI, ilUIPluginRouterGUI
  */
-class srCertificateAdministrationGUI extends srCertificateGUI {
+class srCertificateAdministrationGUI extends srCertificateGUI
+{
 
     /**
      * Check permissions
      */
     protected function checkPermission()
     {
-        // TODO This permission is checked based on role configuration in plugin
-        return true;
+        $allowed_roles = ilCertificateConfig::get('roles_administrate_certificates');
+        return $this->rbac->isAssignedToAtLeastOneGivenRole($this->user->getId(), json_decode($allowed_roles, true));
     }
 
 }

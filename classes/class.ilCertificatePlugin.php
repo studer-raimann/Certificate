@@ -68,6 +68,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         return static::$instance;
     }
 
+
     /**
      * @return string
      */
@@ -76,14 +77,6 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         return 'Certificate';
     }
 
-    /**
-     * @return ilCertificateConfig
-     */
-    public function getConfigObject()
-    {
-        $conf = new ilCertificateConfig($this->getConfigTableName());
-        return $conf;
-    }
 
     /**
      * Get Hooks object
@@ -94,7 +87,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
     {
         if (is_null($this->hooks)) {
             $class_name = self::CLASS_NAME_HOOKS;
-            $path = $this->getConfigObject()->getValue('path_hook_class');
+            $path = ilCertificateConfig::get('path_hook_class');
             if (substr($path, -1) !== '/') {
                 $path .= '/';
             }
@@ -110,15 +103,6 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         return $this->hooks;
     }
 
-    /**
-     * @return string
-     */
-    public function getConfigTableName()
-    {
-        return
-            $this->getSlotId() . substr(strtolower($this->getPluginName()), 0, 20 - strlen($this->getSlotId())) . '_c';
-    }
-
 
     /**
      * Check if course is a "template course"
@@ -131,16 +115,16 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
     {
         global $tree;
 
-        $config = $this->getConfigObject();
-        if ($config->getValue('course_templates') && $config->getValue('course_templates_ref_ids')) {
+        if (ilCertificateConfig::get('course_templates') && ilCertificateConfig::get('course_templates_ref_ids')) {
             // Course templates enabled -> check if given ref_id is defined as template
-            $ref_ids = explode(',', $config->getValue('course_templates_ref_ids'));
+            $ref_ids = explode(',', ilCertificateConfig::get('course_templates_ref_ids'));
             /** @var $tree ilTree */
             $parent_ref_id = $tree->getParentId($ref_id);
             return in_array($parent_ref_id, $ref_ids);
         }
         return false;
     }
+
 
     /**
      * Check if preconditions are given to use this plugin
@@ -157,6 +141,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         return (self::getBaseClass() && $exists && $active);
     }
 
+
     /**
      * Don't activate plugin if preconditions are not given
      *
@@ -164,7 +149,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     protected function beforeActivation()
     {
-        if (!$this->checkPreConditions()) {
+        if ( ! $this->checkPreConditions()) {
             ilUtil::sendFailure("You need to install the 'CertificateEvents' plugin");
             return false;
         }
@@ -180,14 +165,14 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     public static function getBaseClass()
     {
-        if (!is_null(self::$base_class)) {
+        if ( ! is_null(self::$base_class)) {
             return self::$base_class;
         }
 
         global $ilCtrl;
         if ($ilCtrl->lookupClassPath('ilUIPluginRouterGUI')) {
             self::$base_class = 'ilUIPluginRouterGUI';
-        } elseif($ilCtrl->lookupClassPath('ilRouterGUI')) {
+        } elseif ($ilCtrl->lookupClassPath('ilRouterGUI')) {
             self::$base_class = 'ilRouterGUI';
         } else {
             self::$base_class = false;
@@ -196,5 +181,3 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         return self::$base_class;
     }
 }
-
-?>

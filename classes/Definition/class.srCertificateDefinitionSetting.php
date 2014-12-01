@@ -35,7 +35,7 @@ class srCertificateDefinitionSetting extends srCertificateSetting
     public function __construct($id = 0)
     {
         parent::__construct($id);
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
     }
 
 

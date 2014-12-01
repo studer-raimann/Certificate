@@ -4,7 +4,6 @@ require_once('./Services/Object/classes/class.ilObjectListGUIFactory.php');
 require_once('./Services/Link/classes/class.ilLink.php');
 require_once(dirname(__FILE__) . '/class.srCertificateDefinitionFormGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateDefinitionPlaceholdersFormGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateDefinitionTableGUI.php');
 require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificatePreview.php');
 require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificateTableGUI.php');
@@ -89,18 +88,18 @@ class srCertificateDefinitionGUI
         $this->tpl = $tpl;
         $this->toolbar = $ilToolbar;
         $this->tabs = $ilTabs;
-        $this->ref_id = (int)$_GET['ref_id'];
+        $this->ref_id = (int) $_GET['ref_id'];
         $this->crs = ilObjectFactory::getInstanceByRefId($this->ref_id);
         $this->definition = srCertificateDefinition::where(array('ref_id' => $this->ref_id))->first();
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->access = $ilAccess;
         $this->db = $ilDB;
         $this->ctrl->saveParameter($this, 'ref_id');
-//        $this->pl->updateLanguages();
         $this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
         $this->lng->loadLanguageModule('common');
     }
+
 
     public function executeCommand()
     {
@@ -167,6 +166,7 @@ class srCertificateDefinitionGUI
         }
     }
 
+
     /**
      * Show Definition settings Form
      *
@@ -178,6 +178,7 @@ class srCertificateDefinitionGUI
         $this->form = new srCertificateDefinitionFormGUI($this, $definition);
         $this->tpl->setContent($this->form->getHTML());
     }
+
 
     /**
      * Show available Placeholders of Definition
@@ -191,6 +192,7 @@ class srCertificateDefinitionGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
+
     /**
      * Show all certificates
      *
@@ -201,6 +203,7 @@ class srCertificateDefinitionGUI
         $options = array(
             'columns' => array('firstname', 'lastname', 'valid_from', 'valid_to', 'file_version'),
             'definition_id' => $this->definition->getId(),
+            'show_filter' => false,
         );
         $table = new srCertificateTableGUI($this, 'showCertificates', $options);
         $this->tpl->setContent($table->getHTML());
@@ -224,6 +227,7 @@ class srCertificateDefinitionGUI
         }
     }
 
+
     /**
      * Update definition settings
      *
@@ -243,6 +247,7 @@ class srCertificateDefinitionGUI
             }
         }
     }
+
 
     /**
      * Update placeholders
@@ -279,7 +284,7 @@ class srCertificateDefinitionGUI
      */
     public function downloadCertificate()
     {
-        if ($cert_id = (int)$_GET['cert_id']) {
+        if ($cert_id = (int) $_GET['cert_id']) {
             /** @var srCertificate $cert */
             $cert = srCertificate::find($cert_id);
             $cert->download();
@@ -299,13 +304,14 @@ class srCertificateDefinitionGUI
         $this->showCertificates();
     }
 
+
     /**
      * Display INFO/Warning Screen if the type was changed by user
      *
      */
     public function confirmTypeChange()
     {
-        $new_type_id = (int)$_POST['type_id'];
+        $new_type_id = (int) $_POST['type_id'];
         $conf_gui = new ilConfirmationGUI();
         $conf_gui->setFormAction($this->ctrl->getFormAction($this));
         $conf_gui->setHeaderText($this->pl->txt('confirm_type_change'));
@@ -322,7 +328,7 @@ class srCertificateDefinitionGUI
      */
     public function updateType()
     {
-        $new_type_id = (int)$_POST['type_id'];
+        $new_type_id = (int) $_POST['type_id'];
         if ($new_type_id && $new_type_id != $this->definition->getTypeId()) {
             $this->definition->setTypeId($new_type_id);
             $this->definition->update();
@@ -339,7 +345,7 @@ class srCertificateDefinitionGUI
      */
     protected function checkPermission()
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if ( ! $this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->ref_id);
             ilUtil::sendFailure($this->pl->txt('msg_no_permission_certificates'), true);
             $this->ctrl->redirectByClass('ilrepositorygui');

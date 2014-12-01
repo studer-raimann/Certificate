@@ -119,3 +119,12 @@
     srCertificateCustomTypeSetting::installDB();
     srCertificateCustomDefinitionSetting::installDB();
     ?>
+<#10>
+    <?php
+    if ( ! $ilDB->tableColumnExists('uihkcertificate_c', 'value')) {
+        $ilDB->renameTableColumn('uihkcertificate_c', 'config_value', 'value');
+    }
+    if ( ! $ilDB->tableColumnExists('uihkcertificate_c', 'name')) {
+        $ilDB->renameTableColumn('uihkcertificate_c', 'config_key', 'name');
+    }
+    ?>

@@ -39,7 +39,7 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI
     {
         global $ilCtrl, $tpl, $ilUser, $ilAccess;
         $this->ctrl = $ilCtrl;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->user = $ilUser;
         $this->access = $ilAccess;
     }
@@ -64,5 +64,3 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI
     }
 
 }
-
-?>

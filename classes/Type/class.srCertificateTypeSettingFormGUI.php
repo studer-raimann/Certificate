@@ -71,7 +71,7 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->rbac = $rbacreview;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
         $this->initForm();

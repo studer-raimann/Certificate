@@ -60,7 +60,7 @@ class certCheckSignatureGUI
         if (!$form->checkInput()) {
             ilUtil::sendFailure($this->pl->txt('decrypt_failed'), true);
         }
-        $public_key = openssl_get_publickey('file://' . $this->pl->getConfigObject()->getSignaturePublickey());
+        $public_key = openssl_get_publickey('file://' . ilCertificateConfig::get('signature_publickey'));
         openssl_public_decrypt(base64_decode($form->getInput('signature')), $decrypted, $public_key);
 
         if ($decrypted) {
@@ -70,5 +70,3 @@ class certCheckSignatureGUI
         }
     }
 }
-
-?>

@@ -13,20 +13,8 @@ placeholders#:#Placeholders
 back_to_overview#:#Overview
 manage_cert_types#:#Manage certificate types
 save_preview#:#Save & Preview
-course_templates#:#Enable support for course templates
-course_templates_info#:#If enabled, the plugin offers additional certificate settings depending if a course is marked as "course template"
-course_templates_ref_ids#:#Ref-IDs categories
-course_templates_ref_ids_info#:#Comma separated list of Ref-IDs of categories containing the template courses
-time_format_utc#:#Print date/times on certificate in UTC timezone
-time_format_utc_info#:#If checked, all date and time data calculated with the standard placeholders is converted in UTC timezone (by using PHPs gmdate() over date())
 certificate#:#Certificate
 back_to_course#:#Back to Course
-str_format_date#:#Date format
-str_format_date_info#:#Date format used to format all dates from the standard placeholders
-str_format_datetime#:#Datetime format
-str_format_datetime_info#:#Date format used to format all dates with time from the standard placeholders
-path_hook_class#:#Path to Hook class
-path_hook_class_info#:#Path to the class 'srCertificateCustomHooks', e.g. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
 
 valid_from#:#Valid from
 valid_to#:#Valid to
@@ -54,6 +42,7 @@ msg_type_saved#:#Saved type
 msg_setting_saved#:#Saved setting
 msg_placeholder_saved#:#Saved placeholder
 msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols
+msg_no_permission#:#Permission denied
 
 change_cert_type#:#Change certificate type
 choose_cert_type#:#Choose certificate type
@@ -135,3 +124,22 @@ custom_setting_type_2_data#:#Data to select in Dropdown
 custom_setting_type_2_data_info#:#Enter the possible values available for selection, one per line. If the key should be different than the value, add a double pipe separating the key from the value, e.g. 'mykey||My Value'
 custom_setting_default_value_info#:#Boolean: Add '1' to check the checkbox by default, Value: Add a key from your data
 custom_setting_update_cert_definitions_info#:#If checked, the setting is also created for existing certificate definitions of this type (with the default value)
+
+admin_form_title#:#Configuration options
+admin_form_course_templates#:#Enable support for course templates
+admin_form_course_templates_info#:#If enabled, the plugin offers additional certificate settings depending if a course is marked as "course template"
+admin_form_course_templates_ref_ids#:#Ref-IDs categories
+admin_form_course_templates_ref_ids_info#:#Comma separated list of Ref-IDs of categories containing the template courses
+admin_form_time_format_utc#:#Print date/times on certificate in UTC timezone
+admin_form_time_format_utc_info#:#If checked, all date and time data calculated with the standard placeholders is converted in UTC timezone (by using PHPs gmdate() over date())
+admin_form_str_format_date#:#Date format
+admin_form_str_format_date_info#:#Date format used to format all dates from the standard placeholders
+admin_form_str_format_datetime#:#Datetime format
+admin_form_str_format_datetime_info#:#Date format used to format all dates with time from the standard placeholders
+admin_form_path_hook_class#:#Path to Hook class
+admin_form_path_hook_class_info#:#Path to the class 'srCertificateCustomHooks', e.g. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
+admin_form_permission_settings#:#Permission settings
+admin_form_roles_administrate_certificate_types#:#Administrate certificate types
+admin_form_roles_administrate_certificate_types_info#:#User assigned to one of the selected roles are allowed to administrate certificate types
+admin_form_roles_administrate_certificates#:#Administrate certificates
+admin_form_roles_administrate_certificates_info#:#User assigned to one of the selected roles are allowed to globally search and download certificates

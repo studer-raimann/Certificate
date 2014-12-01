@@ -37,7 +37,7 @@ class srCertificateTypeStandardPlaceholdersTableGUI extends ilTable2GUI
         global $ilCtrl, $ilToolbar;
         $this->setId('cert_type_standard_placeholders');
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->ctrl = $ilCtrl;
         $this->toolbar = $ilToolbar;
         $this->setRowTemplate('tpl.type_standard_placeholders_row.html', $this->pl->getDirectory());

@@ -92,7 +92,7 @@ class srCertificateTableGUI extends ilTable2GUI
         $this->setPrefix('cert_');
         $this->setId($this->getOption('user_id') . '_' . $this->getOption('definition_id'));
         $this->columns = $this->getOption('columns');
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->ctrl = $ilCtrl;
         $this->user = $ilUser;
 
@@ -152,17 +152,15 @@ class srCertificateTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set)
     {
+        // For checkboxes in first column
+        if (count($this->getOption('actions_multi'))) {
+            $this->tpl->setCurrentBlock('CHECKBOXES');
+            $this->tpl->setVariable('VALUE', $a_set['id']);
+            $this->tpl->parseCurrentBlock();
+        }
+
         foreach ($this->columns as $k => $column) {
-
             $value = (is_null($a_set[$column])) ? '' : $a_set[$column];
-
-            // For checkboxes in first column
-            if (count($this->getOption('actions_multi')) && $column == 'id') {
-                $this->tpl->setCurrentBlock('CHECKBOXES');
-                $this->tpl->setVariable('VALUE', $value);
-                $this->tpl->parseCurrentBlock();
-            }
-
             if ($this->isColumnSelected($column)) {
 
                 // Format dates
@@ -325,7 +323,7 @@ class srCertificateTableGUI extends ilTable2GUI
     protected function buildData()
     {
         $filters = $this->filter_names;
-        if ($this->getOption('newest_version_only') && ! $this->getOption('show_filter')) $filters['active'] = 1;
+        $filters['active'] = ($this->getOption('newest_version_only') && ! $this->getOption('show_filter')) ? 1 : (int) isset($filters['active']);
         if ($this->getOption('definition_id')) $filters['definition_id'] = $this->getOption('definition_id');
         if ($this->getOption('user_id')) $filters['user_id'] = $this->getOption('user_id');
 

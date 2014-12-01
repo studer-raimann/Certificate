@@ -181,7 +181,7 @@ class srCertificateStandardPlaceholders
      */
     protected function parseGeneralPlaceholders(ilObjCourse $course)
     {
-        $utc = $this->pl->getConfigObject()->getValue('time_format_utc');
+        $utc = ilCertificateConfig::get('time_format_utc');
 
         return array(
             'DATE' => $this->formatDate('DATE'),
