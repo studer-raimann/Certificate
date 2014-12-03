@@ -231,7 +231,7 @@ class srCertificateStandardPlaceholders
     {
         $timestamp = ($timestamp) ? $timestamp : time();
         $utc = ilCertificateConfig::get('time_format_utc');
-        $format = ilCertificateConfig::get('str_format_date');
+        $format = ilCertificateConfig::get('str_format_datetime');
         // Check if a hook wants to modify the date format
         $format_custom = $this->pl->getHooks()->formatDate($this->certificate, $identifier);
         if ($format_custom) {
