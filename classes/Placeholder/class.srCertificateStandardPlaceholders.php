@@ -208,9 +208,8 @@ class srCertificateStandardPlaceholders
     protected function formatDate($identifier, $timestamp = 0)
     {
         $timestamp = ($timestamp) ? $timestamp : time();
-        $config = $this->pl->getConfigObject();
-        $utc = $config->getValue('time_format_utc');
-        $format = $config->getValue('str_format_date');
+        $utc = ilCertificateConfig::get('time_format_utc');
+        $format = ilCertificateConfig::get('str_format_date');
         // Check if a hook wants to modify the date format
         $format_custom = $this->pl->getHooks()->formatDate($this->certificate, $identifier);
         if ($format_custom) {
@@ -231,9 +230,8 @@ class srCertificateStandardPlaceholders
     protected function formatDateTime($identifier, $timestamp = 0)
     {
         $timestamp = ($timestamp) ? $timestamp : time();
-        $config = $this->pl->getConfigObject();
-        $utc = $config->getValue('time_format_utc');
-        $format = $config->getValue('str_format_datetime');
+        $utc = ilCertificateConfig::get('time_format_utc');
+        $format = ilCertificateConfig::get('str_format_date');
         // Check if a hook wants to modify the date format
         $format_custom = $this->pl->getHooks()->formatDate($this->certificate, $identifier);
         if ($format_custom) {
