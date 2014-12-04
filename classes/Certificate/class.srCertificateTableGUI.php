@@ -2,6 +2,10 @@
 require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 require_once('class.srCertificate.php');
 require_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once('./Services/Form/classes/class.ilTextInputGUI.php');
+require_once('./Services/Form/classes/class.ilDateTimeInputGUI.php');
+require_once('./Services/Form/classes/class.ilSelectInputGUI.php');
+require_once('./Services/Form/classes/class.ilCheckboxInputGUI.php');
 
 /**
  * Class srCertificateTableGUI
