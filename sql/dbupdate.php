@@ -128,3 +128,24 @@
         $ilDB->renameTableColumn('uihkcertificate_c', 'config_key', 'name');
     }
     ?>
+<#11>
+	<?php
+	// We will add one default certificate definition for easier installation.
+	require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
+	$type = new srCertificateType();
+	$type->setTitle("Default Certificate");
+	$type->setLanguages(array('en'));
+	$type->setRoles(array(2)); //2 Is the default administration role.
+	$type->setAvailableObjects(array('crs'));
+	$type->storeTemplateFileFromServer('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml');
+	$type->create();
+
+	$placeholder = new srCertificatePlaceholder();
+	$placeholder->setCertificateType($type);
+	$placeholder->setIdentifier('crs_title');
+	$placeholder->setIsMandatory(true);
+	$placeholder->setEditableIn(array('crs'));
+	$placeholder->setLabel('Course Title', 'en');
+	$placeholder->create();
+
+	?>

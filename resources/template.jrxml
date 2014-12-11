@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fa443cb2-e1f8-4df8-ad6e-fcb886db79ab">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="[[USER_FIRSTNAME]]" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="[[USER_LASTNAME]]" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="[[crs_title]]" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="[[LP_FIRST_ACCESS]]" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="[[LP_LAST_ACCESS]]" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="[[instructor_name]]" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="[[instructor_function]]" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="[[LP_SPENT_TIME]]" class="java.lang.String"/>
+	<parameter name="[[CERT_ID]]" class="java.lang.String"/>
+	<parameter name="[[DATETIME]]" class="java.lang.String"/>
+	<parameter name="[[training_time]]" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="795" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="160" height="45" uuid="88ca5e85-2e18-41f1-97b9-cba6be3a92b7"/>
+				<textElement>
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[Diploma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="180" width="370" height="40" uuid="c43b050a-3384-4afa-a7da-6e798d5db4cc"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[This diploma confirms that the above named person attended the training course stated below:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="224" width="400" height="19" uuid="59d08525-86bc-429d-b8dd-55170d0a1b3f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{[[crs_title]]}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="258" width="395" height="16" uuid="a7682b5a-d693-4cd9-a62a-3420eefe82f3"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{[[LP_FIRST_ACCESS]]} + " to " + $P{[[LP_LAST_ACCESS]]} + " (UTC)"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="699" width="295" height="18" forecolor="#000000" uuid="3ee1ad7b-8524-416f-bc2e-9f42fcbd0cff"/>
+				<textFieldExpression><![CDATA[$P{[[CERT_ID]]}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="258" width="79" height="16" uuid="f3c92f9f-67ee-4947-9195-d512754322ef"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Time frame:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="152" width="442" height="20" uuid="7b8c4006-3459-4b70-9f56-5dd871a251a6"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{[[USER_FIRSTNAME]]} + " " + $P{[[USER_LASTNAME]]}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="699" width="100" height="20" uuid="42221bc5-0729-4802-b005-a113c1e13c4b"/>
+				<text><![CDATA[Certificate ID:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

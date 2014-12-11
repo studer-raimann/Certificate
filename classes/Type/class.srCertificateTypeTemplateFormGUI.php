@@ -179,6 +179,8 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI
         $item->setFilenames(array(0 => ''));
         $this->addItem($item);
 
+        $this->addCommandButton('downloadDefaultTemplate', $this->lng->txt('downloadDefaultTemplate'));
+	    $this->addCommandButton('downloadTemplate', $this->lng->txt('downloadTemplate'));
         $this->addCommandButton('updateTemplate', $this->lng->txt('save'));
     }
 }

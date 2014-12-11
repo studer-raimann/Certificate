@@ -46,3 +46,6 @@ signature#:#Signaturwert
 signature_check#:#Zertifikatssignatur prüfen
 decrypt_successful#:#Die Entschlüsselung war erfolgreich.
 in_process#:#in Erstellung
+
+downloadDefaultTemplate#:#Vorlage Template Herunterladen
+downloadTemplate#:#Aktuelles Template Herunterladen
