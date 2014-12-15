@@ -144,3 +144,6 @@ admin_form_roles_administrate_certificate_types#:#Administrate certificate types
 admin_form_roles_administrate_certificate_types_info#:#User assigned to one of the selected roles are allowed to administrate certificate types
 admin_form_roles_administrate_certificates#:#Administrate certificates
 admin_form_roles_administrate_certificates_info#:#User assigned to one of the selected roles are allowed to globally search and download certificates
+
+downloadDefaultTemplate#:#Download Default Template
+downloadTemplate#:#Download Current Template

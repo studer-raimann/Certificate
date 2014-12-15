@@ -1,5 +1,6 @@
 <?php
 require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+require_once("./Services/Table/classes/class.ilTable2GUI.php");
 require_once(dirname(__FILE__) . '/class.srCertificateType.php');
 require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemplateTypeFactory.php');
 

@@ -142,6 +142,14 @@ class srCertificateTypeGUI
                         $this->updateTemplate();
                         $this->setTabs('template');
                         break;
+	                case 'downloadDefaultTemplate':
+		                $this->downloadDefaultTemplate();
+		                $this->setTabs('template');
+		                break;
+	                case 'downloadTemplate':
+		                $this->downloadTemplate();
+		                $this->setTabs('template');
+		                break;
                     case 'showSettings':
                         $this->showSettings();
                         $this->setTabs('settings');
@@ -267,6 +275,14 @@ class srCertificateTypeGUI
             $this->tpl->setContent($form->getHTML());
         }
     }
+
+	public function downloadDefaultTemplate() {
+		ilUtil::deliverFile('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml', 'template.jrxml');
+	}
+
+	public function downloadTemplate() {
+		ilUtil::deliverFile($this->type->getCertificateTemplatesPath(true), 'template.jrxml');
+	}
 
     /**
      * Show table with settings

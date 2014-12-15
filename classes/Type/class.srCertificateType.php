@@ -261,18 +261,38 @@ class srCertificateType extends ActiveRecord
     public function storeTemplateFile(array $file_data)
     {
         if ($file_data['name'] && ! $file_data['error']) {
-            $file_path = $this->getCertificateTemplatesPath();
-            if ( ! is_dir($file_path)) {
-                ilUtil::makeDirParents($file_path);
-            }
-            $file = $this->getCertificateTemplatesPath() . DIRECTORY_SEPARATOR . $file_data['name'];
-            if (move_uploaded_file($file_data['tmp_name'], $file)) {
-                return rename($file, $this->getCertificateTemplatesPath(true));
-            }
+
+	        return $this->storeTemplateFileFromServer($file_data['tmp_name']);
         }
         return false;
     }
 
+
+	/**
+	 * Store a new template file.
+	 *
+	 * @param $path_to_template_file string
+	 *
+	 * @return bool
+	 */
+	public function storeTemplateFileFromServer($path_to_template_file) {
+		if(!is_file($path_to_template_file)){
+			return false;
+		}
+		$this->createTemplateDirectory();
+		return copy($path_to_template_file, $this->getCertificateTemplatesPath(true));
+	}
+
+
+	/**
+	 *
+	 */
+	protected function createTemplateDirectory(){
+		$file_path = $this->getCertificateTemplatesPath();
+		if ( ! is_dir($file_path)) {
+			ilUtil::makeDirParents($file_path);
+		}
+	}
 
     /**
      * Remove a given asset
