@@ -44,6 +44,7 @@ msg_placeholder_saved#:#Saved placeholder
 msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols
 msg_no_permission#:#Permission denied
 msg_save_config#:#Configuration saved
+msg_no_placeholders#:#There are no placeholders defined for the selected certificate type
 
 change_cert_type#:#Change certificate type
 choose_cert_type#:#Choose certificate type
@@ -145,5 +146,5 @@ admin_form_roles_administrate_certificate_types_info#:#User assigned to one of t
 admin_form_roles_administrate_certificates#:#Administrate certificates
 admin_form_roles_administrate_certificates_info#:#User assigned to one of the selected roles are allowed to globally search and download certificates
 
-downloadDefaultTemplate#:#Download Default Template
-downloadTemplate#:#Download Current Template
+download_default_template#:#Download Default Template
+download_template#:#Download Current Template

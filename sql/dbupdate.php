@@ -137,7 +137,8 @@
 	$type->setLanguages(array('en'));
 	$type->setRoles(array(2)); //2 Is the default administration role.
 	$type->setAvailableObjects(array('crs'));
-	$type->storeTemplateFileFromServer('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml');
+    $type->setTemplateTypeId(1); // JasperReport
+    $type->storeTemplateFileFromServer(ILIAS_ABSOLUTE_PATH . '/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml');
 	$type->create();
 
 	$placeholder = new srCertificatePlaceholder();
@@ -147,5 +148,4 @@
 	$placeholder->setEditableIn(array('crs'));
 	$placeholder->setLabel('Course Title', 'en');
 	$placeholder->create();
-
 	?>

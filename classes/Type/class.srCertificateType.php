@@ -128,10 +128,10 @@ class srCertificateType extends ActiveRecord
      *
      * @var array srCertificateTypeSetting[]
      */
-    protected $settings = array();
+    protected $settings;
 
     /**
-     * @var array
+     * @var array srCertificateCustomTypeSetting[]
      */
     protected $custom_settings;
 
@@ -143,15 +143,6 @@ class srCertificateType extends ActiveRecord
 
 
     // Public
-
-
-    public function afterObjectLoad()
-    {
-        $placeholders = srCertificatePlaceholder::where(array('type_id' => (int) $this->getId()))->get();
-        $this->setPlaceholders($placeholders);
-        $settings = srCertificateTypeSetting::where(array('type_id' => (int) $this->getId()))->get();
-        $this->setSettings($settings);
-    }
 
 
     /**
@@ -261,7 +252,6 @@ class srCertificateType extends ActiveRecord
     public function storeTemplateFile(array $file_data)
     {
         if ($file_data['name'] && ! $file_data['error']) {
-
 	        return $this->storeTemplateFileFromServer($file_data['tmp_name']);
         }
         return false;
@@ -526,6 +516,10 @@ class srCertificateType extends ActiveRecord
      */
     public function getPlaceholders()
     {
+        if (is_null($this->placeholders)) {
+            $this->placeholders = srCertificatePlaceholder::where(array('type_id' => (int) $this->getId()))->get();
+        }
+
         return $this->placeholders;
     }
 
@@ -562,6 +556,10 @@ class srCertificateType extends ActiveRecord
      */
     public function getSettings()
     {
+        if (is_null($this->settings)) {
+            $this->settings = srCertificateTypeSetting::where(array('type_id' => (int) $this->getId()))->get();
+        }
+
         return $this->settings;
     }
 

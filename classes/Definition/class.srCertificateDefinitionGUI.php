@@ -187,9 +187,14 @@ class srCertificateDefinitionGUI
     public function showPlaceholders()
     {
         $this->tabs->setSubTabActive('show_placeholders');
+        /** @var srCertificateDefinition $definition */
         $definition = srCertificateDefinition::where(array('ref_id' => $this->ref_id))->first();
-        $this->form = new srCertificateDefinitionPlaceholdersFormGUI($this, $definition);
-        $this->tpl->setContent($this->form->getHTML());
+        if ( ! count($definition->getPlaceholderValues())) {
+            ilUtil::sendInfo($this->pl->txt('msg_no_placeholders'));
+        } else {
+            $this->form = new srCertificateDefinitionPlaceholdersFormGUI($this, $definition);
+            $this->tpl->setContent($this->form->getHTML());
+        }
     }
 
 

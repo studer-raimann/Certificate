@@ -276,12 +276,24 @@ class srCertificateTypeGUI
         }
     }
 
+
+    /**
+     * Download default template
+     */
 	public function downloadDefaultTemplate() {
 		ilUtil::deliverFile('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml', 'template.jrxml');
 	}
 
+
+    /**
+     * Download template file
+     */
 	public function downloadTemplate() {
-		ilUtil::deliverFile($this->type->getCertificateTemplatesPath(true), 'template.jrxml');
+		if (is_file($this->type->getCertificateTemplatesPath(true))) {
+            $filename = srCertificateTemplateTypeFactory::getById($this->type->getTemplateTypeId())->getTemplateFilename();
+            ilUtil::deliverFile($this->type->getCertificateTemplatesPath(true), $filename);
+        }
+        $this->editTemplate();
 	}
 
     /**
