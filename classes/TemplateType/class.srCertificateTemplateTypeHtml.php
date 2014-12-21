@@ -1,5 +1,6 @@
 <?php
 require_once('class.srCertificateTemplateType.php');
+require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholdersParser.php');
 
 /**
  * srCertificateTemplateTypeHtml
@@ -44,7 +45,8 @@ class srCertificateTemplateTypeHtml extends srCertificateTemplateType
 
         require_once('./Services/PDFGeneration/classes/class.ilPDFGeneration.php');
         // Get HTML markup by parsing the template and replace placeholders
-        $markup = $this->parseTemplate($cert);
+        $markup = file_get_contents($cert->getDefinition()->getType()->getCertificateTemplatesPath(true));
+        $markup = srCertificatePlaceholdersParser::getInstance()->parse($markup, $cert->getPlaceholders());
         try {
             $job = new ilPDFGenerationJob();
             $job->setMarginLeft('20');
@@ -61,24 +63,4 @@ class srCertificateTemplateTypeHtml extends srCertificateTemplateType
             return false;
         }
     }
-
-
-    /**
-     * Parse HTML template file from a given certificate and return markup
-     *
-     * @param srCertificate $cert
-     * @return string
-     */
-    protected function parseTemplate(srCertificate $cert)
-    {
-        $markup = file_get_contents($cert->getDefinition()->getType()->getCertificateTemplatesPath(true));
-        $placeholders = $cert->getPlaceholders();
-        preg_match_all('#\[\[(.*)\]\]#', $markup, $tpl_placeholders);
-        $replacements = array();
-        foreach ($tpl_placeholders[0] as $key) {
-            $replacements[] = $placeholders[$key];
-        }
-        return str_replace($tpl_placeholders[0], $replacements, $markup);
-    }
-
 }

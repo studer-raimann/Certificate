@@ -79,6 +79,18 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
 
 
     /**
+     * Get a config value
+     *
+     * @param string $name
+     * @return string|null
+     */
+    public function config($name)
+    {
+        return ilCertificateConfig::get($name);
+    }
+
+
+    /**
      * Get Hooks object
      *
      * @return srCertificateHooks

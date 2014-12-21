@@ -149,3 +149,25 @@
 	$placeholder->setLabel('Course Title', 'en');
 	$placeholder->create();
 	?>
+<#12>
+    <?php
+    // Add some new config settings
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
+    $body = "Hi,\n\n" .
+            "A new certificate was generated for you:\n\n" .
+            "User: [[USER_FULLNAME]]\n" .
+            "Course: [[COURSE_TITLE]]\n" .
+            "Valid until: [[CERT_VALID_TO]]\n\n" .
+            "The certificate is attached in this email";
+    ilCertificateConfig::set('notification_user_body', $body);
+    ilCertificateConfig::set('notification_user_subject', 'New certificate generated for course [[COURSE_TITLE]]');
+    ilCertificateConfig::set('notification_others_subject', 'New certificate generated for user [[USER_FULLNAME]]');
+    $body = "Hi,\n\n" .
+        "A new certificate was generated for user [[USER_FULLNAME]]:\n\n" .
+        "Course: [[COURSE_TITLE]]\n" .
+        "Valid until: [[CERT_VALID_TO]]\n\n" .
+        "The certificate is attached in this email";
+    ilCertificateConfig::set('notification_others_body', $body);
+
+    ilCertificateConfig::set('max_diff_lp_seconds', 28800);
+    ?>

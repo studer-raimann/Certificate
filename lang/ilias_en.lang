@@ -145,6 +145,12 @@ admin_form_roles_administrate_certificate_types#:#Administrate certificate types
 admin_form_roles_administrate_certificate_types_info#:#User assigned to one of the selected roles are allowed to administrate certificate types
 admin_form_roles_administrate_certificates#:#Administrate certificates
 admin_form_roles_administrate_certificates_info#:#User assigned to one of the selected roles are allowed to globally search and download certificates
+admin_form_notification_user_subject#:#Notification for User (Subject)
+admin_form_notification_others_subject#:#Notification for other Users (Subject)
+admin_form_notification_user_body#:#Notification for User (Body)
+admin_form_notification_others_body#:#Notification for other Users (Body)
+admin_form_max_diff_lp_seconds#:#Time range Certificate PDF generation (seconds)
+admin_form_max_diff_lp_seconds_info#:#You can set a time range in seconds to invoke the PDF generation of a certificate. If you enter zero, the PDF is generated right after the user passed the course. Note that possible notifications are also sent after the given time range.
 
 download_default_template#:#Download Default Template
 download_template#:#Download Current Template

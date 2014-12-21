@@ -91,6 +91,11 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $item->setRequired(true);
         $this->addItem($item);
 
+        // Max diff LP seconds
+        $item = new ilNumberInputGUI($this->txt('max_diff_lp_seconds'), 'max_diff_lp_seconds');
+        $item->setInfo($this->txt('max_diff_lp_seconds_info'));
+        $this->addItem($item);
+
         // Hook class
         $item = new ilTextInputGUI($this->txt('path_hook_class'), 'path_hook_class');
         $item->setInfo($this->txt('path_hook_class_info'));
@@ -116,6 +121,23 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $item = new ilMultiSelectInputGUI($this->txt('roles_administrate_certificates'), 'roles_administrate_certificates');
         $item->setOptions($roles);
         $item->setInfo($this->txt('roles_administrate_certificates_info'));
+        $this->addItem($item);
+
+        // Notification
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('notifications'));
+        $this->addItem($section);
+
+        $item = new ilTextInputGUI($this->txt('notification_user_subject'), 'notification_user_subject');
+        $this->addItem($item);
+
+        $item = new ilTextAreaInputGUI($this->txt('notification_user_body'), 'notification_user_body');
+        $this->addItem($item);
+
+        $item = new ilTextInputGUI($this->txt('notification_others_subject'), 'notification_others_subject');
+        $this->addItem($item);
+
+        $item = new ilTextAreaInputGUI($this->txt('notification_others_body'), 'notification_others_body');
         $this->addItem($item);
 
         $this->addCommandButtons();
