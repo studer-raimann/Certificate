@@ -1,9 +1,4 @@
 <?php
-
-require_once(dirname(__FILE__) . '/Notification/class.srCertificateEmailNotification.php');
-require_once(dirname(__FILE__) . 'class.ilCertificatePlugin.php');
-require_once(dirname(__FILE__) . '/Placeholder/class.srCertificatePlaceholdersParser.php');
-
 $cron = new srCertificateCron($_SERVER['argv']);
 $cron->run();
 
@@ -76,6 +71,10 @@ class srCertificateCron
             require_once('./include/inc.get_pear.php');
             require_once('./include/inc.header.php');
         }
+
+        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Notification/class.srCertificateEmailNotification.php');
+        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
+        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholdersParser.php');
         require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
         require_once('./Services/Mail/classes/class.ilMimeMail.php');
         require_once("./Services/Tracking/classes/class.ilTrQuery.php");
