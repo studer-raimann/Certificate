@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fa443cb2-e1f8-4df8-ad6e-fcb886db79ab">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="ireport.zoom" value="1.0"/>
@@ -13,22 +14,9 @@
 	<parameter name="[[COURSE_TITLE]]" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
-	<parameter name="[[LP_FIRST_ACCESS]]" class="java.lang.String">
-		<parameterDescription><![CDATA[]]></parameterDescription>
-	</parameter>
-	<parameter name="[[LP_LAST_ACCESS]]" class="java.lang.String">
-		<parameterDescription><![CDATA[]]></parameterDescription>
-	</parameter>
-	<parameter name="[[instructor_name]]" class="java.lang.String">
-		<parameterDescription><![CDATA[]]></parameterDescription>
-	</parameter>
-	<parameter name="[[instructor_function]]" class="java.lang.String">
-		<parameterDescription><![CDATA[]]></parameterDescription>
-	</parameter>
-	<parameter name="[[LP_SPENT_TIME]]" class="java.lang.String"/>
 	<parameter name="[[CERT_ID]]" class="java.lang.String"/>
 	<parameter name="[[DATETIME]]" class="java.lang.String"/>
-	<parameter name="[[training_time]]" class="java.lang.String"/>
+	<parameter name="[[CERT_VALID_TO]]" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -38,7 +26,7 @@
 	<summary>
 		<band height="795" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="160" height="45" uuid="88ca5e85-2e18-41f1-97b9-cba6be3a92b7"/>
+				<reportElement x="0" y="0" width="390" height="45" uuid="88ca5e85-2e18-41f1-97b9-cba6be3a92b7"/>
 				<textElement>
 					<font size="36"/>
 				</textElement>
@@ -63,7 +51,7 @@
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{[[LP_FIRST_ACCESS]]} + " to " + $P{[[LP_LAST_ACCESS]]} + " (UTC)"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{[[CERT_VALID_TO]]}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="80" y="699" width="295" height="18" forecolor="#000000" uuid="3ee1ad7b-8524-416f-bc2e-9f42fcbd0cff"/>
@@ -74,7 +62,7 @@
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Time frame:]]></text>
+				<text><![CDATA[Valid until:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="80" y="152" width="442" height="20" uuid="7b8c4006-3459-4b70-9f56-5dd871a251a6"/>
