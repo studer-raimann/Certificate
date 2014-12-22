@@ -21,11 +21,11 @@ Please follow the installation guide of the [documentation](/doc/Documentation.p
 
 An installation and user guide is available in [the doc/Documentation.pdf](/doc/Documentation.pdf?raw=true) file.
 
-### Patches
+## Patches
 
 The following classes/methods need to be patched in order for the plugin to work correctly. Most likely these patches will be in the ILIAS core one day, which will remove depending on modified core files for this module.
 
-#### /Modules/Course/classes/class.ilCourseParticipants.php
+### /Modules/Course/classes/class.ilCourseParticipants.php
 
 Copy whole method or the code blocks between `PATCH START` and `PATCH END`
 
@@ -119,7 +119,7 @@ Copy whole method or the code blocks between `PATCH START` and `PATCH END`
     }
 ```
 
-#### /Modules/Course/classes/class.ilObjCourse.php
+### /Modules/Course/classes/class.ilObjCourse.php
 
 This Patch is only needed if you want to copy certificate definitions if a course is copied.
 It throws an additional event after cloning a course (append the patch at the end of the method).
