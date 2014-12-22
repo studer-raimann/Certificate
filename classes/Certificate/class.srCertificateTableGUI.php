@@ -332,7 +332,10 @@ class srCertificateTableGUI extends ilTable2GUI
 
         // Always display latest version of certificates aka "active" if the table was initialized with this option
         // Otherwise, check if the checkbox of the filter was checked
-        $filters['active'] = $this->getOption('newest_version_only') ? 1 : (int) isset($filters['active']);
+        if($this->getOption('newest_version_only')) {
+            $filters['active'] = 1;
+        }
+
         if ($this->getOption('definition_id')) $filters['definition_id'] = $this->getOption('definition_id');
         if ($this->getOption('user_id')) $filters['user_id'] = $this->getOption('user_id');
 
@@ -348,8 +351,10 @@ class srCertificateTableGUI extends ilTable2GUI
             'limit' => array($this->getOffset(), $this->getLimit()),
             'sort' => array($this->getOrderField() => $this->getOrderDirection()),
         );
+
         $count = srCertificate::getCertificateData($options);
         $data = srCertificate::getCertificateData(array_merge($options, array('count' => false)));
+
         $this->setMaxCount($count);
         $this->setData($data);
     }
