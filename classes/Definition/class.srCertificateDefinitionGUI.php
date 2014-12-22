@@ -305,7 +305,9 @@ class srCertificateDefinitionGUI
     public function downloadCertificates()
     {
         $cert_ids = $_POST['cert_id'];
-        srCertificate::downloadAsZip($cert_ids, $this->ref_id . '-certificates');
+        if(is_array($cert_ids)) {
+            srCertificate::downloadAsZip($cert_ids, $this->ref_id . '-certificates');
+        }
         $this->showCertificates();
     }
 
