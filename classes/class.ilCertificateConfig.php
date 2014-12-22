@@ -12,6 +12,9 @@ class ilCertificateConfig extends ActiveRecord
     const DATE_FORMAT = 'str_format_date';
     const DATETIME_FORMAT = 'str_format_datetime';
     const PATH_HOOK_CLASS = 'path_hook_class';
+    const ROLES_ADMINISTRATE_CERTIFICATE_TYPES = 'roles_administrate_certificate_types';
+    const ROLES_ADMINISTRATE_CERTIFICATES = 'roles_administrate_certificates';
+
     /**
      * @var array
      */

@@ -38,6 +38,12 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
     const DEFAULT_DATETIME_FORMAT = 'Y-m-d, H:i';
 
     /**
+     * Default permission settings
+     */
+    const DEFAULT_ROLES_ADMINISTRATE_CERTIFICATES = '["2"]';
+    const DEFAULT_ROLES_ADMINISTRATE_CERTIFICATE_TYPES = '["2"]';
+
+    /**
      * @var srCertificateHooks
      */
     protected $hooks;

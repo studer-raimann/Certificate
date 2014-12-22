@@ -75,6 +75,9 @@
     ilCertificateConfig::set(ilCertificateConfig::DATE_FORMAT, ilCertificatePlugin::DEFAULT_DATE_FORMAT);
     ilCertificateConfig::set(ilCertificateConfig::DATETIME_FORMAT, ilCertificatePlugin::DEFAULT_DATETIME_FORMAT);
     ilCertificateConfig::set(ilCertificateConfig::PATH_HOOK_CLASS, ilCertificatePlugin::DEFAULT_PATH_HOOK_CLASS);
+    ilCertificateConfig::set(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATES, ilCertificatePlugin::DEFAULT_ROLES_ADMINISTRATE_CERTIFICATES);
+    ilCertificateConfig::set(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATE_TYPES, ilCertificatePlugin::DEFAULT_ROLES_ADMINISTRATE_CERTIFICATE_TYPES);
+
     ?>
 <#6>
     <?php
