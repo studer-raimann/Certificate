@@ -1,9 +1,7 @@
 <#1>
 	<?php
 	require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
-	$pl = new ilCertificatePlugin();
-	$conf = $pl->getConfigObject();
-	$conf->initDB();
+    ilCertificateConfig::installDB();
 	?>
 <#2>
     <?php
@@ -73,12 +71,10 @@
      * Add default values for new config settings
      */
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
-    $pl = new ilCertificatePlugin();
-    $conf = $pl->getConfigObject();
-    $conf->setValue('str_format_date', ilCertificatePlugin::DEFAULT_DATE_FORMAT);
-    $conf->setValue('str_format_datetime', ilCertificatePlugin::DEFAULT_DATETIME_FORMAT);
-    $conf->setValue('path_hook_class', ilCertificatePlugin::DEFAULT_PATH_HOOK_CLASS);
-    $conf->initDB();
+
+    ilCertificateConfig::set(ilCertificateConfig::DATE_FORMAT, ilCertificatePlugin::DEFAULT_DATE_FORMAT);
+    ilCertificateConfig::set(ilCertificateConfig::DATETIME_FORMAT, ilCertificatePlugin::DEFAULT_DATETIME_FORMAT);
+    ilCertificateConfig::set(ilCertificateConfig::PATH_HOOK_CLASS, ilCertificatePlugin::DEFAULT_PATH_HOOK_CLASS);
     ?>
 <#6>
     <?php

@@ -9,7 +9,9 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRe
  */
 class ilCertificateConfig extends ActiveRecord
 {
-
+    const DATE_FORMAT = 'str_format_date';
+    const DATETIME_FORMAT = 'str_format_datetime';
+    const PATH_HOOK_CLASS = 'path_hook_class';
     /**
      * @var array
      */
