@@ -10,7 +10,7 @@
 	<parameter name="[[USER_LASTNAME]]" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
-	<parameter name="[[crs_title]]" class="java.lang.String">
+	<parameter name="[[COURSE_TITLE]]" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<parameter name="[[LP_FIRST_ACCESS]]" class="java.lang.String">
@@ -42,7 +42,7 @@
 				<textElement>
 					<font size="36"/>
 				</textElement>
-				<text><![CDATA[Diploma]]></text>
+				<text><![CDATA[CERTIFICATE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="80" y="180" width="370" height="40" uuid="c43b050a-3384-4afa-a7da-6e798d5db4cc"/>
@@ -56,7 +56,7 @@
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{[[crs_title]]}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{[[COURSE_TITLE]]}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="160" y="258" width="395" height="16" uuid="a7682b5a-d693-4cd9-a62a-3420eefe82f3"/>

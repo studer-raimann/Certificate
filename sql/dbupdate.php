@@ -141,13 +141,13 @@
     $type->storeTemplateFileFromServer(ILIAS_ABSOLUTE_PATH . '/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml');
 	$type->create();
 
-	$placeholder = new srCertificatePlaceholder();
-	$placeholder->setCertificateType($type);
-	$placeholder->setIdentifier('crs_title');
-	$placeholder->setIsMandatory(true);
-	$placeholder->setEditableIn(array('crs'));
-	$placeholder->setLabel('Course Title', 'en');
-	$placeholder->create();
+//	$placeholder = new srCertificatePlaceholder();
+//	$placeholder->setCertificateType($type);
+//	$placeholder->setIdentifier('crs_title');
+//	$placeholder->setIsMandatory(true);
+//	$placeholder->setEditableIn(array('crs'));
+//	$placeholder->setLabel('Course Title', 'en');
+//	$placeholder->create();
 	?>
 <#12>
     <?php

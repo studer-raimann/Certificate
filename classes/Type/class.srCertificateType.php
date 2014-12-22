@@ -121,7 +121,7 @@ class srCertificateType extends ActiveRecord
      *
      * @var array srCertificatePlaceholder[]
      */
-    protected $placeholders = array();
+    protected $placeholders;
 
     /**
      * Settings of this certificate
