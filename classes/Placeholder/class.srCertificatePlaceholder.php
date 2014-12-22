@@ -123,16 +123,10 @@ class srCertificatePlaceholder extends ActiveRecord
     public function __construct($id = 0)
     {
         parent::__construct($id);
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
     }
 
     // Public
-
-
-    public function afterObjectLoad()
-    {
-        $this->setCertificateType(srCertificateType::find($this->type_id));
-    }
 
 
     /**
@@ -380,6 +374,10 @@ class srCertificatePlaceholder extends ActiveRecord
      */
     public function getCertificateType()
     {
+        if (is_null($this->type)) {
+            $this->type = srCertificateType::find($this->getTypeId());
+        }
+
         return $this->type;
     }
 
@@ -399,6 +397,23 @@ class srCertificatePlaceholder extends ActiveRecord
         return $this->editable_in;
     }
 
-}
 
-?>
+    /**
+     * @return int
+     */
+    public function getTypeId()
+    {
+        return $this->type_id;
+    }
+
+
+    /**
+     * @param int $type_id
+     */
+    public function setTypeId($type_id)
+    {
+        $this->type_id = $type_id;
+    }
+
+
+}

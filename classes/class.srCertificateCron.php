@@ -1,5 +1,4 @@
 <?php
-
 $cron = new srCertificateCron($_SERVER['argv']);
 $cron->run();
 
@@ -8,6 +7,7 @@ $cron->run();
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
  *
  * Use the following command for the cronjob:
  * /usr/bin/php /[ILIAS-Absolute-Path]/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.srCertificateCron.php [adminuser] [adminpwd] [client_id]
@@ -17,14 +17,17 @@ $cron->run();
 class srCertificateCron
 {
 
-    const DEBUG = false;
-
-    const MAX_DIFF_LP_SECONDS = 28800;
+    const DEBUG = true;
 
     /**
      * @var Ilias
      */
     protected $ilias;
+
+    /**
+     * @var ilCertificatePlugin
+     */
+    protected $pl;
 
     /**
      * @param array $data
@@ -49,6 +52,7 @@ class srCertificateCron
         $this->user = $ilUser;
         $this->ctrl = $ilCtrl;
         $this->ilias = $ilias;
+        $this->pl = ilCertificatePlugin::getInstance();
     }
 
 
@@ -67,6 +71,10 @@ class srCertificateCron
             require_once('./include/inc.get_pear.php');
             require_once('./include/inc.header.php');
         }
+
+        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Notification/class.srCertificateEmailNotification.php');
+        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
+        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholdersParser.php');
         require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
         require_once('./Services/Mail/classes/class.ilMimeMail.php');
         require_once("./Services/Tracking/classes/class.ilTrQuery.php");
@@ -106,7 +114,7 @@ class srCertificateCron
             }
             if ($last_access = $this->getLastLPStatus($cert)) {
                 $diff = time() - $last_access;
-                if ($diff > self::MAX_DIFF_LP_SECONDS) {
+                if ($diff > $this->pl->config('max_diff_lp_seconds')) {
                     $cert->setStatus(srCertificate::STATUS_NEW);
                     $cert->update();
                 }
@@ -141,33 +149,19 @@ class srCertificateCron
      * Send a notification
      *
      * @param srCertificate $cert
-     * @param array $receivers
+     * @param array $receivers_email
      */
-    protected function sendNotification(srCertificate $cert, array $receivers)
+    protected function sendNotification(srCertificate $cert, array $receivers_email)
     {
-        $fullname = $cert->getUser()->getFullname();
-        $ref_id = $cert->getDefinition()->getRefId();
-        $obj_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($ref_id));
-
-        $subject = "New certificate generated for user $fullname";
-        $body = "Hi,\n\n";
-        $body .= "A new certificate was generated:\n\n";
-        $body .= "User: $fullname\n";
-        $body .= "Course: $obj_title\n";
-        $body .= "Valid until: " . date('d.m.Y', strtotime($cert->getValidTo())) . "\n";
-//        $body .= "Filename: " . $cert->getFilename(true) . "\n\n";
-        $body .= "The certificate is attached in this email";
-
-        $mail = new ilMimeMail();
-        $mail->To($receivers);
-        $from = $this->ilias->getSetting('mail_external_sender_noreply');
-        if ($from) {
-            $mail->From($from);
+        $parser = srCertificatePlaceholdersParser::getInstance();
+        foreach ($receivers_email as $email) {
+            $subject = $parser->parse($this->pl->config('notification_others_subject'), $cert->getPlaceholders());
+            $body = $parser->parse($this->pl->config('notification_others_body'), $cert->getPlaceholders());
+            $notification = new srCertificateEmailNotification($email, $cert);
+            $notification->setSubject($subject);
+            $notification->setBody($body);
+            $notification->notify();
         }
-        $mail->Subject($subject);
-        $mail->Body($body);
-        $mail->Attach($cert->getFilePath());
-        $mail->Send();
     }
 
     /**
@@ -177,34 +171,13 @@ class srCertificateCron
      */
     protected function sendNotificationUser(srCertificate $cert)
     {
-        $user = $cert->getUser();
-        if (!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
-            return;
-        }
-        $fullname = $user->getFullname();
-        $ref_id = $cert->getDefinition()->getRefId();
-        $obj_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($ref_id));
-
-        $subject = "New certificate generated for course {$obj_title}";
-        $body = "Hi,\n\n";
-        $body .= "A new certificate was generated for you:\n\n";
-        $body .= "User: $fullname\n";
-        $body .= "Course: $obj_title\n";
-        $body .= "Valid until: " . date('d.m.Y', strtotime($cert->getValidTo())) . "\n";
-        $body .= "The certificate is attached in this email";
-
-        $mail = new ilMimeMail();
-        $mail->To($user->getEmail());
-        $from = $this->ilias->getSetting('mail_external_sender_noreply');
-        if ($from) {
-            $mail->From($from);
-        }
-        $mail->Subject($subject);
-        $mail->Body($body);
-        $mail->Attach($cert->getFilePath());
-        $mail->Send();
+        $parser = srCertificatePlaceholdersParser::getInstance();
+        $subject = $parser->parse($this->pl->config('notification_user_subject'), $cert->getPlaceholders());
+        $body = $parser->parse($this->pl->config('notification_user_body'), $cert->getPlaceholders());
+        $notification = new srCertificateEmailNotification($cert->getUser()->getEmail(), $cert);
+        $notification->setSubject($subject);
+        $notification->setBody($body);
+        $notification->notify();
     }
 
 }
-
-?>

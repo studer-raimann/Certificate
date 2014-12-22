@@ -68,7 +68,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         $this->definition = $definition;
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->isNew = ($this->definition->getId()) ? false : true;
         $this->rbac = $rbacreview;
@@ -82,14 +82,10 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
      */
     public function saveObject()
     {
-        if (!$this->fillObject()) {
+        if ( ! $this->fillObject()) {
             return false;
         }
-        if ($this->isNew) {
-            $this->definition->create();
-        } else {
-            $this->definition->update();
-        }
+        $this->definition->save();
         return true;
     }
 
@@ -112,27 +108,23 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
             // Set new settings values
             /** @var $setting srCertificateDefinitionSetting */
             foreach ($this->definition->getSettings() as $setting) {
-                if (!$setting->isEditable()) continue; // Don't set values if setting can't change its value
+                if ( ! $setting->isEditable()) continue; // Don't set values if setting can't change its value
                 $value = $this->getInput($setting->getIdentifier());
                 if ($setting->getIdentifier() == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
                     $validity_type = $this->getInput(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE);
                     $value = $this->getInput(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE . '_' . $validity_type);
-                    // TODO Refactor, should not belong here...
-                    switch ($validity_type) {
-                        case srCertificateTypeSetting::VALIDITY_TYPE_ALWAYS:
-                            $value = "";
-                            break;
-                        case srCertificateTypeSetting::VALIDITY_TYPE_DATE:
-                            $value = date('Y-m-d', strtotime($value['date']));
-                            break;
-                        case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
-                            $value = json_encode(array('d' => $value['dd'], 'm' => $value['MM']));
-                            break;
-                    }
                 }
                 $setting->setValue($value);
             }
+
+            foreach ($this->definition->getCustomSettings() as $setting) {
+                if ( ! $setting->isEditable()) continue;
+                $value = $this->getInput('custom_setting_' . $setting->getIdentifier());
+                $setting->setValue($value);
+            }
+
         }
+
         return true;
     }
 
@@ -175,6 +167,27 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE]);
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_GENERATION]);
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE]);
+
+        // Custom settings
+        /** @var srCertificateCustomDefinitionSetting $setting */
+        foreach ($this->definition->getCustomSettings() as $setting) {
+            switch ($setting->getSettingTypeId()) {
+                case srCertificateCustomTypeSetting::SETTING_TYPE_BOOLEAN:
+                    $item = new ilCheckboxInputGUI($setting->getLabel($this->user->getLanguage()), 'custom_setting_' . $setting->getIdentifier());
+                    if ($setting->getValue()) {
+                        $item->setChecked(true);
+                    }
+                    break;
+                case srCertificateCustomTypeSetting::SETTING_TYPE_SELECT:
+                    $item = new ilSelectInputGUI($setting->getLabel($this->user->getLanguage()), 'custom_setting_' . $setting->getIdentifier());
+                    $item->setValue($setting->getValue());
+                    $item->setOptions($setting->getCustomTypeSetting()->getData(true));
+                    break;
+            }
+            $this->addItem($item);
+        }
+
+        // Notification
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->pl->txt('setting_id_notification'));
         $this->addItem($header);
@@ -182,6 +195,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         if (isset($settings_inputs[srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER])) {
             $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER]);
         }
+
         $this->addCommandButton("updateDefinition", "Save");
     }
 
@@ -330,5 +344,3 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         return $item;
     }
 }
-
-?>

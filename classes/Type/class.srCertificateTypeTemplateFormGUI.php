@@ -58,7 +58,7 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->rbac = $rbacreview;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
@@ -151,6 +151,7 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI
         $item = new ilSelectInputGUI($this->pl->txt('template_type_id'), 'template_type_id');
         $item->setOptions($types_available);
         $item->setRequired(true);
+        $item->setValue($this->type->getTemplateTypeId());
         $this->addItem($item);
 
         $item = new ilFileInputGUI($this->pl->txt('template_file'), 'template_file');
@@ -179,8 +180,10 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI
         $item->setFilenames(array(0 => ''));
         $this->addItem($item);
 
+        $this->addCommandButton('downloadDefaultTemplate', $this->pl->txt('download_default_template'));
+        if (is_file($this->type->getCertificateTemplatesPath(true))) {
+            $this->addCommandButton('downloadTemplate', $this->pl->txt('download_template'));
+        }
         $this->addCommandButton('updateTemplate', $this->lng->txt('save'));
     }
 }
-
-?>

@@ -1,12 +1,14 @@
 <?php
 
+require_once(dirname(dirname(__FILE__)) .'/Setting/class.srCertificateSetting.php');
+
 /**
  * srCertificateDefinitionSetting
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
-class srCertificateDefinitionSetting extends ActiveRecord
+class srCertificateDefinitionSetting extends srCertificateSetting
 {
 
     /**
@@ -21,39 +23,8 @@ class srCertificateDefinitionSetting extends ActiveRecord
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
-     * @db_is_primary   true
-     * @db_sequence     true
-     */
-    protected $id = 0;
-
-    /**
-     * @var int
-     *
-     * @db_has_field    true
-     * @db_fieldtype    integer
-     * @db_length       8
      */
     protected $definition_id;
-
-
-    /**
-     * @var string
-     *
-     * @db_has_field    true
-     * @db_fieldtype    text
-     * @db_length       256
-     */
-    protected $identifier;
-
-
-    /**
-     * @var string
-     *
-     * @db_has_field    true
-     * @db_fieldtype    text
-     * @db_length       1204
-     */
-    protected $value;
 
     /**
      * @var ilCertificatePlugin
@@ -64,7 +35,7 @@ class srCertificateDefinitionSetting extends ActiveRecord
     public function __construct($id = 0)
     {
         parent::__construct($id);
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
     }
 
 
@@ -97,22 +68,7 @@ class srCertificateDefinitionSetting extends ActiveRecord
         $definition = srCertificateDefinition::find($this->getDefinitionId());
         $type = $definition->getType();
         $setting = $type->getSettingByIdentifier($this->getIdentifier());
-        return $setting->getDefaultValue();
-    }
-
-
-
-
-    // Static
-
-
-    /**
-     * @return string
-     * @description Return the Name of your Database Table
-     */
-    static function returnDbTableName()
-    {
-        return self::TABLE_NAME;
+        return $setting->getValue();
     }
 
 
@@ -135,46 +91,21 @@ class srCertificateDefinitionSetting extends ActiveRecord
         return $this->definition_id;
     }
 
-    /**
-     * @param string $identifier
-     */
-    public function setIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIdentifier()
-    {
-        return $this->identifier;
-    }
 
     /**
      * @param string $value
      */
     public function setValue($value)
     {
+        // This should be factored out, currently there is one exception where a value needs to be parsed before storing in DB
+        if ($value && $this->getIdentifier() == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
+            /** @var srCertificateDefinition $definition */
+            $definition = srCertificateDefinition::find($this->getDefinitionId());
+            $validity_type = $definition->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getValue();
+            $value = srCertificateTypeSetting::formatValidityBasedOnType($validity_type, $value);
+        }
+
         $this->value = $value;
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
 }
-
-?>

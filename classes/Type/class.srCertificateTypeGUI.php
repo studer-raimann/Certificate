@@ -7,6 +7,10 @@ require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholdersTableGUI.p
 require_once(dirname(__FILE__) . '/class.srCertificateTypeStandardPlaceholdersTableGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSettingFormGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php');
+require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateCustomTypeSettingFormGUI.php');
+require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateCustomTypeSetting.php');
+require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateTypeCustomSettingsTableGUI.php');
+
 
 /**
  * GUI-Class srCertificateTypeGUI
@@ -17,7 +21,6 @@ require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php
  */
 class srCertificateTypeGUI
 {
-
 
     /**
      * @var ilTabsGUI
@@ -69,29 +72,44 @@ class srCertificateTypeGUI
      */
     protected $db;
 
+    /**
+     * @var ilRbacReview
+     */
+    protected $rbac;
+
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
 
     public function __construct()
     {
-        global $tpl, $ilCtrl, $ilToolbar, $ilTabs, $lng, $ilAccess, $ilDB;
+        global $tpl, $ilCtrl, $ilToolbar, $ilTabs, $lng, $ilAccess, $ilDB, $rbacreview, $ilUser;
         /** @var ilCtrl ctrl */
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->toolbar = $ilToolbar;
         $this->tabs = $ilTabs;
         $this->type = (isset($_GET['type_id'])) ? srCertificateType::find((int)$_GET['type_id']) : null;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->access = $ilAccess;
         $this->db = $ilDB;
-//        $this->pl->updateLanguages();
         $this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
         $this->lng->loadLanguageModule('common');
         $this->ctrl->saveParameter($this, 'type_id');
         $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cert_b.png'));
+        $this->rbac = $rbacreview;
+        $this->user = $ilUser;
     }
 
     public function executeCommand()
     {
+        if ( ! $this->checkPermission()) {
+            ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
+            $this->ctrl->redirectByClass('ilpersonaldesktopgui');
+        }
+
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         // needed for ILIAS >= 4.5
@@ -124,6 +142,14 @@ class srCertificateTypeGUI
                         $this->updateTemplate();
                         $this->setTabs('template');
                         break;
+	                case 'downloadDefaultTemplate':
+		                $this->downloadDefaultTemplate();
+		                $this->setTabs('template');
+		                break;
+	                case 'downloadTemplate':
+		                $this->downloadTemplate();
+		                $this->setTabs('template');
+		                break;
                     case 'showSettings':
                         $this->showSettings();
                         $this->setTabs('settings');
@@ -134,6 +160,18 @@ class srCertificateTypeGUI
                         break;
                     case 'updateSetting':
                         $this->updateSetting();
+                        $this->setTabs('settings');
+                        break;
+                    case 'addCustomSetting':
+                        $this->addCustomSetting();
+                        $this->setTabs('settings');
+                        break;
+                    case 'editCustomSetting':
+                        $this->editCustomSetting();
+                        $this->setTabs('settings');
+                        break;
+                    case 'saveCustomSetting':
+                        $this->saveCustomSetting();
                         $this->setTabs('settings');
                         break;
                     case 'showPlaceholders':
@@ -238,13 +276,36 @@ class srCertificateTypeGUI
         }
     }
 
+
+    /**
+     * Download default template
+     */
+	public function downloadDefaultTemplate() {
+		ilUtil::deliverFile('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml', 'template.jrxml');
+	}
+
+
+    /**
+     * Download template file
+     */
+	public function downloadTemplate() {
+		if (is_file($this->type->getCertificateTemplatesPath(true))) {
+            $filename = srCertificateTemplateTypeFactory::getById($this->type->getTemplateTypeId())->getTemplateFilename();
+            ilUtil::deliverFile($this->type->getCertificateTemplatesPath(true), $filename);
+        }
+        $this->editTemplate();
+	}
+
     /**
      * Show table with settings
      */
     public function showSettings()
     {
+        $this->toolbar->addButton($this->pl->txt('add_new_custom_setting'), $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addCustomSetting'));
         $table = new srCertificateTypeSettingsTableGUI($this, 'showSettings', $this->type);
-        $this->tpl->setContent($table->getHTML());
+        $table_custom_settings = new srCertificateTypeCustomSettingsTableGUI($this, 'showSettings', $this->type);
+        $spacer = '<div style="height: 30px;"></div>';
+        $this->tpl->setContent($table->getHTML() . $spacer . $table_custom_settings->getHTML());
     }
 
     /**
@@ -280,6 +341,47 @@ class srCertificateTypeGUI
         }
     }
 
+
+    /**
+     * @return string
+     */
+    public function addCustomSetting()
+    {
+        $form = new srCertificateCustomTypeSettingFormGUI($this, new srCertificateCustomTypeSetting());
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    /**
+     * @return string
+     */
+    public function editCustomSetting()
+    {
+        $form = new srCertificateCustomTypeSettingFormGUI($this, srCertificateCustomTypeSetting::find((int) $_GET['custom_setting_id']));
+        $this->tpl->setContent($form->getHTML());
+    }
+
+
+    /**
+     * Create/Update a custom setting
+     */
+    public function saveCustomSetting()
+    {
+        if (isset($_POST['custom_setting_id']) && $_POST['custom_setting_id']) {
+            $setting = srCertificateCustomTypeSetting::find((int) $_POST['custom_setting_id']);
+        } else {
+            $setting = new srCertificateCustomTypeSetting();
+        }
+
+        $form = new srCertificateCustomTypeSettingFormGUI($this, $setting);
+        if ($form->saveObject()) {
+            ilUtil::sendSuccess($this->pl->txt('msg_setting_saved'), true);
+            $this->ctrl->redirect($this, 'showSettings');
+        } else {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
+    }
+    
     /**
      * Show table with available placeholders for this type
      */
@@ -379,5 +481,14 @@ class srCertificateTypeGUI
         }
     }
 
+
+    /**
+     * Check permissions
+     */
+    protected function checkPermission()
+    {
+        $allowed_roles = ilCertificateConfig::get('roles_administrate_certificate_types');
+        return $this->rbac->isAssignedToAtLeastOneGivenRole($this->user->getId(), json_decode($allowed_roles, true));
+    }
 
 }

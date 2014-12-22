@@ -74,23 +74,10 @@ class srCertificatePlaceholderValue extends ActiveRecord
     public function __construct($id = 0)
     {
         parent::__construct($id);
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
     }
 
     // Public
-
-
-    public function afterObjectLoad()
-    {
-        $this->setPlaceholder(srCertificatePlaceholder::find($this->getPlaceholderId()));
-        $this->setDefinition(srCertificateDefinition::find($this->getDefinitionId()));
-    }
-
-    public function create()
-    {
-        parent::create();
-        $this->setDefinition(srCertificateDefinition::find($this->getDefinitionId()));
-    }
 
 
     /**
@@ -100,7 +87,7 @@ class srCertificatePlaceholderValue extends ActiveRecord
      */
     public function isEditable()
     {
-        $ref_id = $this->definition->getRefId();
+        $ref_id = $this->getDefinition()->getRefId();
         $object_type = ($this->pl->isCourseTemplate($ref_id)) ? 'crs-tpl' : ilObject::_lookupType($ref_id, true);
         return in_array($object_type, $this->getPlaceholder()->getEditableIn());
     }
@@ -175,6 +162,10 @@ class srCertificatePlaceholderValue extends ActiveRecord
      */
     public function getPlaceholder()
     {
+        if (is_null($this->placeholder)) {
+            $this->placeholder = srCertificatePlaceholder::find($this->getPlaceholderId());
+        }
+
         return $this->placeholder;
     }
 
@@ -251,6 +242,10 @@ class srCertificatePlaceholderValue extends ActiveRecord
      */
     public function getDefinition()
     {
+        if (is_null($this->definition)) {
+            $this->definition = srCertificateDefinition::find($this->getDefinitionId());
+        }
+
         return $this->definition;
     }
 
@@ -273,5 +268,3 @@ class srCertificatePlaceholderValue extends ActiveRecord
 
 
 }
-
-?>

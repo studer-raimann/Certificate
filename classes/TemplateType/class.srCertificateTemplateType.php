@@ -47,7 +47,7 @@ abstract class srCertificateTemplateType
     {
         global $ilLog;
         $this->log = $ilLog;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         // Concrete classes must set their properties here...
     }
 

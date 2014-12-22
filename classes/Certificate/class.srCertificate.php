@@ -92,6 +92,23 @@ class srCertificate extends ActiveRecord
      */
     protected $filename = '';
 
+    /**
+     * @var boolean
+     *
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       1
+     * @db_is_notnull   true
+     */
+    protected $active = false;
+
+    /**
+     * @var string
+     *
+     * @db_has_field    true
+     * @db_fieldtype    timestamp
+     */
+    protected $created_at;
 
     /**
      * @var int
@@ -140,17 +157,23 @@ class srCertificate extends ActiveRecord
         global $ilLog;
         parent::__construct($id);
         $this->log = $ilLog;
-        $this->pl = new ilCertificatePlugin();
-        $this->standard_placeholders = new srCertificateStandardPlaceholders($this);
+        $this->pl = ilCertificatePlugin::getInstance();
     }
 
 
     // Public
 
-
-    public function afterObjectLoad()
+    /**
+     * @param bool $anonymized
+     * @return srCertificateStandardPlaceholders
+     */
+    public function getStandardPlaceholders($anonymized = false)
     {
-        $this->definition = srCertificateDefinition::find($this->getDefinitionId());
+        if (is_null($this->standard_placeholders)) {
+            $this->standard_placeholders = new srCertificateStandardPlaceholders($this, $anonymized);
+        }
+
+        return $this->standard_placeholders;
     }
 
 
@@ -179,6 +202,22 @@ class srCertificate extends ActiveRecord
 
 
     /**
+     * Convert fields before saving to DB
+     *
+     * @param $field_name
+     * @return mixed
+     */
+    public function sleep($field_name)
+    {
+        switch ($field_name) {
+            case 'active':
+                return (int) $this->active;
+        }
+        return null;
+    }
+
+
+    /**
      * Create certificate
      * Before calling parent::create(), the valid_from and valid_to are are calculated based on the chosen validity in the definition
      * If there exists already a certificate for the given definition and user, the version is increased
@@ -187,7 +226,7 @@ class srCertificate extends ActiveRecord
      */
     public function create()
     {
-        if ($this->getDefinition() === NULL || !$this->getUserId())
+        if (is_null($this->getDefinition()) || !$this->getUserId())
             throw new Exception("srCertificate::create() must have valid Definition and User-ID");
 
         // Set validity dates
@@ -197,19 +236,32 @@ class srCertificate extends ActiveRecord
         $this->setValidTo($valid_to);
 
         // Check if we need to increase the version if a certificate for same user & definition already exists
-        /** @var srCertificate $cert_existing */
-        $cert_existing = srCertificate::where(
+        /** @var srCertificate $cert_last_version */
+        $certs = srCertificate::where(
             array(
                 'definition_id' => $this->getDefinitionId(),
                 'user_id' => $this->getUserId(),
             )
-        )->orderBy('file_version', 'DESC')->first();
-        if ($cert_existing !== null) {
-            $this->setFileVersion((int)$cert_existing->getFileVersion() + 1);
+        )->orderBy('file_version', 'DESC');
+        $cert_last_version = $certs->first();
+        if (!is_null($cert_last_version)) {
+            $this->setFileVersion((int) $cert_last_version->getFileVersion() + 1);
         }
+
+        // Remove active flag from other versions of this certificate
+        /** @var srCertificate $cert */
+        foreach ($certs->get() as $cert) {
+            $cert->setActive(false);
+            $cert->save();
+        }
+
+        // Set active flag
+        $this->setActive(true);
 
         // Set the filename for certificate
         $this->filename = $this->createFilename();
+
+        $this->created_at = date('Y-m-d H:m:s');
         parent::create();
     }
 
@@ -255,6 +307,8 @@ class srCertificate extends ActiveRecord
 
     /**
      * Download certificate
+     * Note: No permission checking, this must be done by the controller calling this method
+     *
      */
     public function download()
     {
@@ -306,58 +360,138 @@ class srCertificate extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }
 
 
     /**
-     * Get Certificate data as array
+     * Download the given IDs of certificates as ZIP-File.
+     * Note: No permission checking, this must be done by the controller calling this method
      *
-     * @param array $filters Optional filtering query with the following keys:
-     *                                      definition_id, user_id, file_version, status
-     * @param array $sort Fields as keys, direction as values. E.g. array('usr.lastname' => 'ASC')
-     * @param bool $only_newest_version If false, returns multiple file versions of the same certificate
-     * @return array
+     * @param array $cert_ids
+     * @param string $filename Filename of zip, appended to the current date
      */
-    static public function getCertificateData($filters = array(), $sort = array(), $only_newest_version = true)
+    public static function downloadAsZip(array $cert_ids=array(), $filename='certificates')
+    {
+        if (count($cert_ids)) {
+            $zip_filename = date('d-m-Y') . '-' . $filename;
+            // Make a random temp dir in ilias data directory
+            $tmp_dir = ilUtil::ilTempnam();
+            ilUtil::makeDir($tmp_dir);
+            $zip_base_dir = $tmp_dir . DIRECTORY_SEPARATOR . $zip_filename;
+            ilUtil::makeDir($zip_base_dir);
+            // Copy all PDFs in folder
+            foreach ($cert_ids as $cert_id) {
+                /** @var srCertificate $cert */
+                $cert = srCertificate::find((int)$cert_id);
+                if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED) {
+                    copy($cert->getFilePath(), $zip_base_dir . DIRECTORY_SEPARATOR . $cert->getFilename(true));
+                }
+            }
+            $tmp_zip_file = $tmp_dir . DIRECTORY_SEPARATOR . $zip_filename . '.zip';
+            try {
+                ilUtil::zip($zip_base_dir, $tmp_zip_file);
+                rename($tmp_zip_file, $zip_file = ilUtil::ilTempnam());
+                ilUtil::delDir($tmp_dir);
+                ilUtil::deliverFile($zip_file, $zip_filename . '.zip', '', false, true);
+            } catch (ilFileException $e) {
+                ilUtil::sendInfo($e->getMessage());
+            }
+        }
+    }
+
+
+    /**
+     * Get Certificate data as array.
+     * This method accepts an array with the following keys:
+     * - filters: Array containing key/value pairs to filter the data, please take a look at the code for the available fields
+     * - sort: Sorting the data, e.g. array('usr.lastname' => 'ASC')
+     * - limit: Limit from/to, e.g. array(0,30)
+     * - count: True if the query counts the number of affected records and returns the count
+     *
+     * To get only the newest version of a certificate, add the following constraint to your filters array:
+     * 'active' => 1
+     *
+     * @param array $options
+     * @return array|int
+     */
+    public static function getCertificateData(array $options=array())
     {
         global $ilDB;
+
+        $_options = array(
+            'filters' => array(),
+            'sort' => array(),
+            'limit' => array(),
+            'count' => false,
+        );
+        $options = array_merge($_options, $options);
+
         /** @var ilDB $ilDB */
-        $sql = "SELECT cert.*, usr.firstname, usr.lastname FROM cert_obj AS cert
-                INNER JOIN usr_data AS usr ON (usr.usr_id = cert.user_id)";
-        if (count($filters) || $only_newest_version) {
+        $sql  = "SELECT ";
+        $sql .= ($options['count']) ? 'COUNT(*) AS count ' : 'cert.*, usr.firstname, usr.lastname, cert_type.title AS cert_type, obj_data.title AS crs_title ';
+        $sql .= "FROM cert_obj AS cert " .
+                "INNER JOIN cert_definition AS cert_def ON (cert_def.id = cert.definition_id) " .
+                "INNER JOIN cert_type ON (cert_type.id = cert_def.type_id) " .
+                "LEFT JOIN usr_data AS usr ON (usr.usr_id = cert.user_id) " .
+                "LEFT JOIN object_reference AS obj_ref ON (obj_ref.ref_id = cert_def.ref_id) " .
+                "LEFT JOIN object_data AS obj_data ON (obj_data.obj_id = obj_ref.obj_id)";
+        if (count($options['filters'])) {
             $sql .= " WHERE ";
             $and = "";
-            if (isset($filters['definition_id'])) {
-                $sql .= "{$and} cert.definition_id = " . $ilDB->quote($filters['definition_id'], 'integer');
+            foreach ($options['filters'] as $filter => $value) {
+                switch ($filter) {
+                    case 'firstname':
+                    case 'lastname':
+                        $sql .= "{$and} usr.{$filter} LIKE " . $ilDB->quote("%{$value}%", 'text');
+                        break;
+                    case 'crs_title':
+                        $sql .= "{$and} obj_data.title LIKE " . $ilDB->quote("%{$value}%", 'text');
+                        break;
+                    case 'definition_id':
+                    case 'user_id':
+                    case 'file_version':
+                    case 'status':
+                    case 'id':
+                    case 'active':
+                        $sql .= "{$and} cert.{$filter} = " . $ilDB->quote($value, 'integer');
+                        break;
+                    case 'valid_from':
+                        $sql .= "{$and} cert.valid_from >= " . $ilDB->quote($value, 'date');
+                        break;
+                    case 'valid_to':
+                        $sql .= "{$and} cert.valid_to >= " . $ilDB->quote($value, 'date');
+                        break;
+                    case 'type_id':
+                        $sql .= "{$and} cert_type.id = " . $ilDB->quote($value, 'integer');
+                        break;
+                }
                 $and = " AND ";
-            }
-            if (isset($filters['user_id'])) {
-                $sql .= "{$and} cert.user_id = " . $ilDB->quote($filters['user_id'], 'integer');
-                $and = " AND ";
-            }
-            if (isset($filters['file_version'])) {
-                $sql .= "{$and} cert.file_version = " . $ilDB->quote($filters['file_version'], 'integer');
-                $and = " AND ";
-            }
-            if (isset($filters['status'])) {
-                $sql .= "{$and} cert.status = " . $ilDB->quote($filters['status'], 'integer');
-                $and = " AND ";
-            }
-            if ($only_newest_version) {
-                $sql .= "{$and} cert.file_version IN (SELECT MAX(file_version) FROM cert_obj WHERE cert_obj.definition_id = cert.definition_id AND cert_obj.user_id = cert.user_id)";
             }
         }
-        if (count($sort)) {
+        if (count($options['sort']) && !$options['count']) {
+            $replaces = array(
+                'crs_title' => 'obj_data.title',
+                'cert_type' => 'cert_type.title',
+            );
             $sql .= " ORDER BY ";
-            foreach ($sort as $field => $dir) {
+            foreach ($options['sort'] as $field => $dir) {
+                if (isset($replaces[$field])) {
+                    $field = $replaces[$field];
+                }
                 $sql .= " {$field} {$dir},";
             }
-            $sql = rtrim(',', $sql);
+            $sql = rtrim($sql, ',');
+        }
+        if (count($options['limit']) && !$options['count']) {
+            $sql .= " LIMIT " . implode(',', $options['limit']);
         }
         $set = $ilDB->query($sql);
+        if ($options['count']) {
+            return (int) $ilDB->fetchObject($set)->count;
+        }
         $data = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $data[] = $row;
@@ -443,10 +577,12 @@ class srCertificate extends ActiveRecord
      * Custom placeholders are loaded in the correct language
      * All placeholders are passed to the hook class to do custom logic.
      * Finally keys are wrapped with the start/end symbols, e.g. [[key]]
+     *
+     * @param bool $anonymized
      */
-    protected function loadPlaceholders()
+    protected function loadPlaceholders($anonymized = false)
     {
-        $placeholders = $this->standard_placeholders->getParsedPlaceholders();
+        $placeholders = $this->getStandardPlaceholders($anonymized)->getParsedPlaceholders();
         $available_langs = $this->definition->getType()->getLanguages();
         $user_lang = $this->getUser()->getLanguage();
         $default_lang = $this->definition->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_DEFAULT_LANG);
@@ -488,17 +624,21 @@ class srCertificate extends ActiveRecord
         if ($this->user === NULL) {
             $this->user = new ilObjUser($this->getUserId());
         }
+
         return $this->user;
     }
 
+
     /**
+     * @param bool $anonymized If true, placeholders are anonymize
      * @return array
      */
-    public function getPlaceholders()
+    public function getPlaceholders($anonymized = false)
     {
         if ($this->placeholders === NULL) {
-            $this->loadPlaceholders();
+            $this->loadPlaceholders($anonymized);
         }
+
         return $this->placeholders;
     }
 
@@ -533,6 +673,10 @@ class srCertificate extends ActiveRecord
      */
     public function getDefinition()
     {
+        if (is_null($this->definition)) {
+            $this->definition = srCertificateDefinition::find($this->getDefinitionId());
+        }
+
         return $this->definition;
     }
 
@@ -632,6 +776,30 @@ class srCertificate extends ActiveRecord
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param boolean $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return (bool) $this->active;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
     }
 
 }

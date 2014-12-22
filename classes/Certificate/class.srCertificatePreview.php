@@ -70,30 +70,26 @@ class srCertificatePreview extends srCertificate
      */
     public function generate()
     {
-        if (!$this->getDefinitionId()) {
+        if ( ! $this->getDefinitionId()) {
             throw new srCertificateException("srCertificatePreview needs definition id before generating preview file");
         }
+
         $cert_type = $this->definition->getType();
         $template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
         return $template_type->generate($this);
     }
 
+
     /**
-     * Get placeholders and anonymize some of them
+     * Load anonymized placholders
      *
-     * @return array
+     * @param bool $anonymized
      */
-    public function getPlaceholders()
+    protected function loadPlaceholders($anonymized = false)
     {
-        $placeholders = parent::getPlaceholders();
-        $start = srCertificatePlaceholder::PLACEHOLDER_START_SYMBOL;
-        $end = srCertificatePlaceholder::PLACEHOLDER_END_SYMBOL;
-        $placeholders["{$start}USER_FIRSTNAME{$end}"] = 'John';
-        $placeholders["{$start}USER_LASTNAME{$end}"] = 'Doe';
-        $placeholders["{$start}USER_FULLNAME{$end}"] = 'John Doe';
-        $this->placeholders = $placeholders;
-        return $this->placeholders;
+        return parent::loadPlaceholders(true);
     }
+
 
     /**
      * Download and remove file afterwards

@@ -1,12 +1,14 @@
 <?php
 
+require_once(dirname(dirname(__FILE__)) .'/Setting/class.srCertificateSetting.php');
+
 /**
  * srCertificateTypeSetting
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
-class srCertificateTypeSetting extends ActiveRecord
+class srCertificateTypeSetting extends srCertificateSetting
 {
 
     /**
@@ -36,30 +38,8 @@ class srCertificateTypeSetting extends ActiveRecord
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
-     * @db_is_primary   true
-     * @db_sequence     true
-     */
-    protected $id = 0;
-
-    /**
-     * @var int
-     *
-     * @db_has_field    true
-     * @db_fieldtype    integer
-     * @db_length       8
      */
     protected $type_id;
-
-
-    /**
-     * @var string
-     *
-     * @db_has_field    true
-     * @db_fieldtype    text
-     * @db_length       256
-     */
-    protected $identifier;
-
 
     /**
      * @var array
@@ -70,15 +50,6 @@ class srCertificateTypeSetting extends ActiveRecord
      */
     protected $editable_in = '';
 
-
-    /**
-     * @var string
-     *
-     * @db_has_field    true
-     * @db_fieldtype    text
-     * @db_length       1204
-     */
-    protected $default_value;
 
 
     public function __construct($id = 0)
@@ -125,38 +96,6 @@ class srCertificateTypeSetting extends ActiveRecord
     }
 
 
-    // Static
-
-
-    /**
-     * @return string
-     * @description Return the Name of your Database Table
-     */
-    static function returnDbTableName()
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    // Getters & Setters
-
-
-    /**
-     * @param string $default_value
-     */
-    public function setDefaultValue($default_value)
-    {
-        $this->default_value = $default_value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultValue()
-    {
-        return $this->default_value;
-    }
-
     /**
      * @param array $editable_in
      */
@@ -173,21 +112,6 @@ class srCertificateTypeSetting extends ActiveRecord
         return $this->editable_in;
     }
 
-    /**
-     * @param string $identifier
-     */
-    public function setIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIdentifier()
-    {
-        return $this->identifier;
-    }
 
     /**
      * @param int $type_id
@@ -207,13 +131,46 @@ class srCertificateTypeSetting extends ActiveRecord
 
 
     /**
-     * @return int
+     * @param $validity_type
+     * @param $value
+     * @return mixed
      */
-    public function getId()
+    public static function formatValidityBasedOnType($validity_type, $value)
     {
-        return $this->id;
+        switch ($validity_type) {
+            case srCertificateTypeSetting::VALIDITY_TYPE_ALWAYS:
+                $value = "";
+                break;
+            case srCertificateTypeSetting::VALIDITY_TYPE_DATE:
+                $value = (isset($value['date'])) ? date('Y-m-d', strtotime($value['date'])) : '';
+                break;
+            case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
+                if (is_array($value) && isset($value['dd']) && isset($value['MM'])) {
+                    $value = json_encode(array('d' => $value['dd'], 'm' => $value['MM']));
+                } else {
+                    $value = '';
+                }
+                break;
+        }
+
+        return $value;
     }
 
-}
 
-?>
+    /**
+     * @param mixed $value
+     */
+    public function setValue($value)
+    {
+        // This should be factored out, currently there is one exception where a value needs to be parsed before storing in DB
+        if ($value && $this->getIdentifier() == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
+            /** @var srCertificateType $type */
+            $type = srCertificateType::find($this->getTypeId());
+            $value = self::formatValidityBasedOnType($type->getSettingByIdentifier(self::IDENTIFIER_VALIDITY_TYPE)->getValue(), $value);
+        }
+
+        $this->value = $value;
+    }
+
+
+}

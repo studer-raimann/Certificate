@@ -1,200 +1,137 @@
 <?php
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
+
 
 /**
- * ilCertificateConfig
+ * Class ilCertificateConfig
  *
- * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id$
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilCertificateConfig
+class ilCertificateConfig extends ActiveRecord
 {
+    const DATE_FORMAT = 'str_format_date';
+    const DATETIME_FORMAT = 'str_format_datetime';
+    const PATH_HOOK_CLASS = 'path_hook_class';
+    const ROLES_ADMINISTRATE_CERTIFICATE_TYPES = 'roles_administrate_certificate_types';
+    const ROLES_ADMINISTRATE_CERTIFICATES = 'roles_administrate_certificates';
+
+    /**
+     * @var array
+     */
+    protected static $cache = array();
+    /**
+     * @var array
+     */
+    protected static $cache_loaded = array();
+    /**
+     * @var bool
+     */
+    protected $ar_safe_read = false;
+
 
     /**
      * @var string
+     *
+     * @db_has_field        true
+     * @db_is_unique        true
+     * @db_is_primary       true
+     * @db_is_notnull       true
+     * @db_fieldtype        text
+     * @db_length           128
      */
-    protected $table_name = '';
+    protected $name;
+    /**
+     * @var string
+     *
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           1000
+     */
+    protected $value;
+
 
 
     /**
-     * @param $table_name
-     */
-    function __construct($table_name)
-    {
-        $this->table_name = $table_name;
-    }
-
-
-    /**
-     * @param string $table_name
-     */
-    public function setTableName($table_name)
-    {
-        $this->table_name = $table_name;
-    }
-
-
-    /**
+     * @param $name
+     *
      * @return string
      */
-    public function getTableName()
+    public static function get($name)
     {
-        return $this->table_name;
-    }
-
-
-    /**
-     * @param $method
-     * @param $params
-     *
-     * @return bool|null
-     */
-    function __call($method, $params)
-    {
-        if (substr($method, 0, 3) == 'get') {
-            return $this->getValue(self::_fromCamelCase(substr($method, 3)));
-        } else {
-            if (substr($method, 0, 3) == 'set') {
-                $this->setValue(self::_fromCamelCase(substr($method, 3)), $params[0]);
-
-                return true;
+        if ( ! isset(self::$cache_loaded[$name])) {
+            $obj = self::find($name);
+            if ($obj === NULL) {
+                self::$cache[$name] = NULL;
             } else {
-                return NULL;
+                self::$cache[$name] = $obj->getValue();
             }
+            self::$cache_loaded[$name] = true;
         }
+        return self::$cache[$name];
     }
 
 
     /**
-     * @param $key
+     * @param $name
      * @param $value
-     */
-    public function setValue($key, $value)
-    {
-        global $ilDB;
-        if (!is_string($this->getValue($key))) {
-            $ilDB->insert($this->getTableName(), array(
-                "config_key" => array(
-                    "text",
-                    $key
-                ),
-                "config_value" => array(
-                    "text",
-                    $value
-                )
-            ));
-        } else {
-            $ilDB->update($this->getTableName(), array(
-                "config_key" => array(
-                    "text",
-                    $key
-                ),
-                "config_value" => array(
-                    "text",
-                    $value
-                )
-            ), array(
-                "config_key" => array(
-                    "text",
-                    $key
-                )
-            ));
-        }
-    }
-
-
-    /**
-     * @param $key
      *
-     * @return bool|string
+     * @return null
      */
-    public function getValue($key)
+    public static function set($name, $value)
     {
-        global $ilDB;
-        $result = $ilDB->query("SELECT config_value FROM " . $this->getTableName() . " WHERE config_key = "
-            . $ilDB->quote($key, "text"));
-        if ($result->numRows() == 0) {
-            return false;
-        }
-        $record = $ilDB->fetchAssoc($result);
-
-        return (string)$record['config_value'];
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getContainer()
-    {
-        $key = $this->getValue('container');
-        if ($key == '' OR $key == 0) {
-            return 1;
+        /**
+         * @var $obj arConfig
+         */
+        $obj = self::findOrGetInstance($name);
+        $obj->setValue($value);
+        if (self::where(array('name' => $name))->hasSets()) {
+            $obj->update();
         } else {
-            return $key;
+            $obj->create();
         }
     }
 
 
-    /**
-     * @return bool
-     */
-    public function initDB()
+    public static function returnDbTableName()
     {
-        global $ilDB;
-        if (!$ilDB->tableExists($this->getTableName())) {
-            $fields = array(
-                'config_key' => array(
-                    'type' => 'text',
-                    'length' => 128,
-                    'notnull' => true
-                ),
-                'config_value' => array(
-                    'type' => 'clob',
-                    'notnull' => false
-                ),
-            );
-            $ilDB->createTable($this->getTableName(), $fields);
-            $ilDB->addPrimaryKey($this->getTableName(), array("config_key"));
-        }
-
-        return true;
+        return 'uihkcertificate_c';
     }
 
 
-    //
-    // Helper
-    //
     /**
-     * @param string $str
-     *
+     * @param string $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
+
+    /**
      * @return string
      */
-    public static function _fromCamelCase($str)
+    public function getValue()
     {
-        $str[0] = strtolower($str[0]);
-        $func = create_function('$c', 'return "_" . strtolower($c[1]);');
-
-        return preg_replace_callback('/([A-Z])/', $func, $str);
+        return $this->value;
     }
 
 
     /**
-     * @param string $str
-     * @param bool $capitalise_first_char
-     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+
+    /**
      * @return string
      */
-    public static function _toCamelCase($str, $capitalise_first_char = false)
+    public function getName()
     {
-        if ($capitalise_first_char) {
-            $str[0] = strtoupper($str[0]);
-        }
-        $func = create_function('$c', 'return strtoupper($c[1]);');
-
-        return preg_replace_callback('/-([a-z])/', $func, $str);
+        return $this->name;
     }
-}
 
-?>
+
+} 

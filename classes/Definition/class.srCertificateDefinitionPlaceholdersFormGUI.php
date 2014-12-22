@@ -69,7 +69,7 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI
         $this->definition = $definition;
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->user = $ilUser;
         $this->initForm();

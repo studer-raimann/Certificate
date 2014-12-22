@@ -1,5 +1,6 @@
 <?php
 require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+require_once("./Services/Table/classes/class.ilTable2GUI.php");
 require_once(dirname(__FILE__) . '/class.srCertificateType.php');
 require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemplateTypeFactory.php');
 
@@ -40,7 +41,7 @@ class srCertificateTypeTableGUI extends ilTable2GUI
         global $ilCtrl, $ilToolbar;
         $this->setId('cert_type_table');
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->ctrl = $ilCtrl;
         $this->toolbar = $ilToolbar;
         $this->setRowTemplate('tpl.type_row.html', $this->pl->getDirectory());
@@ -62,7 +63,7 @@ class srCertificateTypeTableGUI extends ilTable2GUI
         $this->tpl->setVariable('LANGUAGES', implode(', ', $a_set['languages']));
         $template_type = srCertificateTemplateTypeFactory::getById((int)$a_set['template_type_id']);
         $this->tpl->setVariable('TEMPLATE_TYPE_ID', $template_type->getTitle());
-        $this->tpl->setVariable('ROLES', implode(', ', json_decode($a_set['roles'], true)));
+        $this->tpl->setVariable('ROLES', is_array($a_set['roles']) ? implode(',', $a_set['roles']) : '');
         $this->tpl->setVariable('AVAILABLE_OBJECTS', implode(',', $a_set['available_objects']));
         $this->tpl->setVariable('ACTIONS', $this->buildActionMenu($a_set)->getHTML());
     }

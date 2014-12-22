@@ -3,7 +3,6 @@ require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemp
 require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholder.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSetting.php');
 
-
 /**
  * srCertificateType
  *
@@ -73,6 +72,7 @@ class srCertificateType extends ActiveRecord
 
     /**
      * Available languages for certificates of this type
+     *
      * @var array
      *
      * @db_has_field    true
@@ -94,6 +94,7 @@ class srCertificateType extends ActiveRecord
 
     /**
      * Role-IDs which are allowed to choose this certificate type in a definition
+     *
      * @var array
      *
      * @db_has_field    true
@@ -105,6 +106,7 @@ class srCertificateType extends ActiveRecord
 
     /**
      * Objects where this certificate type is available, e.g. 'crs', 'tst'...
+     *
      * @var array
      *
      * @db_has_field    true
@@ -116,15 +118,22 @@ class srCertificateType extends ActiveRecord
 
     /**
      * Placeholders defined by this certificate type
+     *
      * @var array srCertificatePlaceholder[]
      */
-    protected $placeholders = array();
+    protected $placeholders;
 
     /**
      * Settings of this certificate
+     *
      * @var array srCertificateTypeSetting[]
      */
-    protected $settings = array();
+    protected $settings;
+
+    /**
+     * @var array srCertificateCustomTypeSetting[]
+     */
+    protected $custom_settings;
 
 
     public function __construct($id = 0)
@@ -134,15 +143,6 @@ class srCertificateType extends ActiveRecord
 
 
     // Public
-
-
-    public function afterObjectLoad()
-    {
-        $placeholders = srCertificatePlaceholder::where(array('type_id' => (int)$this->getId()))->get();
-        $this->setPlaceholders($placeholders);
-        $settings = srCertificateTypeSetting::where(array('type_id' => (int)$this->getId()))->get();
-        $this->setSettings($settings);
-    }
 
 
     /**
@@ -201,6 +201,7 @@ class srCertificateType extends ActiveRecord
         return $path;
     }
 
+
     /**
      * Get an array of all assets stored along with the certificate
      *
@@ -208,7 +209,7 @@ class srCertificateType extends ActiveRecord
      */
     public function getAssets()
     {
-        if (!is_dir($this->getCertificateTemplatesPath())) {
+        if ( ! is_dir($this->getCertificateTemplatesPath())) {
             ilUtil::makeDirParents($this->getCertificateTemplatesPath());
         }
         $files = scandir($this->getCertificateTemplatesPath());
@@ -222,6 +223,7 @@ class srCertificateType extends ActiveRecord
         return $files;
     }
 
+
     /**
      * Store an asset file, e.g. an image
      *
@@ -230,13 +232,14 @@ class srCertificateType extends ActiveRecord
      */
     public function storeAsset(array $file_data)
     {
-        if ($file_data['name'] && !$file_data['error']) {
+        if ($file_data['name'] && ! $file_data['error']) {
             $file_name = $file_data['name'];
             $file_path = $this->getCertificateTemplatesPath() . DIRECTORY_SEPARATOR . $file_name;
             return ilUtil::moveUploadedFile($file_data['tmp_name'], $file_name, $file_path, false);
         }
         return false;
     }
+
 
     /**
      * Store a new template file
@@ -248,19 +251,38 @@ class srCertificateType extends ActiveRecord
      */
     public function storeTemplateFile(array $file_data)
     {
-        if ($file_data['name'] && !$file_data['error']) {
-            $file_path = $this->getCertificateTemplatesPath();
-            if (!is_dir($file_path)) {
-                ilUtil::makeDirParents($file_path);
-            }
-            $file = $this->getCertificateTemplatesPath() . DIRECTORY_SEPARATOR . $file_data['name'];
-            if (move_uploaded_file($file_data['tmp_name'], $file)) {
-                return rename($file, $this->getCertificateTemplatesPath(true));
-            }
+        if ($file_data['name'] && ! $file_data['error']) {
+	        return $this->storeTemplateFileFromServer($file_data['tmp_name']);
         }
         return false;
     }
 
+
+	/**
+	 * Store a new template file.
+	 *
+	 * @param $path_to_template_file string
+	 *
+	 * @return bool
+	 */
+	public function storeTemplateFileFromServer($path_to_template_file) {
+		if(!is_file($path_to_template_file)){
+			return false;
+		}
+		$this->createTemplateDirectory();
+		return copy($path_to_template_file, $this->getCertificateTemplatesPath(true));
+	}
+
+
+	/**
+	 *
+	 */
+	protected function createTemplateDirectory(){
+		$file_path = $this->getCertificateTemplatesPath();
+		if ( ! is_dir($file_path)) {
+			ilUtil::makeDirParents($file_path);
+		}
+	}
 
     /**
      * Remove a given asset
@@ -292,14 +314,36 @@ class srCertificateType extends ActiveRecord
     public function getSettingByIdentifier($identifier)
     {
         /** @var $setting srCertificateTypeSetting */
-        foreach ($this->settings as $setting) {
+        foreach ($this->getSettings() as $setting) {
             if ($setting->getIdentifier() == $identifier) {
                 return $setting;
                 break;
             }
         }
+
         return null;
     }
+
+
+    /**
+     * Get a custom setting by identifier
+     *
+     * @param $identifier
+     * @return null|\srCertificateTypeSetting
+     */
+    public function getCustomSettingByIdentifier($identifier)
+    {
+        /** @var $setting srCertificateTypeSetting */
+        foreach ($this->getCustomSettings() as $setting) {
+            if ($setting->getIdentifier() == $identifier) {
+                return $setting;
+                break;
+            }
+        }
+
+        return null;
+    }
+
 
     /**
      * Delete also related certificate definitions and assets
@@ -332,17 +376,18 @@ class srCertificateType extends ActiveRecord
     {
         global $ilUser, $rbacreview;
         $user_id = ($user_id) ? $user_id : $ilUser->getId();
-        $pl = new ilCertificatePlugin();
+        $pl = ilCertificatePlugin::getInstance();
         $object_type = ($pl->isCourseTemplate($ref_id)) ? 'crs-tpl' : ilObject::_lookupType($ref_id, true);
-        if (!in_array($object_type, $type->getAvailableObjects())) {
+        if ( ! in_array($object_type, $type->getAvailableObjects())) {
             return false;
         }
         // Access restricted by roles. Check if current user has a role to choose the type
-        if (count($type->getRoles()) && !$rbacreview->isAssignedToAtLeastOneGivenRole($user_id, $type->getRoles())) {
+        if (count($type->getRoles()) && ! $rbacreview->isAssignedToAtLeastOneGivenRole($user_id, $type->getRoles())) {
             return false;
         }
         return true;
     }
+
 
     /**
      * @return string
@@ -350,8 +395,9 @@ class srCertificateType extends ActiveRecord
      */
     static function returnDbTableName()
     {
-        return self::TABLE_NAME;
+        return static::TABLE_NAME;
     }
+
 
     /**
      * Return all object types where a certificate type can be defined
@@ -362,14 +408,13 @@ class srCertificateType extends ActiveRecord
     {
         $types = self::$all_available_object_types;
         // crs-tpl is only available if activated in the plugin config
-        $pl = new ilCertificatePlugin();
-        $config = $pl->getConfigObject();
-        if (!$config->getValue('course_templates')) {
+        if ( ! ilCertificateConfig::get('course_templates')) {
             $key = array_search('crs-tpl', $types);
             unset($types[$key]);
         }
         return $types;
     }
+
 
     /**
      * Get the default settings
@@ -394,7 +439,7 @@ class srCertificateType extends ActiveRecord
             $setting->setIdentifier($identifier);
             $setting->setEditableIn($this->available_objects);
             $setting->setTypeId($this->getId());
-            $setting->setDefaultValue($config['default_value']);
+            $setting->setValue($config['default_value']);
             $setting->create();
             $this->settings[] = $setting;
         }
@@ -411,6 +456,7 @@ class srCertificateType extends ActiveRecord
         $this->available_objects = $available_objects;
     }
 
+
     /**
      * @return array
      */
@@ -418,6 +464,7 @@ class srCertificateType extends ActiveRecord
     {
         return $this->available_objects;
     }
+
 
     /**
      * @param string $description
@@ -427,6 +474,7 @@ class srCertificateType extends ActiveRecord
         $this->description = $description;
     }
 
+
     /**
      * @return string
      */
@@ -434,6 +482,7 @@ class srCertificateType extends ActiveRecord
     {
         return $this->description;
     }
+
 
     /**
      * @param array $languages
@@ -443,6 +492,7 @@ class srCertificateType extends ActiveRecord
         $this->languages = $languages;
     }
 
+
     /**
      * @return array
      */
@@ -450,6 +500,7 @@ class srCertificateType extends ActiveRecord
     {
         return $this->languages;
     }
+
 
     /**
      * @param array $placeholders
@@ -459,13 +510,19 @@ class srCertificateType extends ActiveRecord
         $this->placeholders = $placeholders;
     }
 
+
     /**
      * @return array
      */
     public function getPlaceholders()
     {
+        if (is_null($this->placeholders)) {
+            $this->placeholders = srCertificatePlaceholder::where(array('type_id' => (int) $this->getId()))->get();
+        }
+
         return $this->placeholders;
     }
+
 
     /**
      * @param array $roles
@@ -475,6 +532,7 @@ class srCertificateType extends ActiveRecord
         $this->roles = $roles;
     }
 
+
     /**
      * @return array
      */
@@ -482,6 +540,7 @@ class srCertificateType extends ActiveRecord
     {
         return $this->roles;
     }
+
 
     /**
      * @param array $settings
@@ -491,13 +550,32 @@ class srCertificateType extends ActiveRecord
         $this->settings = $settings;
     }
 
+
     /**
      * @return array
      */
     public function getSettings()
     {
+        if (is_null($this->settings)) {
+            $this->settings = srCertificateTypeSetting::where(array('type_id' => (int) $this->getId()))->get();
+        }
+
         return $this->settings;
     }
+
+
+    /**
+     * @return array
+     */
+    public function getCustomSettings()
+    {
+        if (is_null($this->custom_settings)) {
+            $this->custom_settings = srCertificateCustomTypeSetting::where(array('type_id' => $this->getId()))->get();
+        }
+
+        return $this->custom_settings;
+    }
+
 
     /**
      * @param int $template_type_id
@@ -507,6 +585,7 @@ class srCertificateType extends ActiveRecord
         $this->template_type_id = $template_type_id;
     }
 
+
     /**
      * @return int
      */
@@ -514,6 +593,7 @@ class srCertificateType extends ActiveRecord
     {
         return $this->template_type_id;
     }
+
 
     /**
      * @param string $title
@@ -523,6 +603,7 @@ class srCertificateType extends ActiveRecord
         $this->title = $title;
     }
 
+
     /**
      * @return string
      */
@@ -530,6 +611,7 @@ class srCertificateType extends ActiveRecord
     {
         return $this->title;
     }
+
 
     /**
      * @return int
@@ -539,7 +621,4 @@ class srCertificateType extends ActiveRecord
         return $this->id;
     }
 
-
 }
-
-?>

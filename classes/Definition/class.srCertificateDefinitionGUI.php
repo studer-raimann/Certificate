@@ -4,9 +4,10 @@ require_once('./Services/Object/classes/class.ilObjectListGUIFactory.php');
 require_once('./Services/Link/classes/class.ilLink.php');
 require_once(dirname(__FILE__) . '/class.srCertificateDefinitionFormGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateDefinitionPlaceholdersFormGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateDefinitionTableGUI.php');
 require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificatePreview.php');
+require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificateTableGUI.php');
+require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php');
 
 /**
  * GUI-Class srCertificateDefinitionGUI
@@ -87,18 +88,18 @@ class srCertificateDefinitionGUI
         $this->tpl = $tpl;
         $this->toolbar = $ilToolbar;
         $this->tabs = $ilTabs;
-        $this->ref_id = (int)$_GET['ref_id'];
+        $this->ref_id = (int) $_GET['ref_id'];
         $this->crs = ilObjectFactory::getInstanceByRefId($this->ref_id);
         $this->definition = srCertificateDefinition::where(array('ref_id' => $this->ref_id))->first();
-        $this->pl = new ilCertificatePlugin();
+        $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->access = $ilAccess;
         $this->db = $ilDB;
         $this->ctrl->saveParameter($this, 'ref_id');
-//        $this->pl->updateLanguages();
         $this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
         $this->lng->loadLanguageModule('common');
     }
+
 
     public function executeCommand()
     {
@@ -165,8 +166,10 @@ class srCertificateDefinitionGUI
         }
     }
 
+
     /**
      * Show Definition settings Form
+     *
      */
     public function showDefinition()
     {
@@ -176,30 +179,45 @@ class srCertificateDefinitionGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
+
     /**
      * Show available Placeholders of Definition
+     *
      */
     public function showPlaceholders()
     {
         $this->tabs->setSubTabActive('show_placeholders');
+        /** @var srCertificateDefinition $definition */
         $definition = srCertificateDefinition::where(array('ref_id' => $this->ref_id))->first();
-        $this->form = new srCertificateDefinitionPlaceholdersFormGUI($this, $definition);
-        $this->tpl->setContent($this->form->getHTML());
+        if ( ! count($definition->getPlaceholderValues())) {
+            ilUtil::sendInfo($this->pl->txt('msg_no_placeholders'));
+        } else {
+            $this->form = new srCertificateDefinitionPlaceholdersFormGUI($this, $definition);
+            $this->tpl->setContent($this->form->getHTML());
+        }
     }
+
 
     /**
      * Show all certificates
+     *
      */
     public function showCertificates()
     {
         $this->tabs->setSubTabActive("show_certificates");
-        $table = new srCertificateDefinitionTableGUI($this, 'showCertificates', $this->definition);
+        $options = array(
+            'columns' => array('firstname', 'lastname', 'valid_from', 'valid_to', 'file_version'),
+            'definition_id' => $this->definition->getId(),
+            'show_filter' => false,
+        );
+        $table = new srCertificateTableGUI($this, 'showCertificates', $options);
         $this->tpl->setContent($table->getHTML());
     }
 
 
     /**
      * Create definition
+     *
      */
     public function createDefinition()
     {
@@ -214,8 +232,10 @@ class srCertificateDefinitionGUI
         }
     }
 
+
     /**
      * Update definition settings
+     *
      */
     public function updateDefinition()
     {
@@ -233,8 +253,10 @@ class srCertificateDefinitionGUI
         }
     }
 
+
     /**
      * Update placeholders
+     *
      */
     public function updatePlaceholders($redirect_cmd = 'showPlaceholders')
     {
@@ -263,10 +285,11 @@ class srCertificateDefinitionGUI
 
     /**
      * Download a certificate
+     *
      */
     public function downloadCertificate()
     {
-        if ($cert_id = (int)$_GET['cert_id']) {
+        if ($cert_id = (int) $_GET['cert_id']) {
             /** @var srCertificate $cert */
             $cert = srCertificate::find($cert_id);
             $cert->download();
@@ -277,44 +300,25 @@ class srCertificateDefinitionGUI
 
     /**
      * Download multiple certificates as ZIP file
+     *
      */
     public function downloadCertificates()
     {
         $cert_ids = $_POST['cert_id'];
-        if (count($cert_ids)) {
-            $zip_filename = date('d-m-Y') . '-' . $this->ref_id . '-certificates';
-            // Make a random temp dir in ilias data directory
-            $tmp_dir = ilUtil::ilTempnam();
-            ilUtil::makeDir($tmp_dir);
-            $zip_base_dir = $tmp_dir . DIRECTORY_SEPARATOR . $zip_filename;
-            ilUtil::makeDir($zip_base_dir);
-            // Copy all PDFs in folder
-            foreach ($cert_ids as $cert_id) {
-                /** @var srCertificate $cert */
-                $cert = srCertificate::find((int)$cert_id);
-                if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED) {
-                    copy($cert->getFilePath(), $zip_base_dir . DIRECTORY_SEPARATOR . $cert->getFilename(true));
-                }
-            }
-            $tmp_zip_file = $tmp_dir . DIRECTORY_SEPARATOR . $zip_filename . '.zip';
-            try {
-                ilUtil::zip($zip_base_dir, $tmp_zip_file);
-                rename($tmp_zip_file, $zip_file = ilUtil::ilTempnam());
-                ilUtil::delDir($tmp_dir);
-                ilUtil::deliverFile($zip_file, $zip_filename . '.zip', '', false, true);
-            } catch (ilFileException $e) {
-                ilUtil::sendInfo($e->getMessage());
-            }
+        if(is_array($cert_ids)) {
+            srCertificate::downloadAsZip($cert_ids, $this->ref_id . '-certificates');
         }
         $this->showCertificates();
     }
 
+
     /**
      * Display INFO/Warning Screen if the type was changed by user
+     *
      */
     public function confirmTypeChange()
     {
-        $new_type_id = (int)$_POST['type_id'];
+        $new_type_id = (int) $_POST['type_id'];
         $conf_gui = new ilConfirmationGUI();
         $conf_gui->setFormAction($this->ctrl->getFormAction($this));
         $conf_gui->setHeaderText($this->pl->txt('confirm_type_change'));
@@ -327,10 +331,11 @@ class srCertificateDefinitionGUI
 
     /**
      * Update type of definition
+     *
      */
     public function updateType()
     {
-        $new_type_id = (int)$_POST['type_id'];
+        $new_type_id = (int) $_POST['type_id'];
         if ($new_type_id && $new_type_id != $this->definition->getTypeId()) {
             $this->definition->setTypeId($new_type_id);
             $this->definition->update();
@@ -343,10 +348,11 @@ class srCertificateDefinitionGUI
     /**
      * Check permission of user
      * Redirect to course if permission check fails
+     *
      */
     protected function checkPermission()
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if ( ! $this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->ref_id);
             ilUtil::sendFailure($this->pl->txt('msg_no_permission_certificates'), true);
             $this->ctrl->redirectByClass('ilrepositorygui');
@@ -356,6 +362,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Set Subtabs
+     *
      */
     protected function setSubTabs()
     {
@@ -371,6 +378,7 @@ class srCertificateDefinitionGUI
 
     /**
      * Set Course title and icon in header
+     *
      */
     protected function initHeader()
     {
