@@ -2,6 +2,8 @@
 
 The certificate plugin offers an enhanced support for creating and administrating certificates inside ILIAS.
 
+![001][overview]
+
 ## Features
 
 * Multiple certificate types with different layouts
@@ -160,3 +162,6 @@ Switzerland
 
 info@studer-raimann.ch  
 www.studer-raimann.ch  
+
+
+[overview]: /doc/Images/certificate_plugin_preview.jpg?raw=true "Preview of certificate plugin"
