@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(dirname(__FILE__)) . 'Certificate/class.srCertificate.php');
+require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php');
 require_once('srCertificateNotification.php');
 
 /**

@@ -288,7 +288,7 @@ class srCertificate extends ActiveRecord
         if ($this->getStatus() == self::STATUS_PROCESSED && is_file($this->getFilePath()) && !$force) {
             return false;
         }
-        $cert_type = $this->definition->getType();
+        $cert_type = $this->getDefinition()->getType();
         $template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
         $this->setStatus(srCertificate::STATUS_WORKING);
         $this->update();
