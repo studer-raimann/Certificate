@@ -25,6 +25,7 @@ actions#:#Actions
 cert_id#:#Certificate ID
 id#:#Certificate ID
 cert_type#:#Certificate type
+type#:#Certificate type
 only_newest_version#:#Show newest version only
 crs_title#:#Course title
 download_zip#:#Download as ZIP
