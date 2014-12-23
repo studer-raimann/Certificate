@@ -25,7 +25,7 @@ An installation and user guide is available in [the doc/Documentation.pdf](/doc/
 
 ## Patches
 
-The following classes/methods need to be patched in order for the plugin to work correctly. Most likely these patches will be in the ILIAS core one day, which will remove depending on modified core files for this module.
+The following classes/methods need to be patched in order for the plugin to work correctly. Most likely these patches will be part of the ILIAS core in future ILIAS versions.
 
 ### /Modules/Course/classes/class.ilCourseParticipants.php
 
@@ -153,15 +153,5 @@ Switzerland
 
 info@studer-raimann.ch  
 www.studer-raimann.ch  
-
-###Contact
-studer + raimann ag  
-Waldeggstrasse 72  
-3097 Liebefeld  
-Switzerland 
-
-info@studer-raimann.ch  
-www.studer-raimann.ch  
-
 
 [overview]: /doc/Images/certificate_plugin_preview.jpg?raw=true "Preview of certificate plugin"
