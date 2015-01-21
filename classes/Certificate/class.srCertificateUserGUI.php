@@ -1,6 +1,7 @@
 <?php
 
 require_once('class.srCertificateGUI.php');
+require_once('class.srCertificateUserTableGUI.php');
 
 /**
  * Class srCertificateAdministrationGUI
@@ -20,7 +21,7 @@ class srCertificateUserGUI extends srCertificateGUI {
         if ($cert_id = (int) $_GET['cert_id']) {
             /** @var srCertificate $cert */
             $cert = srCertificate::find($cert_id);
-            if ($cert->getUserId() == $this->user->getId()) {
+            if ($cert->getUserId() == $this->user->getId() && $cert->getDefinition()->getDownloadable()) {
                 $cert->download();
             }
         }
@@ -43,14 +44,11 @@ class srCertificateUserGUI extends srCertificateGUI {
      */
     protected function getTable($cmd)
     {
-        $options = array(
-            'user_id' => $this->user->getId(),
-            'columns' => array('id', 'crs_title', 'valid_from', 'valid_to', 'file_version', 'cert_type'),
-        );
+        $options = array();
         if (in_array($cmd, array('resetFilter', 'applyFilter'))) {
             $options['build_data'] = false;
         }
 
-        return new srCertificateTableGUI($this, $cmd, $options);
+        return new srCertificateUserTableGUI($this, $cmd, $this->user, $options);
     }
 }

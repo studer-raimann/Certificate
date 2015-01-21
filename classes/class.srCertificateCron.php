@@ -17,7 +17,7 @@ $cron->run();
 class srCertificateCron
 {
 
-    const DEBUG = true;
+    const DEBUG = false;
 
     /**
      * @var Ilias
