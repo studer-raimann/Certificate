@@ -114,8 +114,10 @@ class srCertificateEmailNotification implements srCertificateNotification
      */
     public function notify()
     {
+        global $ilSetting;
+
         $this->mailer->To($this->email);
-        $from = $this->ilias->getSetting('mail_external_sender_noreply');
+        $from = $ilSetting->get('mail_external_sender_noreply');
         if ($from) {
             $this->mailer->From($from);
         }

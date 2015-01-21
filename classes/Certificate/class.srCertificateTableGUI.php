@@ -189,9 +189,10 @@ class srCertificateTableGUI extends ilTable2GUI
             }
         }
 
-        // Download action is only possible if status is processed
+        // Actions
         if (count($this->getOption('actions'))) {
-            $actions = ($a_set['status'] == srCertificate::STATUS_PROCESSED) ? $this->buildActions($a_set)->getHTML() : '&nbsp;';
+            $actions = $this->buildActions($a_set);
+            $actions = ($actions) ? $actions->getHTML() : '&nbsp;';
             $this->tpl->setCurrentBlock('ACTIONS');
             $this->tpl->setVariable('ACTIONS', $actions);
             $this->tpl->parseCurrentBlock();
@@ -238,14 +239,18 @@ class srCertificateTableGUI extends ilTable2GUI
      * Build action menu for a record
      *
      * @param array $a_set
-     * @return ilAdvancedSelectionListGUI
+     * @return ilAdvancedSelectionListGUI|null
      */
     protected function buildActions(array $a_set) {
+        if ($a_set['status'] != srCertificate::STATUS_PROCESSED) {
+            return null;
+        }
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($a_set['id']);
         $alist->setListTitle($this->pl->txt('actions'));
         $this->ctrl->setParameter($this->parent_obj, 'cert_id', $a_set['id']);
         $alist->addItem('Download', 'download', $this->ctrl->getLinkTarget($this->parent_obj, 'downloadCertificate'));
+
         return $alist;
     }
 
