@@ -170,7 +170,7 @@ class srCertificateTableGUI extends ilTable2GUI
             if ($this->isColumnSelected($column)) {
 
                 // Format dates
-                if (in_array($column, array('valid_from', 'valid_to'))) {
+                if (in_array($column, array('valid_from', 'valid_to')) && $value != '') {
                     switch ($this->user->getDateFormat()) {
                         case ilCalendarSettings::DATE_FORMAT_DMY:
                             $value = date('d.m.Y', strtotime($value));
@@ -179,6 +179,8 @@ class srCertificateTableGUI extends ilTable2GUI
                             $value = date('m/d/Y', strtotime($value));
                             break;
                     }
+                } elseif ($value == '') {
+                    $value = $this->pl->txt('unlimited');
                 }
 
                 // Set value
@@ -188,7 +190,6 @@ class srCertificateTableGUI extends ilTable2GUI
 
             }
         }
-
         // Actions
         if (count($this->getOption('actions'))) {
             $actions = $this->buildActions($a_set);
