@@ -151,6 +151,9 @@ class srCertificateDefinitionGUI
                     case 'previewCertificate':
                         $this->previewCertificate();
                         break;
+                    case 'callBack':
+                        $this->callBack();
+                        break;
                     case '':
                         if ($this->definition) {
                             $this->showCertificates();
@@ -206,7 +209,7 @@ class srCertificateDefinitionGUI
     {
         $this->tabs->setSubTabActive("show_certificates");
         $options = array(
-            'columns' => array('firstname', 'lastname', 'valid_from', 'valid_to', 'file_version'),
+            'columns' => array('firstname', 'lastname', 'valid_from', 'valid_to', 'file_version', 'called_back'),
             'definition_id' => $this->definition->getId(),
             'show_filter' => false,
         );
@@ -390,6 +393,17 @@ class srCertificateDefinitionGUI
         $this->tpl->setTitleIcon(ilUtil::getTypeIconPath('crs', $this->crs->getId(), 'big'));
         $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->ref_id);
         $this->tabs->setBackTarget($this->pl->txt('back_to_course'), $this->ctrl->getLinkTargetByClass('ilrepositorygui'));
+    }
+
+    /**
+     * call back a certificate to deactivate it
+     */
+    public function callBack(){
+        $cert = new srCertificate($_GET['cert_id']);
+        $cert->setCalledBack(1);
+        $cert->update();
+        $this->pl->sendCallBackNotification($cert);
+        $this->ctrl->redirect($this, 'showCertificates');
     }
 
 }

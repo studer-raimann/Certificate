@@ -170,3 +170,9 @@
 
     ilCertificateConfig::set('max_diff_lp_seconds', 28800);
     ?>
+<#13>
+    <?php
+    if(!$ilDB->tableColumnExists('cert_obj', 'called_back')){
+        $ilDB->addTableColumn('cert_obj', 'called_back', array('type' => 'integer', 'default' => 0, 'length' => 1));
+    }
+    ?>

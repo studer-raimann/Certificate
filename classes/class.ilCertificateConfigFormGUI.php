@@ -106,6 +106,11 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $item->setInfo($this->txt('path_hook_class_info'));
         $this->addItem($item);
 
+        //Call Back email
+        $item = new ilTextInputGUI($this->txt('callback_email'), 'callback_email');
+        $item->setInfo($this->txt('callback_email_info'));
+        $this->addItem($item);
+
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->txt('permission_settings'));
         $this->addItem($section);

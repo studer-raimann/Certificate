@@ -73,6 +73,9 @@ abstract class srCertificateGUI
             case 'downloadCertificates':
                 $this->downloadCertificates();
                 break;
+            case 'callBack':
+                $this->callBack();
+                break;
         }
     }
 
@@ -141,4 +144,14 @@ abstract class srCertificateGUI
         return new srCertificateTableGUI($this, $cmd, $options);
     }
 
+    /**
+     * call back a certificate to deactivate it
+     */
+    public function callBack(){
+        $cert = new srCertificate($_GET['cert_id']);
+        $cert->setCalledBack(1);
+        $cert->update();
+        $this->pl->sendCallBackNotification($cert);
+        $this->ctrl->redirect($this, 'index');
+    }
 }

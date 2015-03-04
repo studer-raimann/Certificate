@@ -28,7 +28,8 @@ class srCertificateTableGUI extends ilTable2GUI
         'valid_from',
         'valid_to',
         'file_version',
-        'cert_type'
+        'cert_type',
+        'called_back'
     );
 
     /**
@@ -179,8 +180,12 @@ class srCertificateTableGUI extends ilTable2GUI
                             $value = date('m/d/Y', strtotime($value));
                             break;
                     }
-                } elseif ($value == '') {
+                } elseif (in_array($column, array('valid_from', 'valid_to')) && $value == '') {
                     $value = $this->pl->txt('unlimited');
+                }
+
+                if($column == 'called_back'){
+                    $value ? $value = ilUtil::img(ilUtil::getImagePath('crs_not_accomplished.png')) . ' Called Back'  : $value = 'Ok';
                 }
 
                 // Set value
@@ -243,7 +248,7 @@ class srCertificateTableGUI extends ilTable2GUI
      * @return ilAdvancedSelectionListGUI|null
      */
     protected function buildActions(array $a_set) {
-        if ($a_set['status'] != srCertificate::STATUS_PROCESSED) {
+        if ($a_set['status'] != srCertificate::STATUS_PROCESSED  || $a_set['called_back']) {
             return null;
         }
         $alist = new ilAdvancedSelectionListGUI();
@@ -251,7 +256,9 @@ class srCertificateTableGUI extends ilTable2GUI
         $alist->setListTitle($this->pl->txt('actions'));
         $this->ctrl->setParameter($this->parent_obj, 'cert_id', $a_set['id']);
         $alist->addItem('Download', 'download', $this->ctrl->getLinkTarget($this->parent_obj, 'downloadCertificate'));
-
+        if(get_class($this->parent_obj) == 'srCertificateAdministrationGUI' || get_class($this->parent_obj) == 'srCertificateDefinitionGUI'){
+            $alist->addItem('Call Back', 'callBack', $this->ctrl->getLinkTarget($this->parent_obj, 'callBack'));
+        }
         return $alist;
     }
 

@@ -10,6 +10,7 @@ if (is_file('./Services/ActiveRecord/class.ActiveRecord.php')) {
 require_once('./Services/UIComponent/classes/class.ilUserInterfaceHookPlugin.php');
 require_once('class.ilCertificateConfig.php');
 require_once('class.srCertificateHooks.php');
+require_once('./Services/Mail/classes/class.ilMail.php');
 
 /**
  * Certificate Plugin
@@ -197,5 +198,22 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         }
 
         return self::$base_class;
+    }
+
+    /**
+     * @param $cert srCertificate
+     */
+    public function sendCallBackNotification($cert){
+        if($address = ilCertificateConfig::get('callback_email')){
+            $this->loadLanguageModule();
+            $mail = new ilMail(ANONYMOUS_USER_ID);
+            $subject = $this->txt('callback_email_subject');
+            $message = $this->txt('callback_email_message');
+            $message .= "\n\n Certificate Id: " . $cert->getid();
+            $message .= "\n User Login: " . $cert->getUser()->getLogin();
+            $message .= "\n User Name: " . $cert->getUser()->getFullname();
+            $message .= "\n Filename: " . $cert->getFilename();
+            $mail->sendMail($address, '', '', $subject, $message, array(), array("system"));
+        }
     }
 }

@@ -121,6 +121,16 @@ class srCertificate extends ActiveRecord
     protected $status = self::STATUS_DRAFT;
 
     /**
+     * @var int
+     *
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       1
+     * @db_is_notnull   true
+     */
+    protected $called_back = 0;
+
+    /**
      * @var srCertificateStandardPlaceholders
      */
     protected $standard_placeholders;
@@ -313,6 +323,11 @@ class srCertificate extends ActiveRecord
     public function download()
     {
         if ($this->status != self::STATUS_PROCESSED) {
+            ilUtil::sendFailure('The Certificate has not been created yet', true);
+            return;
+        }
+        if($this->getCalledBack()){
+            ilUtil::sendFailure('The Certificate has been called back', true);
             return;
         }
         $file = $this->getFilePath();
@@ -386,7 +401,7 @@ class srCertificate extends ActiveRecord
             foreach ($cert_ids as $cert_id) {
                 /** @var srCertificate $cert */
                 $cert = srCertificate::find((int)$cert_id);
-                if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED) {
+                if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED && !$cert->getCalledBack()) {
                     copy($cert->getFilePath(), $zip_base_dir . DIRECTORY_SEPARATOR . $cert->getFilename(true));
                 }
             }
@@ -801,5 +816,22 @@ class srCertificate extends ActiveRecord
     {
         return $this->created_at;
     }
+
+    /**
+     * @param int $called_back
+     */
+    public function setCalledBack($called_back)
+    {
+        $this->called_back = $called_back;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCalledBack()
+    {
+        return $this->called_back;
+    }
+
 
 }
