@@ -130,6 +130,8 @@ custom_setting_default_value_info#:#Boolean: Add '1' to check the checkbox by de
 custom_setting_update_cert_definitions_info#:#If checked, the setting is also created for existing certificate definitions of this type (with the default value)
 
 admin_form_title#:#Configuration options
+admin_form_scorm_timing#:#Enable Scorm Timing
+admin_form_scorm_timing_info#:#Activates alternative calculating of 'Spent Seconds' for Scorm2004 Modules
 admin_form_course_templates#:#Enable support for course templates
 admin_form_course_templates_info#:#If enabled, the plugin offers additional certificate settings depending if a course is marked as "course template"
 admin_form_course_templates_ref_ids#:#Ref-IDs categories

@@ -79,6 +79,11 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $item->setInfo($this->txt('time_format_utc'));
         $this->addItem($item);
 
+        // Scorm Time calculating
+        $item = new ilCheckboxInputGUI($this->txt('scorm_timing'), 'scorm_timing');
+        $item->setInfo($this->txt('scorm_timing_info'));
+        $this->addItem($item);
+
         // Date format
         $item = new ilTextInputGUI($this->txt('str_format_date'), 'str_format_date');
         $item->setInfo($this->txt('str_format_date_info'));

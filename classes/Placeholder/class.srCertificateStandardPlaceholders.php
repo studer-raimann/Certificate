@@ -49,6 +49,7 @@ class srCertificateStandardPlaceholders
         'COURSE_TITLE' => 'Title of course',
         'LP_FIRST_ACCESS' => 'Learning progress first access',
         'LP_LAST_ACCESS' => 'Learning progress last access',
+        'LP_SPENT_TIME' => 'Learning progress time spent in course',
         'LP_SPENT_SECONDS' => 'Learning progress time spent in course (seconds)',
         'LP_READ_COUNT' => 'Read count',
         'LP_STATUS' => 'Status code',
@@ -330,7 +331,7 @@ class srCertificateStandardPlaceholders
     {
         // Build some Learning Progress information
         $passed_datetime = ilCourseParticipants::getDateTimeOfPassed($course->getId(), $user->getId());
-        $lp_fields = array('first_access', 'last_access', 'percentage', 'status', 'read_count', 'spent_seconds', 'childs_spent_seconds');
+        $lp_fields = array('first_access', 'last_access', 'percentage', 'status', 'read_count', 'childs_spent_seconds');
         $lp_data = ilTrQuery::getObjectsDataForUser($user->getId(), $course->getId(), $course->getRefId(), '', '', 0, 9999, null, $lp_fields);
         $lp_avg = $this->buildAvgPercentageOfCourseObjects($lp_data);
         $lp_crs = array();
@@ -345,6 +346,17 @@ class srCertificateStandardPlaceholders
             }
         }
         $lp_crs['last_access'] = $max_last_access;
+
+        // calculates spent time different for scorm modules if enabled in config
+        if(ilCertificateConfig::get('scorm_timing')){
+            $spent_seconds = 0;
+            foreach(ilLPCollectionCache::_getItems($course->getId()) as $item){
+
+                $spent_seconds += $this->getSpentSeconds(ilObject::_lookupObjectId($item), $user->getId());
+            }
+            $lp_crs['childs_spent_seconds'] = $spent_seconds;
+        }
+
         $lp_spent_time = $this->buildLpSpentTime($lp_crs);
 
         return array(
@@ -352,12 +364,88 @@ class srCertificateStandardPlaceholders
             'DATETIME_COMPLETED' => $this->formatDateTime('DATETIME_COMPLETED', strtotime($passed_datetime)),
             'LP_FIRST_ACCESS' => $this->formatDateTime('LP_FIRST_ACCESS', (int)$lp_crs['first_access']),
             'LP_LAST_ACCESS' => $this->formatDateTime('LP_LAST_ACCESS', (int)$lp_crs['last_access']),
-            'LP_SPENT_SECONDS' => $lp_crs['childs_spent_seconds'],
             'LP_SPENT_TIME' => $lp_spent_time,
+            'LP_SPENT_SECONDS' => $lp_crs['childs_spent_seconds'],
             'LP_READ_COUNT' => $lp_crs['read_count'],
             'LP_STATUS' => $lp_crs['status'],
             'LP_AVG_PERCENTAGE' => $lp_avg,
         );
+    }
+
+    /**
+     * calculates spent seconds for an object, fetches data from cmi_node if object is a scorm2004 module
+     *
+     * @param $obj_id
+     * @param $user_id
+     * @return int
+     */
+    protected function getSpentSeconds($obj_id, $user_id){
+        global $ilDB;
+
+        $spent_seconds = 0;
+
+        if(ilObject::_lookupType($obj_id) == 'sahs')
+        {
+            $sql = $ilDB->query('SELECT cmi_node.total_time AS seconds
+                                    FROM cmi_node
+                                    INNER JOIN cp_node ON (cmi_node.cp_node_id = cp_node.cp_node_id)
+                                    INNER JOIN object_reference ON (cp_node.slm_id = object_reference.obj_id)
+                                    WHERE cmi_node.user_id = ' . $ilDB->quote($user_id, 'integer') .
+                                    ' AND cp_node.slm_id = ' . $ilDB->quote($obj_id, 'integer'));
+            while($result = $ilDB->fetchAssoc($sql)){
+                $spent_seconds += $this->formatScormToSeconds($result['seconds']);
+            }
+        }
+        else
+        {
+            $sql = $ilDB->query('SELECT read_event.spent_seconds AS seconds
+                                    FROM read_event
+                                    WHERE read_event.usr_id = ' . $ilDB->quote($user_id, 'integer') .
+                                    ' AND read_event.obj_id = ' . $ilDB->quote($obj_id, 'integer'));
+            while($result = $ilDB->fetchAssoc($sql)){
+                $spent_seconds += $result['seconds'];
+            }
+        }
+
+        return $spent_seconds;
+    }
+
+    /** TODO: move to some util class?
+     * formats a time in scorm 2004 format (e.g. PT0H0M47S) into seconds
+     *
+     * @param $duration
+     * @return int
+     */
+    public function formatScormToSeconds($duration){
+
+        $count = preg_match('/P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?T?(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)(\.[0-9]+)?S)?/', $duration, $matches);
+
+        if ($count)
+        {
+            $_years = (int) $matches[2];
+            $_months = (int) $matches[4];
+            $_days = (int) $matches[6];
+            $_hours = (int) $matches[8];
+            $_minutes = (int) $matches[10];
+            $_seconds = (int) $matches[12];
+        }
+        else
+        {
+            if (strstr($duration, ':'))
+            {
+                list($_hours, $_minutes, $_seconds) = explode(':', $duration);
+            }
+            else
+            {
+                $_hours = 0;
+                $_minutes = 0;
+                $_seconds = 0;
+            }
+        }
+
+        // I just ignore years, months and days as it is unlikely that a
+        // course would take any longer than 1 hour
+        return $_seconds + ($_minutes + ($_hours + ($_days + ($_months + ($_years * 12) * 30) * 24) * 60) * 60);
     }
 
 }
