@@ -14,6 +14,7 @@ class ilCertificateConfig extends ActiveRecord
     const PATH_HOOK_CLASS = 'path_hook_class';
     const ROLES_ADMINISTRATE_CERTIFICATE_TYPES = 'roles_administrate_certificate_types';
     const ROLES_ADMINISTRATE_CERTIFICATES = 'roles_administrate_certificates';
+    const DISK_SPACE_WARNING = 'disk_space_warning';
 
     /**
      * @var array

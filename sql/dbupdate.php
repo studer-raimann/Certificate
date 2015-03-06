@@ -172,7 +172,5 @@
     ?>
 <#13>
     <?php
-    if(!$ilDB->tableColumnExists('cert_obj', 'called_back')){
-        $ilDB->addTableColumn('cert_obj', 'called_back', array('type' => 'integer', 'default' => 0, 'length' => 1));
-    }
+    ilCertificateConfig::set(ilCertificateConfig::DISK_SPACE_WARNING, ilCertificatePlugin::DEFAULT_DISK_SPACE_WARNING);
     ?>

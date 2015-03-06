@@ -29,7 +29,7 @@ class srCertificateTableGUI extends ilTable2GUI
         'valid_to',
         'file_version',
         'cert_type',
-        'called_back'
+        'status'
     );
 
     /**
@@ -184,8 +184,24 @@ class srCertificateTableGUI extends ilTable2GUI
                     $value = $this->pl->txt('unlimited');
                 }
 
-                if($column == 'called_back'){
-                    $value ? $value = ilUtil::img(ilUtil::getImagePath('crs_not_accomplished.png')) . ' Called Back'  : $value = 'Ok';
+                if($column == 'status'){
+                    switch($value) {
+                        case '0':
+                        case '1':
+                            $value = $this->pl->txt('waiting');
+                            break;
+                        case '2':
+                            $value = $this->pl->txt('being_processed');
+                            break;
+                        case '3':
+                            $value = $this->pl->txt('created');
+                            break;
+                        case '4':
+                            $value = $this->pl->txt('creation_failed');
+                            break;
+                        case '5':
+                            $value = $this->pl->txt('called_back');
+                    }
                 }
 
                 // Set value
@@ -248,17 +264,39 @@ class srCertificateTableGUI extends ilTable2GUI
      * @return ilAdvancedSelectionListGUI|null
      */
     protected function buildActions(array $a_set) {
-        if ($a_set['status'] != srCertificate::STATUS_PROCESSED  || $a_set['called_back']) {
+        if (in_array($a_set['status'], array(srCertificate::STATUS_DRAFT, srCertificate::STATUS_NEW, srCertificate::STATUS_WORKING)))
+        {
             return null;
         }
+
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($a_set['id']);
         $alist->setListTitle($this->pl->txt('actions'));
         $this->ctrl->setParameter($this->parent_obj, 'cert_id', $a_set['id']);
-        $alist->addItem('Download', 'download', $this->ctrl->getLinkTarget($this->parent_obj, 'downloadCertificate'));
-        if(get_class($this->parent_obj) == 'srCertificateAdministrationGUI' || get_class($this->parent_obj) == 'srCertificateDefinitionGUI'){
-            $alist->addItem('Call Back', 'callBack', $this->ctrl->getLinkTarget($this->parent_obj, 'callBack'));
+
+        switch($a_set['status'])
+        {
+            case srCertificate::STATUS_CALLED_BACK:
+                if(get_class($this->parent_obj) == 'srCertificateAdministrationGUI' || get_class($this->parent_obj) == 'srCertificateDefinitionGUI'){
+                    $this->ctrl->setParameter($this->parent_obj, 'set_status', srCertificate::STATUS_PROCESSED);
+                    $alist->addItem($this->pl->txt('undo_callback'), 'undo_callback', $this->ctrl->getLinkTarget($this->parent_obj, 'setStatus'));
+                }
+                break;
+            case srCertificate::STATUS_FAILED:
+                if(get_class($this->parent_obj) == 'srCertificateAdministrationGUI' || get_class($this->parent_obj) == 'srCertificateDefinitionGUI'){
+                    $this->ctrl->setParameter($this->parent_obj, 'set_status', srCertificate::STATUS_NEW);
+                    $alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this->parent_obj, 'setStatus'));
+                }
+                break;
+            case srCertificate::STATUS_PROCESSED:
+                $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this->parent_obj, 'downloadCertificate'));
+                if(get_class($this->parent_obj) == 'srCertificateAdministrationGUI' || get_class($this->parent_obj) == 'srCertificateDefinitionGUI'){
+                    $this->ctrl->setParameter($this->parent_obj, 'set_status', srCertificate::STATUS_CALLED_BACK);
+                    $alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this->parent_obj, 'setStatus'));
+                }
+                break;
         }
+
         return $alist;
     }
 

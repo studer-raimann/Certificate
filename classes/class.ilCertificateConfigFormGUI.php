@@ -111,6 +111,11 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $item->setInfo($this->txt('callback_email_info'));
         $this->addItem($item);
 
+        //disk space Warning
+        $item = new ilTextInputGUI($this->txt('disk_space_warning'), 'disk_space_warning');
+        $item->setInfo($this->txt('disk_space_warning_info'));
+        $this->addItem($item);
+
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->txt('permission_settings'));
         $this->addItem($section);

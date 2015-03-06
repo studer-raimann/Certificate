@@ -20,6 +20,8 @@ class srCertificate extends ActiveRecord
     const STATUS_NEW = 1;
     const STATUS_WORKING = 2;
     const STATUS_PROCESSED = 3;
+    const STATUS_FAILED = 4;
+    const STATUS_CALLED_BACK = 5;
 
     /**
      * @var int
@@ -121,16 +123,6 @@ class srCertificate extends ActiveRecord
     protected $status = self::STATUS_DRAFT;
 
     /**
-     * @var int
-     *
-     * @db_has_field    true
-     * @db_fieldtype    integer
-     * @db_length       1
-     * @db_is_notnull   true
-     */
-    protected $called_back = 0;
-
-    /**
      * @var srCertificateStandardPlaceholders
      */
     protected $standard_placeholders;
@@ -160,7 +152,6 @@ class srCertificate extends ActiveRecord
      * @var ilCertificatePlugin
      */
     protected $pl;
-
 
     public function __construct($id = 0)
     {
@@ -298,17 +289,53 @@ class srCertificate extends ActiveRecord
         if ($this->getStatus() == self::STATUS_PROCESSED && is_file($this->getFilePath()) && !$force) {
             return false;
         }
+
         $cert_type = $this->getDefinition()->getType();
         $template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
         $this->setStatus(srCertificate::STATUS_WORKING);
         $this->update();
         $generated = $template_type->generate($this);
         // Only set the status to processed if generating was successful
-        if ($generated) {
+        if ($generated)
+        {
+            $free_space = disk_free_space($this->getCertificatePath());
+            //Send mail to administrator if the free space is below the configured value
+            if($this->pl->config('disk_space_warning') > 0 && $free_space < ($this->pl->config('disk_space_warning') * 1000000)
+                && !$this->pl->getDiskSpaceWarningSent())
+            {
+                $this->pl->sendMail('disk_space_warning', $this);
+            }
+            elseif($this->pl->getDiskSpaceWarningSent() && $free_space > ($this->pl->config('disk_space_warning') * 1000000))
+            {
+                $this->pl->setDiskSpaceWarningSent(false);
+            }
+
             $this->setStatus(srCertificate::STATUS_PROCESSED);
             $this->update();
             return true;
-        } else {
+        }
+        else    //else set status to failed
+        {
+            $this->setStatus(self::STATUS_FAILED);
+            $this->update();
+
+            // send email to sysadmin if there's no write-permission on the target directory
+            if(!is_writeable($this->getCertificatePath()))
+            {
+                $this->pl->sendMail('not_writeable', $this);
+                $this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}; Certificate data directory is not writable.");
+                return false;
+            }
+
+            //if there's less than 1MB space left, it's probably a space problem
+            $free_space = disk_free_space($this->getCertificatePath());
+            if($free_space < 1000)
+            {
+                $this->pl->sendMail('no_space_left', $this);
+                $this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}; Free disk space below 1MB.");
+                return false;
+            }
+
             $this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}");
             return false;
         }
@@ -326,7 +353,7 @@ class srCertificate extends ActiveRecord
             ilUtil::sendFailure('The Certificate has not been created yet', true);
             return;
         }
-        if($this->getCalledBack()){
+        if($this->status == self::STATUS_CALLED_BACK){
             ilUtil::sendFailure('The Certificate has been called back', true);
             return;
         }
@@ -401,7 +428,7 @@ class srCertificate extends ActiveRecord
             foreach ($cert_ids as $cert_id) {
                 /** @var srCertificate $cert */
                 $cert = srCertificate::find((int)$cert_id);
-                if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED && !$cert->getCalledBack()) {
+                if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED) {
                     copy($cert->getFilePath(), $zip_base_dir . DIRECTORY_SEPARATOR . $cert->getFilename(true));
                 }
             }
@@ -815,22 +842,6 @@ class srCertificate extends ActiveRecord
     public function getCreatedAt()
     {
         return $this->created_at;
-    }
-
-    /**
-     * @param int $called_back
-     */
-    public function setCalledBack($called_back)
-    {
-        $this->called_back = $called_back;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCalledBack()
-    {
-        return $this->called_back;
     }
 
 

@@ -73,8 +73,8 @@ abstract class srCertificateGUI
             case 'downloadCertificates':
                 $this->downloadCertificates();
                 break;
-            case 'callBack':
-                $this->callBack();
+            case 'setStatus':
+                $this->setStatus();
                 break;
         }
     }
@@ -145,13 +145,15 @@ abstract class srCertificateGUI
     }
 
     /**
-     * call back a certificate to deactivate it
+     * set status of certificate
      */
-    public function callBack(){
+    public function setStatus() {
         $cert = new srCertificate($_GET['cert_id']);
-        $cert->setCalledBack(1);
+        $cert->setStatus($_GET['set_status']);
         $cert->update();
-        $this->pl->sendCallBackNotification($cert);
+        if($_GET['set_status'] == srCertificate::STATUS_CALLED_BACK){
+            $this->pl->sendMail('callback', $cert);
+        }
         $this->ctrl->redirect($this, 'index');
     }
 }

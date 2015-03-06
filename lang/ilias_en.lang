@@ -17,7 +17,23 @@ certificate#:#Certificate
 back_to_course#:#Back to Course
 callback_email_subject#:#Certificate Callback
 callback_email_message#:#The following certificate has been called back and therefore is no longer available:
-called_back#:#Status
+status#:#Status
+waiting#:#Waiting
+created#:#Created
+called_back#:#Called Back
+creation_failed#:#Creation Failed
+being_processed#:#Being Processed
+undo_callback#:#Undo Callback
+retry#:#Retry
+download#:#Download
+call_back#:#Call Back
+
+writeperm_failed_subject#:#Certificate: creation failed
+writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:
+no_space_left_subject#:#Certificate: creation failed
+no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:
+disk_space_warning_mail_subject#:#Certificate: Free space warning
+disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.
 
 valid_from#:#Valid from
 valid_to#:#Valid to
@@ -149,6 +165,8 @@ admin_form_path_hook_class#:#Path to Hook class
 admin_form_path_hook_class_info#:#Path to the class 'srCertificateCustomHooks', e.g. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
 admin_form_callback_email#:#Callback Email
 admin_form_callback_email_info#:#Email will be sent to this address whenever a certificate is called back
+admin_form_disk_space_warning#:#Free Space Warning (MB)
+admin_form_disk_space_warning_info#:#Send a warning to the system administrator when the amount of free space for the certificate creation is lower than this value
 admin_form_permission_settings#:#Permission settings
 admin_form_roles_administrate_certificate_types#:#Administrate certificate types
 admin_form_roles_administrate_certificate_types_info#:#User assigned to one of the selected roles are allowed to administrate certificate types
