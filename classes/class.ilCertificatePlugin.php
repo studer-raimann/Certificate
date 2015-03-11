@@ -249,7 +249,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         $message = $this->txt('disk_space_warning_mail_message');
         $message .= "\n\n Free disk space left: " . disk_free_space($cert->getCertificatePath()) . " Bytes";
         $message .= ilMail::_getInstallationSignature();
-        $mail->sendMail('root', '', '', $subject, $message, array(), array("system"));
+        $mail->sendMail($admin_address, '', '', $subject, $message, array(), array("system"));
         self::$disk_space_warning_sent = true;
     }
 

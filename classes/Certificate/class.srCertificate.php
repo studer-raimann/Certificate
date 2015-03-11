@@ -301,13 +301,14 @@ class srCertificate extends ActiveRecord
             $free_space = disk_free_space($this->getCertificatePath());
             //Send mail to administrator if the free space is below the configured value
             if($this->pl->config('disk_space_warning') > 0 && $free_space < ($this->pl->config('disk_space_warning') * 1000000)
-                && !$this->pl->getDiskSpaceWarningSent())
+                && !$this->pl->config('disk_space_warning_sent'))
             {
                 $this->pl->sendMail('disk_space_warning', $this);
+                ilCertificateConfig::set('disk_space_warning_sent', 1);
             }
-            elseif($this->pl->getDiskSpaceWarningSent() && $free_space > ($this->pl->config('disk_space_warning') * 1000000))
+            elseif($this->pl->config('disk_space_warning_sent') && $free_space > ($this->pl->config('disk_space_warning') * 1000000))
             {
-                $this->pl->setDiskSpaceWarningSent(false);
+                ilCertificateConfig::set('disk_space_warning_sent', 0);
             }
 
             $this->setStatus(srCertificate::STATUS_PROCESSED);
