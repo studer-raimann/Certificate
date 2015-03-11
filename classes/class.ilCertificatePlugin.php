@@ -234,11 +234,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
             $mail = new ilMail(ANONYMOUS_USER_ID);
             $subject = $this->txt('callback_email_subject');
             $message = $this->txt('callback_email_message');
-            $message .= "\n\n Certificate ID: " . $cert->getid();
-            $message .= "\n User Login: " . $cert->getUser()->getLogin();
-            $message .= "\n User Name: " . $cert->getUser()->getFullname();
-            $message .= "\n File Name: " . $cert->getFilename();
-            $message .= "\n File Version: " . $cert->getFileVersion();
+            $message .= $this->getCertDetailsForMail($cert);
             $mail->sendMail($address, '', '', $subject, $message, array(), array("system"));
         }
     }
@@ -265,12 +261,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         $mail = new ilMail(ANONYMOUS_USER_ID);
         $subject = $this->txt('no_space_left_subject');
         $message = $this->txt('no_space_left_message');
-        $message .= "\n\n Certificate ID: " . $cert->getid();
-        $message .= "\n User Login: " . $cert->getUser()->getLogin();
-        $message .= "\n User Name: " . $cert->getUser()->getFullname();
-        $message .= "\n File Name: " . $cert->getFilename();
-        $message .= "\n File Version: " . $cert->getFileVersion();
-        $message .= ilMail::_getInstallationSignature();
+        $message .= $this->getCertDetailsForMail($cert);
         $mail->sendMail($admin_address, '', '', $subject, $message, array(), array("system"));
     }
 
@@ -282,14 +273,24 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         $mail = new ilMail(ANONYMOUS_USER_ID);
         $subject = $this->txt('writeperm_failed_subject');
         $message = $this->txt('writeperm_failed_message');
-        $message .= "\n\n Certificate ID: " . $cert->getid();
+        $message .= $this->getCertDetailsForMail($cert);
+        $mail->sendMail($admin_address, '', '', $subject, $message, array(), array("system"));
+    }
+
+    /**
+     * @param $cert srCertificate
+     * @return string
+     */
+    protected function getCertDetailsForMail($cert){
+        $message = "\n\n Certificate ID: " . $cert->getid();
         $message .= "\n User Login: " . $cert->getUser()->getLogin();
         $message .= "\n User Name: " . $cert->getUser()->getFullname();
         $message .= "\n File Name: " . $cert->getFilename();
         $message .= "\n File Version: " . $cert->getFileVersion();
         $message .= ilMail::_getInstallationSignature();
-        $mail->sendMail($admin_address, '', '', $subject, $message, array(), array("system"));
+        return $message;
     }
+
 
     /**
      * @param boolean $disk_space_warning_sent
