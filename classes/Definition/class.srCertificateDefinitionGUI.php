@@ -13,6 +13,7 @@ require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php'
  * GUI-Class srCertificateDefinitionGUI
  *
  * @author            Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author            Theodor Truffer <tt@studer-raimann.ch>
  * @version           $Id:
  * @ilCtrl_isCalledBy srCertificateDefinitionGUI: ilRouterGUI, ilUIPluginRouterGUI
  */

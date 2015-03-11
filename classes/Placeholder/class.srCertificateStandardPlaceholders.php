@@ -11,6 +11,7 @@ require_once(dirname(dirname(__FILE__)) . '/class.ilCertificatePlugin.php');
  * srCertificateStandardPlaceholder
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class srCertificateStandardPlaceholders
 {

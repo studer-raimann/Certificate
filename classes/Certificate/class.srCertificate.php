@@ -9,6 +9,7 @@ require_once(dirname(dirname(__FILE__)) . '/class.ilCertificatePlugin.php');
  * srCertificate
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @version
  */
 class srCertificate extends ActiveRecord

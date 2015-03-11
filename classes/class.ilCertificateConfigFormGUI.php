@@ -9,6 +9,7 @@ require_once('class.ilCertificateConfig.php');
  * Class ilCertificateConfigFormGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilCertificateConfigFormGUI extends ilPropertyFormGUI
 {

@@ -16,6 +16,7 @@ require_once('./Services/Mail/classes/class.ilMail.php');
  * Certificate Plugin
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @version $Id$
  *
  */

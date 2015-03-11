@@ -7,6 +7,7 @@ require_once('class.srCertificateTableGUI.php');
  * Class srCertificateGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy srCertificateGUI : ilRouterGUI, ilUIPluginRouterGUI
  */

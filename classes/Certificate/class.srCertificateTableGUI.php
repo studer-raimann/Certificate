@@ -11,6 +11,7 @@ require_once('./Services/Form/classes/class.ilCheckboxInputGUI.php');
  * Class srCertificateTableGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class srCertificateTableGUI extends ilTable2GUI
 {
