@@ -10,6 +10,10 @@ require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php
 require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateCustomTypeSettingFormGUI.php');
 require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateCustomTypeSetting.php');
 require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateTypeCustomSettingsTableGUI.php');
+require_once(dirname(dirname(__FILE__)) .'/Signature/class.srCertificateSignature.php');
+require_once(dirname(__FILE__) . '/class.srCertificateTypeSignaturesTableGUI.php');
+require_once(dirname(__FILE__) . '/class.srCertificateTypeSignatureFormGUI.php');
+
 
 
 /**
@@ -109,6 +113,8 @@ class srCertificateTypeGUI
             ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
             $this->ctrl->redirectByClass('ilpersonaldesktopgui');
         }
+        $this->ctrl->saveParameter($this, 'type_id');
+        $this->ctrl->saveParameter($this, 'signature_id');
 
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -194,6 +200,38 @@ class srCertificateTypeGUI
                         $this->createPlaceholder();
                         $this->setTabs('placeholders');
                         break;
+                    case 'showSignatures':
+                        $this->showSignatures();
+                        $this->setTabs('signatures');
+                        break;
+                    case 'addSignature':
+                        $this->addSignature();
+                        $this->setTabs('signatures');
+                        break;
+                    case 'editSignature':
+                        $this->editSignature();
+                        $this->setTabs('signatures');
+                        break;
+                    case 'createSignature':
+                        $this->createSignature();
+                        $this->setTabs('signatures');
+                        break;
+                    case 'updateSignature':
+                        $this->updateSignature();
+                        $this->setTabs('signatures');
+                        break;
+                    case 'confirmDeleteSignature':
+                        $this->confirmDeleteSignature();
+                        $this->setTabs('signatures');
+                        break;
+                    case 'deleteSignature':
+                        $this->deleteSignature();
+                        $this->setTabs('signatures');
+                        break;
+                    case 'downloadSignature':
+                        $this->downloadSignature();
+                        $this->setTabs('signatures');
+                        break;
                     case '':
                         $this->showTypes();
                         break;
@@ -218,6 +256,7 @@ class srCertificateTypeGUI
             $this->tabs->addTab('template', $this->pl->txt('template'), $this->ctrl->getLinkTarget($this, 'editTemplate'));
             $this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'showSettings'));
             $this->tabs->addTab('placeholders', $this->pl->txt('placeholders'), $this->ctrl->getLinkTarget($this, 'showPlaceholders'));
+            $this->tabs->addTab('signatures', $this->pl->txt('signatures'), $this->ctrl->getLinkTarget($this, 'showSignatures'));
             $this->tpl->setTitle($this->type->getTitle());
             $this->tpl->setDescription($this->type->getDescription());
         }
@@ -464,6 +503,115 @@ class srCertificateTypeGUI
         }
     }
 
+    /**
+     * Show form for editing singatures
+     */
+    public function showSignatures()
+    {
+        $table = new srCertificateTypeSignaturesTableGUI($this, 'showSignatures', $this->type);
+        $this->tpl->setContent($table->getHTML());
+    }
+
+    /**
+     * Add a new placeholder
+     */
+    public function addSignature()
+    {
+        $signature = new srCertificateSignature();
+        $signature->setCertificateType($this->type);
+        $form = new srCertificateTypeSignatureFormGUI($this, $signature, $this->type);
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    /**
+     * Create a new signature
+     */
+    public function createSignature()
+    {
+        $signature = new srCertificateSignature();
+        $signature->setCertificateType($this->type);
+        $form = new srCertificateTypeSignatureFormGUI($this, $signature, $this->type);
+        if ($form->saveObject()) {
+            ilUtil::sendSuccess($this->pl->txt('msg_signature_saved'), true);
+            $this->ctrl->redirect($this, 'showSignatures');
+        } else {
+            $this->tpl->setContent($form->getHTML());
+        }
+    }
+
+    /**
+     *
+     */
+    public function editSignature()
+    {
+        try {
+            $signature = srCertificateSignature::find($_GET['signature_id']);
+            if ($signature === null) {
+                throw new ilException("Signature with ID " . $_GET['signature_id'] . " not found");
+            }
+            $form = new srCertificateTypeSignatureFormGUI($this, $signature, $this->type);
+            $this->tpl->setContent($form->getHTML());
+        } catch (Exception $e) {
+            ilUtil::sendFailure($e->getMessage(), true);
+            $this->ctrl->redirect($this, 'showSignatures');
+        }
+    }
+
+    /**
+     * Update signature related stuff
+     */
+    public function updateSignature()
+    {
+        try {
+            $signature = srCertificateSignature::find($_GET['signature_id']);
+            if ($signature === null) {
+                throw new srCertificateException("Signature with ID " . $_GET['signature_id'] . " not found");
+            }
+            $form = new srCertificateTypeSignatureFormGUI($this, $signature, $this->type);
+            if ($form->saveObject()) {
+                ilUtil::sendSuccess($this->pl->txt('msg_signature_saved'), true);
+                $this->ctrl->redirect($this, 'showSignatures');
+            } else {
+                $this->tpl->setContent($form->getHTML());
+            }
+        } catch (ilException $e) {
+            ilUtil::sendFailure($e->getMessage(), true);
+            $this->ctrl->redirect($this, 'showSignatures');
+        }
+    }
+
+    /**
+     *
+     */
+    public function confirmDeleteSignature(){
+        $signature = srCertificateSignature::find($_GET['signature_id']);
+        $item_html = $signature->getFirstName() . " " . $signature->getLastName() . '<br>';
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget($this->pl->txt('common_back'), $this->ctrl->getLinkTarget($this, 'view'));
+        ilUtil::sendQuestion($this->pl->txt('signatures_confirm_delete'));
+
+        $toolbar = new ilToolbarGUI();
+        $this->ctrl->saveParameter($this, 'signature_id');
+        $toolbar->addButton($this->pl->txt('confirm'), $this->ctrl->getLinkTarget($this, 'deleteSignature'));
+        $toolbar->addButton($this->pl->txt('cancel'), $this->ctrl->getLinkTarget($this, 'showSignatures'));
+
+        $this->tpl->setContent($item_html . '</br>' . $toolbar->getHTML());
+    }
+
+    /**
+     *
+     */
+    public function deleteSignature(){
+        $signature = srCertificateSignature::find($_GET['signature_id']);
+        $signature->delete();
+        ilUtil::sendSuccess($this->pl->txt('msg_delete_signature_success'), true);
+        $this->ctrl->redirect($this, 'showSignatures');
+    }
+
+    public function downloadSignature(){
+        $signature = srCertificateSignature::find($_GET['signature_id']);
+        $signature->download();
+    }
 
     /**
      * Create or update a type

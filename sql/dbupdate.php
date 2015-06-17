@@ -174,3 +174,13 @@
     <?php
     ilCertificateConfig::set(ilCertificateConfig::DISK_SPACE_WARNING, ilCertificatePlugin::DEFAULT_DISK_SPACE_WARNING);
     ?>
+<#14>
+    <?php
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignature.php');
+    srCertificateSignature::installDB();
+    ?>
+<#15>
+    <?php
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignatureDefinition.php');
+    srCertificateSignatureDefinition::installDB();
+    ?>

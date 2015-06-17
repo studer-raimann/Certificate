@@ -66,6 +66,11 @@ class srCertificateDefinition extends ActiveRecord
     protected $placeholder_values;
 
     /**
+     * @var int ID of srCertificateSignature
+     */
+    protected $signature_id;
+
+    /**
      * Set to true if type changed
      *
      * @var boolean
@@ -193,6 +198,32 @@ class srCertificateDefinition extends ActiveRecord
         }
         return null;
     }
+
+    public function getSignature()
+    {
+        if(!$signature = srCertificateSignature::find($this->getSignatureId())){
+            $signature = new srCertificateSignature();
+        }
+        return $signature;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSignatureId()
+    {
+        if(!$this->signature_id){
+            if($sig_value = srCertificateSignatureDefinition::where(array('definition_id' => $this->getId()))){
+                $this->signature_id = $sig_value->first()->getSignatureId();
+            }else{
+                $this->signature_id = 0;
+            }
+        }
+        return $this->signature_id;
+    }
+
+
 
 
     // Shortcut-Getters implemented for the settings

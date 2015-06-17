@@ -1,0 +1,197 @@
+<?php
+/**
+ * srCertificateSignature
+ *
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
+ * @version
+ */
+class srCertificateSignature extends ActiveRecord
+{
+
+    /**
+     * MySQL Table-Name
+     */
+    const TABLE_NAME = 'cert_signature';
+
+    /**
+     * @var int
+     *
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       8
+     * @db_is_primary   true
+     * @db_sequence     true
+     */
+    protected $id = 0;
+
+    /**
+     * @var int ID of srCertificateType where this signature belongs to
+     *
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       8
+     */
+    protected $type_id;
+
+    /**
+     * @var String first name of signatures owner
+     *
+     * @db_has_field    true
+     * @db_fieldtype    text
+     * @db_length       256
+     */
+    protected $first_name;
+
+    /**
+     * @var String last name of signatures owner
+     *
+     * @db_has_field    true
+     * @db_fieldtype    text
+     * @db_length       256
+     */
+    protected $last_name;
+
+    /**
+     * @var srCertificateType Object where this signature belongs to
+     */
+    protected $type;
+
+    /**
+     * @var ilCertificatePlugin
+     */
+    protected $pl;
+
+
+    public function __construct($id = 0)
+    {
+        parent::__construct($id);
+        $this->pl = ilCertificatePlugin::getInstance();
+    }
+
+    // Public
+
+    public function delete() {
+        parent::delete();
+        unlink($this->getFilePath(true));
+    }
+
+    public function download() {
+        ilUtil::deliverFile($this->getFilePath(true), 'signature_' . $this->getLastName() . $this->getFirstName());
+    }
+
+    /**
+     * Get the path where the signature file is stored
+     *
+     * @param bool $append_file True if filename should be included
+     * @return string
+     */
+    public function getFilePath($append_file = false)
+    {
+        if(!$this->getTypeId()){
+            return false;
+        }
+        $path = CLIENT_DATA_DIR . '/cert_signatures/type_' . $this->getTypeId();
+        if ($append_file) {
+            if(!$this->getId()){
+                return false;
+            }
+            return $path . '/sig_' . $this->getId();
+        }
+        return $path;
+    }
+
+    // Static
+
+    /**
+     * @return string
+     * @description Return the Name of your Database Table
+     */
+    static function returnDbTableName()
+    {
+        return self::TABLE_NAME;
+    }
+
+
+    // Getters & Setters
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param \srCertificateType $type
+     */
+    public function setCertificateType($type)
+    {
+        $this->type = $type;
+        $this->type_id = $type->getId();
+    }
+
+    /**
+     * @return \srCertificateType
+     */
+    public function getCertificateType()
+    {
+        if (is_null($this->type)) {
+            $this->type = srCertificateType::find($this->getTypeId());
+        }
+
+        return $this->type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTypeId()
+    {
+        return $this->type_id;
+    }
+
+    /**
+     * @param int $type_id
+     */
+    public function setTypeId($type_id)
+    {
+        $this->type_id = $type_id;
+    }
+
+    /**
+     * @param String $first_name
+     */
+    public function setFirstName($first_name)
+    {
+        $this->first_name = $first_name;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @param String $last_name
+     */
+    public function setLastName($last_name)
+    {
+        $this->last_name = $last_name;
+    }
+
+    /**
+     * @return String
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+
+
+
+}

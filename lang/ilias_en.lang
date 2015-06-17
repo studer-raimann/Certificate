@@ -1,13 +1,22 @@
 msg_default_language_must_be_set#:#Standard-Language must be set
 decrypt_failed#:#The signature value could not be decrypted.
 signature#:#Signature
+signature_file#:#Signature file
+signature_file_info#:#Upload an image which represents the signature here
+signatures#:#Signatures
 signature_check#:#Check certificate signature
+signatures_confirm_delete#:#Are you sure you want to proceed deleting the following signature?
+last_name#:#Last Name
+first_name#:#First Name
+add_new_signature#:#Add new signature
 decrypt_successful#:#The decryption was successful.
 in_process#:#in process
 general#:#General
 template#:#Template
 certificate_placeholders#:#Certificate placeholders
 save#:#Save
+cancel#:#Cancel
+confirm#:#Confirm
 always#:#Always
 placeholders#:#Placeholders
 back_to_overview#:#Overview
@@ -60,6 +69,8 @@ msg_reserved_identifier#:#Identifier '%s' is reserved by an existing standard pl
 msg_identifier_not_valid#:#Identifier '%s' is not valid
 msg_reset_validity#:#The default value of the validity setting was reset
 msg_type_saved#:#Saved type
+msg_signature_saved#:#Saved signature
+msg_delete_signature_success#:#Signature successfully deleted
 msg_setting_saved#:#Saved setting
 msg_placeholder_saved#:#Saved placeholder
 msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols

@@ -193,7 +193,7 @@ class srCertificateDefinitionGUI
         $this->tabs->setSubTabActive('show_placeholders');
         /** @var srCertificateDefinition $definition */
         $definition = srCertificateDefinition::where(array('ref_id' => $this->ref_id))->first();
-        if ( ! count($definition->getPlaceholderValues())) {
+        if ( ! count($definition->getPlaceholderValues()) && !$this->definition->getType()->getSignatures()) {
             ilUtil::sendInfo($this->pl->txt('msg_no_placeholders'));
         } else {
             $this->form = new srCertificateDefinitionPlaceholdersFormGUI($this, $definition);

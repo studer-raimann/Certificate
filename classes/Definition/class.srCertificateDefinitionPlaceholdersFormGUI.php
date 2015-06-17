@@ -1,5 +1,6 @@
 <?php
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignatureDefinition.php');
 require_once('class.srCertificateDefinition.php');
 
 /**
@@ -100,6 +101,16 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI
                 $pl_value->setValue($value, $lang);
             }
         }
+        $value = $this->getInput('signature');
+        if($signature_value = srCertificateSignatureDefinition::find($this->definition->getId())){
+            $signature_value->setSignatureId($value);
+            $signature_value->update();
+        }else{
+            $signature_value = new srCertificateSignatureDefinition();
+            $signature_value->setDefinitionId($this->definition->getId());
+            $signature_value->setSignatureId($value);
+            $signature_value->create();
+        }
 
         return true;
     }
@@ -121,6 +132,24 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI
                 $this->addItem($this->getInputField($placeholder_value, $lang));
             }
         }
+
+        if ($signatures = $this->definition->getType()->getSignatures()){
+            $section = new ilFormSectionHeaderGUI();
+            $section->setTitle($this->pl->txt('signature'));
+            $this->addItem($section);
+
+            $select_input = new ilSelectInputGUI($this->pl->txt('signature'), 'signature');
+            $options = array(0 => '');
+            foreach($signatures as $signature){
+                $options[$signature->getId()] = $signature->getFirstName() . ' ' . $signature->getLastName();
+            }
+            $select_input->setOptions($options);
+            if($signature_value = srCertificateSignatureDefinition::find($this->definition->getId())){
+                $select_input->setValue($signature_value->getSignatureId());
+            }
+            $this->addItem($select_input);
+        }
+
         $this->addCommandButton('updatePlaceholders', $this->pl->txt('save'));
         $this->addCommandButton('updatePlaceholdersPreview', $this->pl->txt('save_preview'));
         return;

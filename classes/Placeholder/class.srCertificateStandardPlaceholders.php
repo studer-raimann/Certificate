@@ -55,7 +55,9 @@ class srCertificateStandardPlaceholders
         'LP_READ_COUNT' => 'Read count',
         'LP_STATUS' => 'Status code',
         'LP_AVG_PERCENTAGE' => 'Avg. percentage of course',
-        'CERT_TEMPLATE_PATH' => 'Path where certificate template file and assets are stored'
+        'CERT_TEMPLATE_PATH' => 'Path where certificate template file and assets are stored',
+        'SIGNATURE_NAME' => 'Name for the signature',
+        'SIGNATURE_IMAGE' => 'The actual signature'
     );
 
 
@@ -184,6 +186,7 @@ class srCertificateStandardPlaceholders
     protected function parseGeneralPlaceholders(ilObjCourse $course)
     {
         $utc = ilCertificateConfig::get('time_format_utc');
+        $signature = $this->certificate->getDefinition()->getSignature();
 
         return array(
             'DATE' => $this->formatDate('DATE'),
@@ -194,6 +197,8 @@ class srCertificateStandardPlaceholders
             'CERT_ID' => $this->certificate->getId(),
             'CERT_TEMPLATE_PATH' => $this->certificate->getDefinition()->getType()->getCertificateTemplatesPath(),
             'COURSE_TITLE' => $course->getTitle(),
+            'SIGNATURE_NAME' => $signature->getFirstName() . ' ' . $signature->getLastName(),
+            'SIGNATURE_IMAGE' => $signature->getFilePath(true) ? $signature->getFilePath(true) : '',
         );
     }
 
