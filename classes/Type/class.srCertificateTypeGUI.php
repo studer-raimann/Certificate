@@ -101,7 +101,6 @@ class srCertificateTypeGUI
         $this->db = $ilDB;
         $this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
         $this->lng->loadLanguageModule('common');
-        $this->ctrl->saveParameter($this, 'type_id');
         $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cert_b.png'));
         $this->rbac = $rbacreview;
         $this->user = $ilUser;
@@ -113,11 +112,16 @@ class srCertificateTypeGUI
             ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
             $this->ctrl->redirectByClass('ilpersonaldesktopgui');
         }
-        $this->ctrl->saveParameter($this, 'type_id');
-        $this->ctrl->saveParameter($this, 'signature_id');
+
+
 
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
+
+        if(!in_array($cmd, array('addType', ''))){
+            $this->ctrl->saveParameter($this, 'type_id');
+            $this->ctrl->saveParameter($this, 'signature_id');
+        }
         // needed for ILIAS >= 4.5
         if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
             $this->tpl->getStandardTemplate();

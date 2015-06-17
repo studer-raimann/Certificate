@@ -111,13 +111,13 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI
     {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 
-        $item = new ilTextInputGUI($this->pl->txt('last_name'), 'last_name');
-        $item->setValue($this->signature->getLastName());
+        $item = new ilTextInputGUI($this->pl->txt('first_name'), 'first_name');
+        $item->setValue($this->signature->getFirstName());
         $item->setRequired(true);
         $this->addItem($item);
 
-        $item = new ilTextInputGUI($this->pl->txt('first_name'), 'first_name');
-        $item->setValue($this->signature->getFirstName());
+        $item = new ilTextInputGUI($this->pl->txt('last_name'), 'last_name');
+        $item->setValue($this->signature->getLastName());
         $item->setRequired(true);
         $this->addItem($item);
 
