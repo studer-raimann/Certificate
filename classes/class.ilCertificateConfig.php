@@ -1,6 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
-
 
 /**
  * Class ilCertificateConfig
