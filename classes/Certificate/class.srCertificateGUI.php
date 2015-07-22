@@ -38,6 +38,7 @@ abstract class srCertificateGUI
      */
     protected $rbac;
 
+
     public function __construct()
     {
         global $ilCtrl, $tpl, $ilUser, $rbacreview;
@@ -49,11 +50,16 @@ abstract class srCertificateGUI
         $this->pl = ilCertificatePlugin::getInstance();
     }
 
+
     public function executeCommand()
     {
-        if ( ! $this->checkPermission()) {
+        if (!$this->checkPermission()) {
             ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
             $this->ctrl->redirectByClass('ilpersonaldesktopgui');
+        }
+
+        if (iLCertificatePlugin::getBaseClass() == 'ilUIPluginRouterGUI') {
+            $this->tpl->getStandardTemplate();
         }
 
         $cmd = $this->ctrl->getCmd('index');
@@ -74,13 +80,19 @@ abstract class srCertificateGUI
                 $this->downloadCertificates();
                 break;
         }
+
+        if (iLCertificatePlugin::getBaseClass() == 'ilUIPluginRouterGUI') {
+            $this->tpl->show();
+        }
     }
+
 
     public function index()
     {
         $table = $this->getTable('index');
         $this->tpl->setContent($table->getHTML());
     }
+
 
     public function applyFilter()
     {
@@ -89,6 +101,7 @@ abstract class srCertificateGUI
         $table->resetOffset();
         $this->index();
     }
+
 
     public function resetFilter()
     {
@@ -136,8 +149,10 @@ abstract class srCertificateGUI
      * @param $cmd
      * @return srCertificateTableGUI
      */
-    protected function getTable($cmd) {
+    protected function getTable($cmd)
+    {
         $options = (in_array($cmd, array('resetFilter', 'applyFilter'))) ? array('build_data' => false) : array();
+
         return new srCertificateTableGUI($this, $cmd, $options);
     }
 
