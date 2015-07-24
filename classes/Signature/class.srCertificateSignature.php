@@ -34,6 +34,15 @@ class srCertificateSignature extends ActiveRecord
     protected $type_id;
 
     /**
+     * @var String suffix of file
+     *
+     * @db_has_field    true
+     * @db_fieldtype    text
+     * @db_length       256
+     */
+    protected $suffix;
+
+    /**
      * @var String first name of signatures owner
      *
      * @db_has_field    true
@@ -76,7 +85,7 @@ class srCertificateSignature extends ActiveRecord
     }
 
     public function download() {
-        ilUtil::deliverFile($this->getFilePath(true), 'signature_' . $this->getLastName() . $this->getFirstName());
+        ilUtil::deliverFile($this->getFilePath(true), 'signature_' . $this->getLastName() . '_' .$this->getFirstName() . '.' .$this->getSuffix());
     }
 
     /**
@@ -189,6 +198,22 @@ class srCertificateSignature extends ActiveRecord
     public function getLastName()
     {
         return $this->last_name;
+    }
+
+    /**
+     * @return String
+     */
+    public function getSuffix()
+    {
+        return $this->suffix;
+    }
+
+    /**
+     * @param String $suffix
+     */
+    public function setSuffix($suffix)
+    {
+        $this->suffix = $suffix;
     }
 
 

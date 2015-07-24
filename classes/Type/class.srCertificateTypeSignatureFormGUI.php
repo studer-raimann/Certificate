@@ -69,16 +69,20 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI
         }
 
         if($this->signature->getId()){
+
             $signature_file = (array)$this->getInput('signature_file');
             if($signature_file["name"]){
                 if(!$this->type->storeSignatureFile($signature_file, $this->signature)){
                     return false;
+                } else {
+                    $this->signature->setSuffix(pathinfo($signature_file["name"], PATHINFO_EXTENSION));
                 }
             }
             $this->signature->store();
         }else{
-            $this->signature->store();
             $signature_file = (array)$this->getInput('signature_file');
+            $this->signature->setSuffix(pathinfo($signature_file["name"], PATHINFO_EXTENSION));
+            $this->signature->store();
             if(!$this->type->storeSignatureFile($signature_file, $this->signature)){
                 $this->signature->delete();
                 return false;
