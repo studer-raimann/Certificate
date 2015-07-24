@@ -85,7 +85,7 @@ class srCertificateCron
     public function run()
     {
         /** @var srCertificate $cert */
-        $certs = srCertificate::g(array('status' => srCertificate::STATUS_NEW))->get();
+        $certs = srCertificate::where(array('status' => srCertificate::STATUS_NEW))->get();
         foreach ($certs as $cert) {
             // Force a reload of the members. If there are parallel cronjobs, only continue if status is still NEW
             $cert->read();
