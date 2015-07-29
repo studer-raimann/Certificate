@@ -23,6 +23,7 @@ class srCertificateTypeSetting extends srCertificateSetting
     const IDENTIFIER_NOTIFICATION = 'notification';
     const IDENTIFIER_NOTIFICATION_USER = 'notification_user';
     const IDENTIFIER_DOWNLOADABLE = 'downloadable';
+    const IDENTIFIER_SCORM_TIMING = 'scorm_timing';
 
     const VALIDITY_TYPE_ALWAYS = 1;
     const VALIDITY_TYPE_DATE_RANGE = 2;

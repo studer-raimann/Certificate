@@ -39,6 +39,7 @@ class srCertificateType extends ActiveRecord
         srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE => array('default_value' => srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE),
         srCertificateTypeSetting::IDENTIFIER_VALIDITY => array('default_value' => ''),
         srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE => array('default_value' => 1),
+        srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING => array('default_value' => 0),
     );
 
     /**

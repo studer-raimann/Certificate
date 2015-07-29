@@ -3,6 +3,7 @@ require_once (dirname(dirname(__FILE__))) . '/Type/class.srCertificateType.php';
 require_once (dirname(__FILE__)) . '/class.srCertificateDefinitionSetting.php';
 require_once (dirname(dirname(__FILE__))) . '/Placeholder/class.srCertificatePlaceholderValue.php';
 require_once (dirname(dirname(__FILE__))) . '/CustomSetting/class.srCertificateCustomDefinitionSetting.php';
+require_once (dirname(dirname(__FILE__))) . '/Signature/class.srCertificateSignatureDefinition.php';
 
 /**
  * srCertificateDefinition
@@ -262,6 +263,12 @@ class srCertificateDefinition extends ActiveRecord
     public function getNotificationUser()
     {
         $setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER);
+        return (is_null($setting)) ? null : $setting->getValue();
+    }
+
+    public function getScormTiming()
+    {
+        $setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
         return (is_null($setting)) ? null : $setting->getValue();
     }
 

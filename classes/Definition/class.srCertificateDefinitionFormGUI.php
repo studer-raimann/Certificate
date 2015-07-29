@@ -167,6 +167,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE]);
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_GENERATION]);
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE]);
+        $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING]);
 
         // Custom settings
         /** @var srCertificateCustomDefinitionSetting $setting */
@@ -235,6 +236,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
                     break;
                 case srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE:
                 case srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER:
+                case srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING:
                     $input = new ilCheckboxInputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier);
                     $input->setInfo($this->pl->txt("setting_id_{$identifier}_info"));
                     $input->setValue(1);

@@ -354,7 +354,10 @@ class srCertificateStandardPlaceholders
         $lp_crs['last_access'] = $max_last_access;
 
         // calculates spent time different for scorm modules if enabled in config
-        if(ilCertificateConfig::get('scorm_timing')){
+        /** @var $cert_def srCertificateDefinition */
+        $cert_def = srCertificateDefinition::where(array('ref_id' => $course->getRefId()))->first();
+        if($cert_def->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING)->getValue()){
+            global $ilLog; $ilLog->write('TTRUFFER:::::::::::::: CALCULATING SCORM TIME :::::::::::::::::');
             $spent_seconds = 0;
             foreach(ilLPCollectionCache::_getItems($course->getId()) as $item){
 

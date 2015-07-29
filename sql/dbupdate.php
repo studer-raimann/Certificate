@@ -184,3 +184,27 @@
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignatureDefinition.php');
     srCertificateSignatureDefinition::installDB();
     ?>
+<#16>
+    <?php
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinitionSetting.php');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateTypeSetting.php');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateType.php');
+    foreach (srCertificateDefinition::get() as $cert_def) {
+        $setting = new srCertificateDefinitionSetting();
+        $setting->setDefinitionId($cert_def->getId());
+        $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
+        $setting->setValue(0);
+        $setting->store();
+    }
+
+    foreach (srCertificateType::get() as $type) {
+        $setting = new srCertificateTypeSetting();
+        $setting->setTypeId($type->getId());
+        $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
+        $setting->setEditableIn(array('crs'));
+        $setting->setValue(0);
+        $setting->store();
+    }
+
+    ?>
