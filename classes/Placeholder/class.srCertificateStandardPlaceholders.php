@@ -352,20 +352,21 @@ class srCertificateStandardPlaceholders
             }
         }
         $lp_crs['last_access'] = $max_last_access;
-
+//        global $ilLog;
+//        $ilLog->write($lp_crs['childs_spent_seconds']);
         // calculates spent time different for scorm modules if enabled in config
         /** @var $cert_def srCertificateDefinition */
         $cert_def = srCertificateDefinition::where(array('ref_id' => $course->getRefId()))->first();
         if($cert_def->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING)->getValue()){
-            global $ilLog; $ilLog->write('TTRUFFER:::::::::::::: CALCULATING SCORM TIME :::::::::::::::::');
+//            $ilLog->write('TTRUFFER: CALCULATING SCORM TIME');
             $spent_seconds = 0;
-            foreach(ilLPCollectionCache::_getItems($course->getId()) as $item){
-
+            foreach(ilLPCollections::_getItems($course->getId()) as $item){
+                $ilLog->write('item: ' . $item);
                 $spent_seconds += $this->getSpentSeconds(ilObject::_lookupObjectId($item), $user->getId());
             }
             $lp_crs['childs_spent_seconds'] = $spent_seconds;
         }
-
+//        $ilLog->write($lp_crs['childs_spent_seconds']);
         $lp_spent_time = $this->buildLpSpentTime($lp_crs);
 
         return array(
