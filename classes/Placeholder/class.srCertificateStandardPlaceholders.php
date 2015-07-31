@@ -352,21 +352,16 @@ class srCertificateStandardPlaceholders
             }
         }
         $lp_crs['last_access'] = $max_last_access;
-//        global $ilLog;
-//        $ilLog->write($lp_crs['childs_spent_seconds']);
         // calculates spent time different for scorm modules if enabled in config
         /** @var $cert_def srCertificateDefinition */
         $cert_def = srCertificateDefinition::where(array('ref_id' => $course->getRefId()))->first();
         if($cert_def->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING)->getValue()){
-//            $ilLog->write('TTRUFFER: CALCULATING SCORM TIME');
             $spent_seconds = 0;
             foreach(ilLPCollections::_getItems($course->getId()) as $item){
-                $ilLog->write('item: ' . $item);
                 $spent_seconds += $this->getSpentSeconds(ilObject::_lookupObjectId($item), $user->getId());
             }
             $lp_crs['childs_spent_seconds'] = $spent_seconds;
         }
-//        $ilLog->write($lp_crs['childs_spent_seconds']);
         $lp_spent_time = $this->buildLpSpentTime($lp_crs);
 
         return array(
@@ -455,7 +450,7 @@ class srCertificateStandardPlaceholders
 
         // I just ignore years, months and days as it is unlikely that a
         // course would take any longer than 1 hour
-        return $_seconds + ($_minutes + ($_hours + ($_days + ($_months + ($_years * 12) * 30) * 24) * 60) * 60);
+        return $_seconds + (($_minutes + (($_hours + (($_days + (($_months + $_years * 12) * 30)) * 24)) * 60)) * 60);
     }
 
 }
