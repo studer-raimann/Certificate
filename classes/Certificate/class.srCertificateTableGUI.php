@@ -161,9 +161,13 @@ class srCertificateTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set)
     {
         // For checkboxes in first column
-        if (count($this->getOption('actions_multi'))) {
+        if (count($this->getOption('actions_multi')) && $a_set['status'] == 3) {
             $this->tpl->setCurrentBlock('CHECKBOXES');
             $this->tpl->setVariable('VALUE', $a_set['id']);
+            $this->tpl->parseCurrentBlock();
+        } else {
+            $this->tpl->setCurrentBlock('COL');
+            $this->tpl->setVariable('VALUE', '');
             $this->tpl->parseCurrentBlock();
         }
 
