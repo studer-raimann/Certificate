@@ -65,6 +65,11 @@ class srCertificateTableGUI extends ilTable2GUI
      */
     protected $user;
 
+    /**
+     * @var bool
+     */
+    protected $has_any_certs = false;
+
 
     /**
      * Options array can contain the following key/value pairs
@@ -114,6 +119,11 @@ class srCertificateTableGUI extends ilTable2GUI
 
         if ($this->getOption('build_data')) {
             $this->buildData();
+        }
+
+        if($this->has_any_certs && count($this->getOption('actions_multi'))) {
+            $this->setSelectAllCheckbox("cert_id[]");
+            $this->addMultiCommand("downloadCertificates", $this->pl->txt('download_zip'));
         }
     }
 
@@ -346,8 +356,6 @@ class srCertificateTableGUI extends ilTable2GUI
         // Multi actions
         if (count($this->getOption('actions_multi'))) {
             $this->addColumn("", "", "1", true);
-            $this->setSelectAllCheckbox("cert_id[]");
-            $this->addMultiCommand("downloadCertificates", $this->pl->txt('download_zip'));
         }
 
         // Main columns
@@ -410,6 +418,12 @@ class srCertificateTableGUI extends ilTable2GUI
 
         $count = srCertificate::getCertificateData($options);
         $data = srCertificate::getCertificateData(array_merge($options, array('count' => false)));
+
+        foreach($data as $cert) {
+            if($cert["status"] == srCertificate::STATUS_PROCESSED) {
+                $this->has_any_certs = true;
+            }
+        }
 
         $this->setMaxCount($count);
         $this->setData($data);
