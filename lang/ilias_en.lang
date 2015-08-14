@@ -92,8 +92,8 @@ setting_id_default_lang#:#Default language
 setting_id_default_lang_info#:#The certificate is generated with this language, if the language of the user does not match one of the languages defined by the certificate type
 setting_id_downloadable#:#Certificate downloadable
 setting_id_downloadable_info#:#If checked, a user has the possibility to download the certificate
-setting_id_scorm_timing#:#Enable Scorm Timing
-setting_id_scorm_timing_info#:#Activates alternative calculating of 'Spent Seconds' for Scorm2004 Modules
+setting_id_scorm_timing#:#Enable SCORM timing
+setting_id_scorm_timing_info#:#Activates alternative calculation of 'Spent Seconds' for SCORM 2004 Modules
 setting_generation_auto#:#After course is completed (auto)
 setting_generation_manually#:#Manually
 setting_validity_range#:#Date range after creation of certificate
