@@ -1,26 +1,26 @@
-msg_default_language_must_be_set#:#Standard-Language must be set
+msg_default_language_must_be_set#:#Standard-Language must be set.
 decrypt_failed#:#The signature value could not be decrypted.
 signature#:#Signature
-signature_file#:#Signature file
-signature_file_info#:#Upload an image which represents the signature here
+signature_file#:#Signature File
+signature_file_info#:#Upload an image which represents the signature here.
 signatures#:#Signatures
-signature_check#:#Check certificate signature
+signature_check#:#Check Certificate Signature
 signatures_confirm_delete#:#Are you sure you want to proceed deleting the following signature?
 last_name#:#Last Name
 first_name#:#First Name
-add_new_signature#:#Add new signature
+add_new_signature#:#Add New Signature
 decrypt_successful#:#The decryption was successful.
-in_process#:#in process
+in_process#:#In Process
 general#:#General
 template#:#Template
-certificate_placeholders#:#Certificate placeholders
+certificate_placeholders#:#Certificate Placeholders
 save#:#Save
 cancel#:#Cancel
 confirm#:#Confirm
 always#:#Always
 placeholders#:#Placeholders
 back_to_overview#:#Overview
-manage_cert_types#:#Manage certificate types
+manage_cert_types#:#Manage Certificate Types
 save_preview#:#Save & Preview
 certificate#:#Certificate
 back_to_course#:#Back to Course
@@ -37,11 +37,11 @@ retry#:#Retry
 download#:#Download
 call_back#:#Call Back
 
-writeperm_failed_subject#:#Certificate: creation failed
+writeperm_failed_subject#:#Certificate: Creation Failed
 writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:
-no_space_left_subject#:#Certificate: creation failed
+no_space_left_subject#:#Certificate: Creation Failed
 no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:
-disk_space_warning_mail_subject#:#Certificate: Free space warning
+disk_space_warning_mail_subject#:#Certificate: Free Space Warning
 disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.
 
 valid_from#:#Valid from
@@ -49,145 +49,145 @@ valid_to#:#Valid to
 unlimited#:#Unlimited
 lastname#:#Lastname
 firstname#:#Firstname
-file_version#:#File version
+file_version#:#File Version
 actions#:#Actions
 cert_id#:#Certificate ID
 id#:#Certificate ID
-cert_type#:#Certificate type
-type#:#Certificate type
-only_newest_version#:#Show newest version only
-crs_title#:#Course title
+cert_type#:#Certificate Type
+type#:#Certificate Type
+only_newest_version#:#Show Newest Version Only
+crs_title#:#Course Title
 download_zip#:#Download as ZIP
 
-msg_no_permission_certificates#:#No permission to view certificates
-msg_definition_created#:#Definition successfully created
-msg_definition_updated#:#Definition successfully updated
-msg_placeholders_updated#:#Placeholders successfully updated
-msg_type_updated#:#Certificate type changed
-msg_no_types_available#:#No certificate types available
-msg_reserved_identifier#:#Identifier '%s' is reserved by an existing standard placeholder
-msg_identifier_not_valid#:#Identifier '%s' is not valid
-msg_reset_validity#:#The default value of the validity setting was reset
-msg_type_saved#:#Saved type
-msg_signature_saved#:#Saved signature
-msg_delete_signature_success#:#Signature successfully deleted
-msg_setting_saved#:#Saved setting
-msg_placeholder_saved#:#Saved placeholder
-msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols
-msg_no_permission#:#Permission denied
-msg_save_config#:#Configuration saved
-msg_no_placeholders#:#There are no placeholders defined for the selected certificate type
+msg_no_permission_certificates#:#No permission to view certificates.
+msg_definition_created#:#Definition successfully created.
+msg_definition_updated#:#Definition successfully updated.
+msg_placeholders_updated#:#Placeholders successfully updated.
+msg_type_updated#:#Certificate type changed.
+msg_no_types_available#:#No certificate types available.
+msg_reserved_identifier#:#Identifier '%s' is reserved by an existing standard placeholder.
+msg_identifier_not_valid#:#Identifier '%s' is not valid.
+msg_reset_validity#:#The default value of the validity setting was reset.
+msg_type_saved#:#Saved type.
+msg_signature_saved#:#Saved signature.
+msg_delete_signature_success#:#Signature successfully deleted.
+msg_setting_saved#:#Saved setting.
+msg_placeholder_saved#:#Saved placeholder.
+msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols.
+msg_no_permission#:#Permission denied.
+msg_save_config#:#Configuration saved.
+msg_no_placeholders#:#There are no placeholders defined for the selected certificate type.
 
-change_cert_type#:#Change certificate type
-choose_cert_type#:#Choose certificate type
-edit_settings#:#Edit settings
+change_cert_type#:#Change Certificate Type
+choose_cert_type#:#Choose Certificate Type
+edit_settings#:#Edit Settings
 
-setting_id_type#:#Certificate type
-setting_id_type_info_new#:#After choosing the type, additional settings will be available
-setting_id_type_info_change#:#Warning: By changing the Type, the current settings and placeholders are deleted
+setting_id_type#:#Certificate Type
+setting_id_type_info_new#:#After choosing the type, additional settings will be available.
+setting_id_type_info_change#:#Warning: By changing the type, the current settings and placeholders are deleted.
 setting_id_generation#:#Generation
 setting_id_validity#:#Validity
-setting_id_validity_type#:#Validity type
-setting_id_default_lang#:#Default language
-setting_id_default_lang_info#:#The certificate is generated with this language, if the language of the user does not match one of the languages defined by the certificate type
-setting_id_downloadable#:#Certificate downloadable
-setting_id_downloadable_info#:#If checked, a user has the possibility to download the certificate
-setting_id_scorm_timing#:#Enable SCORM timing
-setting_id_scorm_timing_info#:#Activates alternative calculation of 'Spent Seconds' for SCORM 2004 Modules
-setting_generation_auto#:#After course is completed (auto)
+setting_id_validity_type#:#Validity Type
+setting_id_default_lang#:#Default Language
+setting_id_default_lang_info#:#The certificate is generated with this language, if the language of the user does not match one of the languages defined by the certificate type.
+setting_id_downloadable#:#Certificate Downloadable
+setting_id_downloadable_info#:#If checked, a user has the possibility to download the certificate.
+setting_id_scorm_timing#:#Enable SCORM Timing
+setting_id_scorm_timing_info#:#Activates alternative calculation of 'Spent Seconds' for SCORM 2004 Modules.
+setting_generation_auto#:#After Course is Completed (auto)
 setting_generation_manually#:#Manually
-setting_validity_range#:#Date range after creation of certificate
+setting_validity_range#:#Date Range after Creation of Certificate
 setting_validity_1#:#Always
-setting_validity_2#:#Date range
+setting_validity_2#:#Date Range
 setting_validity_3#:#Date
-date_range#:#Date range
-setting_validity_date#:#Specific date
+date_range#:#Date Range
+setting_validity_date#:#Specific Date
 date#:#Date
 setting_id_notification#:#Notification
-setting_id_notification_info#:#Separate multiple addresses with comma
+setting_id_notification_info#:#Separate Multiple Addresses with Comma
 setting_id_notification_user#:#User Notification
-setting_id_notification_user_info#:#If checked, an email with the attached certificate is sent to the user
+setting_id_notification_user_info#:#If checked, an email with the attached certificate is sent to the user.
 validity_date_range#:#%s months, %s days
 
-confirm_type_change#:#Confirm certificate type change
+confirm_type_change#:#Confirm Certificate Type Change
 confirm_type_change_text#:#By changing the certificate type, all existing placeholders and settings are deleted. New placeholders defined by the type will be available.
 
-add_new_type#:#Add new certificate type
+add_new_type#:#Add New Certificate Type
 languages#:#Languages
 description#:#Description
 title#:#Title
-template_type_id#:#Template type
+template_type_id#:#Template Type
 roles#:#Roles
 roles_info#:#Roles that are allowed to choose this certificate type in an object. If no role is selected, all users are able to choose the type.
-available_objects#:#Available in objects
+available_objects#:#Available in Objects
 available_objects_info#:#Define in which objects this certificate type can be chosen
 edit_type#:#Edit Certificate Type
 add_type#:#Add Certificate Type
 assets#:#Assets
 assets_info#:#Check the assets you want to delete after saving
-add_assets#:#Add assets
-template_file#:#Template file
+add_assets#:#Add Assets
+template_file#:#Template File
 template_file_info#:#The file must be a valid template for the chosen Template type. If there exists already a template file, the current one is overridden.
 
 edit_setting#:#Edit '%s'
-edit_type_template#:#Edit template related settings
+edit_type_template#:#Edit Template-Related Settings
 setting#:#Setting
 editable_in#:#Editable in
-default_value#:#Default value
-default_value_lang#:#Default value '%s'
+default_value#:#Default Calue
+default_value_lang#:#Default Value '%s'
 label_lang#:#Label '%s'
 label#:#Label
 
 identifier#:#Identifier
-identifier_info#:#Valid characters: %s
-max_characters#:#Max characters
-max_characters_info#:#If you allow more than 128 characters, a textarea is used for entering the text
+identifier_info#:#Valid Characters: %s
+max_characters#:#Max Characters
+max_characters_info#:#If you allow more than 128 characters, a textarea is used for entering the text.
 mandatory#:#Mandatory
-add_new_placeholder#:#Add new Placeholder
-edit_placeholder#:#Edit placeholder
-add_placeholder#:#Add placeholder
+add_new_placeholder#:#Add New Placeholder
+edit_placeholder#:#Edit Placeholder
+add_placeholder#:#Add Placeholder
 standard_placeholders#:#Standard Placeholders
 standard_placeholders_desc#:#These are the standard placeholders provided by the plugin.
-update_cert_definitions#:#Update certificate definitions
-update_cert_definitions_info#:#If checked, the placeholder is also created for existing certificate definitions of this type (with the default value)
+update_cert_definitions#:#Update Certificate Definitions
+update_cert_definitions_info#:#If checked, the placeholder is also created for existing certificate definitions of this type (with the default value).
 standard_settings#:#Standard Settings
 custom_settings#:#Custom Settings
-add_new_custom_setting#:#Add new Custom Setting
+add_new_custom_setting#:#Add New Custom Setting
 custom_setting_type#:#Setting Type
 custom_setting_type_1#:#Boolean (Checkbox)
 custom_setting_type_2#:#Value (Dropdown)
-custom_setting_type_2_data#:#Data to select in Dropdown
-custom_setting_type_2_data_info#:#Enter the possible values available for selection, one per line. If the key should be different than the value, add a double pipe separating the key from the value, e.g. 'mykey||My Value'
-custom_setting_default_value_info#:#Boolean: Add '1' to check the checkbox by default, Value: Add a key from your data
-custom_setting_update_cert_definitions_info#:#If checked, the setting is also created for existing certificate definitions of this type (with the default value)
+custom_setting_type_2_data#:#Data to Select in Dropdown
+custom_setting_type_2_data_info#:#Enter the possible values available for selection, one per line. If the key should be different than the value, add a double pipe separating the key from the value, e.g. 'mykey||My Value'.
+custom_setting_default_value_info#:#Boolean: Add '1' to check the checkbox by default, Value: Add a key from your data.
+custom_setting_update_cert_definitions_info#:#If checked, the setting is also created for existing certificate definitions of this type (with the default value).
 
-admin_form_title#:#Configuration options
+admin_form_title#:#Configuration Options
 admin_form_course_templates#:#Enable support for course templates
-admin_form_course_templates_info#:#If enabled, the plugin offers additional certificate settings depending if a course is marked as "course template"
-admin_form_course_templates_ref_ids#:#Ref-IDs categories
+admin_form_course_templates_info#:#If enabled, the plugin offers additional certificate settings depending if a course is marked as "course template".
+admin_form_course_templates_ref_ids#:#Ref-IDs Categories
 admin_form_course_templates_ref_ids_info#:#Comma separated list of Ref-IDs of categories containing the template courses
-admin_form_time_format_utc#:#Print date/times on certificate in UTC timezone
-admin_form_time_format_utc_info#:#If checked, all date and time data calculated with the standard placeholders is converted in UTC timezone (by using PHPs gmdate() over date())
-admin_form_str_format_date#:#Date format
-admin_form_str_format_date_info#:#Date format used to format all dates from the standard placeholders
+admin_form_time_format_utc#:#Print Date/Times on Certificate in UTC-Timezone
+admin_form_time_format_utc_info#:#If checked, all date and time data calculated with the standard placeholders is converted in UTC timezone (by using PHPs gmdate() over date()).
+admin_form_str_format_date#:#Date Format
+admin_form_str_format_date_info#:#Date format used to format all dates from the standard placeholders.
 admin_form_str_format_datetime#:#Datetime format
-admin_form_str_format_datetime_info#:#Date format used to format all dates with time from the standard placeholders
-admin_form_path_hook_class#:#Path to Hook class
+admin_form_str_format_datetime_info#:#Date format used to format all dates with time from the standard placeholders.
+admin_form_path_hook_class#:#Path to Hook-Class
 admin_form_path_hook_class_info#:#Path to the class 'srCertificateCustomHooks', e.g. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
 admin_form_callback_email#:#Callback Email
-admin_form_callback_email_info#:#Email will be sent to this address whenever a certificate is called back
+admin_form_callback_email_info#:#Email will be sent to this address whenever a certificate is called back.
 admin_form_disk_space_warning#:#Free Space Warning (MB)
-admin_form_disk_space_warning_info#:#Send a warning to the system administrator when the amount of free space for the certificate creation is lower than this value
-admin_form_permission_settings#:#Permission settings
-admin_form_roles_administrate_certificate_types#:#Administrate certificate types
-admin_form_roles_administrate_certificate_types_info#:#User assigned to one of the selected roles are allowed to administrate certificate types
-admin_form_roles_administrate_certificates#:#Administrate certificates
-admin_form_roles_administrate_certificates_info#:#User assigned to one of the selected roles are allowed to globally search and download certificates
+admin_form_disk_space_warning_info#:#Send a warning to the system administrator when the amount of free space for the certificate creation is lower than this value.
+admin_form_permission_settings#:#Permission Settings
+admin_form_roles_administrate_certificate_types#:#Administrate Certificate Types
+admin_form_roles_administrate_certificate_types_info#:#User assigned to one of the selected roles are allowed to administrate certificate types.
+admin_form_roles_administrate_certificates#:#Administrate Certificates
+admin_form_roles_administrate_certificates_info#:#User assigned to one of the selected roles are allowed to globally search and download certificates.
 admin_form_notification_user_subject#:#Notification for User (Subject)
-admin_form_notification_others_subject#:#Notification for other Users (Subject)
+admin_form_notification_others_subject#:#Notification for Other Users (Subject)
 admin_form_notification_user_body#:#Notification for User (Body)
-admin_form_notification_others_body#:#Notification for other Users (Body)
-admin_form_max_diff_lp_seconds#:#Time range Certificate PDF generation (seconds)
+admin_form_notification_others_body#:#Notification for Other Users (Body)
+admin_form_max_diff_lp_seconds#:#Time Range Certificate PDF Generation (seconds)
 admin_form_max_diff_lp_seconds_info#:#You can set a time range in seconds to invoke the PDF generation of a certificate. If you enter zero, the PDF is generated right after the user passed the course. Note that possible notifications are also sent after the given time range.
 
 download_default_template#:#Download Default Template
