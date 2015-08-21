@@ -93,7 +93,7 @@ setting_id_default_lang_info#:#The certificate is generated with this language, 
 setting_id_downloadable#:#Certificate Downloadable
 setting_id_downloadable_info#:#If checked, a user has the possibility to download the certificate.
 setting_id_scorm_timing#:#Enable SCORM Timing
-setting_id_scorm_timing_info#:#Activates alternative calculation of 'Spent Seconds' for SCORM 2004 Modules.
+setting_id_scorm_timing_info#:#Activates alternative calculation of 'Spent Seconds' for SCORM 2004 modules.
 setting_generation_auto#:#After Course is Completed (auto)
 setting_generation_manually#:#Manually
 setting_validity_range#:#Date Range after Creation of Certificate
