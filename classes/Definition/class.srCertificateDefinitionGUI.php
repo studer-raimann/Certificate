@@ -84,7 +84,7 @@ class srCertificateDefinitionGUI
 
     public function __construct()
     {
-        global $tpl, $ilCtrl, $ilToolbar, $ilTabs, $lng, $ilAccess, $ilDB;
+        global $tpl, $ilCtrl, $ilToolbar, $ilTabs, $lng, $ilAccess, $ilDB, $ilLocator;
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->toolbar = $ilToolbar;
@@ -99,6 +99,8 @@ class srCertificateDefinitionGUI
         $this->ctrl->saveParameter($this, 'ref_id');
         $this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
         $this->lng->loadLanguageModule('common');
+        $ilLocator->addRepositoryItems();
+        $this->tpl->setVariable("LOCATOR", $ilLocator->getHTML());
     }
 
 
