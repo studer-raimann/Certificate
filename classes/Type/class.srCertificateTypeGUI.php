@@ -113,7 +113,8 @@ class srCertificateTypeGUI
             $this->ctrl->redirectByClass('ilpersonaldesktopgui');
         }
 
-
+        global $ilMainMenu;
+        $ilMainMenu->setActive('none');
 
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);

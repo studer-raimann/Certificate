@@ -63,6 +63,9 @@ abstract class srCertificateGUI
             $this->tpl->getStandardTemplate();
         }
 
+        global $ilMainMenu;
+        $ilMainMenu->setActive('none');
+
         $cmd = $this->ctrl->getCmd('index');
         switch ($cmd) {
             case 'index':
