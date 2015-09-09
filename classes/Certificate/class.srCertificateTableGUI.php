@@ -106,6 +106,7 @@ class srCertificateTableGUI extends ilTable2GUI
         $this->pl = ilCertificatePlugin::getInstance();
         $this->ctrl = $ilCtrl;
         $this->user = $ilUser;
+        $this->setShowRowsSelector(true);
 
         parent::__construct($a_parent_obj, $a_parent_cmd, "");
 
