@@ -154,6 +154,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
                 $this->setTitle($title);
                 $checkbox = new ilCheckboxInputGUI($this->pl->txt('change_cert_type'), 'change_type');
                 $checkbox->addSubItem($type);
+                $checkbox->setInfo($this->pl->txt('current_type') . ' ' . $this->definition->getType()->getTitle());
                 $this->addItem($checkbox);
             }
         }
