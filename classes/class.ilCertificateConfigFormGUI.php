@@ -144,7 +144,7 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $this->addItem($section);
 
         $item = new ilTextInputGUI($this->txt('notification_user_subject'), 'notification_user_subject');
-        $item->setSize(100);
+        $item->setSize(97);
         $this->addItem($item);
 
         $item = new ilTextAreaInputGUI($this->txt('notification_user_body'), 'notification_user_body');
@@ -153,7 +153,7 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $this->addItem($item);
 
         $item = new ilTextInputGUI($this->txt('notification_others_subject'), 'notification_others_subject');
-        $item->setSize(100);
+        $item->setSize(97);
         $this->addItem($item);
 
         $item = new ilTextAreaInputGUI($this->txt('notification_others_body'), 'notification_others_body');
