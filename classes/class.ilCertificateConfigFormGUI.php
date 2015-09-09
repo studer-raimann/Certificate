@@ -126,12 +126,16 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $item = new ilMultiSelectInputGUI($this->txt('roles_administrate_certificate_types'), 'roles_administrate_certificate_types');
         $item->setOptions($roles);
         $item->setInfo($this->txt('roles_administrate_certificate_types_info'));
+        $item->setWidth(272);
+        $item->setHeight(165);
         $this->addItem($item);
 
         // Administrate certificates
         $item = new ilMultiSelectInputGUI($this->txt('roles_administrate_certificates'), 'roles_administrate_certificates');
         $item->setOptions($roles);
         $item->setInfo($this->txt('roles_administrate_certificates_info'));
+        $item->setWidth(272);
+        $item->setHeight(165);
         $this->addItem($item);
 
         // Notification
@@ -140,15 +144,21 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $this->addItem($section);
 
         $item = new ilTextInputGUI($this->txt('notification_user_subject'), 'notification_user_subject');
+        $item->setSize(100);
         $this->addItem($item);
 
         $item = new ilTextAreaInputGUI($this->txt('notification_user_body'), 'notification_user_body');
+        $item->setRows(10);
+        $item->setCols(100);
         $this->addItem($item);
 
         $item = new ilTextInputGUI($this->txt('notification_others_subject'), 'notification_others_subject');
+        $item->setSize(100);
         $this->addItem($item);
 
         $item = new ilTextAreaInputGUI($this->txt('notification_others_body'), 'notification_others_body');
+        $item->setRows(10);
+        $item->setCols(100);
         $this->addItem($item);
 
         $this->addCommandButtons();
