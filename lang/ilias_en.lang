@@ -36,6 +36,7 @@ undo_callback#:#Undo Callback
 retry#:#Retry
 download#:#Download
 call_back#:#Call Back
+current_type#:#Current Type:
 
 writeperm_failed_subject#:#Certificate: Creation Failed
 writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:
