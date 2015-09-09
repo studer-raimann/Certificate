@@ -13,6 +13,15 @@ class srCertificateAdministrationGUI extends srCertificateGUI
 {
 
     /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->tpl->setTitle($this->pl->txt('administrate_certificates'));
+    }
+
+    /**
      * Check permissions
      */
     protected function checkPermission()

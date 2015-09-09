@@ -21,6 +21,8 @@ always#:#Always
 placeholders#:#Placeholders
 back_to_overview#:#Overview
 manage_cert_types#:#Manage Certificate Types
+administrate_certificates#:#Administrate Certificates
+my_certificates#:#My Certificates
 save_preview#:#Save & Preview
 certificate#:#Certificate
 back_to_course#:#Back to Course

@@ -49,6 +49,7 @@ abstract class srCertificateGUI
         $this->user = $ilUser;
         $this->rbac = $rbacreview;
         $this->pl = ilCertificatePlugin::getInstance();
+        $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cert_b.png'));
     }
 
 

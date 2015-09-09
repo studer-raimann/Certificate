@@ -12,6 +12,14 @@ require_once('class.srCertificateUserTableGUI.php');
  */
 class srCertificateUserGUI extends srCertificateGUI {
 
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->tpl->setTitle($this->pl->txt('my_certificates'));
+    }
 
     /**
      *  Download certificate
