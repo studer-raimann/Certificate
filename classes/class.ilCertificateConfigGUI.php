@@ -58,7 +58,16 @@ class ilCertificateConfigGUI extends ilPluginConfigGUI
     {
         $form = new ilCertificateConfigFormGUI($this);
         $form->fillForm();
-        $this->tpl->setContent($form->getHTML());
+        $ftpl = new ilTemplate('tpl.config_form.html', true, true, $this->pl->getDirectory());
+        $ftpl->setVariable("FORM", $form->getHTML());
+        $ftpl->setVariable("TXT_USE_PLACEHOLDERS", $this->pl->txt('txt_use_placeholders'));
+        foreach (srCertificateStandardPlaceholders::getStandardPlaceholders() as $placeholder => $text) {
+            $ftpl->setCurrentBlock("placeholder");
+            $ftpl->setVariable("PLACEHOLDER", $placeholder);
+            $ftpl->setVariable("TXT_PLACEHOLDER", $text);
+            $ftpl->parseCurrentBlock();
+        }
+        $this->tpl->setContent($ftpl->get());
     }
 
 

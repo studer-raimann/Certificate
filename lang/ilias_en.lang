@@ -39,6 +39,7 @@ retry#:#Retry
 download#:#Download
 call_back#:#Call Back
 current_type#:#Current Type:
+txt_use_placeholders#:#The following placeholders may be used (only in Message Content and Subject)
 
 writeperm_failed_subject#:#Certificate: Creation Failed
 writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:
