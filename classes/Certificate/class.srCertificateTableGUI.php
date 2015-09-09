@@ -228,13 +228,33 @@ class srCertificateTableGUI extends ilTable2GUI
         }
         // Actions
         if (count($this->getOption('actions'))) {
-            $actions = $this->buildActions($a_set);
-            $actions = ($actions) ? $actions->getHTML() : '&nbsp;';
+            if ($this->hasAction($a_set))
+            {
+                $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'id', $a_set['id']);
+                $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'status', $a_set['status']);
+                $async_url = $this->ctrl->getLinkTargetByClass(array(ilCertificatePlugin::getBaseClass(), get_class($this->parent_obj)), 'buildActions', '', true);
+                $actions = new ilAdvancedSelectionListGUI();
+                $actions->setId('action_list_' . $a_set['id']);
+                $actions->setAsynchUrl($async_url);
+                $actions->setAsynch(true);
+                $actions->setListTitle($this->pl->txt('actions'));
+            } else {
+                $actions = '&nbsp;';
+            }
+
             $this->tpl->setCurrentBlock('ACTIONS');
-            $this->tpl->setVariable('ACTIONS', $actions);
+            $this->tpl->setVariable('ACTIONS', is_string($actions) ? $actions : $actions->getHTML());
             $this->tpl->parseCurrentBlock();
         }
 
+    }
+
+    /**
+     * @param $a_set
+     * @return bool
+     */
+    protected function hasAction($a_set) {
+        return !in_array($a_set['status'], array(srCertificate::STATUS_DRAFT, srCertificate::STATUS_NEW, srCertificate::STATUS_WORKING));
     }
 
 
@@ -269,50 +289,6 @@ class srCertificateTableGUI extends ilTable2GUI
                 $col++;
             }
         }
-    }
-
-
-    /**
-     * Build action menu for a record
-     *
-     * @param array $a_set
-     * @return ilAdvancedSelectionListGUI|null
-     */
-    protected function buildActions(array $a_set) {
-        if (in_array($a_set['status'], array(srCertificate::STATUS_DRAFT, srCertificate::STATUS_NEW, srCertificate::STATUS_WORKING)))
-        {
-            return null;
-        }
-
-        $alist = new ilAdvancedSelectionListGUI();
-        $alist->setId($a_set['id']);
-        $alist->setListTitle($this->pl->txt('actions'));
-        $this->ctrl->setParameter($this->parent_obj, 'cert_id', $a_set['id']);
-
-        switch($a_set['status'])
-        {
-            case srCertificate::STATUS_CALLED_BACK:
-                if(get_class($this->parent_obj) == 'srCertificateAdministrationGUI' || get_class($this->parent_obj) == 'srCertificateDefinitionGUI'){
-                    $this->ctrl->setParameter($this->parent_obj, 'set_status', srCertificate::STATUS_PROCESSED);
-                    $alist->addItem($this->pl->txt('undo_callback'), 'undo_callback', $this->ctrl->getLinkTarget($this->parent_obj, 'setStatus'));
-                }
-                break;
-            case srCertificate::STATUS_FAILED:
-                if(get_class($this->parent_obj) == 'srCertificateAdministrationGUI' || get_class($this->parent_obj) == 'srCertificateDefinitionGUI'){
-                    $this->ctrl->setParameter($this->parent_obj, 'set_status', srCertificate::STATUS_NEW);
-                    $alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this->parent_obj, 'setStatus'));
-                }
-                break;
-            case srCertificate::STATUS_PROCESSED:
-                $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this->parent_obj, 'downloadCertificate'));
-                if(get_class($this->parent_obj) == 'srCertificateAdministrationGUI' || get_class($this->parent_obj) == 'srCertificateDefinitionGUI'){
-                    $this->ctrl->setParameter($this->parent_obj, 'set_status', srCertificate::STATUS_CALLED_BACK);
-                    $alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this->parent_obj, 'setStatus'));
-                }
-                break;
-        }
-
-        return $alist;
     }
 
 

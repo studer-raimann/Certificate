@@ -35,21 +35,13 @@ class srCertificateUserTableGUI extends srCertificateTableGUI
         parent::__construct($a_parent_obj, $a_parent_cmd, $options);
     }
 
-
     /**
-     * @param array $a_set
-     * @return ilAdvancedSelectionListGUI|null
+     * @param $a_set
+     * @return bool
      */
-    protected function buildActions(array $a_set)
-    {
-        // Check that the definition allows for certificate download
-        /** @var srCertificateDefinition $definition */
+    protected function hasAction($a_set) {
         $definition = srCertificateDefinition::find((int) $a_set['definition_id']);
-        if ($definition && $definition->getDownloadable()) {
-            return parent::buildActions($a_set);
-        }
-
-        return null;
+        return $definition && $definition->getDownloadable() && parent::hasAction($a_set);
     }
 
 }

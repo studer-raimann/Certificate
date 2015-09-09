@@ -45,6 +45,20 @@ class srCertificateUserGUI extends srCertificateGUI {
         return true;
     }
 
+    /**
+     * Build action menu for a record asynchronous
+     *
+     */
+
+    protected function buildActions()
+    {
+        $alist = new ilAdvancedSelectionListGUI();
+        $alist->setId($_GET['id']);
+        $alist->setListTitle($this->pl->txt('actions'));
+        $this->ctrl->setParameter($this, 'cert_id', $_GET['id']);
+        $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, 'downloadCertificate'));
+        echo $alist->getHTML(true);exit;
+    }
 
     /**
      * @param $cmd

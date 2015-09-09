@@ -157,6 +157,9 @@ class srCertificateDefinitionGUI
                     case 'setStatus':
                         $this->setStatus();
                         break;
+                    case 'buildActions':
+                        $this->buildActions();
+                        break;
                     case '':
                         if ($this->definition) {
                             $this->showCertificates();
@@ -170,6 +173,36 @@ class srCertificateDefinitionGUI
         if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
             $this->tpl->show();
         }
+    }
+
+    /**
+     * Build action menu for a record asynchronous
+     *
+     */
+    protected function buildActions() {
+        $alist = new ilAdvancedSelectionListGUI();
+        $alist->setId($_GET['id']);
+        $alist->setListTitle($this->pl->txt('actions'));
+        $this->ctrl->setParameter($this, 'cert_id', $_GET['id']);
+
+        switch($_GET['status'])
+        {
+            case srCertificate::STATUS_CALLED_BACK:
+                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_PROCESSED);
+                $alist->addItem($this->pl->txt('undo_callback'), 'undo_callback', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                break;
+            case srCertificate::STATUS_FAILED:
+                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_NEW);
+                $alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                break;
+            case srCertificate::STATUS_PROCESSED:
+                $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, 'downloadCertificate'));
+                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_CALLED_BACK);
+                $alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                break;
+        }
+
+        echo $alist->getHTML(true);exit;
     }
 
 

@@ -50,6 +50,7 @@ abstract class srCertificateGUI
         $this->rbac = $rbacreview;
         $this->pl = ilCertificatePlugin::getInstance();
         $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cert_b.png'));
+
     }
 
 
@@ -86,6 +87,9 @@ abstract class srCertificateGUI
                 break;
             case 'setStatus':
                 $this->setStatus();
+                break;
+            case 'buildActions':
+                $this->buildActions();
                 break;
         }
 
@@ -146,6 +150,10 @@ abstract class srCertificateGUI
         $this->index();
     }
 
+    /**
+     * build actions menu for a record asynchronous
+     */
+    abstract protected function buildActions();
 
     /**
      * Check permissions
