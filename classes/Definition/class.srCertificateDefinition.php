@@ -215,7 +215,8 @@ class srCertificateDefinition extends ActiveRecord
     public function getSignatureId()
     {
         if(!$this->signature_id){
-            if($sig_value = srCertificateSignatureDefinition::where(array('definition_id' => $this->getId()))){
+            $sig_value = srCertificateSignatureDefinition::where(array('definition_id' => $this->getId()));
+            if($sig_value->hasSets()){
                 $this->signature_id = $sig_value->first()->getSignatureId();
             }else{
                 $this->signature_id = 0;

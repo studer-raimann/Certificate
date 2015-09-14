@@ -13,6 +13,8 @@ class srCertificateTemplateTypeHtml extends srCertificateTemplateType
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->setId(self::TEMPLATE_TYPE_HTML);
         $this->setTitle('HTML');
         $this->setDescription('Templates with basic HTML, rendered with the ILIAS PDF engine (TCPDF)');

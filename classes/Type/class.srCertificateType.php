@@ -288,8 +288,8 @@ class srCertificateType extends ActiveRecord
      * @return bool
      */
     public function storeSignatureFile(array $file_data, srCertificateSignature $signature){
-        global $log;
-        $log->write('store signature file to ' . $signature->getFilePath(true));
+        global $ilLog;
+        $ilLog->write('store signature file to ' . $signature->getFilePath(true));
         if ($file_data['name'] && ! $file_data['error']) {
             $file_path = $signature->getFilePath(false);
             if ( ! is_dir($file_path)) {

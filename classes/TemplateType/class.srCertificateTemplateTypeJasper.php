@@ -14,6 +14,8 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->setId(self::TEMPLATE_TYPE_JASPER);
         $this->setTitle('Jasper Report');
         $this->setDescription('Templates with Jasper Reports, requires the Jasper Reports Library');
