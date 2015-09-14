@@ -33,7 +33,7 @@ waiting#:#Waiting
 created#:#Created
 called_back#:#Called Back
 creation_failed#:#Creation Failed
-being_processed#:#Being Processed
+being_processed#:#In Progress
 undo_callback#:#Undo Callback
 retry#:#Retry
 download#:#Download
@@ -51,15 +51,15 @@ disk_space_warning_mail_message#:#After the creation of the last certificate, th
 valid_from#:#Valid from
 valid_to#:#Valid to
 unlimited#:#Unlimited
-lastname#:#Lastname
-firstname#:#Firstname
+lastname#:#Last Name
+firstname#:#First Name
 file_version#:#File Version
 actions#:#Actions
 cert_id#:#Certificate ID
 id#:#Certificate ID
 cert_type#:#Certificate Type
 type#:#Certificate Type
-only_newest_version#:#Show Newest Version Only
+only_newest_version#:#Show newest Version only
 crs_title#:#Course Title
 download_zip#:#Download as ZIP
 
@@ -137,7 +137,7 @@ edit_setting#:#Edit '%s'
 edit_type_template#:#Edit Template-Related Settings
 setting#:#Setting
 editable_in#:#Editable in
-default_value#:#Default Calue
+default_value#:#Default Value
 default_value_lang#:#Default Value '%s'
 label_lang#:#Label '%s'
 label#:#Label
