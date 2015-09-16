@@ -81,6 +81,8 @@ msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers
 msg_no_permission#:#Permission denied.
 msg_save_config#:#Configuration saved.
 msg_no_placeholders#:#There are no placeholders defined for the selected certificate type.
+msg_called_back#:#The certificate has been called back.
+msg_not_created_yet#:#The certificate has not been created yet
 
 change_cert_type#:#Change Certificate Type
 choose_cert_type#:#Choose Certificate Type

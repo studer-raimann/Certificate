@@ -351,12 +351,7 @@ class srCertificate extends ActiveRecord
      */
     public function download()
     {
-        if ($this->status != self::STATUS_PROCESSED) {
-            ilUtil::sendFailure('The Certificate has not been created yet', true);
-            return;
-        }
-        if($this->status == self::STATUS_CALLED_BACK){
-            ilUtil::sendFailure('The Certificate has been called back', true);
+        if ($this->status != self::STATUS_PROCESSED || $this->status == self::STATUS_CALLED_BACK) {
             return;
         }
         $file = $this->getFilePath();

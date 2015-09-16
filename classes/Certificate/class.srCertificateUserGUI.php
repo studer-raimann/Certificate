@@ -10,7 +10,8 @@ require_once('class.srCertificateUserTableGUI.php');
  *
  * @ilCtrl_IsCalledBy srCertificateUserGUI : ilRouterGUI, ilUIPluginRouterGUI
  */
-class srCertificateUserGUI extends srCertificateGUI {
+class srCertificateUserGUI extends srCertificateGUI
+{
 
     /**
      *
@@ -21,6 +22,7 @@ class srCertificateUserGUI extends srCertificateGUI {
         $this->tpl->setTitle($this->pl->txt('my_certificates'));
     }
 
+
     /**
      *  Download certificate
      */
@@ -30,10 +32,9 @@ class srCertificateUserGUI extends srCertificateGUI {
             /** @var srCertificate $cert */
             $cert = srCertificate::find($cert_id);
             if ($cert->getUserId() == $this->user->getId() && $cert->getDefinition()->getDownloadable()) {
-                $cert->download();
+                parent::downloadCertificate();
             }
         }
-        $this->index();
     }
 
 
@@ -44,6 +45,7 @@ class srCertificateUserGUI extends srCertificateGUI {
     {
         return true;
     }
+
 
     /**
      * Build action menu for a record asynchronous
@@ -57,8 +59,10 @@ class srCertificateUserGUI extends srCertificateGUI {
         $alist->setListTitle($this->pl->txt('actions'));
         $this->ctrl->setParameter($this, 'cert_id', $_GET['id']);
         $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, 'downloadCertificate'));
-        echo $alist->getHTML(true);exit;
+        echo $alist->getHTML(true);
+        exit;
     }
+
 
     /**
      * @param $cmd

@@ -21,14 +21,17 @@ class srCertificateAdministrationGUI extends srCertificateGUI
         $this->tpl->setTitle($this->pl->txt('administrate_certificates'));
     }
 
+
     /**
      * Check permissions
      */
     protected function checkPermission()
     {
         $allowed_roles = ilCertificateConfig::get('roles_administrate_certificates');
+
         return $this->rbac->isAssignedToAtLeastOneGivenRole($this->user->getId(), json_decode($allowed_roles, true));
     }
+
 
     protected function getTable($cmd)
     {
@@ -36,21 +39,23 @@ class srCertificateAdministrationGUI extends srCertificateGUI
         if (in_array($cmd, array('resetFilter', 'applyFilter'))) {
             $options = array_merge($options, array('build_data' => false));
         }
+
         return new srCertificateTableGUI($this, $cmd, $options);
     }
+
 
     /**
      * Build action menu for a record asynchronous
      *
      */
-    protected function buildActions() {
+    protected function buildActions()
+    {
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($_GET['id']);
         $alist->setListTitle($this->pl->txt('actions'));
         $this->ctrl->setParameter($this, 'cert_id', $_GET['id']);
 
-        switch($_GET['status'])
-        {
+        switch ($_GET['status']) {
             case srCertificate::STATUS_CALLED_BACK:
                 $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_PROCESSED);
                 $alist->addItem($this->pl->txt('undo_callback'), 'undo_callback', $this->ctrl->getLinkTarget($this, 'setStatus'));
@@ -66,8 +71,7 @@ class srCertificateAdministrationGUI extends srCertificateGUI
                 break;
         }
 
-        echo $alist->getHTML(true);exit;
+        echo $alist->getHTML(true);
+        exit;
     }
-
-
 }

@@ -133,7 +133,13 @@ abstract class srCertificateGUI
         if ($cert_id = (int) $_GET['cert_id']) {
             /** @var srCertificate $cert */
             $cert = srCertificate::find($cert_id);
-            $cert->download();
+            if ($cert->getStatus() == srCertificate::STATUS_CALLED_BACK) {
+                ilUtil::sendFailure($this->pl->txt('msg_called_back'));
+            } elseif ($cert->getStatus() != srCertificate::STATUS_PROCESSED) {
+                ilUtil::sendFailure($this->pl->txt('msg_not_created_yet'));
+            } else {
+                $cert->download();
+            }
         }
         $this->index();
     }
@@ -150,10 +156,12 @@ abstract class srCertificateGUI
         $this->index();
     }
 
+
     /**
      * build actions menu for a record asynchronous
      */
     abstract protected function buildActions();
+
 
     /**
      * Check permissions
@@ -172,14 +180,16 @@ abstract class srCertificateGUI
         return new srCertificateTableGUI($this, $cmd, $options);
     }
 
+
     /**
      * set status of certificate
      */
-    public function setStatus() {
+    public function setStatus()
+    {
         $cert = new srCertificate($_GET['cert_id']);
         $cert->setStatus($_GET['set_status']);
         $cert->update();
-        if($_GET['set_status'] == srCertificate::STATUS_CALLED_BACK){
+        if ($_GET['set_status'] == srCertificate::STATUS_CALLED_BACK) {
             $this->pl->sendMail('callback', $cert);
         }
         $this->ctrl->redirect($this, 'index');
