@@ -85,7 +85,7 @@ class srCertificateTableGUI extends ilTable2GUI
      * @param string $a_parent_cmd
      * @param array $options
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", array $options=array())
+    public function __construct($a_parent_obj, $a_parent_cmd = "", array $options = array())
     {
         global $ilCtrl, $ilUser;
 
@@ -122,7 +122,7 @@ class srCertificateTableGUI extends ilTable2GUI
             $this->buildData();
         }
 
-        if($this->has_any_certs && count($this->getOption('actions_multi'))) {
+        if ($this->has_any_certs && count($this->getOption('actions_multi'))) {
             $this->setSelectAllCheckbox("cert_id[]");
             $this->addMultiCommand("downloadCertificates", $this->pl->txt('download_zip'));
         }
@@ -159,7 +159,7 @@ class srCertificateTableGUI extends ilTable2GUI
             $this->addFilterItemWithValue($item);
         }
 
-        if ( ! $this->getOption('newest_version_only')) {
+        if (!$this->getOption('newest_version_only')) {
             $item = new ilCheckboxInputGUI($this->pl->txt('only_newest_version'), 'active');
             $this->addFilterItemWithValue($item);
         }
@@ -200,23 +200,24 @@ class srCertificateTableGUI extends ilTable2GUI
                     $value = $this->pl->txt('unlimited');
                 }
 
-                if($column == 'status'){
-                    switch($value) {
-                        case '0':
-                        case '1':
+                if ($column == 'status') {
+                    switch ($value) {
+                        case srCertificate::STATUS_DRAFT:
+                        case srCertificate::STATUS_NEW:
                             $value = $this->pl->txt('waiting');
                             break;
-                        case '2':
+                        case srCertificate::STATUS_WORKING:
                             $value = $this->pl->txt('being_processed');
                             break;
-                        case '3':
+                        case srCertificate::STATUS_PROCESSED:
                             $value = $this->pl->txt('created');
                             break;
-                        case '4':
+                        case srCertificate::STATUS_FAILED:
                             $value = $this->pl->txt('creation_failed');
                             break;
-                        case '5':
+                        case srCertificate::STATUS_CALLED_BACK:
                             $value = $this->pl->txt('called_back');
+                            break;
                     }
                 }
 
@@ -229,9 +230,8 @@ class srCertificateTableGUI extends ilTable2GUI
         }
         // Actions
         if (count($this->getOption('actions'))) {
-            if ($this->hasAction($a_set))
-            {
-                $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'id', $a_set['id']);
+            if ($this->hasAction($a_set)) {
+                $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'cert_id', $a_set['id']);
                 $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'status', $a_set['status']);
                 $async_url = $this->ctrl->getLinkTargetByClass(array(ilCertificatePlugin::getBaseClass(), get_class($this->parent_obj)), 'buildActions', '', true);
                 $actions = new ilAdvancedSelectionListGUI();
@@ -250,11 +250,13 @@ class srCertificateTableGUI extends ilTable2GUI
 
     }
 
+
     /**
      * @param $a_set
      * @return bool
      */
-    protected function hasAction($a_set) {
+    protected function hasAction($a_set)
+    {
         return !in_array($a_set['status'], array(srCertificate::STATUS_DRAFT, srCertificate::STATUS_NEW, srCertificate::STATUS_WORKING));
     }
 
@@ -298,7 +300,8 @@ class srCertificateTableGUI extends ilTable2GUI
      *
      * @param $item
      */
-    protected function addFilterItemWithValue($item) {
+    protected function addFilterItemWithValue($item)
+    {
         /**
          * @var $item ilSelectInputGUI
          */
@@ -373,7 +376,7 @@ class srCertificateTableGUI extends ilTable2GUI
 
         // Always display latest version of certificates aka "active" if the table was initialized with this option
         // Otherwise, check if the checkbox of the filter was checked
-        if($this->getOption('newest_version_only')) {
+        if ($this->getOption('newest_version_only')) {
             $filters['active'] = 1;
         }
 
@@ -396,8 +399,8 @@ class srCertificateTableGUI extends ilTable2GUI
         $count = srCertificate::getCertificateData($options);
         $data = srCertificate::getCertificateData(array_merge($options, array('count' => false)));
 
-        foreach($data as $cert) {
-            if($cert["status"] == srCertificate::STATUS_PROCESSED) {
+        foreach ($data as $cert) {
+            if ($cert["status"] == srCertificate::STATUS_PROCESSED) {
                 $this->has_any_certs = true;
             }
         }

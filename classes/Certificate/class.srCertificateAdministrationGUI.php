@@ -44,6 +44,62 @@ class srCertificateAdministrationGUI extends srCertificateGUI
     }
 
 
+    protected function performCommand($cmd)
+    {
+        /** @var srCertificate $certificate */
+        $certificate = srCertificate::find((int) $_GET['cert_id']);
+        switch ($cmd) {
+            case 'callBack':
+                $this->callBack($certificate);
+                break;
+            case 'undoCallBack':
+                $this->undoCallBack($certificate);
+                break;
+            case 'retryGeneration':
+                $this->retryGeneration($certificate);
+                break;
+        }
+    }
+
+
+    /**
+     * @param srCertificate $certificate
+     */
+    protected function callBack(srCertificate $certificate)
+    {
+        $certificate->setStatus(srCertificate::STATUS_CALLED_BACK);
+        $certificate->update();
+        // TODO Handle all notifications with events -> catch statusChanged event of srCertificate object
+        $this->pl->sendMail('callback', $certificate);
+        ilUtil::sendSuccess($this->pl->txt('msg_called_back'), true);
+        $this->ctrl->redirect($this, 'index');
+    }
+
+
+    /**
+     * @param srCertificate $certificate
+     */
+    protected function undoCallBack(srCertificate $certificate)
+    {
+        $certificate->setStatus(srCertificate::STATUS_PROCESSED);
+        $certificate->update();
+        ilUtil::sendSuccess($this->pl->txt('msg_undo_called_back'), true);
+        $this->ctrl->redirect($this, 'index');
+    }
+
+
+    /**
+     * @param srCertificate $certificate
+     */
+    protected function retryGeneration(srCertificate $certificate)
+    {
+        $certificate->setStatus(srCertificate::STATUS_NEW);
+        $certificate->update();
+        ilUtil::sendSuccess($this->pl->txt('msg_retry_generation'), true);
+        $this->ctrl->redirect($this, 'index');
+    }
+
+
     /**
      * Build action menu for a record asynchronous
      *
@@ -51,23 +107,20 @@ class srCertificateAdministrationGUI extends srCertificateGUI
     protected function buildActions()
     {
         $alist = new ilAdvancedSelectionListGUI();
-        $alist->setId($_GET['id']);
+        $alist->setId((int) $_GET['cert_id']);
         $alist->setListTitle($this->pl->txt('actions'));
-        $this->ctrl->setParameter($this, 'cert_id', $_GET['id']);
+        $this->ctrl->setParameter($this, 'cert_id', (int) $_GET['cert_id']);
 
         switch ($_GET['status']) {
             case srCertificate::STATUS_CALLED_BACK:
-                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_PROCESSED);
-                $alist->addItem($this->pl->txt('undo_callback'), 'undo_callback', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                $alist->addItem($this->pl->txt('undo_callback'), 'undoCallback', $this->ctrl->getLinkTarget($this, 'undoCallBack'));
                 break;
             case srCertificate::STATUS_FAILED:
-                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_NEW);
-                $alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                $alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this, 'retryGeneration'));
                 break;
             case srCertificate::STATUS_PROCESSED:
                 $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, 'downloadCertificate'));
-                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_CALLED_BACK);
-                $alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                $alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this, 'callBack'));
                 break;
         }
 

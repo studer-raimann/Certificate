@@ -42,7 +42,7 @@ abstract class srCertificateGUI
 
     public function __construct()
     {
-        global $ilCtrl, $tpl, $ilUser, $rbacreview;
+        global $ilCtrl, $tpl, $ilUser, $rbacreview, $ilMainMenu;
 
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
@@ -50,7 +50,7 @@ abstract class srCertificateGUI
         $this->rbac = $rbacreview;
         $this->pl = ilCertificatePlugin::getInstance();
         $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cert_b.png'));
-
+        $ilMainMenu->setActive('none');
     }
 
 
@@ -64,9 +64,6 @@ abstract class srCertificateGUI
         if (iLCertificatePlugin::getBaseClass() == 'ilUIPluginRouterGUI') {
             $this->tpl->getStandardTemplate();
         }
-
-        global $ilMainMenu;
-        $ilMainMenu->setActive('none');
 
         $cmd = $this->ctrl->getCmd('index');
         switch ($cmd) {
@@ -85,12 +82,11 @@ abstract class srCertificateGUI
             case 'downloadCertificates':
                 $this->downloadCertificates();
                 break;
-            case 'setStatus':
-                $this->setStatus();
-                break;
             case 'buildActions':
                 $this->buildActions();
                 break;
+            default:
+                $this->performCommand($cmd);
         }
 
         if (iLCertificatePlugin::getBaseClass() == 'ilUIPluginRouterGUI') {
@@ -182,16 +178,12 @@ abstract class srCertificateGUI
 
 
     /**
-     * set status of certificate
+     * Subclasses can perform any specific commands not covered in the base class here
+     *
+     * @param $cmd
      */
-    public function setStatus()
+    protected function performCommand($cmd)
     {
-        $cert = new srCertificate($_GET['cert_id']);
-        $cert->setStatus($_GET['set_status']);
-        $cert->update();
-        if ($_GET['set_status'] == srCertificate::STATUS_CALLED_BACK) {
-            $this->pl->sendMail('callback', $cert);
-        }
-        $this->ctrl->redirect($this, 'index');
     }
+
 }
