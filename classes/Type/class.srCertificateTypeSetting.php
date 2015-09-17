@@ -23,6 +23,7 @@ class srCertificateTypeSetting extends srCertificateSetting
     const IDENTIFIER_NOTIFICATION = 'notification';
     const IDENTIFIER_NOTIFICATION_USER = 'notification_user';
     const IDENTIFIER_DOWNLOADABLE = 'downloadable';
+    const IDENTIFIER_SCORM_TIMING = 'scorm_timing';
 
     const VALIDITY_TYPE_ALWAYS = 1;
     const VALIDITY_TYPE_DATE_RANGE = 2;
@@ -147,13 +148,24 @@ class srCertificateTypeSetting extends srCertificateSetting
             case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
                 if (is_array($value) && isset($value['dd']) && isset($value['MM'])) {
                     $value = json_encode(array('d' => $value['dd'], 'm' => $value['MM']));
-                } else {
+                } else if (!self::isJson($value)){
                     $value = '';
                 }
                 break;
         }
 
         return $value;
+    }
+
+    /**
+     * return true if string is in json format
+     *
+     * @param String $string
+     * @return bool
+     */
+    public static function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 
 

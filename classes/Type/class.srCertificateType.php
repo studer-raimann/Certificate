@@ -1,6 +1,7 @@
 <?php
 require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemplateType.php');
 require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholder.php');
+require_once(dirname(dirname(__FILE__)) . '/Signature/class.srCertificateSignature.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSetting.php');
 
 /**
@@ -38,6 +39,7 @@ class srCertificateType extends ActiveRecord
         srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE => array('default_value' => srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE),
         srCertificateTypeSetting::IDENTIFIER_VALIDITY => array('default_value' => ''),
         srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE => array('default_value' => 1),
+        srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING => array('default_value' => 0),
     );
 
     /**
@@ -122,6 +124,13 @@ class srCertificateType extends ActiveRecord
      * @var array srCertificatePlaceholder[]
      */
     protected $placeholders;
+
+    /**
+     * Placeholders defined by this certificate type
+     *
+     * @var array srCertificatePlaceholder[]
+     */
+    protected $signatures;
 
     /**
      * Settings of this certificate
@@ -272,6 +281,25 @@ class srCertificateType extends ActiveRecord
 		$this->createTemplateDirectory();
 		return copy($path_to_template_file, $this->getCertificateTemplatesPath(true));
 	}
+
+    /**
+     * @param array $file_data
+     * @param srCertificateSignature $signature
+     * @return bool
+     */
+    public function storeSignatureFile(array $file_data, srCertificateSignature $signature){
+        global $ilLog;
+        $ilLog->write('store signature file to ' . $signature->getFilePath(true));
+        if ($file_data['name'] && ! $file_data['error']) {
+            $file_path = $signature->getFilePath(false);
+            if ( ! is_dir($file_path)) {
+                ilUtil::makeDirParents($file_path);
+            }
+            return copy($file_data['tmp_name'], $signature->getFilePath(true));
+        }
+        return false;
+    }
+
 
 
 	/**
@@ -521,6 +549,27 @@ class srCertificateType extends ActiveRecord
         }
 
         return $this->placeholders;
+    }
+
+    /**
+     * @param array $signatures
+     */
+    public function setSignatures($signatures)
+    {
+        $this->signatures = $signatures;
+    }
+
+
+    /**
+     * @return srCertificateSignature[]
+     */
+    public function getSignatures()
+    {
+        if (is_null($this->signatures)) {
+            $this->signatures = srCertificateSignature::where(array('type_id' => (int) $this->getId()))->get();
+        }
+
+        return $this->signatures;
     }
 
 

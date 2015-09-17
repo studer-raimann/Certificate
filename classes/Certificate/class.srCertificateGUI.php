@@ -7,6 +7,7 @@ require_once('class.srCertificateTableGUI.php');
  * Class srCertificateGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy srCertificateGUI : ilRouterGUI, ilUIPluginRouterGUI
  */
@@ -41,13 +42,15 @@ abstract class srCertificateGUI
 
     public function __construct()
     {
-        global $ilCtrl, $tpl, $ilUser, $rbacreview;
+        global $ilCtrl, $tpl, $ilUser, $rbacreview, $ilMainMenu;
 
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->user = $ilUser;
         $this->rbac = $rbacreview;
         $this->pl = ilCertificatePlugin::getInstance();
+        $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cert_b.png'));
+        $ilMainMenu->setActive('none');
     }
 
 
@@ -79,6 +82,11 @@ abstract class srCertificateGUI
             case 'downloadCertificates':
                 $this->downloadCertificates();
                 break;
+            case 'buildActions':
+                $this->buildActions();
+                break;
+            default:
+                $this->performCommand($cmd);
         }
 
         if (iLCertificatePlugin::getBaseClass() == 'ilUIPluginRouterGUI') {
@@ -121,7 +129,13 @@ abstract class srCertificateGUI
         if ($cert_id = (int) $_GET['cert_id']) {
             /** @var srCertificate $cert */
             $cert = srCertificate::find($cert_id);
-            $cert->download();
+            if ($cert->getStatus() == srCertificate::STATUS_CALLED_BACK) {
+                ilUtil::sendFailure($this->pl->txt('msg_called_back'));
+            } elseif ($cert->getStatus() != srCertificate::STATUS_PROCESSED) {
+                ilUtil::sendFailure($this->pl->txt('msg_not_created_yet'));
+            } else {
+                $cert->download();
+            }
         }
         $this->index();
     }
@@ -140,6 +154,12 @@ abstract class srCertificateGUI
 
 
     /**
+     * build actions menu for a record asynchronous
+     */
+    abstract protected function buildActions();
+
+
+    /**
      * Check permissions
      */
     abstract protected function checkPermission();
@@ -154,6 +174,16 @@ abstract class srCertificateGUI
         $options = (in_array($cmd, array('resetFilter', 'applyFilter'))) ? array('build_data' => false) : array();
 
         return new srCertificateTableGUI($this, $cmd, $options);
+    }
+
+
+    /**
+     * Subclasses can perform any specific commands not covered in the base class here
+     *
+     * @param $cmd
+     */
+    protected function performCommand($cmd)
+    {
     }
 
 }

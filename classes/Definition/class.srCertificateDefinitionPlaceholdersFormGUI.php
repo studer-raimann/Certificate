@@ -82,6 +82,7 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI
             return false;
         }
         $this->definition->update();
+
         return true;
     }
 
@@ -100,9 +101,11 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI
                 $pl_value->setValue($value, $lang);
             }
         }
+        $this->definition->setSignatureId($this->getInput('signature'));
 
         return true;
     }
+
 
     protected function initForm()
     {
@@ -121,10 +124,27 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI
                 $this->addItem($this->getInputField($placeholder_value, $lang));
             }
         }
+
+        if ($signatures = $this->definition->getType()->getSignatures()) {
+            $section = new ilFormSectionHeaderGUI();
+            $section->setTitle($this->pl->txt('signature'));
+            $this->addItem($section);
+            $select_input = new ilSelectInputGUI($this->pl->txt('signature'), 'signature');
+            $options = array(0 => '');
+            foreach ($signatures as $signature) {
+                $options[$signature->getId()] = $signature->getFirstName() . ' ' . $signature->getLastName();
+            }
+            $select_input->setOptions($options);
+            $select_input->setValue($this->definition->getSignatureId());
+            $this->addItem($select_input);
+        }
+
         $this->addCommandButton('updatePlaceholders', $this->pl->txt('save'));
         $this->addCommandButton('updatePlaceholdersPreview', $this->pl->txt('save_preview'));
+
         return;
     }
+
 
     /**
      * @param srCertificatePlaceholderValue $placeholder_value
@@ -148,6 +168,7 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI
         $input->setDisabled(!$placeholder_value->isEditable());
         $input->setValue($placeholder_value->getValue($lang));
         $input->setRequired($placeholder->getIsMandatory());
+
         return $input;
     }
 

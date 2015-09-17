@@ -10,11 +10,13 @@ if (is_file('./Services/ActiveRecord/class.ActiveRecord.php')) {
 require_once('./Services/UIComponent/classes/class.ilUserInterfaceHookPlugin.php');
 require_once('class.ilCertificateConfig.php');
 require_once('class.srCertificateHooks.php');
+require_once('./Services/Mail/classes/class.ilMail.php');
 
 /**
  * Certificate Plugin
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @version $Id$
  *
  */
@@ -36,6 +38,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     const DEFAULT_DATE_FORMAT = 'Y-m-d';
     const DEFAULT_DATETIME_FORMAT = 'Y-m-d, H:i';
+    const DEFAULT_DISK_SPACE_WARNING = 10;
 
     /**
      * Default permission settings
@@ -61,6 +64,11 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     protected static $instance;
 
+    /**
+     * @var bool
+     */
+    protected static $disk_space_warning_sent = false;
+
 
     /**
      * @return ilCertificatePlugin
@@ -72,6 +80,15 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         }
 
         return static::$instance;
+    }
+
+
+    protected function init()
+    {
+        parent::init();
+        if (isset($_GET['ulx'])) {
+            $this->updateLanguages();
+        }
     }
 
 
@@ -118,6 +135,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
             }
             $this->hooks = $object;
         }
+
         return $this->hooks;
     }
 
@@ -138,8 +156,10 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
             $ref_ids = explode(',', ilCertificateConfig::get('course_templates_ref_ids'));
             /** @var $tree ilTree */
             $parent_ref_id = $tree->getParentId($ref_id);
+
             return in_array($parent_ref_id, $ref_ids);
         }
+
         return false;
     }
 
@@ -156,6 +176,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         /** @var $ilPluginAdmin ilPluginAdmin */
         $exists = $ilPluginAdmin->exists(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
         $active = $ilPluginAdmin->isActive(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
+
         return (self::getBaseClass() && $exists && $active);
     }
 
@@ -167,10 +188,12 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     protected function beforeActivation()
     {
-        if ( ! $this->checkPreConditions()) {
+        if (!$this->checkPreConditions()) {
             ilUtil::sendFailure("You need to install the 'CertificateEvents' plugin");
+
             return false;
         }
+
         return true;
     }
 
@@ -183,7 +206,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     public static function getBaseClass()
     {
-        if ( ! is_null(self::$base_class)) {
+        if (!is_null(self::$base_class)) {
             return self::$base_class;
         }
 
@@ -198,4 +221,121 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
 
         return self::$base_class;
     }
+
+    // TODO Do handle these notifications in the events plugin, each notification belongs to its own class
+
+    public function sendMail($type, $cert)
+    {
+        switch ($type) {
+            case 'callback':
+                $this->sendCallBackNotification($cert);
+                break;
+            case 'disk_space_warning':
+                $this->sendDiskSpaceWarning($cert);
+                break;
+            case 'no_space_left':
+                $this->sendNoSpaceLeftNotification($cert);
+                break;
+            case 'not_writeable':
+                $this->sendNotWriteableNotification($cert);
+                break;
+        }
+    }
+
+
+    /**
+     * @param $cert srCertificate
+     */
+    protected function sendCallBackNotification($cert)
+    {
+        if ($address = ilCertificateConfig::get('callback_email')) {
+            $this->loadLanguageModule();
+            $mail = new ilMail(ANONYMOUS_USER_ID);
+            $subject = $this->txt('callback_email_subject');
+            $message = $this->txt('callback_email_message');
+            $message .= $this->getCertDetailsForMail($cert);
+            $mail->sendMail($address, '', '', $subject, $message, array(), array("system"));
+        }
+    }
+
+
+    /**
+     * @param $cert srCertificate
+     */
+    protected function sendDiskSpaceWarning($cert)
+    {
+        $admin_address = ilSetting::_lookupValue('common', 'admin_email');
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        $subject = $this->txt('disk_space_warning_mail_subject');
+        $message = $this->txt('disk_space_warning_mail_message');
+        $message .= "\n\n Free disk space left: " . disk_free_space($cert->getCertificatePath()) . " Bytes";
+        $message .= ilMail::_getInstallationSignature();
+        $mail->sendMail($admin_address, '', '', $subject, $message, array(), array("system"));
+        self::$disk_space_warning_sent = true;
+    }
+
+
+    /**
+     * @param $cert srCertificate
+     */
+    protected function sendNoSpaceLeftNotification($cert)
+    {
+        $admin_address = ilSetting::_lookupValue('common', 'admin_email');
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        $subject = $this->txt('no_space_left_subject');
+        $message = $this->txt('no_space_left_message');
+        $message .= $this->getCertDetailsForMail($cert);
+        $mail->sendMail($admin_address, '', '', $subject, $message, array(), array("system"));
+    }
+
+
+    /**
+     * @param $cert srCertificate
+     */
+    protected function sendNotWriteableNotification($cert)
+    {
+        $admin_address = ilSetting::_lookupValue('common', 'admin_email');
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        $subject = $this->txt('writeperm_failed_subject');
+        $message = $this->txt('writeperm_failed_message');
+        $message .= $this->getCertDetailsForMail($cert);
+        $mail->sendMail($admin_address, '', '', $subject, $message, array(), array("system"));
+    }
+
+
+    /**
+     * @param $cert srCertificate
+     * @return string
+     */
+    protected function getCertDetailsForMail($cert)
+    {
+        $message = "\n\n Certificate ID: " . $cert->getid();
+        $message .= "\n User Login: " . $cert->getUser()->getLogin();
+        $message .= "\n User Name: " . $cert->getUser()->getFullname();
+        $message .= "\n File Name: " . $cert->getFilename();
+        $message .= "\n File Version: " . $cert->getFileVersion();
+        $message .= ilMail::_getInstallationSignature();
+
+        return $message;
+    }
+
+
+    /**
+     * @param boolean $disk_space_warning_sent
+     */
+    public static function setDiskSpaceWarningSent($disk_space_warning_sent)
+    {
+        self::$disk_space_warning_sent = $disk_space_warning_sent;
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public static function getDiskSpaceWarningSent()
+    {
+        return self::$disk_space_warning_sent;
+    }
+
+
 }

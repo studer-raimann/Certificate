@@ -170,3 +170,56 @@
 
     ilCertificateConfig::set('max_diff_lp_seconds', 28800);
     ?>
+<#13>
+    <?php
+    ilCertificateConfig::set(ilCertificateConfig::DISK_SPACE_WARNING, ilCertificatePlugin::DEFAULT_DISK_SPACE_WARNING);
+    ?>
+<#14>
+    <?php
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignature.php');
+    srCertificateSignature::installDB();
+    ?>
+<#15>
+    <?php
+        // Removed creation  of srCertificateSignatureDefinition
+    ?>
+<#16>
+    <?php
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinitionSetting.php');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateTypeSetting.php');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateType.php');
+    foreach (srCertificateDefinition::get() as $cert_def) {
+        $setting = new srCertificateDefinitionSetting();
+        $setting->setDefinitionId($cert_def->getId());
+        $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
+        $setting->setValue(0);
+        $setting->save();
+    }
+
+    foreach (srCertificateType::get() as $type) {
+        $setting = new srCertificateTypeSetting();
+        $setting->setTypeId($type->getId());
+        $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
+        $setting->setEditableIn(array('crs'));
+        $setting->setValue(0);
+        $setting->save();
+    }
+    ?>
+<#17>
+     <?php
+        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
+        srCertificateDefinition::updateDB();
+
+        // Migrate from signature table
+        global $ilDB;
+        if ($ilDB->tableExists('cert_signature_def')) {
+            $set = $ilDB->query('SELECT * FROM cert_signature_def');
+            while ($row = $ilDB->fetchObject($set)) {
+                /** @var srCertificateDefinition $definition */
+                $definition = srCertificateDefinition::find($row->definition_id);
+                $definition->setSignatureId($row->signature_id);
+                $definition->save();
+            }
+        }
+     ?>
