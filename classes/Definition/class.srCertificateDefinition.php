@@ -3,7 +3,6 @@ require_once (dirname(dirname(__FILE__))) . '/Type/class.srCertificateType.php';
 require_once (dirname(__FILE__)) . '/class.srCertificateDefinitionSetting.php';
 require_once (dirname(dirname(__FILE__))) . '/Placeholder/class.srCertificatePlaceholderValue.php';
 require_once (dirname(dirname(__FILE__))) . '/CustomSetting/class.srCertificateCustomDefinitionSetting.php';
-require_once (dirname(dirname(__FILE__))) . '/Signature/class.srCertificateSignatureDefinition.php';
 
 /**
  * srCertificateDefinition
@@ -47,6 +46,16 @@ class srCertificateDefinition extends ActiveRecord
     protected $ref_id = 0;
 
     /**
+     * @var int ID of srCertificateSignature
+     *
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       8
+     */
+    protected $signature_id = 0;
+
+
+    /**
      * @var srCertificateType
      */
     protected $type;
@@ -67,11 +76,6 @@ class srCertificateDefinition extends ActiveRecord
     protected $placeholder_values;
 
     /**
-     * @var int ID of srCertificateSignature
-     */
-    protected $signature_id;
-
-    /**
      * Set to true if type changed
      *
      * @var boolean
@@ -85,7 +89,6 @@ class srCertificateDefinition extends ActiveRecord
     }
 
 
-
     public function create()
     {
         parent::create();
@@ -93,6 +96,7 @@ class srCertificateDefinition extends ActiveRecord
         $this->createSettings();
         $this->createPlaceholderValues();
     }
+
 
     /**
      * Also update placeholder values and settings.
@@ -103,6 +107,9 @@ class srCertificateDefinition extends ActiveRecord
     {
         /** @var $setting srCertificateDefinitionSetting */
         /** @var $pl srCertificatePlaceholderValue */
+        if ($this->type_changed) {
+            $this->signature_id = 0; // Reset signature
+        }
         parent::update();
         // If the type did change, we destroy all settings + placeholder values from the old type and create new ones
         if ($this->type_changed) {
@@ -129,6 +136,7 @@ class srCertificateDefinition extends ActiveRecord
             }
         }
     }
+
 
     /**
      * Clone/copy this definition for a new course
@@ -179,8 +187,10 @@ class srCertificateDefinition extends ActiveRecord
                 break;
             }
         }
+
         return null;
     }
+
 
     /**
      * Get a placeholder value object by ID
@@ -197,15 +207,17 @@ class srCertificateDefinition extends ActiveRecord
                 break;
             }
         }
+
         return null;
     }
 
+
+    /**
+     * @return srCertificateSignature|null
+     */
     public function getSignature()
     {
-        if(!$signature = srCertificateSignature::find($this->getSignatureId())){
-            $signature = new srCertificateSignature();
-        }
-        return $signature;
+        return srCertificateSignature::find($this->signature_id);
     }
 
 
@@ -214,18 +226,17 @@ class srCertificateDefinition extends ActiveRecord
      */
     public function getSignatureId()
     {
-        if(!$this->signature_id){
-            $sig_value = srCertificateSignatureDefinition::where(array('definition_id' => $this->getId()));
-            if($sig_value->hasSets()){
-                $this->signature_id = $sig_value->first()->getSignatureId();
-            }else{
-                $this->signature_id = 0;
-            }
-        }
         return $this->signature_id;
     }
 
 
+    /**
+     * @param $id
+     */
+    public function setSignatureId($id)
+    {
+        $this->signature_id = $id;
+    }
 
 
     // Shortcut-Getters implemented for the settings
@@ -235,41 +246,51 @@ class srCertificateDefinition extends ActiveRecord
         return $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE)->getValue();
     }
 
+
     public function getValidity()
     {
         return $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_VALIDITY)->getValue();
     }
+
 
     public function getNotification()
     {
         return $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_NOTIFICATION)->getValue();
     }
 
+
     public function getDefaultLanguage()
     {
         return $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_DEFAULT_LANG)->getValue();
     }
+
 
     public function getGeneration()
     {
         return $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_GENERATION)->getValue();
     }
 
+
     public function getDownloadable()
     {
         $setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE);
+
         return (is_null($setting)) ? null : $setting->getValue();
     }
+
 
     public function getNotificationUser()
     {
         $setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER);
+
         return (is_null($setting)) ? null : $setting->getValue();
     }
+
 
     public function getScormTiming()
     {
         $setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
+
         return (is_null($setting)) ? null : $setting->getValue();
     }
 
@@ -314,6 +335,7 @@ class srCertificateDefinition extends ActiveRecord
         }
     }
 
+
     /**
      * Create the values for the placeholders defined in the type
      * Each placeholder value inherits the default value defined in the type, per language
@@ -343,6 +365,7 @@ class srCertificateDefinition extends ActiveRecord
         $this->ref_id = $ref_id;
     }
 
+
     /**
      * @return int
      */
@@ -350,6 +373,7 @@ class srCertificateDefinition extends ActiveRecord
     {
         return $this->ref_id;
     }
+
 
     /**
      * @param int $type_id
@@ -362,6 +386,7 @@ class srCertificateDefinition extends ActiveRecord
         $this->type = srCertificateType::find($type_id);
     }
 
+
     /**
      * @return int
      */
@@ -369,6 +394,7 @@ class srCertificateDefinition extends ActiveRecord
     {
         return $this->type_id;
     }
+
 
     /**
      * @return int
@@ -378,6 +404,7 @@ class srCertificateDefinition extends ActiveRecord
         return $this->id;
     }
 
+
     /**
      * @param array $settings
      */
@@ -385,6 +412,7 @@ class srCertificateDefinition extends ActiveRecord
     {
         $this->settings = $settings;
     }
+
 
     /**
      * @return array
@@ -411,6 +439,7 @@ class srCertificateDefinition extends ActiveRecord
         return $this->custom_settings;
     }
 
+
     /**
      * @return \srCertificateType
      */
@@ -419,6 +448,7 @@ class srCertificateDefinition extends ActiveRecord
         return srCertificateType::find($this->getTypeId());
     }
 
+
     /**
      * @param array $placeholder_values
      */
@@ -426,6 +456,7 @@ class srCertificateDefinition extends ActiveRecord
     {
         $this->placeholder_values = $placeholder_values;
     }
+
 
     /**
      * @return array
@@ -439,6 +470,7 @@ class srCertificateDefinition extends ActiveRecord
         return $this->placeholder_values;
     }
 
+
     /**
      * @param boolean $type_changed
      */
@@ -446,6 +478,7 @@ class srCertificateDefinition extends ActiveRecord
     {
         $this->type_changed = $type_changed;
     }
+
 
     /**
      * @return boolean

@@ -56,8 +56,6 @@ class srCertificateStandardPlaceholders
         'LP_STATUS' => 'Status code',
         'LP_AVG_PERCENTAGE' => 'Avg. percentage of course',
         'CERT_TEMPLATE_PATH' => 'Path where certificate template file and assets are stored',
-        'SIGNATURE_NAME' => 'Name for the signature',
-        'SIGNATURE_IMAGE' => 'The actual signature'
     );
 
 
@@ -82,6 +80,7 @@ class srCertificateStandardPlaceholders
      * @var bool
      */
     protected $anonymized = false;
+
 
     /**
      * @param srCertificate $cert
@@ -115,6 +114,7 @@ class srCertificateStandardPlaceholders
     public static function isReservedIdentifier($identifier)
     {
         $identifiers = self::getPlaceholderIdentifiers();
+
         return in_array($identifier, $identifiers);
     }
 
@@ -136,7 +136,7 @@ class srCertificateStandardPlaceholders
      */
     public function getParsedPlaceholders()
     {
-        if ( ! is_null($this->parsed_placeholders)) return $this->parsed_placeholders;
+        if (!is_null($this->parsed_placeholders)) return $this->parsed_placeholders;
 
         // Initialize with empty values
         $this->parsed_placeholders = array();
@@ -186,7 +186,6 @@ class srCertificateStandardPlaceholders
     protected function parseGeneralPlaceholders(ilObjCourse $course)
     {
         $utc = ilCertificateConfig::get('time_format_utc');
-        $signature = $this->certificate->getDefinition()->getSignature();
 
         return array(
             'DATE' => $this->formatDate('DATE'),
@@ -197,8 +196,6 @@ class srCertificateStandardPlaceholders
             'CERT_ID' => $this->certificate->getId(),
             'CERT_TEMPLATE_PATH' => $this->certificate->getDefinition()->getType()->getCertificateTemplatesPath(),
             'COURSE_TITLE' => $course->getTitle(),
-            'SIGNATURE_NAME' => $signature->getFirstName() . ' ' . $signature->getLastName(),
-            'SIGNATURE_IMAGE' => $signature->getFilePath(true) ? $signature->getFilePath(true) : '',
         );
     }
 
@@ -223,6 +220,7 @@ class srCertificateStandardPlaceholders
             $format = $format_custom;
         }
         $value = ($utc) ? gmdate($format, $timestamp) : date($format, $timestamp);
+
         return $value;
     }
 
@@ -245,6 +243,7 @@ class srCertificateStandardPlaceholders
             $format = $format_custom;
         }
         $value = ($utc) ? gmdate($format, $timestamp) : date($format, $timestamp);
+
         return $value;
     }
 
@@ -257,14 +256,15 @@ class srCertificateStandardPlaceholders
      */
     protected function buildLpSpentTime($lp_data)
     {
-        $seconds = (int)$lp_data['childs_spent_seconds'];
-        $hours = (string)(floor($seconds / 3600));
-        $mins = (string)(floor(($seconds - ($hours * 3600)) / 60));
-        $secs = (string)(floor($seconds % 60));
+        $seconds = (int) $lp_data['childs_spent_seconds'];
+        $hours = (string) (floor($seconds / 3600));
+        $mins = (string) (floor(($seconds - ($hours * 3600)) / 60));
+        $secs = (string) (floor($seconds % 60));
         if (strlen($hours) == 1) $hours = '0' . $hours;
         if (strlen($mins) == 1) $mins = '0' . $mins;
         if (strlen($secs) == 1) $secs = '0' . $secs;
         $lp_spent_time = "$hours:$mins:$secs";
+
         return $lp_spent_time;
     }
 
@@ -277,7 +277,7 @@ class srCertificateStandardPlaceholders
      */
     protected function buildAvgPercentageOfCourseObjects(array $lp_data)
     {
-        $count_objects = (int)$lp_data['cnt'];
+        $count_objects = (int) $lp_data['cnt'];
         $avg = 0;
         $count_avg = 0;
         $return = null;
@@ -292,11 +292,12 @@ class srCertificateStandardPlaceholders
                 if ($lp_data['set'][$i]['type'] == 'crs') {
                     continue;
                 }
-                $avg += (int)$lp_data['set'][$i]['percentage'];
+                $avg += (int) $lp_data['set'][$i]['percentage'];
                 $count_avg++;
             }
             $return = ($count_avg) ? $avg / ($count_avg) : null;
         }
+
         return $return;
     }
 
@@ -355,9 +356,9 @@ class srCertificateStandardPlaceholders
         // calculates spent time different for scorm modules if enabled in config
         /** @var $cert_def srCertificateDefinition */
         $cert_def = srCertificateDefinition::where(array('ref_id' => $course->getRefId()))->first();
-        if($cert_def->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING)->getValue()){
+        if ($cert_def->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING)->getValue()) {
             $spent_seconds = 0;
-            foreach(ilLPCollections::_getItems($course->getId()) as $item){
+            foreach (ilLPCollections::_getItems($course->getId()) as $item) {
                 $spent_seconds += $this->getSpentSeconds(ilObject::_lookupObjectId($item), $user->getId());
             }
             $lp_crs['childs_spent_seconds'] = $spent_seconds;
@@ -367,8 +368,8 @@ class srCertificateStandardPlaceholders
         return array(
             'DATE_COMPLETED' => $this->formatDate('DATE_COMPLETED', strtotime($passed_datetime)),
             'DATETIME_COMPLETED' => $this->formatDateTime('DATETIME_COMPLETED', strtotime($passed_datetime)),
-            'LP_FIRST_ACCESS' => $this->formatDateTime('LP_FIRST_ACCESS', (int)$lp_crs['first_access']),
-            'LP_LAST_ACCESS' => $this->formatDateTime('LP_LAST_ACCESS', (int)$lp_crs['last_access']),
+            'LP_FIRST_ACCESS' => $this->formatDateTime('LP_FIRST_ACCESS', (int) $lp_crs['first_access']),
+            'LP_LAST_ACCESS' => $this->formatDateTime('LP_LAST_ACCESS', (int) $lp_crs['last_access']),
             'LP_SPENT_TIME' => $lp_spent_time,
             'LP_SPENT_SECONDS' => $lp_crs['childs_spent_seconds'],
             'LP_READ_COUNT' => $lp_crs['read_count'],
@@ -377,6 +378,7 @@ class srCertificateStandardPlaceholders
         );
     }
 
+
     /**
      * calculates spent seconds for an object, fetches data from cmi_node if object is a scorm2004 module
      *
@@ -384,30 +386,28 @@ class srCertificateStandardPlaceholders
      * @param $user_id
      * @return int
      */
-    protected function getSpentSeconds($obj_id, $user_id){
+    protected function getSpentSeconds($obj_id, $user_id)
+    {
         global $ilDB;
 
         $spent_seconds = 0;
 
-        if(ilObject::_lookupType($obj_id) == 'sahs')
-        {
+        if (ilObject::_lookupType($obj_id) == 'sahs') {
             $sql = $ilDB->query('SELECT cmi_node.total_time AS seconds
                                     FROM cmi_node
                                     INNER JOIN cp_node ON (cmi_node.cp_node_id = cp_node.cp_node_id)
                                     INNER JOIN object_reference ON (cp_node.slm_id = object_reference.obj_id)
                                     WHERE cmi_node.user_id = ' . $ilDB->quote($user_id, 'integer') .
-                                    ' AND cp_node.slm_id = ' . $ilDB->quote($obj_id, 'integer'));
-            while($result = $ilDB->fetchAssoc($sql)){
+                ' AND cp_node.slm_id = ' . $ilDB->quote($obj_id, 'integer'));
+            while ($result = $ilDB->fetchAssoc($sql)) {
                 $spent_seconds += $this->formatScormToSeconds($result['seconds']);
             }
-        }
-        else
-        {
+        } else {
             $sql = $ilDB->query('SELECT read_event.spent_seconds AS seconds
                                     FROM read_event
                                     WHERE read_event.usr_id = ' . $ilDB->quote($user_id, 'integer') .
-                                    ' AND read_event.obj_id = ' . $ilDB->quote($obj_id, 'integer'));
-            while($result = $ilDB->fetchAssoc($sql)){
+                ' AND read_event.obj_id = ' . $ilDB->quote($obj_id, 'integer'));
+            while ($result = $ilDB->fetchAssoc($sql)) {
                 $spent_seconds += $result['seconds'];
             }
         }
@@ -415,33 +415,29 @@ class srCertificateStandardPlaceholders
         return $spent_seconds;
     }
 
+
     /** TODO: move to some util class?
      * formats a time in scorm 2004 format (e.g. PT0H0M47S) into seconds
      *
      * @param $duration
      * @return int
      */
-    public function formatScormToSeconds($duration){
+    public function formatScormToSeconds($duration)
+    {
 
         $count = preg_match('/P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?T?(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)(\.[0-9]+)?S)?/', $duration, $matches);
 
-        if ($count)
-        {
+        if ($count) {
             $_years = (int) $matches[2];
             $_months = (int) $matches[4];
             $_days = (int) $matches[6];
             $_hours = (int) $matches[8];
             $_minutes = (int) $matches[10];
             $_seconds = (int) $matches[12];
-        }
-        else
-        {
-            if (strstr($duration, ':'))
-            {
+        } else {
+            if (strstr($duration, ':')) {
                 list($_hours, $_minutes, $_seconds) = explode(':', $duration);
-            }
-            else
-            {
+            } else {
                 $_hours = 0;
                 $_minutes = 0;
                 $_seconds = 0;

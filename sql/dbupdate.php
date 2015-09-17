@@ -181,8 +181,7 @@
     ?>
 <#15>
     <?php
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignatureDefinition.php');
-    srCertificateSignatureDefinition::installDB();
+        // Removed creation  of srCertificateSignatureDefinition
     ?>
 <#16>
     <?php
@@ -195,7 +194,7 @@
         $setting->setDefinitionId($cert_def->getId());
         $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
         $setting->setValue(0);
-        $setting->store();
+        $setting->save();
     }
 
     foreach (srCertificateType::get() as $type) {
@@ -204,7 +203,23 @@
         $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
         $setting->setEditableIn(array('crs'));
         $setting->setValue(0);
-        $setting->store();
+        $setting->save();
     }
-
     ?>
+<#17>
+     <?php
+        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
+        srCertificateDefinition::updateDB();
+
+        // Migrate from signature table
+        global $ilDB;
+        if ($ilDB->tableExists('cert_signature_def')) {
+            $set = $ilDB->query('SELECT * FROM cert_signature_def');
+            while ($row = $ilDB->fetchObject($set)) {
+                /** @var srCertificateDefinition $definition */
+                $definition = srCertificateDefinition::find($row->definition_id);
+                $definition->setSignatureId($row->signature_id);
+                $definition->save();
+            }
+        }
+     ?>

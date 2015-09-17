@@ -1,4 +1,7 @@
 <?php
+
+require_once(dirname(dirname(__FILE__)) . '/Definition/class.srCertificateDefinition.php');
+
 /**
  * srCertificateSignature
  *
@@ -77,16 +80,30 @@ class srCertificateSignature extends ActiveRecord
         $this->pl = ilCertificatePlugin::getInstance();
     }
 
+
     // Public
 
-    public function delete() {
+    public function delete()
+    {
         parent::delete();
-        unlink($this->getFilePath(true));
+        @unlink($this->getFilePath(true));
+
+        // We must update any definitions holding this signature
+        $definitions = srCertificateDefinition::where(array('signature_id' => $this->getId()))->get();
+        foreach ($definitions as $definition) {
+            /** @var srCertificateDefinition $definition */
+            $definition->setSignatureId(0);
+            $definition->update();
+        }
+
     }
 
-    public function download() {
-        ilUtil::deliverFile($this->getFilePath(true), 'signature_' . $this->getLastName() . '_' .$this->getFirstName() . '.' .$this->getSuffix());
+
+    public function download()
+    {
+        ilUtil::deliverFile($this->getFilePath(true), 'signature_' . $this->getLastName() . '_' . $this->getFirstName() . '.' . $this->getSuffix());
     }
+
 
     /**
      * Get the path where the signature file is stored
@@ -96,16 +113,14 @@ class srCertificateSignature extends ActiveRecord
      */
     public function getFilePath($append_file = false)
     {
-        if(!$this->getTypeId()){
-            return false;
+        if (!$this->getTypeId()) {
+            return '';
         }
         $path = CLIENT_DATA_DIR . '/cert_signatures/type_' . $this->getTypeId();
         if ($append_file) {
-            if(!$this->getId()){
-                return false;
-            }
             return $path . '/sig_' . $this->getId();
         }
+
         return $path;
     }
 
@@ -131,6 +146,7 @@ class srCertificateSignature extends ActiveRecord
         return $this->id;
     }
 
+
     /**
      * @param \srCertificateType $type
      */
@@ -139,6 +155,7 @@ class srCertificateSignature extends ActiveRecord
         $this->type = $type;
         $this->type_id = $type->getId();
     }
+
 
     /**
      * @return \srCertificateType
@@ -152,6 +169,7 @@ class srCertificateSignature extends ActiveRecord
         return $this->type;
     }
 
+
     /**
      * @return int
      */
@@ -159,6 +177,7 @@ class srCertificateSignature extends ActiveRecord
     {
         return $this->type_id;
     }
+
 
     /**
      * @param int $type_id
@@ -168,6 +187,7 @@ class srCertificateSignature extends ActiveRecord
         $this->type_id = $type_id;
     }
 
+
     /**
      * @param String $first_name
      */
@@ -175,6 +195,7 @@ class srCertificateSignature extends ActiveRecord
     {
         $this->first_name = $first_name;
     }
+
 
     /**
      * @return String
@@ -184,6 +205,7 @@ class srCertificateSignature extends ActiveRecord
         return $this->first_name;
     }
 
+
     /**
      * @param String $last_name
      */
@@ -191,6 +213,7 @@ class srCertificateSignature extends ActiveRecord
     {
         $this->last_name = $last_name;
     }
+
 
     /**
      * @return String
@@ -200,6 +223,7 @@ class srCertificateSignature extends ActiveRecord
         return $this->last_name;
     }
 
+
     /**
      * @return String
      */
@@ -208,6 +232,7 @@ class srCertificateSignature extends ActiveRecord
         return $this->suffix;
     }
 
+
     /**
      * @param String $suffix
      */
@@ -215,8 +240,6 @@ class srCertificateSignature extends ActiveRecord
     {
         $this->suffix = $suffix;
     }
-
-
 
 
 }

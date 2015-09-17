@@ -202,7 +202,6 @@ class srCertificate extends ActiveRecord
     {
         return CLIENT_DATA_DIR . DIRECTORY_SEPARATOR . 'cert_data' . DIRECTORY_SEPARATOR .
         self::createPathFromId($this->getUserId()) . DIRECTORY_SEPARATOR . 'cert_' . $this->getId();
-
     }
 
 
@@ -678,6 +677,15 @@ class srCertificate extends ActiveRecord
         /** @var $ph_value srCertificatePlaceholderValue */
         foreach ($this->definition->getPlaceholderValues() as $ph_value) {
             $placeholders[$ph_value->getPlaceholder()->getIdentifier()] = $ph_value->getValue($lang);
+        }
+        // Hacky: Add signature placeholders
+        if ($this->definition->getSignatureId()) {
+            $signature = $this->definition->getSignature();
+            $placeholders['SIGNATURE_NAME'] = $signature->getFirstName() . ' ' . $signature->getLastName();
+            $placeholders['SIGNATURE_FIRSTNAME'] = $signature->getFirstName();
+            $placeholders['SIGNATURE_LASTNAME'] = $signature->getLastName();
+            $placeholders['SIGNATURE_IMAGE'] = $signature->getFilePath(true);
+
         }
         $this->placeholders = $this->pl->getHooks()->processPlaceholders($this, $placeholders);
         $this->placeholders = srCertificatePlaceholder::getFormattedPlaceholders($this->placeholders);
