@@ -7,13 +7,12 @@ require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholdersTableGUI.p
 require_once(dirname(__FILE__) . '/class.srCertificateTypeStandardPlaceholdersTableGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSettingFormGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php');
-require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateCustomTypeSettingFormGUI.php');
-require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateCustomTypeSetting.php');
-require_once(dirname(dirname(__FILE__)) .'/CustomSetting/class.srCertificateTypeCustomSettingsTableGUI.php');
-require_once(dirname(dirname(__FILE__)) .'/Signature/class.srCertificateSignature.php');
+require_once(dirname(dirname(__FILE__)) . '/CustomSetting/class.srCertificateCustomTypeSettingFormGUI.php');
+require_once(dirname(dirname(__FILE__)) . '/CustomSetting/class.srCertificateCustomTypeSetting.php');
+require_once(dirname(dirname(__FILE__)) . '/CustomSetting/class.srCertificateTypeCustomSettingsTableGUI.php');
+require_once(dirname(dirname(__FILE__)) . '/Signature/class.srCertificateSignature.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSignaturesTableGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSignatureFormGUI.php');
-
 
 
 /**
@@ -86,6 +85,7 @@ class srCertificateTypeGUI
      */
     protected $user;
 
+
     public function __construct()
     {
         global $tpl, $ilCtrl, $ilToolbar, $ilTabs, $lng, $ilAccess, $ilDB, $rbacreview, $ilUser;
@@ -94,21 +94,22 @@ class srCertificateTypeGUI
         $this->tpl = $tpl;
         $this->toolbar = $ilToolbar;
         $this->tabs = $ilTabs;
-        $this->type = (isset($_GET['type_id'])) ? srCertificateType::find((int)$_GET['type_id']) : null;
+        $this->type = (isset($_GET['type_id'])) ? srCertificateType::find((int) $_GET['type_id']) : null;
         $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->access = $ilAccess;
         $this->db = $ilDB;
         $this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
         $this->lng->loadLanguageModule('common');
-        $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cert_b.png'));
+        $this->tpl->setTitleIcon(ilCertificatePlugin::getPluginIconImage());
         $this->rbac = $rbacreview;
         $this->user = $ilUser;
     }
 
+
     public function executeCommand()
     {
-        if ( ! $this->checkPermission()) {
+        if (!$this->checkPermission()) {
             ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
             $this->ctrl->redirectByClass('ilpersonaldesktopgui');
         }
@@ -119,7 +120,7 @@ class srCertificateTypeGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
-        if(!in_array($cmd, array('addType', ''))){
+        if (!in_array($cmd, array('addType', ''))) {
             $this->ctrl->saveParameter($this, 'type_id');
             $this->ctrl->saveParameter($this, 'signature_id');
         }
@@ -153,14 +154,14 @@ class srCertificateTypeGUI
                         $this->updateTemplate();
                         $this->setTabs('template');
                         break;
-	                case 'downloadDefaultTemplate':
-		                $this->downloadDefaultTemplate();
-		                $this->setTabs('template');
-		                break;
-	                case 'downloadTemplate':
-		                $this->downloadTemplate();
-		                $this->setTabs('template');
-		                break;
+                    case 'downloadDefaultTemplate':
+                        $this->downloadDefaultTemplate();
+                        $this->setTabs('template');
+                        break;
+                    case 'downloadTemplate':
+                        $this->downloadTemplate();
+                        $this->setTabs('template');
+                        break;
                     case 'showSettings':
                         $this->showSettings();
                         $this->setTabs('settings');
@@ -249,6 +250,7 @@ class srCertificateTypeGUI
         }
     }
 
+
     /**
      * Add tabs to GUI
      *
@@ -269,6 +271,7 @@ class srCertificateTypeGUI
         $this->tabs->setBackTarget($this->pl->txt('back_to_overview'), $this->ctrl->getLinkTarget($this));
     }
 
+
     /**
      * Show existing certificate types in table
      */
@@ -279,6 +282,7 @@ class srCertificateTypeGUI
         $this->tpl->setContent($table->getHTML());
     }
 
+
     /**
      * Show form for creating a type
      */
@@ -287,6 +291,7 @@ class srCertificateTypeGUI
         $form = new srCertificateTypeFormGUI($this, new srCertificateType());
         $this->tpl->setContent($form->getHTML());
     }
+
 
     /**
      * Show form for editing a type (General)
@@ -297,6 +302,7 @@ class srCertificateTypeGUI
         $this->tpl->setContent($form->getHTML());
     }
 
+
     /**
      * Show form for editing template settings of a type
      */
@@ -305,6 +311,7 @@ class srCertificateTypeGUI
         $form = new srCertificateTypeTemplateFormGUI($this, $this->type);
         $this->tpl->setContent($form->getHTML());
     }
+
 
     /**
      * Update template related stuff
@@ -324,21 +331,24 @@ class srCertificateTypeGUI
     /**
      * Download default template
      */
-	public function downloadDefaultTemplate() {
-		ilUtil::deliverFile('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml', 'template.jrxml');
-	}
+    public function downloadDefaultTemplate()
+    {
+        ilUtil::deliverFile('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml', 'template.jrxml');
+    }
 
 
     /**
      * Download template file
      */
-	public function downloadTemplate() {
-		if (is_file($this->type->getCertificateTemplatesPath(true))) {
+    public function downloadTemplate()
+    {
+        if (is_file($this->type->getCertificateTemplatesPath(true))) {
             $filename = srCertificateTemplateTypeFactory::getById($this->type->getTemplateTypeId())->getTemplateFilename();
             ilUtil::deliverFile($this->type->getCertificateTemplatesPath(true), $filename);
         }
         $this->editTemplate();
-	}
+    }
+
 
     /**
      * Show table with settings
@@ -351,6 +361,7 @@ class srCertificateTypeGUI
         $spacer = '<div style="height: 30px;"></div>';
         $this->tpl->setContent($table->getHTML() . $spacer . $table_custom_settings->getHTML());
     }
+
 
     /**
      * Show form for editing settings of a type
@@ -365,6 +376,7 @@ class srCertificateTypeGUI
             $this->ctrl->redirect($this, 'showSettings');
         }
     }
+
 
     /**
      * Update settings
@@ -394,6 +406,7 @@ class srCertificateTypeGUI
         $form = new srCertificateCustomTypeSettingFormGUI($this, new srCertificateCustomTypeSetting());
         $this->tpl->setContent($form->getHTML());
     }
+
 
     /**
      * @return string
@@ -425,7 +438,8 @@ class srCertificateTypeGUI
             $this->tpl->setContent($form->getHTML());
         }
     }
-    
+
+
     /**
      * Show table with available placeholders for this type
      */
@@ -440,6 +454,7 @@ class srCertificateTypeGUI
         ilUtil::sendInfo($msg_info);
     }
 
+
     /**
      * Add a new placeholder
      */
@@ -450,6 +465,7 @@ class srCertificateTypeGUI
         $form = new srCertificateTypePlaceholderFormGUI($this, $placeholder);
         $this->tpl->setContent($form->getHTML());
     }
+
 
     /**
      * Show form for editing a placeholder
@@ -469,6 +485,7 @@ class srCertificateTypeGUI
         }
     }
 
+
     /**
      * Create a new placeholder
      */
@@ -484,6 +501,7 @@ class srCertificateTypeGUI
             $this->tpl->setContent($form->getHTML());
         }
     }
+
 
     /**
      * Update placeholder
@@ -508,6 +526,7 @@ class srCertificateTypeGUI
         }
     }
 
+
     /**
      * Show form for editing singatures
      */
@@ -516,6 +535,7 @@ class srCertificateTypeGUI
         $table = new srCertificateTypeSignaturesTableGUI($this, 'showSignatures', $this->type);
         $this->tpl->setContent($table->getHTML());
     }
+
 
     /**
      * Add a new placeholder
@@ -527,6 +547,7 @@ class srCertificateTypeGUI
         $form = new srCertificateTypeSignatureFormGUI($this, $signature, $this->type);
         $this->tpl->setContent($form->getHTML());
     }
+
 
     /**
      * Create a new signature
@@ -543,6 +564,7 @@ class srCertificateTypeGUI
             $this->tpl->setContent($form->getHTML());
         }
     }
+
 
     /**
      *
@@ -561,6 +583,7 @@ class srCertificateTypeGUI
             $this->ctrl->redirect($this, 'showSignatures');
         }
     }
+
 
     /**
      * Update signature related stuff
@@ -585,10 +608,12 @@ class srCertificateTypeGUI
         }
     }
 
+
     /**
      *
      */
-    public function confirmDeleteSignature(){
+    public function confirmDeleteSignature()
+    {
         $signature = srCertificateSignature::find($_GET['signature_id']);
         $item_html = $signature->getFirstName() . " " . $signature->getLastName() . '<br>';
         $this->tabs->clearTargets();
@@ -603,20 +628,25 @@ class srCertificateTypeGUI
         $this->tpl->setContent($item_html . '</br>' . $toolbar->getHTML());
     }
 
+
     /**
      *
      */
-    public function deleteSignature(){
+    public function deleteSignature()
+    {
         $signature = srCertificateSignature::find($_GET['signature_id']);
         $signature->delete();
         ilUtil::sendSuccess($this->pl->txt('msg_delete_signature_success'), true);
         $this->ctrl->redirect($this, 'showSignatures');
     }
 
-    public function downloadSignature(){
+
+    public function downloadSignature()
+    {
         $signature = srCertificateSignature::find($_GET['signature_id']);
         $signature->download();
     }
+
 
     /**
      * Create or update a type
@@ -641,6 +671,7 @@ class srCertificateTypeGUI
     protected function checkPermission()
     {
         $allowed_roles = ilCertificateConfig::get('roles_administrate_certificate_types');
+
         return $this->rbac->isAssignedToAtLeastOneGivenRole($this->user->getId(), json_decode($allowed_roles, true));
     }
 

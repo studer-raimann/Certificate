@@ -201,24 +201,7 @@ class srCertificateTableGUI extends ilTable2GUI
                 }
 
                 if ($column == 'status') {
-                    switch ($value) {
-                        case srCertificate::STATUS_DRAFT:
-                        case srCertificate::STATUS_NEW:
-                            $value = $this->pl->txt('waiting');
-                            break;
-                        case srCertificate::STATUS_WORKING:
-                            $value = $this->pl->txt('being_processed');
-                            break;
-                        case srCertificate::STATUS_PROCESSED:
-                            $value = $this->pl->txt('created');
-                            break;
-                        case srCertificate::STATUS_FAILED:
-                            $value = $this->pl->txt('creation_failed');
-                            break;
-                        case srCertificate::STATUS_CALLED_BACK:
-                            $value = $this->pl->txt('called_back');
-                            break;
-                    }
+                    $value = $this->pl->txt("cert_status_" . (int) $value);
                 }
 
                 // Set value

@@ -199,6 +199,18 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
 
 
     /**
+     * @param string $size
+     * @return string
+     */
+    public static function getPluginIconImage($size = 'b')
+    {
+        $version = ILIAS_VERSION_NUMERIC;
+
+        return ((int) $version[0] >= 5) ? ilUtil::getImagePath('icon_cert.svg') : ilUtil::getImagePath("icon_cert_{$size}.png");
+    }
+
+
+    /**
      * Returns in what class the command/ctrl chain should start for this plugin.
      * Return value is ilRouterGUI for ILIAS <= 4.4.x, ilUIPluginRouterGUI for ILIAS >= 4.5, of false otherwise
      *
