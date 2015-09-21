@@ -550,9 +550,9 @@ class srCertificateTypeGUI
     public function editSignature()
     {
         try {
-            $signature = srCertificateSignature::find($_GET['signature_id']);
+            $signature = srCertificateSignature::find((int) $_GET['signature_id']);
             if ($signature === null) {
-                throw new ilException("Signature with ID " . $_GET['signature_id'] . " not found");
+                throw new ilException("Signature with ID " . (int) $_GET['signature_id'] . " not found");
             }
             $form = new srCertificateTypeSignatureFormGUI($this, $signature, $this->type);
             $this->tpl->setContent($form->getHTML());

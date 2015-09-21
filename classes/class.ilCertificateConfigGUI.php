@@ -3,6 +3,7 @@
 require_once('./Services/Component/classes/class.ilPluginConfigGUI.php');
 require_once('class.ilCertificateConfigFormGUI.php');
 require_once('class.ilCertificateConfig.php');
+require_once(dirname(__FILE__) . '/Placeholder/class.srCertificateStandardPlaceholders.php');
 
 /**
  * Class ilCertificateConfigGUI

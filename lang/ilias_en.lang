@@ -9,6 +9,7 @@ signatures_confirm_delete#:#Are you sure you want to proceed deleting the follow
 last_name#:#Last Name
 first_name#:#First Name
 add_new_signature#:#Add New Signature
+edit_signature#:#Edit Signature
 decrypt_successful#:#The decryption was successful.
 in_process#:#In Process
 general#:#General

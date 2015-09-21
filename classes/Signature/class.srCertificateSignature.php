@@ -87,6 +87,7 @@ class srCertificateSignature extends ActiveRecord
     {
         parent::delete();
         @unlink($this->getFilePath(true));
+        @unlink($this->getFilePath(true) . '.' . $this->getSuffix());
 
         // We must update any definitions holding this signature
         $definitions = srCertificateDefinition::where(array('signature_id' => $this->getId()))->get();
@@ -123,6 +124,33 @@ class srCertificateSignature extends ActiveRecord
 
         return $path;
     }
+
+
+    /**
+     * @param array $file_data
+     * @return bool
+     */
+    public function storeSignatureFile(array $file_data)
+    {
+        global $ilLog;
+        $ilLog->write('store signature file to ' . $this->getFilePath(true));
+        if ($file_data['name'] && !$file_data['error']) {
+            $file_path = $this->getFilePath(false);
+            if (!is_dir($file_path)) {
+                ilUtil::makeDirParents($file_path);
+            }
+            $suffix = pathinfo($file_data['name'], PATHINFO_EXTENSION);
+            $this->setSuffix($suffix);
+            $copy = copy($file_data['tmp_name'], $this->getFilePath(true));
+            // Store image with suffix so that a browser is able to display it!
+            $copy2 = copy($file_data['tmp_name'], $this->getFilePath(true) . '.' . $this->getSuffix());
+
+            return ($copy && $copy2);
+        }
+
+        return false;
+    }
+
 
     // Static
 
@@ -238,7 +266,7 @@ class srCertificateSignature extends ActiveRecord
      */
     public function setSuffix($suffix)
     {
-        $this->suffix = $suffix;
+        $this->suffix = strtolower($suffix);
     }
 
 

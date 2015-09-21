@@ -20,6 +20,7 @@ class srCertificateUserGUI extends srCertificateGUI
     {
         parent::__construct();
         $this->tpl->setTitle($this->pl->txt('my_certificates'));
+        $this->updateStatusFromDraftToNew();
     }
 
 
@@ -37,6 +38,22 @@ class srCertificateUserGUI extends srCertificateGUI
         }
     }
 
+
+    /**
+     * Update any certificates in the draft status to new, in order to process them via cronjob
+     */
+    protected function updateStatusFromDraftToNew()
+    {
+        $certificates = srCertificate::where(array(
+            'user_id' => $this->user->getId(),
+            'status' => srCertificate::STATUS_DRAFT)
+        )->get();
+        foreach ($certificates as $certificate) {
+            /** @var srCertificate $certificate */
+            $certificate->setStatus(srCertificate::STATUS_NEW);
+            $certificate->save();
+        }
+    }
 
     /**
      * Check permissions

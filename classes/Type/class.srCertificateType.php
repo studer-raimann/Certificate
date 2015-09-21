@@ -170,6 +170,7 @@ class srCertificateType extends ActiveRecord
                 $value = json_decode($value, true);
                 break;
         }
+
         return $value;
     }
 
@@ -190,6 +191,7 @@ class srCertificateType extends ActiveRecord
                 $value = json_encode($value);
                 break;
         }
+
         return $value;
     }
 
@@ -205,8 +207,10 @@ class srCertificateType extends ActiveRecord
         $path = CLIENT_DATA_DIR . '/cert_templates/type_' . $this->getId() . '/template_type_' . $this->getTemplateTypeId();
         if ($append_file) {
             $filename = srCertificateTemplateTypeFactory::getById($this->getTemplateTypeId())->getTemplateFilename();
+
             return $path . '/' . $filename;
         }
+
         return $path;
     }
 
@@ -218,7 +222,7 @@ class srCertificateType extends ActiveRecord
      */
     public function getAssets()
     {
-        if ( ! is_dir($this->getCertificateTemplatesPath())) {
+        if (!is_dir($this->getCertificateTemplatesPath())) {
             ilUtil::makeDirParents($this->getCertificateTemplatesPath());
         }
         $files = scandir($this->getCertificateTemplatesPath());
@@ -229,6 +233,7 @@ class srCertificateType extends ActiveRecord
                 unset($files[$k]);
             }
         }
+
         return $files;
     }
 
@@ -241,11 +246,13 @@ class srCertificateType extends ActiveRecord
      */
     public function storeAsset(array $file_data)
     {
-        if ($file_data['name'] && ! $file_data['error']) {
+        if ($file_data['name'] && !$file_data['error']) {
             $file_name = $file_data['name'];
             $file_path = $this->getCertificateTemplatesPath() . DIRECTORY_SEPARATOR . $file_name;
+
             return ilUtil::moveUploadedFile($file_data['tmp_name'], $file_name, $file_path, false);
         }
+
         return false;
     }
 
@@ -260,57 +267,44 @@ class srCertificateType extends ActiveRecord
      */
     public function storeTemplateFile(array $file_data)
     {
-        if ($file_data['name'] && ! $file_data['error']) {
-	        return $this->storeTemplateFileFromServer($file_data['tmp_name']);
+        if ($file_data['name'] && !$file_data['error']) {
+            return $this->storeTemplateFileFromServer($file_data['tmp_name']);
         }
+
         return false;
     }
 
-
-	/**
-	 * Store a new template file.
-	 *
-	 * @param $path_to_template_file string
-	 *
-	 * @return bool
-	 */
-	public function storeTemplateFileFromServer($path_to_template_file) {
-		if(!is_file($path_to_template_file)){
-			return false;
-		}
-		$this->createTemplateDirectory();
-		return copy($path_to_template_file, $this->getCertificateTemplatesPath(true));
-	}
 
     /**
-     * @param array $file_data
-     * @param srCertificateSignature $signature
+     * Store a new template file.
+     *
+     * @param $path_to_template_file string
+     *
      * @return bool
      */
-    public function storeSignatureFile(array $file_data, srCertificateSignature $signature){
-        global $ilLog;
-        $ilLog->write('store signature file to ' . $signature->getFilePath(true));
-        if ($file_data['name'] && ! $file_data['error']) {
-            $file_path = $signature->getFilePath(false);
-            if ( ! is_dir($file_path)) {
-                ilUtil::makeDirParents($file_path);
-            }
-            return copy($file_data['tmp_name'], $signature->getFilePath(true));
+    public function storeTemplateFileFromServer($path_to_template_file)
+    {
+        if (!is_file($path_to_template_file)) {
+            return false;
         }
-        return false;
+        $this->createTemplateDirectory();
+
+        return copy($path_to_template_file, $this->getCertificateTemplatesPath(true));
     }
 
 
 
-	/**
-	 *
-	 */
-	protected function createTemplateDirectory(){
-		$file_path = $this->getCertificateTemplatesPath();
-		if ( ! is_dir($file_path)) {
-			ilUtil::makeDirParents($file_path);
-		}
-	}
+    /**
+     *
+     */
+    protected function createTemplateDirectory()
+    {
+        $file_path = $this->getCertificateTemplatesPath();
+        if (!is_dir($file_path)) {
+            ilUtil::makeDirParents($file_path);
+        }
+    }
+
 
     /**
      * Remove a given asset
@@ -406,13 +400,14 @@ class srCertificateType extends ActiveRecord
         $user_id = ($user_id) ? $user_id : $ilUser->getId();
         $pl = ilCertificatePlugin::getInstance();
         $object_type = ($pl->isCourseTemplate($ref_id)) ? 'crs-tpl' : ilObject::_lookupType($ref_id, true);
-        if ( ! in_array($object_type, $type->getAvailableObjects())) {
+        if (!in_array($object_type, $type->getAvailableObjects())) {
             return false;
         }
         // Access restricted by roles. Check if current user has a role to choose the type
-        if (count($type->getRoles()) && ! $rbacreview->isAssignedToAtLeastOneGivenRole($user_id, $type->getRoles())) {
+        if (count($type->getRoles()) && !$rbacreview->isAssignedToAtLeastOneGivenRole($user_id, $type->getRoles())) {
             return false;
         }
+
         return true;
     }
 
@@ -436,10 +431,11 @@ class srCertificateType extends ActiveRecord
     {
         $types = self::$all_available_object_types;
         // crs-tpl is only available if activated in the plugin config
-        if ( ! ilCertificateConfig::get('course_templates')) {
+        if (!ilCertificateConfig::get('course_templates')) {
             $key = array_search('crs-tpl', $types);
             unset($types[$key]);
         }
+
         return $types;
     }
 
@@ -550,6 +546,7 @@ class srCertificateType extends ActiveRecord
 
         return $this->placeholders;
     }
+
 
     /**
      * @param array $signatures

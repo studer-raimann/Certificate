@@ -59,6 +59,7 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
+
     /**
      * @return bool
      */
@@ -68,26 +69,14 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI
             return false;
         }
 
-        if($this->signature->getId()){
-
-            $signature_file = (array)$this->getInput('signature_file');
-            if($signature_file["name"]){
-                if(!$this->type->storeSignatureFile($signature_file, $this->signature)){
-                    return false;
-                } else {
-                    $this->signature->setSuffix(pathinfo($signature_file["name"], PATHINFO_EXTENSION));
-                }
-            }
-            $this->signature->store();
-        }else{
-            $signature_file = (array)$this->getInput('signature_file');
-            $this->signature->setSuffix(pathinfo($signature_file["name"], PATHINFO_EXTENSION));
-            $this->signature->store();
-            if(!$this->type->storeSignatureFile($signature_file, $this->signature)){
-                $this->signature->delete();
+        $this->signature->save();
+        $file_data = (array) $this->getInput('signature_file');
+        if (count($file_data) && isset($file_data['name']) && $file_data['name']) {
+            if (!$this->signature->storeSignatureFile($file_data)) {
                 return false;
             }
         }
+        $this->signature->save();
 
         return true;
     }
@@ -104,6 +93,7 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI
         }
         $this->signature->setLastName($this->getInput('last_name'));
         $this->signature->setFirstName($this->getInput('first_name'));
+
         return true;
     }
 
@@ -113,6 +103,8 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI
      */
     protected function initForm()
     {
+        $title = $this->signature->getId() ? $this->pl->txt('edit_signature') : $this->pl->txt('add_new_signature');
+        $this->setTitle($title);
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 
         $item = new ilTextInputGUI($this->pl->txt('first_name'), 'first_name');
