@@ -119,46 +119,27 @@ class srCertificateDefinitionGUI
             case '':
                 switch ($cmd) {
                     case 'showDefinition':
-                        $this->showDefinition();
-                        break;
                     case 'showPlaceholders':
-                        $this->showPlaceholders();
-                        break;
                     case 'showCertificates':
-                        $this->showCertificates();
-                        break;
                     case 'downloadCertificate':
-                        $this->downloadCertificate();
-                        break;
                     case 'downloadCertificates':
-                        $this->downloadCertificates();
-                        break;
                     case 'updateDefinition':
-                        $this->updateDefinition();
-                        break;
                     case 'confirmTypeChange':
-                        $this->confirmTypeChange();
-                        break;
                     case 'updateType':
-                        $this->updateType();
-                        break;
                     case 'createDefinition':
-                        $this->createDefinition();
-                        break;
                     case 'updatePlaceholders':
-                        $this->updatePlaceholders();
+                    case 'previewCertificate':
+                    case 'buildActions':
+                        $this->$cmd();
                         break;
                     case 'updatePlaceholdersPreview':
                         $this->updatePlaceholders('previewCertificate');
                         break;
-                    case 'previewCertificate':
-                        $this->previewCertificate();
-                        break;
-                    case 'setStatus':
-                        $this->setStatus();
-                        break;
-                    case 'buildActions':
-                        $this->buildActions();
+                    case 'callBack':
+                    case 'undoCallBack':
+                    case 'retryGeneration':
+                        $certificate = srCertificate::find((int) $_GET['cert_id']);
+                        $this->$cmd($certificate);
                         break;
                     case '':
                         if ($this->definition) {
@@ -175,34 +156,33 @@ class srCertificateDefinitionGUI
         }
     }
 
+
     /**
      * Build action menu for a record asynchronous
      *
      */
-    protected function buildActions() {
+    protected function buildActions()
+    {
         $alist = new ilAdvancedSelectionListGUI();
-        $alist->setId($_GET['id']);
+        $alist->setId((int) $_GET['cert_id']);
         $alist->setListTitle($this->pl->txt('actions'));
-        $this->ctrl->setParameter($this, 'cert_id', $_GET['id']);
+        $this->ctrl->setParameter($this, 'cert_id', (int) $_GET['cert_id']);
 
-        switch($_GET['status'])
-        {
+        switch ($_GET['status']) {
             case srCertificate::STATUS_CALLED_BACK:
-                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_PROCESSED);
-                $alist->addItem($this->pl->txt('undo_callback'), 'undo_callback', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                $alist->addItem($this->pl->txt('undo_callback'), 'undoCallback', $this->ctrl->getLinkTarget($this, 'undoCallBack'));
                 break;
             case srCertificate::STATUS_FAILED:
-                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_NEW);
-                $alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                $alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this, 'retryGeneration'));
                 break;
             case srCertificate::STATUS_PROCESSED:
                 $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, 'downloadCertificate'));
-                $this->ctrl->setParameter($this, 'set_status', srCertificate::STATUS_CALLED_BACK);
-                $alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this, 'setStatus'));
+                $alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this, 'callBack'));
                 break;
         }
 
-        echo $alist->getHTML(true);exit;
+        echo $alist->getHTML(true);
+        exit;
     }
 
 
@@ -228,7 +208,7 @@ class srCertificateDefinitionGUI
         $this->tabs->setSubTabActive('show_placeholders');
         /** @var srCertificateDefinition $definition */
         $definition = srCertificateDefinition::where(array('ref_id' => $this->ref_id))->first();
-        if ( ! count($definition->getPlaceholderValues()) && !$this->definition->getType()->getSignatures()) {
+        if (!count($definition->getPlaceholderValues()) && !$this->definition->getType()->getSignatures()) {
             ilUtil::sendInfo($this->pl->txt('msg_no_placeholders'));
         } else {
             $this->form = new srCertificateDefinitionPlaceholdersFormGUI($this, $definition);
@@ -344,10 +324,48 @@ class srCertificateDefinitionGUI
     public function downloadCertificates()
     {
         $cert_ids = $_POST['cert_id'];
-        if(is_array($cert_ids)) {
+        if (is_array($cert_ids)) {
             srCertificate::downloadAsZip($cert_ids, $this->ref_id . '-certificates');
         }
         $this->showCertificates();
+    }
+
+
+    /**
+     * @param srCertificate $certificate
+     */
+    protected function callBack(srCertificate $certificate)
+    {
+        $certificate->setStatus(srCertificate::STATUS_CALLED_BACK);
+        $certificate->update();
+        // TODO Handle all notifications with events -> catch statusChanged event of srCertificate object
+        $this->pl->sendMail('callback', $certificate);
+        ilUtil::sendSuccess($this->pl->txt('msg_called_back'), true);
+        $this->ctrl->redirect($this, 'showCertificates');
+    }
+
+
+    /**
+     * @param srCertificate $certificate
+     */
+    protected function undoCallBack(srCertificate $certificate)
+    {
+        $certificate->setStatus(srCertificate::STATUS_PROCESSED);
+        $certificate->update();
+        ilUtil::sendSuccess($this->pl->txt('msg_undo_called_back'), true);
+        $this->ctrl->redirect($this, 'showCertificates');
+    }
+
+
+    /**
+     * @param srCertificate $certificate
+     */
+    protected function retryGeneration(srCertificate $certificate)
+    {
+        $certificate->setStatus(srCertificate::STATUS_NEW);
+        $certificate->update();
+        ilUtil::sendSuccess($this->pl->txt('msg_retry_generation'), true);
+        $this->ctrl->redirect($this, 'showCertificates');
     }
 
 
@@ -391,7 +409,7 @@ class srCertificateDefinitionGUI
      */
     protected function checkPermission()
     {
-        if ( ! $this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->ref_id);
             ilUtil::sendFailure($this->pl->txt('msg_no_permission_certificates'), true);
             $this->ctrl->redirectByClass('ilrepositorygui');
@@ -430,18 +448,4 @@ class srCertificateDefinitionGUI
         $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->ref_id);
         $this->tabs->setBackTarget($this->pl->txt('back_to_course'), $this->ctrl->getLinkTargetByClass('ilrepositorygui'));
     }
-
-    /**
-     * set status of certificate
-     */
-    public function setStatus() {
-        $cert = new srCertificate($_GET['cert_id']);
-        $cert->setStatus($_GET['set_status']);
-        $cert->update();
-        if($_GET['set_status'] == srCertificate::STATUS_CALLED_BACK){
-            $this->pl->sendMail('callback', $cert);
-        }
-        $this->ctrl->redirect($this, 'showCertificates');
-    }
-
 }

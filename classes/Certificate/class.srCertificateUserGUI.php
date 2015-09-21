@@ -55,9 +55,6 @@ class srCertificateUserGUI extends srCertificateGUI
     protected function buildActions()
     {
         // Download is only possible if certificate is processed
-        if ($_GET['status'] != srCertificate::STATUS_PROCESSED) {
-            return '';
-        }
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId((int) $_GET['cert_id']);
         $alist->setListTitle($this->pl->txt('actions'));

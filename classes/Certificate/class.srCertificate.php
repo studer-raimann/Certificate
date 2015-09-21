@@ -379,7 +379,7 @@ class srCertificate extends ActiveRecord
      */
     public function download()
     {
-        if ($this->status != self::STATUS_PROCESSED || $this->status == self::STATUS_CALLED_BACK) {
+        if ($this->status != self::STATUS_PROCESSED && $this->status != self::STATUS_CALLED_BACK) {
             return;
         }
         $file = $this->getFilePath();
@@ -685,7 +685,7 @@ class srCertificate extends ActiveRecord
             $placeholders['SIGNATURE_FIRSTNAME'] = $signature->getFirstName();
             $placeholders['SIGNATURE_LASTNAME'] = $signature->getLastName();
             $placeholders['SIGNATURE_IMAGE'] = $signature->getFilePath(true);
-
+            $placeholders['SIGNATURE_IMAGE_SUFFIX'] = $signature->getSuffix();
         }
         $this->placeholders = $this->pl->getHooks()->processPlaceholders($this, $placeholders);
         $this->placeholders = srCertificatePlaceholder::getFormattedPlaceholders($this->placeholders);
