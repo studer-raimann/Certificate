@@ -28,17 +28,17 @@ class srCertificateStandardPlaceholders
      */
     protected static $placeholders = array(
         'USER_LOGIN' => 'Login',
-        'USER_FULLNAME' => 'Full name of the user (title, firstname and lastname)',
+        'USER_FULLNAME' => 'Full name of the user (title, first name and last name)',
         'USER_FIRSTNAME' => 'First name of the user',
         'USER_LASTNAME' => 'Last name of the user',
         'USER_TITLE' => 'Title of the user',
         'USER_BIRTHDAY' => 'Birthday of the user',
         'USER_INSTITUTION' => 'Institution of the user',
         'USER_DEPARTMENT' => 'Department of the user',
-        'USER_STREET' => "Street of the user's address",
-        'USER_CITY' => "City of the user's address",
-        'USER_ZIPCODE' => "ZIP code of the user's address",
-        'USER_COUNTRY' => "Country of the user's address",
+        'USER_STREET' => "Street of the user address",
+        'USER_CITY' => "City of the user address",
+        'USER_ZIPCODE' => "ZIP code of the user address",
+        'USER_COUNTRY' => "Country of the user address",
         'TIMESTAMP' => 'Current date in milliseconds since 01.01.1970',
         'DATE' => 'Actual date',
         'DATETIME' => 'Actual date and time',
@@ -48,13 +48,13 @@ class srCertificateStandardPlaceholders
         'CERT_VALID_TO' => 'To validity date of certificate',
         'CERT_ID' => 'Unique numerical ID of certificate',
         'COURSE_TITLE' => 'Title of course',
-        'LP_FIRST_ACCESS' => 'Learning progress first access',
-        'LP_LAST_ACCESS' => 'Learning progress last access',
-        'LP_SPENT_TIME' => 'Learning progress time spent in course',
-        'LP_SPENT_SECONDS' => 'Learning progress time spent in course (seconds)',
-        'LP_READ_COUNT' => 'Read count',
-        'LP_STATUS' => 'Status code',
-        'LP_AVG_PERCENTAGE' => 'Avg. percentage of course',
+        'LP_FIRST_ACCESS' => 'Learning progress: First access',
+        'LP_LAST_ACCESS' => 'Learning progress: Last access',
+        'LP_SPENT_TIME' => 'Learning progress: Time spent in course',
+        'LP_SPENT_SECONDS' => 'Learning progress: Time spent in course (seconds)',
+        'LP_READ_COUNT' => 'Learning progress: Read count',
+        'LP_STATUS' => 'Learning progress: Status code',
+        'LP_AVG_PERCENTAGE' => 'Learning progress: Avg. percentage of course',
         'CERT_TEMPLATE_PATH' => 'Path where certificate template file and assets are stored',
     );
 
@@ -136,19 +136,16 @@ class srCertificateStandardPlaceholders
      */
     public function getParsedPlaceholders()
     {
-        if (!is_null($this->parsed_placeholders)) return $this->parsed_placeholders;
-
+        if (!is_null($this->parsed_placeholders)) {
+            return $this->parsed_placeholders;
+        }
         // Initialize with empty values
         $this->parsed_placeholders = array();
         foreach (self::$placeholders as $k => $v) {
             $this->parsed_placeholders[$k] = '';
         }
-
         $user = $this->certificate->getUser();
         $course = new ilObjCourse($this->certificate->getDefinition()->getRefId());
-
-        // TODO Add custom fields from course as placeholders
-
         $this->parsed_placeholders = array_merge(
             $this->parsed_placeholders,
             $this->parseUserPlaceholders($user),
@@ -336,7 +333,6 @@ class srCertificateStandardPlaceholders
      */
     protected function parseLearningProgressPlaceholders(ilObjCourse $course, ilObjUser $user)
     {
-        // Build some Learning Progress information
         $passed_datetime = ilCourseParticipants::getDateTimeOfPassed($course->getId(), $user->getId());
         $lp_fields = array('first_access', 'last_access', 'percentage', 'status', 'read_count', 'childs_spent_seconds');
         $lp_data = ilTrQuery::getObjectsDataForUser($user->getId(), $course->getId(), $course->getRefId(), '', '', 0, 9999, null, $lp_fields);
@@ -355,8 +351,8 @@ class srCertificateStandardPlaceholders
         $lp_crs['last_access'] = $max_last_access;
         // calculates spent time different for scorm modules if enabled in config
         /** @var $cert_def srCertificateDefinition */
-        $cert_def = srCertificateDefinition::where(array('ref_id' => $course->getRefId()))->first();
-        if ($cert_def->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING)->getValue()) {
+        $cert_definition = $this->certificate->getDefinition();
+        if ($cert_definition->getScormTiming()) {
             $spent_seconds = 0;
             foreach (ilLPCollections::_getItems($course->getId()) as $item) {
                 $spent_seconds += $this->getSpentSeconds(ilObject::_lookupObjectId($item), $user->getId());
