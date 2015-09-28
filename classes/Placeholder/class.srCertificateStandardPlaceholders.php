@@ -184,16 +184,28 @@ class srCertificateStandardPlaceholders
     {
         $utc = ilCertificateConfig::get('time_format_utc');
 
-        return array(
+        $cert_valid_from = strtotime($this->certificate->getValidFrom());
+        $cert_valid_to = strtotime($this->certificate->getValidTo());
+        if($utc) {
+            // fix for timezone issue: when converting a mysql date into a timestamp and then into another timezone, its possible the date changes (because the start date is the first second of the day).
+            // We now add 12*60*60 seconds to be in the middle of the day
+            $cert_valid_to += srCertificate::TIME_ZONE_CORRECTION;
+            $cert_valid_from += srCertificate::TIME_ZONE_CORRECTION;
+        }
+
+        $placeholder = array(
             'DATE' => $this->formatDate('DATE'),
             'DATETIME' => $this->formatDateTime('DATETIME'),
             'TIMESTAMP' => ($utc) ? strtotime(gmdate('Y-m-d H:i:s')) : time(),
-            'CERT_VALID_FROM' => $this->formatDate('CERT_VALID_FROM', strtotime($this->certificate->getValidFrom())),
-            'CERT_VALID_TO' => $this->formatDate('CERT_VALID_TO', strtotime($this->certificate->getValidTo())),
+
+            'CERT_VALID_FROM' => $this->formatDate('CERT_VALID_FROM', $cert_valid_from),
+            'CERT_VALID_TO' => $this->formatDate('CERT_VALID_TO', $cert_valid_to),
             'CERT_ID' => $this->certificate->getId(),
             'CERT_TEMPLATE_PATH' => $this->certificate->getDefinition()->getType()->getCertificateTemplatesPath(),
             'COURSE_TITLE' => $course->getTitle(),
         );
+
+        return $placeholder;
     }
 
 
@@ -216,6 +228,7 @@ class srCertificateStandardPlaceholders
         if ($format_custom) {
             $format = $format_custom;
         }
+
         $value = ($utc) ? gmdate($format, $timestamp) : date($format, $timestamp);
 
         return $value;
@@ -239,6 +252,7 @@ class srCertificateStandardPlaceholders
         if ($format_custom) {
             $format = $format_custom;
         }
+
         $value = ($utc) ? gmdate($format, $timestamp) : date($format, $timestamp);
 
         return $value;

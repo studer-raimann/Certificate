@@ -25,6 +25,10 @@ class srCertificate extends ActiveRecord
     const STATUS_FAILED = 4;
     const STATUS_CALLED_BACK = 5;
 
+
+    // timezone offets are from -39600 to +46800
+    const TIME_ZONE_CORRECTION = 39600;
+
     /**
      * @var int
      *

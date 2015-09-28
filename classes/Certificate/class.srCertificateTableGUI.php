@@ -181,6 +181,8 @@ class srCertificateTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VALUE', '');
             $this->tpl->parseCurrentBlock();
         }
+        $utc = ilCertificateConfig::get('time_format_utc');
+        $date_function = ($utc)? 'gmdate' : 'date';
 
         foreach ($this->columns as $k => $column) {
             $value = (is_null($a_set[$column])) ? '' : $a_set[$column];
@@ -188,12 +190,14 @@ class srCertificateTableGUI extends ilTable2GUI
 
                 // Format dates
                 if (in_array($column, array('valid_from', 'valid_to')) && $value != '') {
+                    $time = strtotime($value);
+                    $time = ($utc)?  $time + srCertificate::TIME_ZONE_CORRECTION : $time;
                     switch ($this->user->getDateFormat()) {
                         case ilCalendarSettings::DATE_FORMAT_DMY:
-                            $value = date('d.m.Y', strtotime($value));
+                            $value = $date_function('d.m.Y', $time);
                             break;
                         case ilCalendarSettings::DATE_FORMAT_MDY:
-                            $value = date('m/d/Y', strtotime($value));
+                            $value = $date_function('m/d/Y', $time);
                             break;
                     }
                 } elseif (in_array($column, array('valid_from', 'valid_to')) && $value == '') {
