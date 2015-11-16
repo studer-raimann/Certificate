@@ -1,0 +1,208 @@
+msg_default_language_must_be_set#:#Standard taal moet ingesteld zijn
+decrypt_failed#:#De handtekening kon niet worden ontsleuteld.
+signature#:#Handtekening
+signature_file#:#Handtekenig bestand
+signature_file_info#:#Upload een afbeelding met handtekening.
+signatures#:#Handtekeningen
+signature_check#:#Controleer handtekening van certificaat
+signatures_confirm_delete#:#Bevestig dat je de volgende hanadtekening wilt verwijderen:
+last_name#:#Achternaam
+first_name#:#Voornaam
+add_new_signature#:#Toevoegen nieuwe handtekening
+edit_signature#:#Wijzig handtekening
+decrypt_successful#:#De ontsleuteling is gelukt.
+in_process#:#bezig
+general#:#Algemeen
+template#:#Sjabloon
+certificate_placeholders#:#Certificaat plaatshouders
+save#:#Opslaan
+cancel#:#Annuleer
+confirm#:#Bevestig
+always#:#Altijd
+placeholders#:#Plaatshouders
+back_to_overview#:#Overzicht
+manage_cert_types#:#Beheer certificaat types
+administrate_certificates#:#Beheer Certificaten
+my_certificates#:#Mijn Certificaten
+save_preview#:#Opslaan en tonen
+certificate#:#Certificaat
+back_to_course#:#Terug naar cursus
+callback_email_subject#:#Certificaat is verlopen
+callback_email_message#:#Het volgende certificaat is verlopen en is daarom niet meer beschikbaar:
+status#:#Status
+waiting#:#Wachtend
+created#:#Aangemaakt
+called_back#:#Verlopen
+creation_failed#:#Aanmaken mislukt
+being_processed#:#Bezig
+undo_callback#:#Maak verlopen geldigheid ongedaan
+retry#:#Probeer opnieuw
+download#:#Download
+call_back#:#Verlopen
+current_type#:#Huidig Type:
+txt_use_placeholders#:#De volgende plaatshouders kunnen worden gebruikt (alleen in body en onderwerp)
+cert_status_0#:#Wachtend
+cert_status_1#:#Wachtend
+cert_status_2#:#Bezig
+cert_status_3#:#Aangemaakt
+cert_status_4#:#Aanmeken mislukt
+cert_status_5#:#Verlopen
+writeperm_failed_subject#:#Certificaat: Aanmaken mislukt
+writeperm_failed_message#:#Het aanmaken van een certificaat is mislukt vanwege onvoldoende rechten op de doel folder:
+no_space_left_subject#:#Certificaat: Aanmaken mislukt
+no_space_left_message#:#Het aanmaken van een certificaat is mislukt vanwege onvoldoende diskruimte op de certificaat folder:
+disk_space_warning_mail_subject#:#Certificaat: Waarschuwing beschikbare ruimte
+disk_space_warning_mail_message#:#Na het aanmaken van het laatste certificaat is de beschikbare disk ruimte van de certificaat data folder beneden de kritische waarde gekomen. Je kunt deze waarde aanpassen bij certificaat instellingen.
+
+valid_from#:#Geldig vanaf
+valid_to#:#Geldig tot
+unlimited#:#Onbeperkt
+lastname#:#Achternaam
+firstname#:#Voornaam
+file_version#:#Bestandsversie
+actions#:#Acties
+cert_id#:#Certificaat ID
+id#:#Certificaat ID
+cert_type#:#Certificaat type
+type#:#Certificaat type
+only_newest_version#:#Toon alleen nieuwste versie
+crs_title#:#Cursus title
+download_zip#:#Download als ZIP
+
+msg_no_permission_certificates#:#Geen rechten om certificaten te zien
+msg_definition_created#:#Definitie aangemaakt
+msg_definition_updated#:#Definitioe gewijzigd
+msg_placeholders_updated#:#Placehouders gewijzigd
+msg_type_updated#:#Certificaat type gewijzigd
+msg_no_types_available#:#Geen certificaat types beschikbaar
+msg_reserved_identifier#:#Identifier '%s' is gereserveerd door een bestaande standaard plaatshouder
+msg_identifier_not_valid#:#Identifier '%s' is niet geldig
+msg_reset_validity#:#De standaard waarde is hersteld
+msg_type_saved#:#Opgeslagen type
+msg_signature_saved#:#Opgeslagen handtekening.
+msg_delete_signature_success#:#Handtekening verwijderd.
+msg_setting_saved#:#Opgeslagen instelling
+msg_placeholder_saved#:#Opgeslagen plaatshouder
+msg_placeholder_format_info#:#Binnen je sjabloon, plaats "%s" symbolen om de plaatshouder identifiers
+msg_no_permission#:#Toegang geweigerd
+msg_save_config#:#Configuratie opgeslagen
+msg_no_placeholders#:#Er zijn geen plaatshouders voor het geselecteerde certificaat type
+msg_called_back#:#Het certificaat is verlopen.
+msg_undo_called_back#:#Het certificaat is niet meer verlopen.
+msg_not_created_yet#:#Het certificaat is nog niet aangemaakt.
+msg_retry_generation#:#Het systeem zal proberen het certificaat opnieuw aan te maken.
+
+change_cert_type#:#Wijzig certificaat type
+choose_cert_type#:#Kies certificaat type
+edit_settings#:#Instellingen wijzigen
+
+setting_id_type#:#Certificaat type
+setting_id_type_info_new#:#Na het selecteren van het type, zijn extra instellingen beschikbaar
+setting_id_type_info_change#:#Waarschuwing: Als je het type wijzigt worden de huidige instellingen en plaatshouders verwijderd
+setting_id_generation#:#Generatie
+setting_id_validity#:#Geldigheid
+setting_id_validity_type#:#Geldigheidstype
+setting_id_default_lang#:#Standaard Taal
+setting_id_default_lang_info#:#Het certificaat wordt gegenereerd in deze taal als de taal van de gebruker niet overeenkomt met een van de talen van het certificaattype.
+setting_id_downloadable#:#Certificaat downloadbaar
+setting_id_downloadable_info#:#Indien aangevinkt heeft de gebruiker de mogelijheid om het certificaat te downloaden.
+setting_id_scorm_timing#:#Inschakelen SCORM timing instellingen
+setting_id_scorm_timing_info#:#Activeer alternatieve berekening van "Gebruikte Seconden" voor SCORM 2004 modules.
+setting_generation_auto#:#Nadat cursus af is (auto)
+setting_generation_manually#:#Handmatig
+setting_validity_range#:#Periode na het aanmaken van certificaat
+setting_validity_1#:#Altijd
+setting_validity_2#:#Periode
+setting_validity_3#:#Datum
+date_range#:#Periode
+setting_validity_date#:#Specifieke datum
+date#:#Datum
+setting_id_notification#:#Berichtgeving
+setting_id_notification_info#:#Scheid adressen met komma's
+setting_id_notification_user#:#Gebruikersberichtgeving
+setting_id_notification_user_info#:#Als aangevinkt zal er een email met het certificaat worden gestuurd naar de gebruiker
+validity_date_range#:#%s maanden, %s dagen
+
+confirm_type_change#:#Bevestig de wijziging van het type certificaat
+confirm_type_change_text#:#Door het wijzigen van het type certificaat zullen alle bestaande plaatshouders en instellingen worden verwijderd. Nieuwe plaatshouders voor het type zulen beschikbaar zijn.
+
+add_new_type#:#Toevoegen nieuw type certificaat
+languages#:#Talen
+description#:#Beschrijving
+title#:#Titel
+template_type_id#:#Sjabloon type
+roles#:#Rollen
+roles_info#:#Rollen die dit type certificaat mogen selecteren. Als geen rol is gedefinieerd kunnen alle gebruikers dit type selecteren.
+available_objects#:#Beschikbaar in objecten
+available_objects_info#:#Definieer in welke objecten dit type certificaat geselecteerd kan 
+edit_type#:#Wijzig Certificaat type
+add_type#:#Toevoegen type certificaat
+assets#:#Middelen
+assets_info#:#Vink de middelen aan die je wilt verwijderen na het opslaan
+add_assets#:#Middelen toevoegen
+template_file#:#Sjabloonbestand
+template_file_info#:#Het bestand moet een geldig sjabloon zijn voor het geselecteerde sjaboontype. Als er al een sjabloonbestand bestaat dan zal deze worden verwijderd.
+
+edit_setting#:#Wijzig '%s'
+edit_type_template#:#Wijzigen sjabloon gerelateerde instellingen
+setting#:#Instellingen
+editable_in#:#Wijzigbaar in
+default_value#:#Standaard waarde
+default_value_lang#:#Standaard waarde '%s'
+label_lang#:#Label '%s'
+label#:#Label
+
+identifier#:#Identifier
+identifier_info#:#Geldige karakters: %s
+max_characters#:#Max karakters
+max_characters_info#:#Als je meer dan 128 karakters toestaat, dan zal een textarea worden gebruikt om de tekst in te voeren
+mandatory#:#Verplicht
+add_new_placeholder#:#Toevoegen nieuwe plaatshouder
+edit_placeholder#:#Wijzigen plaatshouder
+add_placeholder#:#Toevoegen plaatshouder
+standard_placeholders#:#Standaard plaatshouder
+standard_placeholders_desc#:#Dit zijn de standaard plaatshouders van deze plugin.
+update_cert_definitions#:#Aanpassen certificaat definities
+update_cert_definitions_info#:#Als aangevinkt dan zal deze plaatshouder ook worden aangemaakt in bestaande certificaat definities van dit type (met de standaard waarde)
+standard_settings#:#Standaard Instellingen
+custom_settings#:#Maatwerkinstellingen
+add_new_custom_setting#:#Toevoegen nieuwe maatwerkinstelling
+custom_setting_type#:#Instellingstype
+custom_setting_type_1#:#Boolean (Checkbox)
+custom_setting_type_2#:#Waarde( dropdown)
+custom_setting_type_2_data#:#Data om te selecteren in dropdown
+custom_setting_type_2_data_info#:#Voeg de mogelijke waarden in voor deze selectie, één per regel. Als de key anders is dan de waarde, gebruik dan een dubbele pijp die de key scheidt van de waarde, bv.: mijnKey||MijnWaarde
+custom_setting_default_value_info#:#Boolean: Voeg '1' toe om de checkbox standaard te selecteren, Waarde: voeg een sleutel van je data toe
+custom_setting_update_cert_definitions_info#:#Als aangevinkt dan wordt deze instelling ook aangemaakt voor bestaande certificaat-definities van dit type (met de standaard waarde)
+
+admin_form_title#:#Configuratie opties
+admin_form_course_templates#:#Inschakelen van ondersteuning van cursussjablonen
+admin_form_course_templates_info#:#Als ingeschakeld, biedt de plugin extra instellingen, afhankelijk of de cursus is aangemerkt als "cursus sjabloon"
+admin_form_course_templates_ref_ids#:#Ref-IDs categorieen
+admin_form_course_templates_ref_ids_info#:#Komma geschieden lijst van Ref-Id's van categorieën met cursussjablonen
+admin_form_time_format_utc#:#Print datum/tijd op certificaat in UTC tijdzone
+admin_form_time_format_utc_info#:#Als aangevinkt dan zullen alle datums en tijden met standaard plaatshouders worden berekend in UTC tijdzone (via het gebruik van PHP's gmdate() over date()
+admin_form_str_format_date#:#Datum formaat
+admin_form_str_format_date_info#:#Datum formaat voor alle data van standaard plaatshouders
+admin_form_str_format_datetime#:#Datum/Tijd formaat
+admin_form_str_format_datetime_info#:#Datum formaat voor alle data en tijdsvelden van de standaard plaatshouders
+admin_form_path_hook_class#:#Pad naar Hook class
+admin_form_path_hook_class_info#:#Pad naar de class 'srCertificateCustomHooks', b.v. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>Deze class kan worden gebruikt om het standaard gedrag van deze plugin te wijzigen. Je moet extend srCertificateHooks gebruiken (zie class description voor meer informatie).
+admin_form_callback_email#:#"Verlopen" E-mail
+admin_form_callback_email_info#:#Er wordt een e-mail gestuurd naar dit adress voor elk certificaat dat verloopt.
+admin_form_disk_space_warning#:#Waarschuwing beschikbare ruimte (MB)
+admin_form_disk_space_warning_info#:#Stuur een waarschuwing naar de systeembeheerder als de beschikbare ruimte voor certificaten lager is dan deze waarde.
+admin_form_permission_settings#:#Rechten instelligen
+admin_form_roles_administrate_certificate_types#:#Beheer certificaat types
+admin_form_roles_administrate_certificate_types_info#:#Gebruikers met een van de geselecteerde rollen mogen certificaat types beheren
+admin_form_roles_administrate_certificates#:#Beheer certificaten
+admin_form_roles_administrate_certificates_info#:#Gebruikers met een van de geselecteerde rollen mogen globaal certificaten zoeken en downloaden
+admin_form_notification_user_subject#:#Berichtgeving voor gebruikers (Onderwerp)
+admin_form_notification_others_subject#:#Berichtgeving voor andere gebruikers (Onderwerp)
+admin_form_notification_user_body#:#Berichtgeving voor gebruiker (Body)
+admin_form_notification_others_body#:##Berichtgeving voor andere gebruikers ((Body)
+admin_form_max_diff_lp_seconds#:#Tijdsperiode voor Certificaat PDF generatie (seconden)
+admin_form_max_diff_lp_seconds_info#:#Je kunt een tijdsperiode opgeven om te bepalen wanneer de PDF van het certificaat zal worden gegenereerd. Als je nul opgeeft dan wordt de PDF gegenereerd onmiddellijk nadat de gebruikers de cursus afmaakt. Let erop dat eventuele berichtgevingen ook pas worden verstuurd na de opgegeven periode.
+
+download_default_template#:#Download Standaard sjabloon
+download_template#:#Download Huidig sjabloon
