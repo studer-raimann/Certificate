@@ -1,0 +1,208 @@
+msg_default_language_must_be_set#:#Standard-Sprache muss gesetzt sein.
+decrypt_failed#:#Der Signaturwert konnte nicht entschlüsselt werden.
+signature#:#Signaturwert
+signature_file#:#Signatur-Datei
+signature_file_info#:#Laden Sie ein Bild hoch, welches den Signaturwert represäntiert.
+signatures#:#Signaturwerte
+signature_check#:#Zertifikatssignatur prüfen
+signatures_confirm_delete#:#Sind Sie sicher, dass Sie folgende Signatur löschen möchten?
+last_name#:#Nachname
+first_name#:#Vorname
+add_new_signature#:#Neue Signatur hinzufügen
+edit_signature#:#Signatur bearbeiten
+decrypt_successful#:#Die Entschlüsselung war erfolgreich.
+in_process#:#In Bearbeitung
+general#:#Allgemein
+template#:#Template
+certificate_placeholders#:#Platzhalter Zertifikat
+save#:#Speichern
+cancel#:#Abbrechen
+confirm#:#Bestätigen
+always#:#Immer
+placeholders#:#Platzhalter
+back_to_overview#:#Übersicht
+manage_cert_types#:#Zertifikats-Typen bearbeiten
+administrate_certificates#:#Zertifikate bearbeiten
+my_certificates#:#Meine Zertifikate
+save_preview#:#Speichern & Vorschau
+certificate#:#Zertifikat
+back_to_course#:#Zurück zum Kurs
+callback_email_subject#:#Zertifikat zurückrufen
+callback_email_message#:#Folgendes Zertifikat wurde zurückgerufen und ist daher nicht mehr verfügbar
+status#:#Status
+waiting#:#Wartend
+created#:#Erstellt
+called_back#:#Zurückgerufen
+creation_failed#:#Erstellung fehlgeschlagen
+being_processed#:#In Bearbeitung
+undo_callback#:#Zurückrufen rückgängig machen
+retry#:#Wiederholen
+download#:#Herungerladen
+call_back#:#Zurückrufen
+current_type#:#Aktueller Typ:
+txt_use_placeholders#:#Folgende Platzhalter können verwendet werden (innerhalb Nachricht und Betreff)
+cert_status_0#:#Wartend
+cert_status_1#:#Wartend
+cert_status_2#:#In Bearbeitung
+cert_status_3#:#Erstellt
+cert_status_4#:#Erstellung fehlgeschlagen
+cert_status_5#:#Zurückgerufen
+writeperm_failed_subject#:#Zertifikat: Erstellung fehlgeschlagen
+writeperm_failed_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlender Schreibberechtigung im Zielverzeichnis:
+no_space_left_subject#:#Zertifikat: Erstellung fehlgeschlagen
+no_space_left_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlendem Speicherplatz im Zertifikatsverzeichnis:
+disk_space_warning_mail_subject#:#Zertifikat: Speicherplatzwarnung
+disk_space_warning_mail_message#:#Nach der Erstellung des letzten Zertifikats, der freie Speicherplatz im Zertifikatsverzeichnis hat einen kritischen Wert erreicht. Sie können diesen Wert in der Zertifikatsadministration anpassen.
+
+valid_from#:##Gültig ab
+valid_to#:##Gültig bis
+unlimited#:#unbeschränkt
+lastname#:#Nachname
+firstname#:#Vorname
+file_version#:#Version
+actions#:#Aktionen
+cert_id#:#Zertifikat-ID
+id#:#Zertifikat-ID
+cert_type#:#Zertifikatstyp
+type#:#Zertifikatstyp
+only_newest_version#:#Nur die neuste Version anzeigen
+crs_title#:#Kurstitel
+download_zip#:#Herunterladen als Zip
+
+msg_no_permission_certificates#:#Keine Berechtigung Zertifikate anzuzeigen.
+msg_definition_created#:#Definition erfolgreich erstellt.
+msg_definition_updated#:#Definition erfolgreich aktualisiert.
+msg_placeholders_updated#:#Platzhalter erfolgreich aktualisiert.
+msg_type_updated#:#Zertifikatstyp aktualisiert.
+msg_no_types_available#:#Kein Zertifikatstyp verfügbar.
+msg_reserved_identifier#:#Kennzeichnung '%s' ist für einen bestehenden Platzhalter reserviert.
+msg_identifier_not_valid#:#Kennzeichnung '%s' ist ungültig.
+msg_reset_validity#:#Die Gültigkeit wurde auf den Standardwert zurückgesetzt.
+msg_type_saved#:#Typ gespeichert.
+msg_signature_saved#:#Signaturwert gespeichert.
+msg_delete_signature_success#:#Signaturwert erfolgreich gelöscht.
+msg_setting_saved#:#Einstellungen gespeichert.
+msg_placeholder_saved#:#Platzhalter gespeichert.
+msg_placeholder_format_info#:#Umschliessen Sie in Ihrem Template Platzhalter mittels "%s" "%s".
+msg_no_permission#:#Keine Berechtigung.
+msg_save_config#:#Konfiguration gespeichert.
+msg_no_placeholders#:#Es sind Platzhalter für den Zertifikatstyp definiert.
+msg_called_back#:#Das Zertifikat wurde zurückgerufen.
+msg_undo_called_back#:#Das Zertifikat gilt nun nicht mehr als zurückgerufen.
+msg_not_created_yet#:#Das Zertifikat wurde bis jetzt noch nicht erstellt.
+msg_retry_generation#:#Das system versucht das Zertifikat neu zu generieren.
+
+change_cert_type#:#Zertifikatstyp ändern
+choose_cert_type#:#Zertifikatstyp wählen
+edit_settings#:#Einstellungen bearbeitenb
+
+setting_id_type#:#Zertifikatstyp
+setting_id_type_info_new#:#Nach der Auswahl eines Typs, werden weitere Einstellungen verfügbar sein.
+setting_id_type_info_change#:#Warnung: Beim Ändern des Typs, werden die aktuellen Einstellungen und Platzhalter gelöscht.
+setting_id_generation#:#Erstellung
+setting_id_validity#:#Gültigkeit
+setting_id_validity_type#:#Typ Gültigkeit
+setting_id_default_lang#:#Standardsprache
+setting_id_default_lang_info#:#Das Zertifikat wird mit dieser Sprache erstellt, falls die Benutzersprache nicht mit einer der definierten Sprachen der Zertifikatstypen übereinstimmt.
+setting_id_downloadable#:#Zertifikat kann heruntergeladen werden
+setting_id_downloadable_info#:#Falls aktiviert, hat ein Benutzer die Möglichkeit das Zertifikat herunterzuladen.
+setting_id_scorm_timing#:#SCORM Timing aktivieren
+setting_id_scorm_timing_info#:#Aktiviert die alternative Berechnung von 'Spent Seconds' für SCORM 2004 Module.
+setting_generation_auto#:#Nachdem ein Kurs beendet wurde (automatisch)
+setting_generation_manually#:#Manuell
+setting_validity_range#:#Zeitraum nachdem ein Zertifikat generiert wurde
+setting_validity_1#:#Immer
+setting_validity_2#:#Zeitraum
+setting_validity_3#:#Datum
+date_range#:#Zeitraum
+setting_validity_date#:#Spezifisches Datum
+date#:#Datum
+setting_id_notification#:#Benachrichtigung
+setting_id_notification_info#:#Trennen Sie mehrere Adressen mittels Komma.
+setting_id_notification_user#:#Benutzerbenachrichtigung
+setting_id_notification_user_info#:#Falls Aktiviert, wird dem Benutzer eine E-Mail mit angehängtem Zertifikat verschickt.
+validity_date_range#:#%s Monate, %s Tage
+
+confirm_type_change#:#Bestätigung Änderung Zertifikatstyp
+confirm_type_change_text#:#Bei Änderung des Zertifikatstyp, alle Einstellungen und Platzhalter werden gelöscht. Neue Platzhalter, welche der Typ zur Verfügung stellt, werden verfügbar sein.
+
+add_new_type#:#Neuer Zertifikatstyp hinzufügen
+languages#:#Sprachen
+description#:#Beschreibung
+title#:#Titel
+template_type_id#:#Template-Typ
+roles#:#Rollen
+roles_info#:#Rollen, welche dir Berechtigung haben diesen Zertifikatstypen zu wählen. Falls keine Rollen gewählt werden, können sämtliche Benutzer diesen Zertifikatstypen wählen.
+available_objects#:#Verfügbar in Modulen
+available_objects_info#:#Definieren Sie in welchen Modulen dieser Zertifikatstyp verfügbar sein soll
+edit_type#:#Zertifikatstyp bearbeiten
+add_type#:#Zertifikatstyp hinzufügen
+assets#:#Zusätzliche Dateien
+assets_info#:#Prüfen Sie die zuästzlichen Dateien, welche Sie nach dem Speichern löschen möchten
+add_assets#:#Zusätzliche Dateien hinzufügen
+template_file#:#Template-Datei
+template_file_info#:#Die Datei muss ein gültiges Template für den gewählten Templattypen sein. Falls bereits eine Template-Datei besteht, wird die bestehende Datei überschrieben.
+
+edit_setting#:#'%s' Bearbeiten
+edit_type_template#:#Templatespezifische Einstellungen bearbeiten
+setting#:#Einstellung
+editable_in#:#Bearbeitbar in
+default_value#:#Standardwert
+default_value_lang#:#Standardwert '%s'
+label_lang#:#Label '%s'
+label#:#Label
+
+identifier#:#Kennzeichnung
+identifier_info#:#Gültige Zeichen: %s
+max_characters#:#Maximale Anzahl Zeichen
+max_characters_info#:#Falls Sie mehr als 128 Zeichen zulassen, wird ein Textfeld für die Eingabe des Textes verwendet.
+mandatory#:#Verpflichtend
+add_new_placeholder#:#Neuer Platzhalter hinzufügen
+edit_placeholder#:#Platzhalter bearbeiten
+add_placeholder#:#Platzhalter hinzufügen
+standard_placeholders#:#Standardplatzhalter
+standard_placeholders_desc#:#Standardplatzhalter des Plugins.
+update_cert_definitions#:#Zertifikatsdefinition aktualisieren
+update_cert_definitions_info#:#Falls aktiviert, wird der Platzhalter auch für die bestehenden Zertifikatsdefinitionen dieses Zertifikatstyp erstellt (mit dem Standardwert).
+standard_settings#:#Standardeinstellungen
+custom_settings#:#Spezifische Einstellungen
+add_new_custom_setting#:#Neue Spezifische Einstellung hinzufügen
+custom_setting_type#:#Einstellungstyp
+custom_setting_type_1#:#Boolean (Checkbox)
+custom_setting_type_2#:#Wert (Dropdown)
+custom_setting_type_2_data#:#Verfügbare Daten im Dropdown
+custom_setting_type_2_data_info#:#Geben Sie die möglichen Werte für die Auswahl an. Ein Wert pro Zeile. Falls die ID unterschiedlich zum Wert sein soll, können Sie "||" verwenden, um die ID vom Wert zu trennen. Z.B.  'ID||Wert'.
+custom_setting_default_value_info#:#Boolean: '1', um die Checkbox per default zu aktivieren, Fügen Sie eine spezifische ID hinzu.
+custom_setting_update_cert_definitions_info#:#Falls aktiviert, dieses Einstellung wird auch für bestehende Zertifikatsdefinitionen dieses Zertifikatstyp erstellt (mit dem Standardwert).
+
+admin_form_title#:#Konfigurationsoptionen
+admin_form_course_templates#:#Unterstützung für Kurs-Templates aktivieren
+admin_form_course_templates_info#:#Falls aktiviert, das Plugin bietet zusätzlichze Zertifikatseinstellungen falls ein Kurs als Template Kurs eingestellt wird.
+admin_form_course_templates_ref_ids#:#Ref-IDs Kategorien
+admin_form_course_templates_ref_ids_info#:#Kommaseparierte Liste von Ref-IDs von Kategorien, welche Template Kurse enthalten.
+admin_form_time_format_utc#:#Druckdatum/Zeit auf Zertifkaten als UTC-Timezone
+admin_form_time_format_utc_info#:#Falls aktiviert, alle Datums- und Zeitwerte, welche über die Standardplatzhalter generiert wurden, werden in UTC timezone konvertiert (Unter der Verwendung von PHP gmdate() over date()).
+admin_form_str_format_date#:#Datumsformat
+admin_form_str_format_date_info#:#Datumsformat, welches für die Standardplatzhalter verwendet wird.
+admin_form_str_format_datetime#:#Datums-/Zeit-Format
+admin_form_str_format_datetime_info#:#Datumsformat, welches für die Standardplatzhalter verwendet wird.
+admin_form_path_hook_class#:#Pfad zur Hook-Class
+admin_form_path_hook_class_info#:#Pfad zur Klasse 'srCertificateCustomHooks', z.B. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>Diese Klasse kann verwendet werden, um das Standardverhalten des Plugins zu verändern. Die Klasse muss von srCertificateHooks 'extend' (Siehe Klassenbeschreibung für zusätzliche Informationen).
+admin_form_callback_email#:#Rückruf E-Mail
+admin_form_callback_email_info#:#E-Mail wird an diese Adresse gesendet, immer wenn ein Zertifikat zurückgerufen wird.
+admin_form_disk_space_warning#:#Warnung freier Speicherplatz (MB)
+admin_form_disk_space_warning_info#:#Warnung an den Systemadministrator verschicken, wenn der freie Speicherplatz für die Zertifikatserstellung ist geringer als dieser Wert.
+admin_form_permission_settings#:#Berechtigungseinstellungen
+admin_form_roles_administrate_certificate_types#:#Administration Zertifikatstypen
+admin_form_roles_administrate_certificate_types_info#:#Benutzer, welche zu einer der ausgewählten Rollen zugewiesen sind, können Zertifikatstypen bearbeiten.
+admin_form_roles_administrate_certificates#:#Administration Zertifikate
+admin_form_roles_administrate_certificates_info#:#Benutzer, welche zu einer der ausgewählten Rollen zugewiesen sind, können sämtliche Zertifikate suchen und herunterladen.
+admin_form_notification_user_subject#:#Benachrichtigung für Benutzer (Betreff)
+admin_form_notification_others_subject#:#Benachrichtigung für weitere Benutzer (Betreff)
+admin_form_notification_user_body#:#Benachrichtigung für Benutzer (Body)
+admin_form_notification_others_body#:#Benachrichtigung für weitere Benutzer (Body)
+admin_form_max_diff_lp_seconds#:#Zeitspannte für PDF Erstellung (Sekunden)
+admin_form_max_diff_lp_seconds_info#:#Sie können eine Zeitsptanne in Sekunden definieren, um die PDF-Erzeugung eines Zertifikats zurückzuhalten. Wenn Sie 0 eingeben, wird das PDF direkt nachdem der Benutzer den Kurs bestanden erzeugt. Beachten Sie, dass mögliche E-Mails ebenfalls nach der eingestellten Zeitspanne gesendet werden.
+
+download_default_template#:#Default Template herunterladen
+download_template#:#Aktuelles Template herunterladen
