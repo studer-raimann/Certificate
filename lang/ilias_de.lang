@@ -54,8 +54,8 @@ no_space_left_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufg
 disk_space_warning_mail_subject#:#Zertifikat: Speicherplatzwarnung
 disk_space_warning_mail_message#:#Nach der Erstellung des letzten Zertifikats, der freie Speicherplatz im Zertifikatsverzeichnis hat einen kritischen Wert erreicht. Sie können diesen Wert in der Zertifikatsadministration anpassen.
 
-valid_from#:##Gültig ab
-valid_to#:##Gültig bis
+valid_from#:#Gültig ab
+valid_to#:#Gültig bis
 unlimited#:#unbeschränkt
 lastname#:#Nachname
 firstname#:#Vorname
