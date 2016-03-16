@@ -37,7 +37,7 @@ creation_failed#:#Erstellung fehlgeschlagen
 being_processed#:#In Bearbeitung
 undo_callback#:#Zurückrufen rückgängig machen
 retry#:#Wiederholen
-download#:#Herungerladen
+download#:#Herunterladen
 call_back#:#Zurückrufen
 current_type#:#Aktueller Typ:
 txt_use_placeholders#:#Folgende Platzhalter können verwendet werden (innerhalb Nachricht und Betreff)
