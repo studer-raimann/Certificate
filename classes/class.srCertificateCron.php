@@ -74,7 +74,6 @@ class srCertificateCron
 
         require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
         require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
-        require_once('./Services/Mail/classes/class.ilMimeMail.php');
         require_once("./Services/Tracking/classes/class.ilTrQuery.php");
         require_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
     }

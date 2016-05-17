@@ -188,8 +188,8 @@ admin_form_str_format_datetime#:#Datetime format
 admin_form_str_format_datetime_info#:#Date format used to format all dates with time from the standard placeholders.
 admin_form_path_hook_class#:#Path to Hook-Class
 admin_form_path_hook_class_info#:#Path to the class 'srCertificateCustomHooks', e.g. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
-admin_form_callback_email#:#Callback Email
-admin_form_callback_email_info#:#Email will be sent to this address whenever a certificate is called back.
+admin_form_callback_email#:#Callback Email(s)
+admin_form_callback_email_info#:#Email will be sent to this address whenever a certificate is called back. You can add multiple e-mail addresses, comma separated.
 admin_form_disk_space_warning#:#Free Space Warning (MB)
 admin_form_disk_space_warning_info#:#Send a warning to the system administrator when the amount of free space for the certificate creation is lower than this value.
 admin_form_permission_settings#:#Permission Settings

@@ -24,6 +24,7 @@ class srCertificateUserNotification extends srCertificateEmailNotification
         $body = $parser->parse($this->pl->config('notification_user_body'), $certificate->getPlaceholders());
         $this->setSubject($subject);
         $this->setBody($body);
+        $this->setAttachCertificate(true);
     }
 
 }

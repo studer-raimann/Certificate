@@ -13,11 +13,11 @@ class srCertificateCallBackNotification extends srCertificateEmailNotification
 
     /**
      * @param srCertificate $certificate
+     * @param string $email
      */
-    public function __construct(srCertificate $certificate)
+    public function __construct(srCertificate $certificate, $email = '')
     {
-        parent::__construct($certificate);
-        $this->setEmail($this->pl->config('callback_email'));
+        parent::__construct($certificate, $email);
         $this->setSubject($this->pl->txt('callback_email_subject'));
         $parser = srCertificatePlaceholdersParser::getInstance();
         $body = $parser->parse($this->pl->txt('callback_email_message'), $this->certificate->getPlaceholders());

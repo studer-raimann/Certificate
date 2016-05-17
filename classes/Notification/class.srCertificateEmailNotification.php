@@ -1,5 +1,5 @@
 <?php
-
+require_once('./Services/Mail/classes/class.ilMimeMail.php');
 require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php');
 require_once('srCertificateNotification.php');
 
@@ -39,7 +39,7 @@ class srCertificateEmailNotification implements srCertificateNotification
     /**
      * @var bool
      */
-    protected $attach_certificate = true;
+    protected $attach_certificate = false;
 
     /**
      * @var ilCertificatePlugin

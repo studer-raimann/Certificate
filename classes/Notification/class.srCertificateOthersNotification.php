@@ -23,6 +23,7 @@ class srCertificateOthersNotification extends srCertificateEmailNotification
         $body = $parser->parse($this->pl->config('notification_others_body'), $certificate->getPlaceholders());
         $this->setSubject($subject);
         $this->setBody($body);
+        $this->setAttachCertificate(true);
     }
 
 }
