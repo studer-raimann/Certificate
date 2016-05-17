@@ -47,6 +47,8 @@ class srCertificateStandardPlaceholders
         'CERT_VALID_FROM' => 'From validity date of certificate',
         'CERT_VALID_TO' => 'To validity date of certificate',
         'CERT_ID' => 'Unique numerical ID of certificate',
+        'CERT_FILE_NAME' => 'Filename of certificate',
+        'CERT_FILE_VERSION' => 'File version of certificate',
         'COURSE_TITLE' => 'Title of course',
         'LP_FIRST_ACCESS' => 'Learning progress: First access',
         'LP_LAST_ACCESS' => 'Learning progress: Last access',
@@ -197,7 +199,8 @@ class srCertificateStandardPlaceholders
             'DATE' => $this->formatDate('DATE'),
             'DATETIME' => $this->formatDateTime('DATETIME'),
             'TIMESTAMP' => ($utc) ? strtotime(gmdate('Y-m-d H:i:s')) : time(),
-
+            'CERT_FILE_NAME' => $this->certificate->getFilename(),
+            'CERT_FILE_VERSION' => $this->certificate->getFileVersion(),
             'CERT_VALID_FROM' => ($this->certificate->getValidFrom() == '')? $this->pl->txt('unlimited') : $this->formatDate('CERT_VALID_FROM', $cert_valid_from),
             'CERT_VALID_TO' =>  ($this->certificate->getValidTo() == '')? $this->pl->txt('unlimited') : $this->formatDate('CERT_VALID_TO', $cert_valid_to),
             'CERT_ID' => $this->certificate->getId(),

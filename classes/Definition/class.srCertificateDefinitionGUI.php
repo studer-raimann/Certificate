@@ -338,8 +338,6 @@ class srCertificateDefinitionGUI
     {
         $certificate->setStatus(srCertificate::STATUS_CALLED_BACK);
         $certificate->update();
-        // TODO Handle all notifications with events -> catch statusChanged event of srCertificate object
-        $this->pl->sendMail('callback', $certificate);
         ilUtil::sendSuccess($this->pl->txt('msg_called_back'), true);
         $this->ctrl->redirect($this, 'showCertificates');
     }

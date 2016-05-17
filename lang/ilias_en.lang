@@ -28,7 +28,7 @@ save_preview#:#Save & Preview
 certificate#:#Certificate
 back_to_course#:#Back to Course
 callback_email_subject#:#Certificate Callback
-callback_email_message#:#The following certificate has been called back and therefore is no longer available:
+callback_email_message#:#The following certificate has been called back and therefore is no longer available:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 status#:#Status
 waiting#:#Waiting
 created#:#Created
@@ -48,11 +48,11 @@ cert_status_3#:#Created
 cert_status_4#:#Creation Failed
 cert_status_5#:#Called Back
 writeperm_failed_subject#:#Certificate: Creation Failed
-writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:
+writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 no_space_left_subject#:#Certificate: Creation Failed
-no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:
+no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 disk_space_warning_mail_subject#:#Certificate: Free Space Warning
-disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.
+disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.\n\nFree disk space left: %s Bytes
 
 valid_from#:#Valid from
 valid_to#:#Valid to
