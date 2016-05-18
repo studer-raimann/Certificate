@@ -332,7 +332,7 @@ class srCertificateStandardPlaceholders
     {
         return array(
             'USER_LOGIN' => ($this->anonymized) ? 'johndoe' : $user->getLogin(),
-            'USER_TITLE' => ($this->anonymized) ? 'Mister' : $user->getTitle(),
+            'USER_TITLE' => ($this->anonymized) ? 'Mister' : $user->getUTitle(),
             'USER_FULLNAME' => ($this->anonymized) ? 'John Doe' : $user->getFullname(),
             'USER_FIRSTNAME' => ($this->anonymized) ? 'John' : $user->getFirstname(),
             'USER_LASTNAME' => ($this->anonymized) ? 'Doe' : $user->getLastname(),
