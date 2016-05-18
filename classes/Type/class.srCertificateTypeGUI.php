@@ -213,6 +213,13 @@ class srCertificateTypeGUI
                         $this->createPlaceholder();
                         $this->setTabs('placeholders');
                         break;
+                    case 'deletePlaceholder':
+                        $this->deletePlaceholder();
+                        break;
+                    case 'confirmDeletePlaceholder':
+                        $this->confirmDeletePlaceholder();
+                        $this->setTabs('placeholders');
+                        break;
                     case 'showSignatures':
                         $this->showSignatures();
                         $this->setTabs('signatures');
@@ -390,6 +397,29 @@ class srCertificateTypeGUI
         $setting->delete();
         ilUtil::sendSuccess($this->pl->txt('msg_success_custom_setting_deleted'), true);
         $this->ctrl->redirect($this, 'showSettings');
+    }
+
+
+    public function confirmDeletePlaceholder()
+    {
+        /** @var srCertificatePlaceholder $placeholder */
+        $placeholder = srCertificatePlaceholder::find((int) $_GET['placeholder_id']);
+        $gui = new ilConfirmationGUI();
+        $gui->setFormAction($this->ctrl->getFormAction($this));
+        $gui->setHeaderText($this->pl->txt('info_delete_custom_placeholder'));
+        $gui->addItem('placeholder_id', $placeholder->getId(), $placeholder->getLabel($this->user->getLanguage()));
+        $gui->setConfirm($this->lng->txt('confirm'), 'deletePlaceholder');
+        $gui->setCancel($this->lng->txt('cancel'), 'showPlaceholders');
+        $this->tpl->setContent($gui->getHTML());
+    }
+
+
+    public function deletePlaceholder()
+    {
+        $placeholder = srCertificatePlaceholder::findOrFail((int) $_POST['placeholder_id']);
+        $placeholder->delete();
+        ilUtil::sendSuccess($this->pl->txt('msg_success_custom_placeholder_deleted'), true);
+        $this->ctrl->redirect($this, 'showPlaceholders');
     }
 
 

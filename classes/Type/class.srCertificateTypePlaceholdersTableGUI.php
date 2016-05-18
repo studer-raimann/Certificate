@@ -36,6 +36,7 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
         'editable_in',
     );
 
+
     /**
      * @param $a_parent_obj
      * @param string $a_parent_cmd
@@ -58,6 +59,7 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
         $this->buildData();
         $this->setTitle($this->pl->txt('custom_placeholders'));
     }
+
 
     /**
      * @param array $a_set
@@ -91,8 +93,11 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('srcertificatetypegui', 'type_id', $this->type->getId());
         $this->ctrl->setParameterByClass('srcertificatetypegui', 'placeholder_id', $a_set['id']);
         $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editPlaceholder'));
+        $list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'confirmDeletePlaceholder'));
+
         return $list;
     }
+
 
     /**
      * Add columns
@@ -108,6 +113,7 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
         }
     }
 
+
     /**
      * Get settings
      */
@@ -120,7 +126,7 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
             $row['id'] = $placeholder->getId();
             $row['identifier'] = $placeholder->getIdentifier();
             $row['max_characters'] = $placeholder->getMaxCharactersValue();
-            $row['mandatory'] = (int)$placeholder->getIsMandatory();
+            $row['mandatory'] = (int) $placeholder->getIsMandatory();
             $row['editable_in'] = implode(',', $placeholder->getEditableIn());
             foreach ($this->type->getLanguages() as $lang_code) {
                 $row["default_value_{$lang_code}"] = $placeholder->getDefaultValue($lang_code);

@@ -37,6 +37,7 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
 
     /**
      * Labels for each defined language
+     *
      * @var array
      *
      * @db_has_field    true
@@ -130,12 +131,9 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
         if (isset($this->labels[$lang])) {
             return $this->labels[$lang];
         }
-        /** @var srCertificateType $type */
-        $type = srCertificateType::find($this->type_id);
-        foreach ($type->getLanguages() as $language) {
-            if (isset($this->labels[$language])) {
-                return $this->labels[$language];
-            }
+
+        foreach ($this->labels as $label) {
+            return $label;
         }
 
         return '';
@@ -177,8 +175,10 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
                     $data[$line] = $line;
                 }
             }
+
             return $data;
         }
+
         return $this->data;
     }
 
@@ -198,7 +198,7 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
      */
     public function setIdentifier($identifier)
     {
-        if ( ! preg_match(self::REGEX_VALID_IDENTIFIER, $identifier)) {
+        if (!preg_match(self::REGEX_VALID_IDENTIFIER, $identifier)) {
             throw new srCertificateException("Identifier '{$identifier}' not valid");
         }
         $this->identifier = $identifier;
