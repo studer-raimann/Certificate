@@ -141,6 +141,7 @@ class srCertificateCustomTypeSettingFormGUI extends ilPropertyFormGUI
         $item->addOption($option);
         $option = new ilRadioOption($this->pl->txt('custom_setting_type_' . srCertificateCustomTypeSetting::SETTING_TYPE_SELECT), srCertificateCustomTypeSetting::SETTING_TYPE_SELECT);
         $subitem = new ilTextAreaInputGUI($this->pl->txt('custom_setting_type_2_data'), 'data');
+        $subitem->setValue($this->setting->getData());
         $subitem->setInfo($this->pl->txt('custom_setting_type_2_data_info'));
         $option->addSubItem($subitem);
         $item->setValue($this->setting->getSettingTypeId());
