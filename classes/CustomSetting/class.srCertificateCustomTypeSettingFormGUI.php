@@ -159,7 +159,6 @@ class srCertificateCustomTypeSettingFormGUI extends ilPropertyFormGUI
             $options[$type] = $type;
         }
         $item->setOptions($options);
-        $item->setRequired(true);
         $item->setValue($this->setting->getEditableIn());
         $this->addItem($item);
 

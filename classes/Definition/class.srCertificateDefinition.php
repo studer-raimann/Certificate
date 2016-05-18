@@ -428,7 +428,7 @@ class srCertificateDefinition extends ActiveRecord
 
 
     /**
-     * @return array
+     * @return array srCertificateCustomDefinitionSetting[]
      */
     public function getCustomSettings()
     {
