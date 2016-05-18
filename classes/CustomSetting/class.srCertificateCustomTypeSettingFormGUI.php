@@ -89,6 +89,7 @@ class srCertificateCustomTypeSettingFormGUI extends ilPropertyFormGUI
             $this->setting->setData($this->getInput('data'));
             $this->setting->setValue($this->getInput('value'));
             $this->setting->setEditableIn($this->getInput('editable_in'));
+            /** @var srCertificateType $type */
             $type = srCertificateType::find($this->setting->getTypeId());
             foreach ($type->getLanguages() as $lang_code) {
                 $this->setting->setLabel($this->getInput("label_{$lang_code}"), $lang_code);

@@ -123,10 +123,10 @@ setting_id_notification_info#:#Trennen Sie mehrere Adressen mittels Komma.
 setting_id_notification_user#:#Benutzerbenachrichtigung
 setting_id_notification_user_info#:#Falls Aktiviert, wird dem Benutzer eine E-Mail mit angehängtem Zertifikat verschickt.
 validity_date_range#:#%s Monate, %s Tage
-
+info_delete_custom_setting#:#Soll die spezifische Einstellung wirklich gelöscht werden? Sie wird ebenfalls bei allen Zertifikatsdefinitionen gelöscht.
 confirm_type_change#:#Bestätigung Änderung Zertifikatstyp
 confirm_type_change_text#:#Bei Änderung des Zertifikatstyp, alle Einstellungen und Platzhalter werden gelöscht. Neue Platzhalter, welche der Typ zur Verfügung stellt, werden verfügbar sein.
-
+msg_success_custom_setting_deleted#:#Successfully deleted custom setting#:#Spezifische Einstellung gelöscht
 add_new_type#:#Neuer Zertifikatstyp hinzufügen
 languages#:#Sprachen
 description#:#Beschreibung

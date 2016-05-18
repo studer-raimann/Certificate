@@ -7,7 +7,6 @@ require_once('class.srCertificateCustomTypeSetting.php');
  * srCertificateCustomTypeSetting
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version
  */
 class srCertificateCustomDefinitionSetting extends srCertificateDefinitionSetting
 {
@@ -33,8 +32,10 @@ class srCertificateCustomDefinitionSetting extends srCertificateDefinitionSettin
         $setting = $type->getCustomSettingByIdentifier($this->getIdentifier());
         $ref_id = $definition->getRefId();
         $object_type = ($this->pl->isCourseTemplate($ref_id)) ? 'crs-tpl' : ilObject::_lookupType($ref_id, true);
+
         return in_array($object_type, $setting->getEditableIn());
     }
+
 
     /**
      * Returns the default value defined in the type
@@ -47,6 +48,7 @@ class srCertificateCustomDefinitionSetting extends srCertificateDefinitionSettin
         $definition = srCertificateDefinition::find($this->getDefinitionId());
         $type = $definition->getType();
         $setting = $type->getCustomSettingByIdentifier($this->getIdentifier());
+
         return $setting->getValue();
     }
 
@@ -77,6 +79,7 @@ class srCertificateCustomDefinitionSetting extends srCertificateDefinitionSettin
     {
         /** @var srCertificateDefinition $definition */
         $definition = srCertificateDefinition::find($this->getDefinitionId());
+
         return srCertificateCustomTypeSetting::where(array('identifier' => $this->getIdentifier(), 'type_id' => $definition->getTypeId()))->first();
     }
 

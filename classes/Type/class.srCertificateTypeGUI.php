@@ -13,7 +13,7 @@ require_once(dirname(dirname(__FILE__)) . '/CustomSetting/class.srCertificateTyp
 require_once(dirname(dirname(__FILE__)) . '/Signature/class.srCertificateSignature.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSignaturesTableGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSignatureFormGUI.php');
-
+require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 
 /**
  * GUI-Class srCertificateTypeGUI
@@ -181,6 +181,13 @@ class srCertificateTypeGUI
                     case 'editCustomSetting':
                         $this->editCustomSetting();
                         $this->setTabs('settings');
+                        break;
+                    case 'confirmDeleteCustomSetting':
+                        $this->confirmDeleteCustomSetting();
+                        $this->setTabs('settings');
+                        break;
+                    case 'deleteCustomSetting':
+                        $this->deleteCustomSetting();
                         break;
                     case 'saveCustomSetting':
                         $this->saveCustomSetting();
@@ -360,6 +367,29 @@ class srCertificateTypeGUI
         $table_custom_settings = new srCertificateTypeCustomSettingsTableGUI($this, 'showSettings', $this->type);
         $spacer = '<div style="height: 30px;"></div>';
         $this->tpl->setContent($table->getHTML() . $spacer . $table_custom_settings->getHTML());
+    }
+
+
+    public function confirmDeleteCustomSetting()
+    {
+        /** @var srCertificateCustomTypeSetting $setting */
+        $setting = srCertificateCustomTypeSetting::findOrFail((int) $_GET['custom_setting_id']);
+        $gui = new ilConfirmationGUI();
+        $gui->setFormAction($this->ctrl->getFormAction($this));
+        $gui->setHeaderText($this->pl->txt('info_delete_custom_setting'));
+        $gui->addItem('custom_setting_id', $setting->getId(), $setting->getLabel($this->user->getLanguage()));
+        $gui->setConfirm($this->lng->txt('confirm'), 'deleteCustomSetting');
+        $gui->setCancel($this->lng->txt('cancel'), 'showSettings');
+        $this->tpl->setContent($gui->getHTML());
+    }
+
+
+    public function deleteCustomSetting()
+    {
+        $setting = srCertificateCustomTypeSetting::findOrFail((int) $_POST['custom_setting_id']);
+        $setting->delete();
+        ilUtil::sendSuccess($this->pl->txt('msg_success_custom_setting_deleted'), true);
+        $this->ctrl->redirect($this, 'showSettings');
     }
 
 

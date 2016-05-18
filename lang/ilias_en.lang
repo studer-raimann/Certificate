@@ -175,7 +175,8 @@ custom_setting_type_2_data#:#Data to Select in Dropdown
 custom_setting_type_2_data_info#:#Enter the possible values available for selection, one per line. If the key should be different than the value, add a double pipe separating the key from the value, e.g. 'mykey||My Value'.
 custom_setting_default_value_info#:#Boolean: Add '1' to check the checkbox by default, Value: Add a key from your data.
 custom_setting_update_cert_definitions_info#:#If checked, the setting is also created for existing certificate definitions of this type (with the default value).
-
+info_delete_custom_setting#:#Are you sure you want to delete the custom setting? By confirming the deletion, the setting is removed from any certificate definition as well.
+msg_success_custom_setting_deleted#:#Successfully deleted custom setting
 admin_form_title#:#Configuration Options
 admin_form_course_templates#:#Enable support for course templates
 admin_form_course_templates_info#:#If enabled, the plugin offers additional certificate settings depending if a course is marked as "course template".

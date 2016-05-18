@@ -23,6 +23,10 @@ class srCertificateTypeCustomSettingsTableGUI extends ilTable2GUI
     protected $type;
 
     /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+    /**
      * @var array
      */
     protected $columns = array(
@@ -31,6 +35,7 @@ class srCertificateTypeCustomSettingsTableGUI extends ilTable2GUI
         'type',
         'default_value',
     );
+
 
     /**
      * @param $a_parent_obj
@@ -53,6 +58,7 @@ class srCertificateTypeCustomSettingsTableGUI extends ilTable2GUI
         $this->setTitle($this->pl->txt('custom_settings'));
         $this->buildData();
     }
+
 
     /**
      * @param array $a_set
@@ -81,9 +87,12 @@ class srCertificateTypeCustomSettingsTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('srcertificatetypegui', 'type_id', $this->type->getId());
         $this->ctrl->setParameterByClass('srcertificatetypegui', 'custom_setting_id', $a_set['id']);
         $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editCustomSetting'));
+        $list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'confirmDeleteCustomSetting'));
         $this->ctrl->clearParametersByClass('srcertificatetypegui');
+
         return $list;
     }
+
 
     /**
      * Add columns
@@ -94,6 +103,7 @@ class srCertificateTypeCustomSettingsTableGUI extends ilTable2GUI
             $this->addColumn($this->pl->txt($column), $column);
         }
     }
+
 
     /**
      * Get settings
