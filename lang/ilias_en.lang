@@ -20,6 +20,7 @@ cancel#:#Cancel
 confirm#:#Confirm
 always#:#Always
 placeholders#:#Placeholders
+custom_placeholders#:#Custom Placeholders
 back_to_overview#:#Overview
 manage_cert_types#:#Manage Certificate Types
 administrate_certificates#:#Administrate Certificates
@@ -83,7 +84,7 @@ msg_type_saved#:#Saved type.
 msg_signature_saved#:#Saved signature.
 msg_delete_signature_success#:#Signature successfully deleted.
 msg_setting_saved#:#Saved setting.
-msg_placeholder_saved#:#Saved placeholder.
+msg_placeholder_saved#:#Saved custom placeholder.
 msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols.
 msg_no_permission#:#Permission denied.
 msg_save_config#:#Configuration saved.
@@ -158,9 +159,9 @@ identifier_info#:#Valid Characters: %s
 max_characters#:#Max Characters
 max_characters_info#:#If you allow more than 128 characters, a textarea is used for entering the text.
 mandatory#:#Mandatory
-add_new_placeholder#:#Add New Placeholder
-edit_placeholder#:#Edit Placeholder
-add_placeholder#:#Add Placeholder
+add_new_placeholder#:#Add New Custom Placeholder
+edit_placeholder#:#Edit Custom Placeholder
+add_placeholder#:#Add Custom Placeholder
 standard_placeholders#:#Standard Placeholders
 standard_placeholders_desc#:#These are the standard placeholders provided by the plugin.
 update_cert_definitions#:#Update Certificate Definitions

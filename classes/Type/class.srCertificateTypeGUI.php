@@ -475,13 +475,11 @@ class srCertificateTypeGUI
      */
     public function showPlaceholders()
     {
-        $table = new srCertificateTypePlaceholdersTableGUI($this, 'showPlaceholders', $this->type);
-        // Show all standard placeholders below the table
-        $table_std = new srCertificateTypeStandardPlaceholdersTableGUI($this, 'showPlaceholders');
+        $table1 = new srCertificateTypeStandardPlaceholdersTableGUI($this, 'showPlaceholders');
+        $table2 = new srCertificateTypePlaceholdersTableGUI($this, 'showPlaceholders', $this->type);
         $spacer = '<div style="height: 30px;"></div>';
-        $this->tpl->setContent($table->getHTML() . $spacer . $table_std->getHTML());
-        $msg_info = sprintf($this->pl->txt('msg_placeholder_format_info'), srCertificatePlaceholder::PLACEHOLDER_START_SYMBOL, srCertificatePlaceholder::PLACEHOLDER_END_SYMBOL);
-        ilUtil::sendInfo($msg_info);
+        $this->tpl->setContent($table1->getHTML() . $spacer . $table2->getHTML());
+        ilUtil::sendInfo(sprintf($this->pl->txt('msg_placeholder_format_info'), srCertificatePlaceholder::PLACEHOLDER_START_SYMBOL, srCertificatePlaceholder::PLACEHOLDER_END_SYMBOL));
     }
 
 

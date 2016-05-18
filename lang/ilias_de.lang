@@ -20,6 +20,7 @@ cancel#:#Abbrechen
 confirm#:#Bestätigen
 always#:#Immer
 placeholders#:#Platzhalter
+custom_placeholders#:#Spezifische Platzhalter
 back_to_overview#:#Übersicht
 manage_cert_types#:#Zertifikats-Typen bearbeiten
 administrate_certificates#:#Zertifikate bearbeiten
@@ -83,7 +84,7 @@ msg_type_saved#:#Typ gespeichert.
 msg_signature_saved#:#Signaturwert gespeichert.
 msg_delete_signature_success#:#Signaturwert erfolgreich gelöscht.
 msg_setting_saved#:#Einstellungen gespeichert.
-msg_placeholder_saved#:#Platzhalter gespeichert.
+msg_placeholder_saved#:#Spezifischer Platzhalter gespeichert.
 msg_placeholder_format_info#:#Umschliessen Sie in Ihrem Template Platzhalter mittels "%s" "%s".
 msg_no_permission#:#Keine Berechtigung.
 msg_save_config#:#Konfiguration gespeichert.
@@ -158,9 +159,9 @@ identifier_info#:#Gültige Zeichen: %s
 max_characters#:#Maximale Anzahl Zeichen
 max_characters_info#:#Falls Sie mehr als 128 Zeichen zulassen, wird ein Textfeld für die Eingabe des Textes verwendet.
 mandatory#:#Verpflichtend
-add_new_placeholder#:#Neuer Platzhalter hinzufügen
-edit_placeholder#:#Platzhalter bearbeiten
-add_placeholder#:#Platzhalter hinzufügen
+add_new_placeholder#:#Spezifischer Platzhalter hinzufügen
+edit_placeholder#:#Spezifischer Platzhalter bearbeiten
+add_placeholder#:#Spezifischer Platzhalter hinzufügen
 standard_placeholders#:#Standardplatzhalter
 standard_placeholders_desc#:#Standardplatzhalter des Plugins.
 update_cert_definitions#:#Zertifikatsdefinition aktualisieren
