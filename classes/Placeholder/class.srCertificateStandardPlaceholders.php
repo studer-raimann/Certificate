@@ -49,6 +49,8 @@ class srCertificateStandardPlaceholders
         'CERT_ID' => 'Unique numerical ID of certificate',
         'CERT_FILE_NAME' => 'Filename of certificate',
         'CERT_FILE_VERSION' => 'File version of certificate',
+        'CERT_TYPE_TITLE' => 'Name of certificate type',
+        'CERT_TYPE_DESCRIPTION' => 'Description of certificate type',
         'COURSE_TITLE' => 'Title of course',
         'LP_FIRST_ACCESS' => 'Learning progress: First access',
         'LP_LAST_ACCESS' => 'Learning progress: Last access',
@@ -127,6 +129,8 @@ class srCertificateStandardPlaceholders
     public static function getStandardPlaceholders()
     {
         // TODO i18n
+        ksort(self::$placeholders);
+
         return self::$placeholders;
     }
 
@@ -205,6 +209,8 @@ class srCertificateStandardPlaceholders
             'CERT_VALID_TO' =>  ($this->certificate->getValidTo() == '')? $this->pl->txt('unlimited') : $this->formatDate('CERT_VALID_TO', $cert_valid_to),
             'CERT_ID' => $this->certificate->getId(),
             'CERT_TEMPLATE_PATH' => $this->certificate->getDefinition()->getType()->getCertificateTemplatesPath(),
+            'CERT_TYPE_TITLE' => $this->certificate->getDefinition()->getType()->getTitle(),
+            'CERT_TYPE_DESCRIPTION' => $this->certificate->getDefinition()->getType()->getDescription(),
             'COURSE_TITLE' => $course->getTitle(),
         );
 

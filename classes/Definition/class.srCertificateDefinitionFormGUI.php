@@ -347,6 +347,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
             $options[$type->getId()] = $type->getTitle();
         }
         $item = new ilSelectInputGUI($this->pl->txt('setting_id_type'), 'type_id');
+        asort($options);
         $item->setOptions($options);
         $info = ($this->isNew) ? $this->pl->txt('setting_id_type_info_new') : $this->pl->txt('setting_id_type_info_change');
         $item->setInfo($info);
