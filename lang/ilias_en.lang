@@ -25,6 +25,7 @@ manage_cert_types#:#Manage Certificate Types
 administrate_certificates#:#Administrate Certificates
 my_certificates#:#My Certificates
 save_preview#:#Save & Preview
+preview_certificate#:#Preview Certificate
 certificate#:#Certificate
 back_to_course#:#Back to Course
 callback_email_subject#:#Certificate Callback

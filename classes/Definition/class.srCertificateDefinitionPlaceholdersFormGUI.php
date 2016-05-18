@@ -140,7 +140,6 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI
         }
 
         $this->addCommandButton('updatePlaceholders', $this->pl->txt('save'));
-        $this->addCommandButton('updatePlaceholdersPreview', $this->pl->txt('save_preview'));
 
         return;
     }

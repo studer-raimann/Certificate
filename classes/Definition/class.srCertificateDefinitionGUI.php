@@ -109,6 +109,7 @@ class srCertificateDefinitionGUI
         $this->checkPermission();
         $this->initHeader();
         $this->setSubTabs();
+        $this->toolbar->addButton($this->pl->txt('preview_certificate'), $this->ctrl->getLinkTarget($this, 'previewCertificate'));
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         // needed for ILIAS >= 4.5

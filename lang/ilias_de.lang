@@ -25,6 +25,7 @@ manage_cert_types#:#Zertifikats-Typen bearbeiten
 administrate_certificates#:#Zertifikate bearbeiten
 my_certificates#:#Meine Zertifikate
 save_preview#:#Speichern & Vorschau
+preview_certificate#:#Vorschau Zertifikat
 certificate#:#Zertifikat
 back_to_course#:#Zurück zum Kurs
 callback_email_subject#:#Zertifikat zurückrufen
