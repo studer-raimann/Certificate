@@ -1,5 +1,6 @@
 <?php
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+require_once('./Services/Form/classes/class.ilImageFileInputGUI.php');
 
 /**
  * Form-Class srCertificateTypeSignatureFormGUI
@@ -117,15 +118,25 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI
         $item->setRequired(true);
         $this->addItem($item);
 
-        $item = new ilFileInputGUI($this->pl->txt('signature_file'), 'signature_file');
+        // If the signature is a rasterized image, we display it base64 encoded
+        $is_vector = (in_array(strtolower($this->signature->getSuffix()), array('svg')));
+        if ($is_vector) {
+            $item = new ilFileInputGUI($this->pl->txt('signature_file'), 'signature_file');
+        } else {
+            $item = new ilImageFileInputGUI($this->pl->txt('signature_file'), 'signature_file');
+        }
         $item->setSuffixes(array('jpeg', 'jpg', 'gif', 'bmp', 'png', 'svg'));
         $signature_file = $this->signature->getFilePath(true);
-        if (is_file($signature_file)) {
+        if (is_file($signature_file) && !$is_vector) {
             $item->setValue($signature_file);
+            $base64 = base64_encode(file_get_contents($signature_file));
+            $suffix = $this->signature->getSuffix();
+            $item->setImage("data:image/{$suffix};base64,{$base64}");
         }
         $item->setFilename($signature_file);
         $item->setInfo($this->pl->txt('signature_file_info'));
         $item->setRequired(!is_file($signature_file));
+        $item->setValue($this->signature->getFilePath(true));
         $this->addItem($item);
 
         $command = $this->signature->getId() ? 'updateSignature' : 'createSignature';
