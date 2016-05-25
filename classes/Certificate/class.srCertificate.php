@@ -334,11 +334,13 @@ class srCertificate extends ActiveRecord
         if ($generated) {
             $this->setStatus(self::STATUS_PROCESSED);
             $this->update();
+
             return true;
         } else {
             $this->setStatus(self::STATUS_FAILED);
             $this->update();
             $this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}");
+
             return false;
         }
     }
@@ -627,6 +629,7 @@ class srCertificate extends ActiveRecord
         $str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
         $str = preg_replace('#[^a-z0-9\-]+#', '-', $str); // Replace spaces and other unwanted characters
         $str = preg_replace('#-{2,}#', '-', $str); // Replace multiple dashes
+
         return $str;
     }
 

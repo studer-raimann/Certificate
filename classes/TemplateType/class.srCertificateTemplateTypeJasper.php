@@ -50,15 +50,21 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
             return false;
         }
         $placeholders = $cert->getPlaceholders();
-        $defined_placeholders = $this->parseDefinedPlaceholders($template);
+        try {
+            $defined_placeholders = $this->parseDefinedPlaceholders($template);
+        } catch (Exception $e) {
+            // XML is not valid
+            return false;
+        }
         // Only send defined placeholders to jasper, otherwise the template file is not considered as valid
         $placeholders = array_intersect_key($placeholders, $defined_placeholders);
-        // TODO Also send empty values for placeholders defined in jasper template but not in definition???
         $placeholders = $this->nl2br($placeholders);
         $report = new JasperReport($template, $cert->getFilename(false));
         $report->setDataSource(JasperReport::DATASOURCE_EMPTY);
         $report->setParameters($placeholders);
-        if ($report_file = $report->generateOutput()) {
+        try {
+            $report->generateOutput();
+            $report_file = $report->getOutputFile();
             // Move pdf to correct certificate location
             $cert_path = $cert->getCertificatePath();
             if (!file_exists($cert_path)) {
@@ -67,10 +73,10 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
             $from = $report_file . '.pdf';
             $to = $cert->getFilePath();
             return ilUtil::moveUploadedFile($from, '', $to, false, 'rename');
-        } else {
-            $this->log->write("srCertificateTemplyteTypeJasper::generate() Report file was not created by Jasper");
+        } catch (JasperReportException $e) {
+            $this->log->write("srCertificateTemplyteTypeJasper::generate() Report file of certificate with ID {$cert->getId()} was not created by Jasper: " . implode(', ', $e->getErrors()));
+            return false;
         }
-        return false;
     }
 
 
