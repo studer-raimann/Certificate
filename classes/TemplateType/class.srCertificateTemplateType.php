@@ -34,6 +34,11 @@ abstract class srCertificateTemplateType
     protected $template_filename = '';
 
     /**
+     * @var array
+     */
+    protected $valid_suffixes = array();
+
+    /**
      * @var ilLog
      */
     protected $log;
@@ -42,6 +47,7 @@ abstract class srCertificateTemplateType
      * @var ilCertificatePlugin
      */
     protected $pl;
+
 
     public function __construct()
     {
@@ -83,6 +89,7 @@ abstract class srCertificateTemplateType
         $this->id = $id;
     }
 
+
     /**
      * @return int
      */
@@ -90,6 +97,7 @@ abstract class srCertificateTemplateType
     {
         return $this->id;
     }
+
 
     /**
      * @param string $title
@@ -99,6 +107,7 @@ abstract class srCertificateTemplateType
         $this->title = $title;
     }
 
+
     /**
      * @return string
      */
@@ -106,6 +115,7 @@ abstract class srCertificateTemplateType
     {
         return $this->title;
     }
+
 
     /**
      * @param string $template_filename
@@ -115,6 +125,7 @@ abstract class srCertificateTemplateType
         $this->template_filename = $template_filename;
     }
 
+
     /**
      * @return string
      */
@@ -122,6 +133,7 @@ abstract class srCertificateTemplateType
     {
         return $this->template_filename;
     }
+
 
     /**
      * @param string $description
@@ -131,6 +143,7 @@ abstract class srCertificateTemplateType
         $this->description = $description;
     }
 
+
     /**
      * @return string
      */
@@ -139,6 +152,22 @@ abstract class srCertificateTemplateType
         return $this->description;
     }
 
-}
 
-?>
+    /**
+     * @return array
+     */
+    public function getValidSuffixes()
+    {
+        return $this->valid_suffixes;
+    }
+
+
+    /**
+     * @param array $valid_suffixes
+     */
+    public function setValidSuffixes($valid_suffixes)
+    {
+        $this->valid_suffixes = $valid_suffixes;
+    }
+
+}

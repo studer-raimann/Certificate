@@ -327,12 +327,12 @@ class srCertificate extends ActiveRecord
         }
         $cert_type = $this->getDefinition()->getType();
         $template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
-        $this->setStatus(srCertificate::STATUS_WORKING);
+        $this->setStatus(self::STATUS_WORKING);
         $this->update();
         $generated = $template_type->generate($this);
         // Only set the status to processed if generating was successful
         if ($generated) {
-            $this->setStatus(srCertificate::STATUS_PROCESSED);
+            $this->setStatus(self::STATUS_PROCESSED);
             $this->update();
             return true;
         } else {

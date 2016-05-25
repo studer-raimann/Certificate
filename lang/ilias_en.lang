@@ -55,7 +55,8 @@ no_space_left_subject#:#Certificate: Creation Failed
 no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 disk_space_warning_mail_subject#:#Certificate: Free Space Warning
 disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.\n\nFree disk space left: %s Bytes
-
+msg_info_invalid_cert_types#:#Some certificate types are not selectable because their template file is currently missing: %s
+msg_info_current_type_no_invalid_tempalte#:#The current certificate type does not have a valid template file assigned, certificates won't be generated!
 valid_from#:#Valid from
 valid_to#:#Valid to
 unlimited#:#Unlimited
@@ -70,7 +71,6 @@ type#:#Certificate Type
 only_newest_version#:#Show newest Version only
 crs_title#:#Course Title
 download_zip#:#Download as ZIP
-
 msg_no_permission_certificates#:#No permission to view certificates.
 msg_definition_created#:#Definition successfully created.
 msg_definition_updated#:#Definition successfully updated.
@@ -93,7 +93,7 @@ msg_called_back#:#The certificate has been called back.
 msg_undo_called_back#:#The certificate is no longer called back.
 msg_not_created_yet#:#The certificate has not been created yet.
 msg_retry_generation#:#The system will try to regenerate the certificate.
-
+msg_error_preview_certificate#:#An error occurred while trying to preview the certificate.
 change_cert_type#:#Change Certificate Type
 choose_cert_type#:#Choose Certificate Type
 edit_settings#:#Edit Settings
@@ -124,10 +124,8 @@ setting_id_notification_info#:#Separate Multiple Addresses with Comma
 setting_id_notification_user#:#User Notification
 setting_id_notification_user_info#:#If checked, an email with the attached certificate is sent to the user.
 validity_date_range#:#%s months, %s days
-
 confirm_type_change#:#Confirm Certificate Type Change
 confirm_type_change_text#:#By changing the certificate type, all existing placeholders and settings are deleted. New placeholders defined by the type will be available.
-
 add_new_type#:#Add New Certificate Type
 languages#:#Languages
 description#:#Description
@@ -144,7 +142,6 @@ assets_info#:#Check the assets you want to delete after saving
 add_assets#:#Add Assets
 template_file#:#Template File
 template_file_info#:#The file must be a valid template for the chosen Template type. If there exists already a template file, the current one is overridden.
-
 edit_setting#:#Edit '%s'
 edit_type_template#:#Edit Template-Related Settings
 setting#:#Setting
@@ -153,7 +150,6 @@ default_value#:#Default Value
 default_value_lang#:#Default Value '%s'
 label_lang#:#Label '%s'
 label#:#Label
-
 identifier#:#Identifier
 identifier_info#:#Valid Characters: %s
 max_characters#:#Max Characters
@@ -208,6 +204,5 @@ admin_form_notification_user_body#:#Notification for User (Body)
 admin_form_notification_others_body#:#Notification for Other Users (Body)
 admin_form_max_diff_lp_seconds#:#Time Range Certificate PDF Generation (seconds)
 admin_form_max_diff_lp_seconds_info#:#You can set a time range in seconds to invoke the PDF generation of a certificate. If you enter zero, the PDF is generated right after the user passed the course. Note that possible notifications are also sent after the given time range.
-
 download_default_template#:#Download Default Template
 download_template#:#Download Current Template

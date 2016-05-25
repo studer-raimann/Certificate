@@ -146,7 +146,7 @@ assets_info#:#Prüfen Sie die zuästzlichen Dateien, welche Sie nach dem Speiche
 add_assets#:#Zusätzliche Dateien hinzufügen
 template_file#:#Template-Datei
 template_file_info#:#Die Datei muss ein gültiges Template für den gewählten Templattypen sein. Falls bereits eine Template-Datei besteht, wird die bestehende Datei überschrieben.
-
+msg_info_invalid_cert_types#:#Einige Zertifikatstypen stehen zur Zeit nicht zur Auswahl, da kein Template hinterlegt ist: %s
 edit_setting#:#'%s' Bearbeiten
 edit_type_template#:#Templatespezifische Einstellungen bearbeiten
 setting#:#Einstellung
@@ -155,7 +155,7 @@ default_value#:#Standardwert
 default_value_lang#:#Standardwert '%s'
 label_lang#:#Label '%s'
 label#:#Label
-
+msg_error_preview_certificate#:#Beim Erstellen der Vorschau ist ein Fehler aufgetreten.
 identifier#:#Kennzeichnung
 identifier_info#:#Gültige Zeichen: %s
 max_characters#:#Maximale Anzahl Zeichen

@@ -109,7 +109,6 @@ class srCertificateDefinitionGUI
         $this->checkPermission();
         $this->initHeader();
         $this->setSubTabs();
-        $this->toolbar->addButton($this->pl->txt('preview_certificate'), $this->ctrl->getLinkTarget($this, 'previewCertificate'));
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         // needed for ILIAS >= 4.5
@@ -139,8 +138,11 @@ class srCertificateDefinitionGUI
                     case 'callBack':
                     case 'undoCallBack':
                     case 'retryGeneration':
+                        /** @var srCertificate $certificate */
                         $certificate = srCertificate::find((int) $_GET['cert_id']);
-                        $this->$cmd($certificate);
+                        if ($certificate->getDefinitionId() == $this->definition->getId()) {
+                            $this->$cmd($certificate);
+                        }
                         break;
                     case '':
                         if ($this->definition) {
@@ -154,6 +156,18 @@ class srCertificateDefinitionGUI
         // needed for ILIAS >= 4.5
         if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
             $this->tpl->show();
+        }
+    }
+
+
+    protected function showPreviewCertificateInToolbar()
+    {
+        if ($this->definition) {
+            if (is_file($this->definition->getType()->getCertificateTemplatesPath(true))) {
+                $this->toolbar->addButton($this->pl->txt('preview_certificate'), $this->ctrl->getLinkTarget($this, 'previewCertificate'));
+            } else {
+                ilUtil::sendInfo($this->pl->txt('msg_info_current_type_no_invalid_tempalte'));
+            }
         }
     }
 
@@ -197,6 +211,9 @@ class srCertificateDefinitionGUI
         $definition = ($this->definition === NULL) ? new srCertificateDefinition() : $this->definition;
         $this->form = new srCertificateDefinitionFormGUI($this, $definition);
         $this->tpl->setContent($this->form->getHTML());
+        if ($this->definition) {
+            $this->showPreviewCertificateInToolbar();
+        }
     }
 
 
@@ -207,6 +224,7 @@ class srCertificateDefinitionGUI
     public function showPlaceholders()
     {
         $this->tabs->setSubTabActive('show_placeholders');
+        $this->showPreviewCertificateInToolbar();
         /** @var srCertificateDefinition $definition */
         $definition = srCertificateDefinition::where(array('ref_id' => $this->ref_id))->first();
         if (!count($definition->getPlaceholderValues()) && !$this->definition->getType()->getSignatures()) {
@@ -225,6 +243,7 @@ class srCertificateDefinitionGUI
     public function showCertificates()
     {
         $this->tabs->setSubTabActive("show_certificates");
+        $this->showPreviewCertificateInToolbar();
         $options = array(
             'columns' => array('firstname', 'lastname', 'valid_from', 'valid_to', 'file_version', 'status'),
             'definition_id' => $this->definition->getId(),
@@ -298,8 +317,11 @@ class srCertificateDefinitionGUI
     {
         $preview = new srCertificatePreview();
         $preview->setDefinition($this->definition);
-        $preview->generate();
-        $preview->download(false);
+        if ($preview->generate()) {
+            $preview->download();
+        }
+        ilUtil::sendFailure($this->pl->txt('msg_error_preview_certificate'));
+        $this->showCertificates();
     }
 
 
@@ -324,9 +346,17 @@ class srCertificateDefinitionGUI
      */
     public function downloadCertificates()
     {
-        $cert_ids = $_POST['cert_id'];
-        if (is_array($cert_ids)) {
-            srCertificate::downloadAsZip($cert_ids, $this->ref_id . '-certificates');
+        $cert_ids = (array) $_POST['cert_id'];
+        $ids = array();
+        foreach ($cert_ids as $cert_id) {
+            /** @var srCertificate $certificate */
+            $certificate = srCertificate::find($cert_id);
+            if ($certificate && $certificate->getDefinitionId() == $this->definition->getId()) {
+                $ids[] = $cert_id;
+            }
+        }
+        if (count($ids)) {
+            srCertificate::downloadAsZip($ids, $this->ref_id . '-certificates');
         }
         $this->showCertificates();
     }
@@ -389,7 +419,8 @@ class srCertificateDefinitionGUI
      * Update type of definition
      *
      */
-    public function updateType()
+    public
+    function updateType()
     {
         $new_type_id = (int) $_POST['type_id'];
         if ($new_type_id && $new_type_id != $this->definition->getTypeId()) {

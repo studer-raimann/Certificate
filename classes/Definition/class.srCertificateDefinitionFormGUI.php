@@ -340,11 +340,20 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         $options = array();
         $object_type = ($this->pl->isCourseTemplate((int) $_GET['ref_id'])) ? 'crs-tpl' : ilObject::_lookupType((int) $_GET['ref_id'], true);
         /** @var $type srCertificateType */
+        $invalid = array();
         foreach ($types as $type) {
             if (!srCertificateType::isSelectable($type, (int) $_GET['ref_id'])) {
                 continue;
             }
+            // Skip the type if it contains no valid template file!
+            if (!is_file($type->getCertificateTemplatesPath(true))) {
+                $invalid[] = $type->getTitle();
+                continue;
+            }
             $options[$type->getId()] = $type->getTitle();
+        }
+        if (count($invalid) && $this->isNew) {
+            ilUtil::sendInfo(sprintf($this->pl->txt('msg_info_invalid_cert_types'), implode(', ', $invalid)));
         }
         $item = new ilSelectInputGUI($this->pl->txt('setting_id_type'), 'type_id');
         asort($options);
