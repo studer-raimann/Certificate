@@ -60,6 +60,12 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
         $placeholders = array_intersect_key($placeholders, $defined_placeholders);
         $placeholders = $this->nl2br($placeholders);
         $report = new JasperReport($template, $cert->getFilename(false));
+        if ($locale = $this->pl->config('jasper_locale')) {
+            $report->setLocale($this->pl->config('jasper_locale'));
+        }
+        if ($java = $this->pl->config('jasper_path_java')) {
+            $report->setPathJava($java);
+        }
         $report->setDataSource(JasperReport::DATASOURCE_EMPTY);
         $report->setParameters($placeholders);
         try {

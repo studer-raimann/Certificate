@@ -233,3 +233,9 @@ if ($ilDB->tableExists('uihkcertificate_c')) {
         array("type" => "clob", "default"=>null, "notnull" => false));
 }
 ?>
+<#19>
+<?php
+require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
+ilCertificateConfig::set('jasper_locale', 'de_DE.UTF-8');
+ilCertificateConfig::set('jasper_path_java', '/usr/bin/java');
+?>

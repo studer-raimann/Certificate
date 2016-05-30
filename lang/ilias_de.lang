@@ -178,7 +178,6 @@ custom_setting_type_2_data#:#Verfügbare Daten im Dropdown
 custom_setting_type_2_data_info#:#Geben Sie die möglichen Werte für die Auswahl an. Ein Wert pro Zeile. Falls die ID unterschiedlich zum Wert sein soll, können Sie "||" verwenden, um die ID vom Wert zu trennen. Z.B.  'ID||Wert'.
 custom_setting_default_value_info#:#Boolean: '1', um die Checkbox per default zu aktivieren, Fügen Sie eine spezifische ID hinzu.
 custom_setting_update_cert_definitions_info#:#Falls aktiviert, dieses Einstellung wird auch für bestehende Zertifikatsdefinitionen dieses Zertifikatstyp erstellt (mit dem Standardwert).
-
 admin_form_title#:#Konfigurationsoptionen
 admin_form_course_templates#:#Unterstützung für Kurs-Templates aktivieren
 admin_form_course_templates_info#:#Falls aktiviert, das Plugin bietet zusätzlichze Zertifikatseinstellungen falls ein Kurs als Template Kurs eingestellt wird.
@@ -207,6 +206,8 @@ admin_form_notification_user_body#:#Benachrichtigung für Benutzer (Body)
 admin_form_notification_others_body#:#Benachrichtigung für weitere Benutzer (Body)
 admin_form_max_diff_lp_seconds#:#Zeitspannte für PDF Erstellung (Sekunden)
 admin_form_max_diff_lp_seconds_info#:#Sie können eine Zeitsptanne in Sekunden definieren, um die PDF-Erzeugung eines Zertifikats zurückzuhalten. Wenn Sie 0 eingeben, wird das PDF direkt nachdem der Benutzer den Kurs bestanden erzeugt. Beachten Sie, dass mögliche E-Mails ebenfalls nach der eingestellten Zeitspanne gesendet werden.
-
+admin_form_jasper_locale#:#Locale (Unix)
+admin_form_jasper_locale_info#:#Das verwendete Locale muss alle Zeichen unterstützen, welche in den Zertifikaten verwendet werden, z.B. Umlaute. Verwenden Sie den Befehl "locale -a" um eine Liste von verfügbaren locales zu sehen (Unix-System).
+admin_form_jasper_path_java#:#Pfad zur Java executable
 download_default_template#:#Default Template herunterladen
 download_template#:#Aktuelles Template herunterladen
