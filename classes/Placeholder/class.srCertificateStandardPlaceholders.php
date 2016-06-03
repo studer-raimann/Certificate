@@ -359,13 +359,18 @@ class srCertificateStandardPlaceholders {
 		$cert_definition = $this->certificate->getDefinition();
 		if ($cert_definition->getScormTiming()) {
 			$spent_seconds = 0;
-			include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
-
-			$mode = ilLPObjSettings::_lookupDBMode($course->getId());
-
-			foreach (ilLPCollection::getInstanceByMode($course->getId(), $mode)->getItems() as $item) {
-				$spent_seconds += $this->getSpentSeconds(ilObject::_lookupObjectId($item), $user->getId());
+			require_once('./Services/Object/classes/class.ilObjectLP.php');
+			$ilScormLP = ilObjectLP::getInstance($course->getId());
+			/**
+			 * @var $ilLPCollection ilLPCollection
+			 */
+			$ilLPCollection = $ilScormLP->getCollectionInstance();
+			if ($ilLPCollection instanceof ilLPCollection) {
+				foreach ($ilLPCollection->getItems() as $item) {
+					$spent_seconds += $this->getSpentSeconds(ilObject::_lookupObjectId($item), $user->getId());
+				}
 			}
+
 			$lp_crs['childs_spent_seconds'] = $spent_seconds;
 		}
 		$lp_spent_time = $this->buildLpSpentTime($lp_crs);
