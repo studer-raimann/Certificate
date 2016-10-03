@@ -20,15 +20,17 @@ cancel#:#Abbrechen
 confirm#:#Bestätigen
 always#:#Immer
 placeholders#:#Platzhalter
+custom_placeholders#:#Spezifische Platzhalter
 back_to_overview#:#Übersicht
 manage_cert_types#:#Zertifikats-Typen bearbeiten
 administrate_certificates#:#Zertifikate bearbeiten
 my_certificates#:#Meine Zertifikate
 save_preview#:#Speichern & Vorschau
+preview_certificate#:#Vorschau Zertifikat
 certificate#:#Zertifikat
 back_to_course#:#Zurück zum Kurs
 callback_email_subject#:#Zertifikat zurückrufen
-callback_email_message#:#Folgendes Zertifikat wurde zurückgerufen und ist daher nicht mehr verfügbar
+callback_email_message#:#Folgendes Zertifikat wurde zurückgerufen und ist daher nicht mehr verfügbar:\n\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
 status#:#Status
 waiting#:#Wartend
 created#:#Erstellt
@@ -47,13 +49,14 @@ cert_status_2#:#In Bearbeitung
 cert_status_3#:#Erstellt
 cert_status_4#:#Erstellung fehlgeschlagen
 cert_status_5#:#Zurückgerufen
-writeperm_failed_subject#:#Zertifikat: Erstellung fehlgeschlagen
-writeperm_failed_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlender Schreibberechtigung im Zielverzeichnis:
-no_space_left_subject#:#Zertifikat: Erstellung fehlgeschlagen
-no_space_left_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlendem Speicherplatz im Zertifikatsverzeichnis:
+writeperm_failed_subject#:#Zertifikat: Erstellung eines Zertifikats wegen fehlenden Schreibrechten fehlgeschlagen
+writeperm_failed_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlender Schreibberechtigung im Zielverzeichnis:\n\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
+no_space_left_subject#:#Zertifikat: Erstellung eines Zertifikats wegen fehlendem Speicherplatz fehlgeschlagen
+no_space_left_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlendem Speicherplatz im Zertifikatsverzeichnis:\n\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
 disk_space_warning_mail_subject#:#Zertifikat: Speicherplatzwarnung
-disk_space_warning_mail_message#:#Nach der Erstellung des letzten Zertifikats, der freie Speicherplatz im Zertifikatsverzeichnis hat einen kritischen Wert erreicht. Sie können diesen Wert in der Zertifikatsadministration anpassen.
-
+disk_space_warning_mail_message#:#Nach der Erstellung des letzten Zertifikats, der freie Speicherplatz im Zertifikatsverzeichnis hat einen kritischen Wert erreicht. Sie können diesen Wert in der Zertifikatsadministration anpassen.\n\nVerbleibender Speicherplatz: %s Bytes
+cert_failed_subject#:#Erstellung eines Zertifikats fehlgeschlagen
+cert_failed_message#:#Folgendes Zertifikat konnte nicht erzeugt werden:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 valid_from#:#Gültig ab
 valid_to#:#Gültig bis
 unlimited#:#unbeschränkt
@@ -68,7 +71,6 @@ type#:#Zertifikatstyp
 only_newest_version#:#Nur die neuste Version anzeigen
 crs_title#:#Kurstitel
 download_zip#:#Herunterladen als Zip
-
 msg_no_permission_certificates#:#Keine Berechtigung Zertifikate anzuzeigen.
 msg_definition_created#:#Definition erfolgreich erstellt.
 msg_definition_updated#:#Definition erfolgreich aktualisiert.
@@ -82,7 +84,7 @@ msg_type_saved#:#Typ gespeichert.
 msg_signature_saved#:#Signaturwert gespeichert.
 msg_delete_signature_success#:#Signaturwert erfolgreich gelöscht.
 msg_setting_saved#:#Einstellungen gespeichert.
-msg_placeholder_saved#:#Platzhalter gespeichert.
+msg_placeholder_saved#:#Spezifischer Platzhalter gespeichert.
 msg_placeholder_format_info#:#Umschliessen Sie in Ihrem Template Platzhalter mittels "%s" "%s".
 msg_no_permission#:#Keine Berechtigung.
 msg_save_config#:#Konfiguration gespeichert.
@@ -122,10 +124,12 @@ setting_id_notification_info#:#Trennen Sie mehrere Adressen mittels Komma.
 setting_id_notification_user#:#Benutzerbenachrichtigung
 setting_id_notification_user_info#:#Falls Aktiviert, wird dem Benutzer eine E-Mail mit angehängtem Zertifikat verschickt.
 validity_date_range#:#%s Monate, %s Tage
-
+info_delete_custom_setting#:#Soll die spezifische Einstellung wirklich gelöscht werden? Sie wird ebenfalls bei allen Zertifikatsdefinitionen gelöscht.
+info_delete_custom_placeholder#:#Soll der spezifische Platzhalter wirklich gelöscht werden? Er wird ebenfalls bei allen Zertifikatsdefinitionen gelöscht.
 confirm_type_change#:#Bestätigung Änderung Zertifikatstyp
 confirm_type_change_text#:#Bei Änderung des Zertifikatstyp, alle Einstellungen und Platzhalter werden gelöscht. Neue Platzhalter, welche der Typ zur Verfügung stellt, werden verfügbar sein.
-
+msg_success_custom_setting_deleted#:#Spezifische Einstellung wurde gelöscht
+msg_success_custom_placeholder_deleted#:#Spezifischer Platzhalter wurde gelöscht
 add_new_type#:#Neuer Zertifikatstyp hinzufügen
 languages#:#Sprachen
 description#:#Beschreibung
@@ -142,7 +146,7 @@ assets_info#:#Prüfen Sie die zuästzlichen Dateien, welche Sie nach dem Speiche
 add_assets#:#Zusätzliche Dateien hinzufügen
 template_file#:#Template-Datei
 template_file_info#:#Die Datei muss ein gültiges Template für den gewählten Templattypen sein. Falls bereits eine Template-Datei besteht, wird die bestehende Datei überschrieben.
-
+msg_info_invalid_cert_types#:#Einige Zertifikatstypen stehen zur Zeit nicht zur Auswahl, da kein Template hinterlegt ist: %s
 edit_setting#:#'%s' Bearbeiten
 edit_type_template#:#Templatespezifische Einstellungen bearbeiten
 setting#:#Einstellung
@@ -151,15 +155,15 @@ default_value#:#Standardwert
 default_value_lang#:#Standardwert '%s'
 label_lang#:#Label '%s'
 label#:#Label
-
+msg_error_preview_certificate#:#Beim Erstellen der Vorschau ist ein Fehler aufgetreten.
 identifier#:#Kennzeichnung
 identifier_info#:#Gültige Zeichen: %s
 max_characters#:#Maximale Anzahl Zeichen
 max_characters_info#:#Falls Sie mehr als 128 Zeichen zulassen, wird ein Textfeld für die Eingabe des Textes verwendet.
 mandatory#:#Verpflichtend
-add_new_placeholder#:#Neuer Platzhalter hinzufügen
-edit_placeholder#:#Platzhalter bearbeiten
-add_placeholder#:#Platzhalter hinzufügen
+add_new_placeholder#:#Spezifischer Platzhalter hinzufügen
+edit_placeholder#:#Spezifischer Platzhalter bearbeiten
+add_placeholder#:#Spezifischer Platzhalter hinzufügen
 standard_placeholders#:#Standardplatzhalter
 standard_placeholders_desc#:#Standardplatzhalter des Plugins.
 update_cert_definitions#:#Zertifikatsdefinition aktualisieren
@@ -174,7 +178,6 @@ custom_setting_type_2_data#:#Verfügbare Daten im Dropdown
 custom_setting_type_2_data_info#:#Geben Sie die möglichen Werte für die Auswahl an. Ein Wert pro Zeile. Falls die ID unterschiedlich zum Wert sein soll, können Sie "||" verwenden, um die ID vom Wert zu trennen. Z.B.  'ID||Wert'.
 custom_setting_default_value_info#:#Boolean: '1', um die Checkbox per default zu aktivieren, Fügen Sie eine spezifische ID hinzu.
 custom_setting_update_cert_definitions_info#:#Falls aktiviert, dieses Einstellung wird auch für bestehende Zertifikatsdefinitionen dieses Zertifikatstyp erstellt (mit dem Standardwert).
-
 admin_form_title#:#Konfigurationsoptionen
 admin_form_course_templates#:#Unterstützung für Kurs-Templates aktivieren
 admin_form_course_templates_info#:#Falls aktiviert, das Plugin bietet zusätzlichze Zertifikatseinstellungen falls ein Kurs als Template Kurs eingestellt wird.
@@ -188,8 +191,8 @@ admin_form_str_format_datetime#:#Datums-/Zeit-Format
 admin_form_str_format_datetime_info#:#Datumsformat, welches für die Standardplatzhalter verwendet wird.
 admin_form_path_hook_class#:#Pfad zur Hook-Class
 admin_form_path_hook_class_info#:#Pfad zur Klasse 'srCertificateCustomHooks', z.B. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>Diese Klasse kann verwendet werden, um das Standardverhalten des Plugins zu verändern. Die Klasse muss von srCertificateHooks 'extend' (Siehe Klassenbeschreibung für zusätzliche Informationen).
-admin_form_callback_email#:#Rückruf E-Mail
-admin_form_callback_email_info#:#E-Mail wird an diese Adresse gesendet, immer wenn ein Zertifikat zurückgerufen wird.
+admin_form_callback_email#:#Rückruf E-Mail(s)
+admin_form_callback_email_info#:#E-Mail wird an diese Adresse gesendet, immer wenn ein Zertifikat zurückgerufen wird. Es können mehrere Adressen angegeben werden, kommasepariert.
 admin_form_disk_space_warning#:#Warnung freier Speicherplatz (MB)
 admin_form_disk_space_warning_info#:#Warnung an den Systemadministrator verschicken, wenn der freie Speicherplatz für die Zertifikatserstellung ist geringer als dieser Wert.
 admin_form_permission_settings#:#Berechtigungseinstellungen
@@ -203,6 +206,8 @@ admin_form_notification_user_body#:#Benachrichtigung für Benutzer (Body)
 admin_form_notification_others_body#:#Benachrichtigung für weitere Benutzer (Body)
 admin_form_max_diff_lp_seconds#:#Zeitspannte für PDF Erstellung (Sekunden)
 admin_form_max_diff_lp_seconds_info#:#Sie können eine Zeitsptanne in Sekunden definieren, um die PDF-Erzeugung eines Zertifikats zurückzuhalten. Wenn Sie 0 eingeben, wird das PDF direkt nachdem der Benutzer den Kurs bestanden erzeugt. Beachten Sie, dass mögliche E-Mails ebenfalls nach der eingestellten Zeitspanne gesendet werden.
-
+admin_form_jasper_locale#:#Locale (Unix)
+admin_form_jasper_locale_info#:#Das verwendete Locale muss alle Zeichen unterstützen, welche in den Zertifikaten verwendet werden, z.B. Umlaute. Verwenden Sie den Befehl "locale -a" um eine Liste von verfügbaren locales zu sehen (Unix-System).
+admin_form_jasper_path_java#:#Pfad zur Java executable
 download_default_template#:#Default Template herunterladen
 download_template#:#Aktuelles Template herunterladen

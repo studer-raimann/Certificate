@@ -428,7 +428,7 @@ class srCertificateDefinition extends ActiveRecord
 
 
     /**
-     * @return array
+     * @return array srCertificateCustomDefinitionSetting[]
      */
     public function getCustomSettings()
     {
@@ -464,7 +464,7 @@ class srCertificateDefinition extends ActiveRecord
     public function getPlaceholderValues()
     {
         if (is_null($this->placeholder_values)) {
-            $this->placeholder_values = srCertificatePlaceholderValue::where(array('definition_id' => $this->getId()))->get();
+            $this->placeholder_values = srCertificatePlaceholderValue::where(array('definition_id' => $this->getId()))->orderBy('placeholder_id')->get();
         }
 
         return $this->placeholder_values;

@@ -72,11 +72,8 @@ class srCertificateCron
             require_once('./include/inc.header.php');
         }
 
-        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Notification/class.srCertificateEmailNotification.php');
         require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
-        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholdersParser.php');
         require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
-        require_once('./Services/Mail/classes/class.ilMimeMail.php');
         require_once("./Services/Tracking/classes/class.ilTrQuery.php");
         require_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
     }
@@ -92,17 +89,7 @@ class srCertificateCron
             if ($cert->getStatus() != srCertificate::STATUS_NEW) {
                 continue;
             }
-            if ($cert->generate()) {
-                // Check for notifications
-                if ($notification = $cert->getDefinition()->getNotification()) {
-                    $receivers = explode(',', $notification);
-                    $this->sendNotification($cert, $receivers);
-                }
-                // Check for user notification
-                if ($cert->getDefinition()->getNotificationUser()) {
-                    $this->sendNotificationUser($cert);
-                }
-            }
+            $cert->generate();
         }
 
         // Also check for certificates with status DRAFT. They should be changed to NEW if the course is passed and the last access is more than xx minutes
@@ -143,41 +130,4 @@ class srCertificateCron
         }
         return (int)$last_status;
     }
-
-
-    /**
-     * Send a notification
-     *
-     * @param srCertificate $cert
-     * @param array $receivers_email
-     */
-    protected function sendNotification(srCertificate $cert, array $receivers_email)
-    {
-        $parser = srCertificatePlaceholdersParser::getInstance();
-        foreach ($receivers_email as $email) {
-            $subject = $parser->parse($this->pl->config('notification_others_subject'), $cert->getPlaceholders());
-            $body = $parser->parse($this->pl->config('notification_others_body'), $cert->getPlaceholders());
-            $notification = new srCertificateEmailNotification($email, $cert);
-            $notification->setSubject($subject);
-            $notification->setBody($body);
-            $notification->notify();
-        }
-    }
-
-    /**
-     * Send notification to the user
-     *
-     * @param srCertificate $cert
-     */
-    protected function sendNotificationUser(srCertificate $cert)
-    {
-        $parser = srCertificatePlaceholdersParser::getInstance();
-        $subject = $parser->parse($this->pl->config('notification_user_subject'), $cert->getPlaceholders());
-        $body = $parser->parse($this->pl->config('notification_user_body'), $cert->getPlaceholders());
-        $notification = new srCertificateEmailNotification($cert->getUser()->getEmail(), $cert);
-        $notification->setSubject($subject);
-        $notification->setBody($body);
-        $notification->notify();
-    }
-
 }

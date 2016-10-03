@@ -132,8 +132,6 @@ class srCertificateSignature extends ActiveRecord
      */
     public function storeSignatureFile(array $file_data)
     {
-        global $ilLog;
-        $ilLog->write('store signature file to ' . $this->getFilePath(true));
         if ($file_data['name'] && !$file_data['error']) {
             $file_path = $this->getFilePath(false);
             if (!is_dir($file_path)) {
@@ -141,11 +139,7 @@ class srCertificateSignature extends ActiveRecord
             }
             $suffix = pathinfo($file_data['name'], PATHINFO_EXTENSION);
             $this->setSuffix($suffix);
-            $copy = copy($file_data['tmp_name'], $this->getFilePath(true));
-            // Store image with suffix so that a browser is able to display it!
-            $copy2 = copy($file_data['tmp_name'], $this->getFilePath(true) . '.' . $this->getSuffix());
-
-            return ($copy && $copy2);
+            return copy($file_data['tmp_name'], $this->getFilePath(true));
         }
 
         return false;

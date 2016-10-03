@@ -13,7 +13,7 @@ require_once(dirname(dirname(__FILE__)) . '/CustomSetting/class.srCertificateTyp
 require_once(dirname(dirname(__FILE__)) . '/Signature/class.srCertificateSignature.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSignaturesTableGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateTypeSignatureFormGUI.php');
-
+require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 
 /**
  * GUI-Class srCertificateTypeGUI
@@ -182,6 +182,13 @@ class srCertificateTypeGUI
                         $this->editCustomSetting();
                         $this->setTabs('settings');
                         break;
+                    case 'confirmDeleteCustomSetting':
+                        $this->confirmDeleteCustomSetting();
+                        $this->setTabs('settings');
+                        break;
+                    case 'deleteCustomSetting':
+                        $this->deleteCustomSetting();
+                        break;
                     case 'saveCustomSetting':
                         $this->saveCustomSetting();
                         $this->setTabs('settings');
@@ -204,6 +211,13 @@ class srCertificateTypeGUI
                         break;
                     case 'createPlaceholder':
                         $this->createPlaceholder();
+                        $this->setTabs('placeholders');
+                        break;
+                    case 'deletePlaceholder':
+                        $this->deletePlaceholder();
+                        break;
+                    case 'confirmDeletePlaceholder':
+                        $this->confirmDeletePlaceholder();
                         $this->setTabs('placeholders');
                         break;
                     case 'showSignatures':
@@ -363,6 +377,52 @@ class srCertificateTypeGUI
     }
 
 
+    public function confirmDeleteCustomSetting()
+    {
+        /** @var srCertificateCustomTypeSetting $setting */
+        $setting = srCertificateCustomTypeSetting::findOrFail((int) $_GET['custom_setting_id']);
+        $gui = new ilConfirmationGUI();
+        $gui->setFormAction($this->ctrl->getFormAction($this));
+        $gui->setHeaderText($this->pl->txt('info_delete_custom_setting'));
+        $gui->addItem('custom_setting_id', $setting->getId(), $setting->getLabel($this->user->getLanguage()));
+        $gui->setConfirm($this->lng->txt('confirm'), 'deleteCustomSetting');
+        $gui->setCancel($this->lng->txt('cancel'), 'showSettings');
+        $this->tpl->setContent($gui->getHTML());
+    }
+
+
+    public function deleteCustomSetting()
+    {
+        $setting = srCertificateCustomTypeSetting::findOrFail((int) $_POST['custom_setting_id']);
+        $setting->delete();
+        ilUtil::sendSuccess($this->pl->txt('msg_success_custom_setting_deleted'), true);
+        $this->ctrl->redirect($this, 'showSettings');
+    }
+
+
+    public function confirmDeletePlaceholder()
+    {
+        /** @var srCertificatePlaceholder $placeholder */
+        $placeholder = srCertificatePlaceholder::find((int) $_GET['placeholder_id']);
+        $gui = new ilConfirmationGUI();
+        $gui->setFormAction($this->ctrl->getFormAction($this));
+        $gui->setHeaderText($this->pl->txt('info_delete_custom_placeholder'));
+        $gui->addItem('placeholder_id', $placeholder->getId(), $placeholder->getLabel($this->user->getLanguage()));
+        $gui->setConfirm($this->lng->txt('confirm'), 'deletePlaceholder');
+        $gui->setCancel($this->lng->txt('cancel'), 'showPlaceholders');
+        $this->tpl->setContent($gui->getHTML());
+    }
+
+
+    public function deletePlaceholder()
+    {
+        $placeholder = srCertificatePlaceholder::findOrFail((int) $_POST['placeholder_id']);
+        $placeholder->delete();
+        ilUtil::sendSuccess($this->pl->txt('msg_success_custom_placeholder_deleted'), true);
+        $this->ctrl->redirect($this, 'showPlaceholders');
+    }
+
+
     /**
      * Show form for editing settings of a type
      */
@@ -445,13 +505,11 @@ class srCertificateTypeGUI
      */
     public function showPlaceholders()
     {
-        $table = new srCertificateTypePlaceholdersTableGUI($this, 'showPlaceholders', $this->type);
-        // Show all standard placeholders below the table
-        $table_std = new srCertificateTypeStandardPlaceholdersTableGUI($this, 'showPlaceholders');
+        $table1 = new srCertificateTypeStandardPlaceholdersTableGUI($this, 'showPlaceholders');
+        $table2 = new srCertificateTypePlaceholdersTableGUI($this, 'showPlaceholders', $this->type);
         $spacer = '<div style="height: 30px;"></div>';
-        $this->tpl->setContent($table->getHTML() . $spacer . $table_std->getHTML());
-        $msg_info = sprintf($this->pl->txt('msg_placeholder_format_info'), srCertificatePlaceholder::PLACEHOLDER_START_SYMBOL, srCertificatePlaceholder::PLACEHOLDER_END_SYMBOL);
-        ilUtil::sendInfo($msg_info);
+        $this->tpl->setContent($table1->getHTML() . $spacer . $table2->getHTML());
+        ilUtil::sendInfo(sprintf($this->pl->txt('msg_placeholder_format_info'), srCertificatePlaceholder::PLACEHOLDER_START_SYMBOL, srCertificatePlaceholder::PLACEHOLDER_END_SYMBOL));
     }
 
 

@@ -1,6 +1,8 @@
 <?php
 
 require_once(dirname(dirname(__FILE__)) . '/Type/class.srCertificateTypeSetting.php');
+require_once(dirname(__DIR__) . '/Definition/class.srCertificateDefinition.php');
+require_once(__DIR__ . '/class.srCertificateCustomDefinitionSetting.php');
 
 /**
  * srCertificateCustomTypeSetting
@@ -35,6 +37,7 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
 
     /**
      * Labels for each defined language
+     *
      * @var array
      *
      * @db_has_field    true
@@ -90,6 +93,21 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
     }
 
 
+    public function delete()
+    {
+        // Delete setting on all definitions
+        foreach (srCertificateDefinition::where(array('type_id' => $this->getTypeId()))->get() as $definition) {
+            /** @var srCertificateDefinition $setting */
+            $setting = srCertificateCustomDefinitionSetting::where(array('definition_id' => $definition->getId(), 'identifier' => $this->getIdentifier()))->first();
+            if ($setting) {
+                $setting->delete();
+            }
+        }
+
+        parent::delete();
+    }
+
+
     /**
      * Set a label for a language
      *
@@ -110,7 +128,15 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
      */
     public function getLabel($lang)
     {
-        return (isset($this->labels[$lang])) ? $this->labels[$lang] : '';
+        if (isset($this->labels[$lang])) {
+            return $this->labels[$lang];
+        }
+
+        foreach ($this->labels as $label) {
+            return $label;
+        }
+
+        return '';
     }
 
 
@@ -149,8 +175,10 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
                     $data[$line] = $line;
                 }
             }
+
             return $data;
         }
+
         return $this->data;
     }
 
@@ -170,7 +198,7 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
      */
     public function setIdentifier($identifier)
     {
-        if ( ! preg_match(self::REGEX_VALID_IDENTIFIER, $identifier)) {
+        if (!preg_match(self::REGEX_VALID_IDENTIFIER, $identifier)) {
             throw new srCertificateException("Identifier '{$identifier}' not valid");
         }
         $this->identifier = $identifier;

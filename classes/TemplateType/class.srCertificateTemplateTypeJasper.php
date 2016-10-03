@@ -20,6 +20,7 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
         $this->setTitle('Jasper Report');
         $this->setDescription('Templates with Jasper Reports, requires the Jasper Reports Library');
         $this->setTemplateFilename('template.jrxml');
+        $this->setValidSuffixes(array('jrxml'));
     }
 
     /**
@@ -43,17 +44,33 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
             throw new ilException("Generating certificates with TemplateTypeJasper is only available if the JasperReport service is installed");
         }
         require_once(self::JASPER_CLASS);
-        $path_tpl = $cert->getDefinition()->getType()->getCertificateTemplatesPath(true);
+        $template = $cert->getDefinition()->getType()->getCertificateTemplatesPath(true);
+        // A template is required, so quit early if it does not exist for some reason
+        if (!is_file($template)) {
+            return false;
+        }
         $placeholders = $cert->getPlaceholders();
-        $defined_placeholders = $this->parseDefinedPlaceholders($path_tpl);
+        try {
+            $defined_placeholders = $this->parseDefinedPlaceholders($template);
+        } catch (Exception $e) {
+            // XML is not valid
+            return false;
+        }
         // Only send defined placeholders to jasper, otherwise the template file is not considered as valid
         $placeholders = array_intersect_key($placeholders, $defined_placeholders);
-        // TODO Also send empty values for placeholders defined in jasper template but not in definition???
         $placeholders = $this->nl2br($placeholders);
-        $report = new JasperReport($path_tpl, $cert->getFilename(false));
+        $report = new JasperReport($template, $cert->getFilename(false));
+        if ($locale = $this->pl->config('jasper_locale')) {
+            $report->setLocale($this->pl->config('jasper_locale'));
+        }
+        if ($java = $this->pl->config('jasper_path_java')) {
+            $report->setPathJava($java);
+        }
         $report->setDataSource(JasperReport::DATASOURCE_EMPTY);
         $report->setParameters($placeholders);
-        if ($report_file = $report->generateOutput()) {
+        try {
+            $report->generateOutput();
+            $report_file = $report->getOutputFile();
             // Move pdf to correct certificate location
             $cert_path = $cert->getCertificatePath();
             if (!file_exists($cert_path)) {
@@ -62,22 +79,22 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
             $from = $report_file . '.pdf';
             $to = $cert->getFilePath();
             return ilUtil::moveUploadedFile($from, '', $to, false, 'rename');
-        } else {
-            $this->log->write("srCertificateTemplyteTypeJasper::generate() Report file was not created by Jasper");
+        } catch (JasperReportException $e) {
+            $this->log->write("srCertificateTemplyteTypeJasper::generate() Report file of certificate with ID {$cert->getId()} was not created by Jasper: " . implode(', ', $e->getErrors()));
+            return false;
         }
-        return false;
     }
 
 
     /**
      * Parse the placeholders defined in the jasper report template.
      *
-     * @param $path_tpl
+     * @param $template
      * @return array
      */
-    protected function parseDefinedPlaceholders($path_tpl)
+    protected function parseDefinedPlaceholders($template)
     {
-        $xml = new SimpleXMLElement(file_get_contents($path_tpl));
+        $xml = new SimpleXMLElement(file_get_contents($template));
         $defined_params = array();
         foreach ($xml->parameter as $param) {
             foreach ($param->attributes() as $k => $v) {

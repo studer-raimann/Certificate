@@ -20,15 +20,17 @@ cancel#:#Cancel
 confirm#:#Confirm
 always#:#Always
 placeholders#:#Placeholders
+custom_placeholders#:#Custom Placeholders
 back_to_overview#:#Overview
 manage_cert_types#:#Manage Certificate Types
 administrate_certificates#:#Administrate Certificates
 my_certificates#:#My Certificates
 save_preview#:#Save & Preview
+preview_certificate#:#Preview Certificate
 certificate#:#Certificate
 back_to_course#:#Back to Course
 callback_email_subject#:#Certificate Callback
-callback_email_message#:#The following certificate has been called back and therefore is no longer available:
+callback_email_message#:#The following certificate has been called back and therefore is no longer available:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 status#:#Status
 waiting#:#Waiting
 created#:#Created
@@ -47,13 +49,16 @@ cert_status_2#:#In Progress
 cert_status_3#:#Created
 cert_status_4#:#Creation Failed
 cert_status_5#:#Called Back
-writeperm_failed_subject#:#Certificate: Creation Failed
-writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:
-no_space_left_subject#:#Certificate: Creation Failed
-no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:
+writeperm_failed_subject#:#Certificate: Creation of certificate failed due to missing write permission
+writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
+cert_failed_subject#:#Creation of certificate failed
+cert_failed_message#:#The creation of a certificate failed:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
+no_space_left_subject#:#Certificate: Creation of certificate failed due to missing disk space
+no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 disk_space_warning_mail_subject#:#Certificate: Free Space Warning
-disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.
-
+disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.\n\nFree disk space left: %s Bytes
+msg_info_invalid_cert_types#:#Some certificate types are not selectable because their template file is currently missing: %s
+msg_info_current_type_no_invalid_tempalte#:#The current certificate type does not have a valid template file assigned, certificates won't be generated!
 valid_from#:#Valid from
 valid_to#:#Valid to
 unlimited#:#Unlimited
@@ -68,7 +73,6 @@ type#:#Certificate Type
 only_newest_version#:#Show newest Version only
 crs_title#:#Course Title
 download_zip#:#Download as ZIP
-
 msg_no_permission_certificates#:#No permission to view certificates.
 msg_definition_created#:#Definition successfully created.
 msg_definition_updated#:#Definition successfully updated.
@@ -82,7 +86,7 @@ msg_type_saved#:#Saved type.
 msg_signature_saved#:#Saved signature.
 msg_delete_signature_success#:#Signature successfully deleted.
 msg_setting_saved#:#Saved setting.
-msg_placeholder_saved#:#Saved placeholder.
+msg_placeholder_saved#:#Saved custom placeholder.
 msg_placeholder_format_info#:#Inside your template, wrap placeholder identifiers with "%s" "%s" symbols.
 msg_no_permission#:#Permission denied.
 msg_save_config#:#Configuration saved.
@@ -91,11 +95,10 @@ msg_called_back#:#The certificate has been called back.
 msg_undo_called_back#:#The certificate is no longer called back.
 msg_not_created_yet#:#The certificate has not been created yet.
 msg_retry_generation#:#The system will try to regenerate the certificate.
-
+msg_error_preview_certificate#:#An error occurred while trying to preview the certificate.
 change_cert_type#:#Change Certificate Type
 choose_cert_type#:#Choose Certificate Type
 edit_settings#:#Edit Settings
-
 setting_id_type#:#Certificate Type
 setting_id_type_info_new#:#After choosing the type, additional settings will be available.
 setting_id_type_info_change#:#Warning: By changing the type, the current settings and placeholders are deleted.
@@ -122,10 +125,8 @@ setting_id_notification_info#:#Separate Multiple Addresses with Comma
 setting_id_notification_user#:#User Notification
 setting_id_notification_user_info#:#If checked, an email with the attached certificate is sent to the user.
 validity_date_range#:#%s months, %s days
-
 confirm_type_change#:#Confirm Certificate Type Change
 confirm_type_change_text#:#By changing the certificate type, all existing placeholders and settings are deleted. New placeholders defined by the type will be available.
-
 add_new_type#:#Add New Certificate Type
 languages#:#Languages
 description#:#Description
@@ -142,7 +143,6 @@ assets_info#:#Check the assets you want to delete after saving
 add_assets#:#Add Assets
 template_file#:#Template File
 template_file_info#:#The file must be a valid template for the chosen Template type. If there exists already a template file, the current one is overridden.
-
 edit_setting#:#Edit '%s'
 edit_type_template#:#Edit Template-Related Settings
 setting#:#Setting
@@ -151,15 +151,14 @@ default_value#:#Default Value
 default_value_lang#:#Default Value '%s'
 label_lang#:#Label '%s'
 label#:#Label
-
 identifier#:#Identifier
 identifier_info#:#Valid Characters: %s
 max_characters#:#Max Characters
 max_characters_info#:#If you allow more than 128 characters, a textarea is used for entering the text.
 mandatory#:#Mandatory
-add_new_placeholder#:#Add New Placeholder
-edit_placeholder#:#Edit Placeholder
-add_placeholder#:#Add Placeholder
+add_new_placeholder#:#Add New Custom Placeholder
+edit_placeholder#:#Edit Custom Placeholder
+add_placeholder#:#Add Custom Placeholder
 standard_placeholders#:#Standard Placeholders
 standard_placeholders_desc#:#These are the standard placeholders provided by the plugin.
 update_cert_definitions#:#Update Certificate Definitions
@@ -174,7 +173,10 @@ custom_setting_type_2_data#:#Data to Select in Dropdown
 custom_setting_type_2_data_info#:#Enter the possible values available for selection, one per line. If the key should be different than the value, add a double pipe separating the key from the value, e.g. 'mykey||My Value'.
 custom_setting_default_value_info#:#Boolean: Add '1' to check the checkbox by default, Value: Add a key from your data.
 custom_setting_update_cert_definitions_info#:#If checked, the setting is also created for existing certificate definitions of this type (with the default value).
-
+info_delete_custom_setting#:#Are you sure you want to delete the custom setting? By confirming the deletion, the setting is removed from any certificate definition as well.
+info_delete_custom_placeholder#:#Are you sure you want to delete the custom placeholder? By confirming the deletion, the placeholder is removed from any certificate definition as well.
+msg_success_custom_setting_deleted#:#Successfully deleted custom setting
+msg_success_custom_placeholder_deleted#:#Successfully deleted custom placeholder
 admin_form_title#:#Configuration Options
 admin_form_course_templates#:#Enable support for course templates
 admin_form_course_templates_info#:#If enabled, the plugin offers additional certificate settings depending if a course is marked as "course template".
@@ -184,12 +186,12 @@ admin_form_time_format_utc#:#Print Date/Times on Certificate in UTC-Timezone
 admin_form_time_format_utc_info#:#If checked, all date and time data calculated with the standard placeholders is converted in UTC timezone (by using PHPs gmdate() over date()).
 admin_form_str_format_date#:#Date Format
 admin_form_str_format_date_info#:#Date format used to format all dates from the standard placeholders.
-admin_form_str_format_datetime#:#Datetime format
+admin_form_str_format_datetime#:#Datetime Format
 admin_form_str_format_datetime_info#:#Date format used to format all dates with time from the standard placeholders.
 admin_form_path_hook_class#:#Path to Hook-Class
 admin_form_path_hook_class_info#:#Path to the class 'srCertificateCustomHooks', e.g. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
-admin_form_callback_email#:#Callback Email
-admin_form_callback_email_info#:#Email will be sent to this address whenever a certificate is called back.
+admin_form_callback_email#:#Callback Email(s)
+admin_form_callback_email_info#:#Email will be sent to this address whenever a certificate is called back. You can add multiple e-mail addresses, comma separated.
 admin_form_disk_space_warning#:#Free Space Warning (MB)
 admin_form_disk_space_warning_info#:#Send a warning to the system administrator when the amount of free space for the certificate creation is lower than this value.
 admin_form_permission_settings#:#Permission Settings
@@ -203,6 +205,8 @@ admin_form_notification_user_body#:#Notification for User (Body)
 admin_form_notification_others_body#:#Notification for Other Users (Body)
 admin_form_max_diff_lp_seconds#:#Time Range Certificate PDF Generation (seconds)
 admin_form_max_diff_lp_seconds_info#:#You can set a time range in seconds to invoke the PDF generation of a certificate. If you enter zero, the PDF is generated right after the user passed the course. Note that possible notifications are also sent after the given time range.
-
+admin_form_jasper_locale#:#Locale (Unix)
+admin_form_jasper_locale_info#:#The Locale should support all characters you need in the PDF files, such as German-Umlauts. Execute "locale -a" to see a list of available locales on your unix system.
+admin_form_jasper_path_java#:#Path to Java executable
 download_default_template#:#Download Default Template
 download_template#:#Download Current Template

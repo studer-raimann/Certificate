@@ -277,7 +277,7 @@ class srCertificate extends ActiveRecord
         $this->setActive(true);
         // Set the filename for certificate
         $this->filename = $this->createFilename();
-        $this->created_at = date('Y-m-d H:m:s');
+        $this->created_at = date('Y-m-d H:i:s');
         parent::create();
         $this->event_handler->raise('Certificate/srCertificate', 'create', array('object' => $this));
     }
@@ -299,6 +299,7 @@ class srCertificate extends ActiveRecord
             );
         }
         $this->event_handler->raise('Certificate/srCertificate', 'update', array('object' => $this));
+        $this->old_status = null;
     }
 
 
@@ -324,51 +325,20 @@ class srCertificate extends ActiveRecord
         if ($this->getStatus() == self::STATUS_PROCESSED && is_file($this->getFilePath()) && !$force) {
             return false;
         }
-
         $cert_type = $this->getDefinition()->getType();
         $template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
-        $this->setStatus(srCertificate::STATUS_WORKING);
+        $this->setStatus(self::STATUS_WORKING);
         $this->update();
         $generated = $template_type->generate($this);
         // Only set the status to processed if generating was successful
         if ($generated) {
-            $free_space = disk_free_space($this->getCertificatePath());
-            //Send mail to administrator if the free space is below the configured value
-            if ($this->pl->config('disk_space_warning') > 0 && $free_space < ($this->pl->config('disk_space_warning') * 1000000)
-                && !$this->pl->config('disk_space_warning_sent')
-            ) {
-                $this->pl->sendMail('disk_space_warning', $this);
-                ilCertificateConfig::set('disk_space_warning_sent', 1);
-            } elseif ($this->pl->config('disk_space_warning_sent') && $free_space > ($this->pl->config('disk_space_warning') * 1000000)) {
-                ilCertificateConfig::set('disk_space_warning_sent', 0);
-            }
-
-            $this->setStatus(srCertificate::STATUS_PROCESSED);
+            $this->setStatus(self::STATUS_PROCESSED);
             $this->update();
 
             return true;
-        } else    //else set status to failed
-        {
+        } else {
             $this->setStatus(self::STATUS_FAILED);
             $this->update();
-
-            // send email to sysadmin if there's no write-permission on the target directory
-            if (!is_writeable($this->getCertificatePath())) {
-                $this->pl->sendMail('not_writeable', $this);
-                $this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}; Certificate data directory is not writable.");
-
-                return false;
-            }
-
-            //if there's less than 1MB space left, it's probably a space problem
-            $free_space = disk_free_space($this->getCertificatePath());
-            if ($free_space < 1000) {
-                $this->pl->sendMail('no_space_left', $this);
-                $this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}; Free disk space below 1MB.");
-
-                return false;
-            }
-
             $this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}");
 
             return false;
@@ -378,8 +348,8 @@ class srCertificate extends ActiveRecord
 
     /**
      * Download certificate
-     * Note: No permission checking, this must be done by the controller calling this method
      *
+     * Note: No permission checking, this must be done by the controller calling this method
      */
     public function download()
     {
@@ -659,6 +629,7 @@ class srCertificate extends ActiveRecord
         $str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
         $str = preg_replace('#[^a-z0-9\-]+#', '-', $str); // Replace spaces and other unwanted characters
         $str = preg_replace('#-{2,}#', '-', $str); // Replace multiple dashes
+
         return $str;
     }
 
@@ -732,7 +703,7 @@ class srCertificate extends ActiveRecord
 
 
     /**
-     * @param bool $anonymized If true, placeholders are anonymize
+     * @param bool $anonymized If true, placeholders are anonymized
      * @return array
      */
     public function getPlaceholders($anonymized = false)

@@ -19,6 +19,7 @@ class srCertificateTemplateTypeHtml extends srCertificateTemplateType
         $this->setTitle('HTML');
         $this->setDescription('Templates with basic HTML, rendered with the ILIAS PDF engine (TCPDF)');
         $this->setTemplateFilename('template.html');
+        $this->setValidSuffixes(array('html'));
     }
 
 
@@ -44,10 +45,14 @@ class srCertificateTemplateTypeHtml extends srCertificateTemplateType
         if (!$this->isAvailable()) {
             throw new ilException("Generating certificates with TemplateTypeHtml is only available for ILIAS > 4.4");
         }
-
+        $template = $cert->getDefinition()->getType()->getCertificateTemplatesPath(true);
+        // A template is required, so quit early if it does not exist for some reason
+        if (!is_file($template)) {
+            return false;
+        }
         require_once('./Services/PDFGeneration/classes/class.ilPDFGeneration.php');
         // Get HTML markup by parsing the template and replace placeholders
-        $markup = file_get_contents($cert->getDefinition()->getType()->getCertificateTemplatesPath(true));
+        $markup = file_get_contents($template);
         $markup = srCertificatePlaceholdersParser::getInstance()->parse($markup, $cert->getPlaceholders());
         try {
             $job = new ilPDFGenerationJob();

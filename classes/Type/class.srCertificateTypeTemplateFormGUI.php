@@ -61,6 +61,7 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI
         $this->pl = ilCertificatePlugin::getInstance();
         $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
+        $this->lng->loadLanguageModule('form');
         $this->initForm();
     }
 
@@ -117,6 +118,11 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI
     protected function fillObject()
     {
         $this->setValuesByPost();
+        // Hacky: The file input must accept only valid suffixes depending on the chosen template type
+        $template_type = srCertificateTemplateTypeFactory::getById((int) $_POST['template_type_id']);
+        /** @var ilFileInputGUI $file_input */
+        $file_input = $this->getItemByPostVar('template_file');
+        $file_input->setSuffixes($template_type->getValidSuffixes());
         if (!$this->checkInput()) {
             return false;
         }

@@ -1,5 +1,5 @@
 <?php
-
+require_once('./Services/Mail/classes/class.ilMimeMail.php');
 require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php');
 require_once('srCertificateNotification.php');
 
@@ -39,17 +39,41 @@ class srCertificateEmailNotification implements srCertificateNotification
     /**
      * @var bool
      */
-    protected $attach_certificate = true;
+    protected $attach_certificate = false;
 
     /**
-     * @param string $email
-     * @param srCertificate $certificate
+     * @var ilCertificatePlugin
      */
-    function __construct($email, srCertificate $certificate)
+    protected $pl;
+
+    /**
+     * @param srCertificate $certificate
+     * @param string $email
+     */
+    function __construct(srCertificate $certificate, $email = '')
     {
         $this->email = $email;
         $this->certificate = $certificate;
         $this->mailer = new ilMimeMail();
+        $this->pl = ilCertificatePlugin::getInstance();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
 
@@ -110,12 +134,15 @@ class srCertificateEmailNotification implements srCertificateNotification
     /**
      * Execute notification
      *
-     * @return mixed
+     * @return bool
      */
     public function notify()
     {
         global $ilSetting;
 
+        if (!$this->email) {
+            return false;
+        }
         $this->mailer->To($this->email);
         $from = $ilSetting->get('mail_external_sender_noreply');
         if ($from) {
@@ -127,6 +154,8 @@ class srCertificateEmailNotification implements srCertificateNotification
             $this->mailer->Attach($this->certificate->getFilePath());
         }
 
-        return $this->mailer->Send();
+        $this->mailer->Send();
+
+        return true;
     }
 }

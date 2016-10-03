@@ -138,13 +138,24 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $item->setHeight(165);
         $this->addItem($item);
 
+        // Jasper Reports
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle('Jasper Reports');
+        $this->addItem($section);
+
+        $item = new ilTextInputGUI($this->txt('jasper_locale'), 'jasper_locale');
+        $item->setInfo($this->txt('jasper_locale_info'));
+        $this->addItem($item);
+
+        $item = new ilTextInputGUI($this->txt('jasper_path_java'), 'jasper_path_java');
+        $this->addItem($item);
+
         // Notification
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('notifications'));
         $this->addItem($section);
 
         $item = new ilTextInputGUI($this->txt('notification_user_subject'), 'notification_user_subject');
-        $item->setSize(97);
         $this->addItem($item);
 
         $item = new ilTextAreaInputGUI($this->txt('notification_user_body'), 'notification_user_body');
@@ -153,7 +164,6 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI
         $this->addItem($item);
 
         $item = new ilTextInputGUI($this->txt('notification_others_subject'), 'notification_others_subject');
-        $item->setSize(97);
         $this->addItem($item);
 
         $item = new ilTextAreaInputGUI($this->txt('notification_others_body'), 'notification_others_body');
