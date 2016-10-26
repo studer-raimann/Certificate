@@ -57,6 +57,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
      */
     protected $user;
 
+
     /**
      * @param $parent_gui
      * @param srCertificateDefinition $definition
@@ -82,10 +83,11 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
      */
     public function saveObject()
     {
-        if ( ! $this->fillObject()) {
+        if (!$this->fillObject()) {
             return false;
         }
         $this->definition->save();
+
         return true;
     }
 
@@ -101,14 +103,14 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         if (isset($_POST['type_id'])) {
             $this->definition->setTypeId($this->getInput('type_id'));
         }
-        $this->definition->setRefId((int)$_GET['ref_id']);
+        $this->definition->setRefId((int) $_GET['ref_id']);
         if ($this->isNew) {
             return true;
         } else {
             // Set new settings values
             /** @var $setting srCertificateDefinitionSetting */
             foreach ($this->definition->getSettings() as $setting) {
-                if ( ! $setting->isEditable()) continue; // Don't set values if setting can't change its value
+                if (!$setting->isEditable()) continue; // Don't set values if setting can't change its value
                 $value = $this->getInput($setting->getIdentifier());
                 if ($setting->getIdentifier() == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
                     $validity_type = $this->getInput(srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE);
@@ -118,7 +120,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
             }
 
             foreach ($this->definition->getCustomSettings() as $setting) {
-                if ( ! $setting->isEditable()) continue;
+                if (!$setting->isEditable()) continue;
                 $value = $this->getInput('custom_setting_' . $setting->getIdentifier());
                 $setting->setValue($value);
             }
@@ -148,12 +150,14 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
                 $this->addItem($type);
                 $this->addCommandButton('createDefinition', $this->pl->txt('save'));
             }
+
             return;
         } else {
             if ($n_types > 1) {
                 $this->setTitle($title);
                 $checkbox = new ilCheckboxInputGUI($this->pl->txt('change_cert_type'), 'change_type');
                 $checkbox->addSubItem($type);
+                $checkbox->setInfo($this->pl->txt('current_type') . ' ' . $this->definition->getType()->getTitle());
                 $this->addItem($checkbox);
             }
         }
@@ -167,6 +171,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE]);
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_GENERATION]);
         $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE]);
+        $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING]);
 
         // Custom settings
         /** @var srCertificateCustomDefinitionSetting $setting */
@@ -184,6 +189,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
                     $item->setOptions($setting->getCustomTypeSetting()->getData(true));
                     break;
             }
+            $item->setDisabled(!$setting->isEditable());
             $this->addItem($item);
         }
 
@@ -198,6 +204,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
 
         $this->addCommandButton("updateDefinition", "Save");
     }
+
 
     /**
      * Get all settings with the correct input field
@@ -235,6 +242,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
                     break;
                 case srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE:
                 case srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER:
+                case srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING:
                     $input = new ilCheckboxInputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier);
                     $input->setInfo($this->pl->txt("setting_id_{$identifier}_info"));
                     $input->setValue(1);
@@ -249,6 +257,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
             $input->setDisabled(!$setting->isEditable());
             $settings[$identifier] = $input;
         }
+
         return $settings;
     }
 
@@ -299,6 +308,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         return $input;
     }
 
+
     /**
      * Get dropdown for languages
      *
@@ -314,6 +324,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         $input->setOptions($languages);
         $input->setRequired(true);
         $input->setInfo($this->pl->txt('setting_id_default_lang_info'));
+
         return $input;
     }
 
@@ -327,20 +338,31 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
     {
         $types = srcertificateType::get();
         $options = array();
-        $object_type = ($this->pl->isCourseTemplate((int)$_GET['ref_id'])) ? 'crs-tpl' : ilObject::_lookupType((int)$_GET['ref_id'], true);
+        $object_type = ($this->pl->isCourseTemplate((int) $_GET['ref_id'])) ? 'crs-tpl' : ilObject::_lookupType((int) $_GET['ref_id'], true);
         /** @var $type srCertificateType */
+        $invalid = array();
         foreach ($types as $type) {
-            if (!srCertificateType::isSelectable($type, (int)$_GET['ref_id'])) {
+            if (!srCertificateType::isSelectable($type, (int) $_GET['ref_id'])) {
+                continue;
+            }
+            // Skip the type if it contains no valid template file!
+            if (!is_file($type->getCertificateTemplatesPath(true))) {
+                $invalid[] = $type->getTitle();
                 continue;
             }
             $options[$type->getId()] = $type->getTitle();
         }
+        if (count($invalid) && $this->isNew) {
+            ilUtil::sendInfo(sprintf($this->pl->txt('msg_info_invalid_cert_types'), implode(', ', $invalid)));
+        }
         $item = new ilSelectInputGUI($this->pl->txt('setting_id_type'), 'type_id');
+        asort($options);
         $item->setOptions($options);
         $info = ($this->isNew) ? $this->pl->txt('setting_id_type_info_new') : $this->pl->txt('setting_id_type_info_change');
         $item->setInfo($info);
         $item->setValue($this->definition->getTypeId());
         $item->setRequired(true);
+
         return $item;
     }
 }

@@ -89,6 +89,7 @@ class srCertificateCustomTypeSettingFormGUI extends ilPropertyFormGUI
             $this->setting->setData($this->getInput('data'));
             $this->setting->setValue($this->getInput('value'));
             $this->setting->setEditableIn($this->getInput('editable_in'));
+            /** @var srCertificateType $type */
             $type = srCertificateType::find($this->setting->getTypeId());
             foreach ($type->getLanguages() as $lang_code) {
                 $this->setting->setLabel($this->getInput("label_{$lang_code}"), $lang_code);
@@ -141,6 +142,7 @@ class srCertificateCustomTypeSettingFormGUI extends ilPropertyFormGUI
         $item->addOption($option);
         $option = new ilRadioOption($this->pl->txt('custom_setting_type_' . srCertificateCustomTypeSetting::SETTING_TYPE_SELECT), srCertificateCustomTypeSetting::SETTING_TYPE_SELECT);
         $subitem = new ilTextAreaInputGUI($this->pl->txt('custom_setting_type_2_data'), 'data');
+        $subitem->setValue($this->setting->getData());
         $subitem->setInfo($this->pl->txt('custom_setting_type_2_data_info'));
         $option->addSubItem($subitem);
         $item->setValue($this->setting->getSettingTypeId());
@@ -158,7 +160,6 @@ class srCertificateCustomTypeSettingFormGUI extends ilPropertyFormGUI
             $options[$type] = $type;
         }
         $item->setOptions($options);
-        $item->setRequired(true);
         $item->setValue($this->setting->getEditableIn());
         $this->addItem($item);
 

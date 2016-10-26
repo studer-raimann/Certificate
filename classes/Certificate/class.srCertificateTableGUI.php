@@ -11,6 +11,7 @@ require_once('./Services/Form/classes/class.ilCheckboxInputGUI.php');
  * Class srCertificateTableGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class srCertificateTableGUI extends ilTable2GUI
 {
@@ -28,7 +29,8 @@ class srCertificateTableGUI extends ilTable2GUI
         'valid_from',
         'valid_to',
         'file_version',
-        'cert_type'
+        'cert_type',
+        'status'
     );
 
     /**
@@ -63,6 +65,11 @@ class srCertificateTableGUI extends ilTable2GUI
      */
     protected $user;
 
+    /**
+     * @var bool
+     */
+    protected $has_any_certs = false;
+
 
     /**
      * Options array can contain the following key/value pairs
@@ -78,7 +85,7 @@ class srCertificateTableGUI extends ilTable2GUI
      * @param string $a_parent_cmd
      * @param array $options
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", array $options=array())
+    public function __construct($a_parent_obj, $a_parent_cmd = "", array $options = array())
     {
         global $ilCtrl, $ilUser;
 
@@ -99,6 +106,7 @@ class srCertificateTableGUI extends ilTable2GUI
         $this->pl = ilCertificatePlugin::getInstance();
         $this->ctrl = $ilCtrl;
         $this->user = $ilUser;
+        $this->setShowRowsSelector(true);
 
         parent::__construct($a_parent_obj, $a_parent_cmd, "");
 
@@ -112,6 +120,11 @@ class srCertificateTableGUI extends ilTable2GUI
 
         if ($this->getOption('build_data')) {
             $this->buildData();
+        }
+
+        if ($this->has_any_certs && count($this->getOption('actions_multi'))) {
+            $this->setSelectAllCheckbox("cert_id[]");
+            $this->addMultiCommand("downloadCertificates", $this->pl->txt('download_zip'));
         }
     }
 
@@ -146,7 +159,7 @@ class srCertificateTableGUI extends ilTable2GUI
             $this->addFilterItemWithValue($item);
         }
 
-        if ( ! $this->getOption('newest_version_only')) {
+        if (!$this->getOption('newest_version_only')) {
             $item = new ilCheckboxInputGUI($this->pl->txt('only_newest_version'), 'active');
             $this->addFilterItemWithValue($item);
         }
@@ -159,26 +172,40 @@ class srCertificateTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set)
     {
         // For checkboxes in first column
-        if (count($this->getOption('actions_multi'))) {
+        if (count($this->getOption('actions_multi')) && $a_set['status'] == 3) {
             $this->tpl->setCurrentBlock('CHECKBOXES');
             $this->tpl->setVariable('VALUE', $a_set['id']);
             $this->tpl->parseCurrentBlock();
+        } else {
+            $this->tpl->setCurrentBlock('COL');
+            $this->tpl->setVariable('VALUE', '');
+            $this->tpl->parseCurrentBlock();
         }
+        $utc = ilCertificateConfig::get('time_format_utc');
+        $date_function = ($utc)? 'gmdate' : 'date';
 
         foreach ($this->columns as $k => $column) {
             $value = (is_null($a_set[$column])) ? '' : $a_set[$column];
             if ($this->isColumnSelected($column)) {
 
                 // Format dates
-                if (in_array($column, array('valid_from', 'valid_to'))) {
+                if (in_array($column, array('valid_from', 'valid_to')) && $value != '') {
+                    $time = strtotime($value);
+                    $time = ($utc)?  $time + srCertificate::TIME_ZONE_CORRECTION : $time;
                     switch ($this->user->getDateFormat()) {
                         case ilCalendarSettings::DATE_FORMAT_DMY:
-                            $value = date('d.m.Y', strtotime($value));
+                            $value = $date_function('d.m.Y', $time);
                             break;
                         case ilCalendarSettings::DATE_FORMAT_MDY:
-                            $value = date('m/d/Y', strtotime($value));
+                            $value = $date_function('m/d/Y', $time);
                             break;
                     }
+                } elseif (in_array($column, array('valid_from', 'valid_to')) && $value == '') {
+                    $value = $this->pl->txt('unlimited');
+                }
+
+                if ($column == 'status') {
+                    $value = $this->pl->txt("cert_status_" . (int) $value);
                 }
 
                 // Set value
@@ -188,16 +215,36 @@ class srCertificateTableGUI extends ilTable2GUI
 
             }
         }
-
         // Actions
         if (count($this->getOption('actions'))) {
-            $actions = $this->buildActions($a_set);
-            $actions = ($actions) ? $actions->getHTML() : '&nbsp;';
+            if ($this->hasAction($a_set)) {
+                $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'cert_id', $a_set['id']);
+                $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'status', $a_set['status']);
+                $async_url = $this->ctrl->getLinkTargetByClass(array(ilCertificatePlugin::getBaseClass(), get_class($this->parent_obj)), 'buildActions', '', true);
+                $actions = new ilAdvancedSelectionListGUI();
+                $actions->setId('action_list_' . $a_set['id']);
+                $actions->setAsynchUrl($async_url);
+                $actions->setAsynch(true);
+                $actions->setListTitle($this->pl->txt('actions'));
+            } else {
+                $actions = '&nbsp;';
+            }
+
             $this->tpl->setCurrentBlock('ACTIONS');
-            $this->tpl->setVariable('ACTIONS', $actions);
+            $this->tpl->setVariable('ACTIONS', is_string($actions) ? $actions : $actions->getHTML());
             $this->tpl->parseCurrentBlock();
         }
 
+    }
+
+
+    /**
+     * @param $a_set
+     * @return bool
+     */
+    protected function hasAction($a_set)
+    {
+        return !in_array($a_set['status'], array(srCertificate::STATUS_DRAFT, srCertificate::STATUS_NEW, srCertificate::STATUS_WORKING));
     }
 
 
@@ -236,31 +283,12 @@ class srCertificateTableGUI extends ilTable2GUI
 
 
     /**
-     * Build action menu for a record
-     *
-     * @param array $a_set
-     * @return ilAdvancedSelectionListGUI|null
-     */
-    protected function buildActions(array $a_set) {
-        if ($a_set['status'] != srCertificate::STATUS_PROCESSED) {
-            return null;
-        }
-        $alist = new ilAdvancedSelectionListGUI();
-        $alist->setId($a_set['id']);
-        $alist->setListTitle($this->pl->txt('actions'));
-        $this->ctrl->setParameter($this->parent_obj, 'cert_id', $a_set['id']);
-        $alist->addItem('Download', 'download', $this->ctrl->getLinkTarget($this->parent_obj, 'downloadCertificate'));
-
-        return $alist;
-    }
-
-
-    /**
      * Add filter items
      *
      * @param $item
      */
-    protected function addFilterItemWithValue($item) {
+    protected function addFilterItemWithValue($item)
+    {
         /**
          * @var $item ilSelectInputGUI
          */
@@ -295,8 +323,6 @@ class srCertificateTableGUI extends ilTable2GUI
         // Multi actions
         if (count($this->getOption('actions_multi'))) {
             $this->addColumn("", "", "1", true);
-            $this->setSelectAllCheckbox("cert_id[]");
-            $this->addMultiCommand("downloadCertificates", $this->pl->txt('download_zip'));
         }
 
         // Main columns
@@ -337,7 +363,7 @@ class srCertificateTableGUI extends ilTable2GUI
 
         // Always display latest version of certificates aka "active" if the table was initialized with this option
         // Otherwise, check if the checkbox of the filter was checked
-        if($this->getOption('newest_version_only')) {
+        if ($this->getOption('newest_version_only')) {
             $filters['active'] = 1;
         }
 
@@ -359,6 +385,12 @@ class srCertificateTableGUI extends ilTable2GUI
 
         $count = srCertificate::getCertificateData($options);
         $data = srCertificate::getCertificateData(array_merge($options, array('count' => false)));
+
+        foreach ($data as $cert) {
+            if ($cert["status"] == srCertificate::STATUS_PROCESSED) {
+                $this->has_any_certs = true;
+            }
+        }
 
         $this->setMaxCount($count);
         $this->setData($data);

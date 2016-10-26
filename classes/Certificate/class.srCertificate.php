@@ -9,6 +9,7 @@ require_once(dirname(dirname(__FILE__)) . '/class.ilCertificatePlugin.php');
  * srCertificate
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @version
  */
 class srCertificate extends ActiveRecord
@@ -16,10 +17,17 @@ class srCertificate extends ActiveRecord
 
     const TABLE_NAME = 'cert_obj';
 
+    // Add a new status to method getAllStatus()
     const STATUS_DRAFT = 0;
     const STATUS_NEW = 1;
     const STATUS_WORKING = 2;
     const STATUS_PROCESSED = 3;
+    const STATUS_FAILED = 4;
+    const STATUS_CALLED_BACK = 5;
+
+
+    // timezone offets are from -39600 to +46800
+    const TIME_ZONE_CORRECTION = 39600;
 
     /**
      * @var int
@@ -127,6 +135,7 @@ class srCertificate extends ActiveRecord
 
     /**
      * Contains all the loaded standard and custom placeholders for this certificate (loaded by calling getter)
+     *
      * @var array
      */
     protected $placeholders;
@@ -151,13 +160,24 @@ class srCertificate extends ActiveRecord
      */
     protected $pl;
 
+    /**
+     * @var int
+     */
+    protected $old_status;
+
+    /**
+     * @var ilAppEventHandler
+     */
+    protected $event_handler;
+
 
     public function __construct($id = 0)
     {
-        global $ilLog;
+        global $ilLog, $ilAppEventHandler;;
         parent::__construct($id);
         $this->log = $ilLog;
         $this->pl = ilCertificatePlugin::getInstance();
+        $this->event_handler = $ilAppEventHandler;
     }
 
 
@@ -186,7 +206,6 @@ class srCertificate extends ActiveRecord
     {
         return CLIENT_DATA_DIR . DIRECTORY_SEPARATOR . 'cert_data' . DIRECTORY_SEPARATOR .
         self::createPathFromId($this->getUserId()) . DIRECTORY_SEPARATOR . 'cert_' . $this->getId();
-
     }
 
 
@@ -213,6 +232,7 @@ class srCertificate extends ActiveRecord
             case 'active':
                 return (int) $this->active;
         }
+
         return null;
     }
 
@@ -226,15 +246,14 @@ class srCertificate extends ActiveRecord
      */
     public function create()
     {
-        if (is_null($this->getDefinition()) || !$this->getUserId())
+        if (is_null($this->getDefinition()) || !$this->getUserId()) {
             throw new Exception("srCertificate::create() must have valid Definition and User-ID");
-
+        }
         // Set validity dates
         $valid_from = date("Y-m-d");
         $valid_to = $this->calculateValidTo();
         $this->setValidFrom($valid_from);
         $this->setValidTo($valid_to);
-
         // Check if we need to increase the version if a certificate for same user & definition already exists
         /** @var srCertificate $cert_last_version */
         $certs = srCertificate::where(
@@ -254,15 +273,33 @@ class srCertificate extends ActiveRecord
             $cert->setActive(false);
             $cert->save();
         }
-
         // Set active flag
         $this->setActive(true);
-
         // Set the filename for certificate
         $this->filename = $this->createFilename();
-
-        $this->created_at = date('Y-m-d H:m:s');
+        $this->created_at = date('Y-m-d H:i:s');
         parent::create();
+        $this->event_handler->raise('Certificate/srCertificate', 'create', array('object' => $this));
+    }
+
+
+    public function update()
+    {
+        parent::update();
+        if ($this->hasStatusChanged()) {
+            // Status has changed
+            $this->event_handler->raise(
+                'Certificate/srCertificate',
+                'changeStatus',
+                array(
+                    'object' => $this,
+                    'old_status' => $this->old_status,
+                    'new_status' => $this->status,
+                )
+            );
+        }
+        $this->event_handler->raise('Certificate/srCertificate', 'update', array('object' => $this));
+        $this->old_status = null;
     }
 
 
@@ -290,16 +327,20 @@ class srCertificate extends ActiveRecord
         }
         $cert_type = $this->getDefinition()->getType();
         $template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
-        $this->setStatus(srCertificate::STATUS_WORKING);
+        $this->setStatus(self::STATUS_WORKING);
         $this->update();
         $generated = $template_type->generate($this);
         // Only set the status to processed if generating was successful
         if ($generated) {
-            $this->setStatus(srCertificate::STATUS_PROCESSED);
+            $this->setStatus(self::STATUS_PROCESSED);
             $this->update();
+
             return true;
         } else {
+            $this->setStatus(self::STATUS_FAILED);
+            $this->update();
             $this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}");
+
             return false;
         }
     }
@@ -307,12 +348,12 @@ class srCertificate extends ActiveRecord
 
     /**
      * Download certificate
-     * Note: No permission checking, this must be done by the controller calling this method
      *
+     * Note: No permission checking, this must be done by the controller calling this method
      */
     public function download()
     {
-        if ($this->status != self::STATUS_PROCESSED) {
+        if ($this->status != self::STATUS_PROCESSED && $this->status != self::STATUS_CALLED_BACK) {
             return;
         }
         $file = $this->getFilePath();
@@ -324,6 +365,22 @@ class srCertificate extends ActiveRecord
 
 
     // Static
+
+    /**
+     * @return array
+     */
+    public static function getAllStatus()
+    {
+        return array(
+            self::STATUS_DRAFT,
+            self::STATUS_NEW,
+            self::STATUS_WORKING,
+            self::STATUS_PROCESSED,
+            self::STATUS_FAILED,
+            self::STATUS_CALLED_BACK,
+        );
+    }
+
 
     /**
      * Create a path from an id: e.g 12345 will be converted to 1/23/45
@@ -338,10 +395,10 @@ class srCertificate extends ActiveRecord
     {
         $path = array();
         $found = false;
-        $id = (int)$id;
+        $id = (int) $id;
         for ($i = 2; $i >= 0; $i--) {
             $factor = pow(100, $i);
-            if (($tmp = (int)($id / $factor)) or $found) {
+            if (($tmp = (int) ($id / $factor)) or $found) {
                 $path[] = $tmp;
                 $id = $id % $factor;
                 $found = true;
@@ -352,6 +409,7 @@ class srCertificate extends ActiveRecord
         if (count($path)) {
             $path_string = implode(DIRECTORY_SEPARATOR, $path);
         }
+
         return $path_string;
     }
 
@@ -373,7 +431,7 @@ class srCertificate extends ActiveRecord
      * @param array $cert_ids
      * @param string $filename Filename of zip, appended to the current date
      */
-    public static function downloadAsZip(array $cert_ids=array(), $filename='certificates')
+    public static function downloadAsZip(array $cert_ids = array(), $filename = 'certificates')
     {
         if (count($cert_ids)) {
             $zip_filename = date('d-m-Y') . '-' . $filename;
@@ -385,7 +443,7 @@ class srCertificate extends ActiveRecord
             // Copy all PDFs in folder
             foreach ($cert_ids as $cert_id) {
                 /** @var srCertificate $cert */
-                $cert = srCertificate::find((int)$cert_id);
+                $cert = srCertificate::find((int) $cert_id);
                 if (!is_null($cert) && $cert->getStatus() == srCertificate::STATUS_PROCESSED) {
                     copy($cert->getFilePath(), $zip_base_dir . DIRECTORY_SEPARATOR . $cert->getFilename(true));
                 }
@@ -417,7 +475,7 @@ class srCertificate extends ActiveRecord
      * @param array $options
      * @return array|int
      */
-    public static function getCertificateData(array $options=array())
+    public static function getCertificateData(array $options = array())
     {
         global $ilDB;
 
@@ -430,14 +488,14 @@ class srCertificate extends ActiveRecord
         $options = array_merge($_options, $options);
 
         /** @var ilDB $ilDB */
-        $sql  = "SELECT ";
+        $sql = "SELECT ";
         $sql .= ($options['count']) ? 'COUNT(*) AS count ' : 'cert.*, usr.firstname, usr.lastname, cert_type.title AS cert_type, obj_data.title AS crs_title ';
         $sql .= "FROM cert_obj AS cert " .
-                "INNER JOIN cert_definition AS cert_def ON (cert_def.id = cert.definition_id) " .
-                "INNER JOIN cert_type ON (cert_type.id = cert_def.type_id) " .
-                "LEFT JOIN usr_data AS usr ON (usr.usr_id = cert.user_id) " .
-                "LEFT JOIN object_reference AS obj_ref ON (obj_ref.ref_id = cert_def.ref_id) " .
-                "LEFT JOIN object_data AS obj_data ON (obj_data.obj_id = obj_ref.obj_id)";
+            "INNER JOIN cert_definition AS cert_def ON (cert_def.id = cert.definition_id) " .
+            "INNER JOIN cert_type ON (cert_type.id = cert_def.type_id) " .
+            "LEFT JOIN usr_data AS usr ON (usr.usr_id = cert.user_id) " .
+            "LEFT JOIN object_reference AS obj_ref ON (obj_ref.ref_id = cert_def.ref_id) " .
+            "LEFT JOIN object_data AS obj_data ON (obj_data.obj_id = obj_ref.obj_id)";
         if (count($options['filters'])) {
             $sql .= " WHERE ";
             $and = "";
@@ -496,6 +554,7 @@ class srCertificate extends ActiveRecord
         while ($row = $ilDB->fetchAssoc($set)) {
             $data[] = $row;
         }
+
         return $data;
     }
 
@@ -531,6 +590,7 @@ class srCertificate extends ActiveRecord
             default:
                 $valid_to = null; // Always valid
         }
+
         return $valid_to;
     }
 
@@ -552,6 +612,7 @@ class srCertificate extends ActiveRecord
         );
         $filename = implode('-', $filename_elements);
         $filename = rtrim($filename, '-');
+
         return $filename . '.pdf';
     }
 
@@ -568,6 +629,7 @@ class srCertificate extends ActiveRecord
         $str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
         $str = preg_replace('#[^a-z0-9\-]+#', '-', $str); // Replace spaces and other unwanted characters
         $str = preg_replace('#-{2,}#', '-', $str); // Replace multiple dashes
+
         return $str;
     }
 
@@ -591,6 +653,15 @@ class srCertificate extends ActiveRecord
         foreach ($this->definition->getPlaceholderValues() as $ph_value) {
             $placeholders[$ph_value->getPlaceholder()->getIdentifier()] = $ph_value->getValue($lang);
         }
+        // Hacky: Add signature placeholders
+        if ($this->definition->getSignatureId()) {
+            $signature = $this->definition->getSignature();
+            $placeholders['SIGNATURE_NAME'] = $signature->getFirstName() . ' ' . $signature->getLastName();
+            $placeholders['SIGNATURE_FIRSTNAME'] = $signature->getFirstName();
+            $placeholders['SIGNATURE_LASTNAME'] = $signature->getLastName();
+            $placeholders['SIGNATURE_IMAGE'] = $signature->getFilePath(true);
+            $placeholders['SIGNATURE_IMAGE_SUFFIX'] = $signature->getSuffix();
+        }
         $this->placeholders = $this->pl->getHooks()->processPlaceholders($this, $placeholders);
         $this->placeholders = srCertificatePlaceholder::getFormattedPlaceholders($this->placeholders);
     }
@@ -608,6 +679,7 @@ class srCertificate extends ActiveRecord
         return ($suffix) ? $this->filename : str_replace('.pdf', '', $this->filename);
     }
 
+
     /**
      * @param \ilObjUser $user
      */
@@ -615,6 +687,7 @@ class srCertificate extends ActiveRecord
     {
         $this->user = $user;
     }
+
 
     /**
      * @return \ilObjUser
@@ -630,7 +703,7 @@ class srCertificate extends ActiveRecord
 
 
     /**
-     * @param bool $anonymized If true, placeholders are anonymize
+     * @param bool $anonymized If true, placeholders are anonymized
      * @return array
      */
     public function getPlaceholders($anonymized = false)
@@ -642,6 +715,7 @@ class srCertificate extends ActiveRecord
         return $this->placeholders;
     }
 
+
     /**
      * @param int $definition_id
      */
@@ -651,6 +725,7 @@ class srCertificate extends ActiveRecord
         $this->definition = srCertificateDefinition::find($definition_id);
     }
 
+
     /**
      * @return int
      */
@@ -658,6 +733,7 @@ class srCertificate extends ActiveRecord
     {
         return $this->definition_id;
     }
+
 
     /**
      * @param \srCertificateDefinition $definition
@@ -667,6 +743,7 @@ class srCertificate extends ActiveRecord
         $this->definition = $definition;
         $this->definition_id = $definition->getId();
     }
+
 
     /**
      * @return \srCertificateDefinition
@@ -689,6 +766,7 @@ class srCertificate extends ActiveRecord
         $this->file_version = $file_version;
     }
 
+
     /**
      * @return int
      */
@@ -697,13 +775,18 @@ class srCertificate extends ActiveRecord
         return $this->file_version;
     }
 
+
     /**
      * @param int $status
      */
     public function setStatus($status)
     {
+        if ($status != $this->status) {
+            $this->old_status = $this->status;
+        }
         $this->status = $status;
     }
+
 
     /**
      * @return int
@@ -712,6 +795,7 @@ class srCertificate extends ActiveRecord
     {
         return $this->status;
     }
+
 
     /**
      * @param int $user_id
@@ -722,6 +806,7 @@ class srCertificate extends ActiveRecord
         $this->user = new ilObjUser($user_id);
     }
 
+
     /**
      * @return int
      */
@@ -729,6 +814,7 @@ class srCertificate extends ActiveRecord
     {
         return $this->user_id;
     }
+
 
     /**
      * @param int $valid_from
@@ -738,6 +824,7 @@ class srCertificate extends ActiveRecord
         $this->valid_from = $valid_from;
     }
 
+
     /**
      * @return int
      */
@@ -745,6 +832,7 @@ class srCertificate extends ActiveRecord
     {
         return $this->valid_from;
     }
+
 
     /**
      * @param int $valid_to
@@ -754,6 +842,7 @@ class srCertificate extends ActiveRecord
         $this->valid_to = $valid_to;
     }
 
+
     /**
      * @return int
      */
@@ -761,6 +850,7 @@ class srCertificate extends ActiveRecord
     {
         return $this->valid_to;
     }
+
 
     /**
      * @param int $id
@@ -770,6 +860,7 @@ class srCertificate extends ActiveRecord
         $this->id = $id;
     }
 
+
     /**
      * @return int
      */
@@ -777,6 +868,7 @@ class srCertificate extends ActiveRecord
     {
         return $this->id;
     }
+
 
     /**
      * @param boolean $active
@@ -786,6 +878,7 @@ class srCertificate extends ActiveRecord
         $this->active = $active;
     }
 
+
     /**
      * @return boolean
      */
@@ -794,12 +887,22 @@ class srCertificate extends ActiveRecord
         return (bool) $this->active;
     }
 
+
     /**
      * @return string
      */
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasStatusChanged()
+    {
+        return ($this->old_status !== null);
     }
 
 }

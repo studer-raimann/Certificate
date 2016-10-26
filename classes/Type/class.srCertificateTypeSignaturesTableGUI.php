@@ -3,12 +3,12 @@ require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvan
 require_once(dirname(__FILE__) . '/class.srCertificateType.php');
 
 /**
- * Table class srCertificateTypeSettingsTableGUI
+ * Table class srCertificateTypeSignaturesTableGUI
  *
- * @author            Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author            Theodor Truffer <tt@studer-raimann.ch>
  * @version           $Id:
  **/
-class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
+class srCertificateTypeSignaturesTableGUI extends ilTable2GUI
 {
 
     /**
@@ -30,12 +30,9 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
      * @var array
      */
     protected $columns = array(
-        'identifier',
-        'max_characters',
-        'mandatory',
-        'editable_in',
+        'last_name',
+        'first_name'
     );
-
 
     /**
      * @param $a_parent_obj
@@ -45,21 +42,18 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
     public function __construct($a_parent_obj, $a_parent_cmd, srCertificateType $type)
     {
         global $ilCtrl, $ilToolbar;
-        $this->setId('cert_type_placeholders');
+        $this->setId('cert_type_signatures');
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->type = $type;
         $this->pl = ilCertificatePlugin::getInstance();
         $this->ctrl = $ilCtrl;
         $this->toolbar = $ilToolbar;
-        $this->setRowTemplate('tpl.type_placeholders_row.html', $this->pl->getDirectory());
+        $this->setRowTemplate('tpl.type_signatures_row.html', $this->pl->getDirectory());
         $this->initColumns();
-        $this->addColumn($this->pl->txt('actions'));
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->toolbar->addButton($this->pl->txt('add_new_placeholder'), $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addPlaceholder'));
+        $this->toolbar->addButton($this->pl->txt('add_new_signature'), $this->ctrl->getLinkTarget($a_parent_obj, 'addSignature'));
         $this->buildData();
-        $this->setTitle($this->pl->txt('custom_placeholders'));
     }
-
 
     /**
      * @param array $a_set
@@ -88,16 +82,15 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
     protected function buildActionMenu(array $a_set)
     {
         $list = new ilAdvancedSelectionListGUI();
-        $list->setId($a_set['identifier']);
+        $list->setId($a_set['id']);
         $list->setListTitle($this->pl->txt('actions'));
         $this->ctrl->setParameterByClass('srcertificatetypegui', 'type_id', $this->type->getId());
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'placeholder_id', $a_set['id']);
-        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editPlaceholder'));
-        $list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'confirmDeletePlaceholder'));
-
+        $this->ctrl->setParameterByClass('srcertificatetypegui', 'signature_id', $a_set['id']);
+        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editSignature'));
+        $list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'confirmDeleteSignature'));
+        $list->addItem($this->lng->txt('download'), 'download', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'downloadSignature'));
         return $list;
     }
-
 
     /**
      * Add columns
@@ -107,12 +100,8 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
         foreach ($this->columns as $column) {
             $this->addColumn($this->pl->txt($column), $column);
         }
-        foreach ($this->type->getLanguages() as $lang_code) {
-            $this->addColumn(sprintf($this->pl->txt('default_value_lang'), $lang_code), "default_value_{$lang_code}");
-            $this->addColumn(sprintf($this->pl->txt('label_lang'), $lang_code), "label_{$lang_code}");
-        }
+        $this->addColumn($this->pl->txt('actions'));
     }
-
 
     /**
      * Get settings
@@ -120,18 +109,12 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
     protected function buildData()
     {
         $data = array();
-        /** @var $placeholder srCertificatePlaceholder */
-        foreach ($this->type->getPlaceholders() as $placeholder) {
+        /** @var $signature srCertificateSignature */
+        foreach ($this->type->getSignatures() as $signature) {
             $row = array();
-            $row['id'] = $placeholder->getId();
-            $row['identifier'] = $placeholder->getIdentifier();
-            $row['max_characters'] = $placeholder->getMaxCharactersValue();
-            $row['mandatory'] = (int) $placeholder->getIsMandatory();
-            $row['editable_in'] = implode(',', $placeholder->getEditableIn());
-            foreach ($this->type->getLanguages() as $lang_code) {
-                $row["default_value_{$lang_code}"] = $placeholder->getDefaultValue($lang_code);
-                $row["label_{$lang_code}"] = $placeholder->getLabel($lang_code);
-            }
+            $row['id'] = $signature->getId();
+            $row['last_name'] = $signature->getLastName();
+            $row['first_name'] = $signature->getFirstName();
             $data[] = $row;
         }
         $this->setData($data);

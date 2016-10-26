@@ -52,15 +52,18 @@ class srCertificatePreview extends srCertificate
         throw new srCertificateException("Can't update CertificatePreview object because it exists only temporary");
     }
 
+
     public function create()
     {
         throw new srCertificateException("Can't create CertificatePreview object because it exists only temporary");
     }
 
+
     public function delete()
     {
         throw new srCertificateException("Can't delete CertificatePreview object because it exists only temporary");
     }
+
 
     /**
      * Generate the preview certificate
@@ -70,12 +73,12 @@ class srCertificatePreview extends srCertificate
      */
     public function generate()
     {
-        if ( ! $this->getDefinitionId()) {
+        if (!$this->getDefinitionId()) {
             throw new srCertificateException("srCertificatePreview needs definition id before generating preview file");
         }
-
         $cert_type = $this->definition->getType();
         $template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
+
         return $template_type->generate($this);
     }
 
@@ -87,7 +90,7 @@ class srCertificatePreview extends srCertificate
      */
     protected function loadPlaceholders($anonymized = false)
     {
-        return parent::loadPlaceholders(true);
+        parent::loadPlaceholders(true);
     }
 
 
@@ -100,6 +103,7 @@ class srCertificatePreview extends srCertificate
     {
         ilUtil::deliverFile($this->getFilePath(), self::PREVIEW_FILENAME, '', '', true, $exit_after);
     }
+
 
     /**
      * Remove temp directory
@@ -122,8 +126,10 @@ class srCertificatePreview extends srCertificate
             ilUtil::makeDir($tmpdir);
             $this->temp_dir = $tmpdir;
         }
+
         return $this->temp_dir;
     }
+
 
     /**
      * @return string

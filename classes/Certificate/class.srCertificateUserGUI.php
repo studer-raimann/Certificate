@@ -10,7 +10,18 @@ require_once('class.srCertificateUserTableGUI.php');
  *
  * @ilCtrl_IsCalledBy srCertificateUserGUI : ilRouterGUI, ilUIPluginRouterGUI
  */
-class srCertificateUserGUI extends srCertificateGUI {
+class srCertificateUserGUI extends srCertificateGUI
+{
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->tpl->setTitle($this->pl->txt('my_certificates'));
+        $this->updateStatusFromDraftToNew();
+    }
 
 
     /**
@@ -22,12 +33,27 @@ class srCertificateUserGUI extends srCertificateGUI {
             /** @var srCertificate $cert */
             $cert = srCertificate::find($cert_id);
             if ($cert->getUserId() == $this->user->getId() && $cert->getDefinition()->getDownloadable()) {
-                $cert->download();
+                parent::downloadCertificate();
             }
         }
-        $this->index();
     }
 
+
+    /**
+     * Update any certificates in the draft status to new, in order to process them via cronjob
+     */
+    protected function updateStatusFromDraftToNew()
+    {
+        $certificates = srCertificate::where(array(
+            'user_id' => $this->user->getId(),
+            'status' => srCertificate::STATUS_DRAFT)
+        )->get();
+        foreach ($certificates as $certificate) {
+            /** @var srCertificate $certificate */
+            $certificate->setStatus(srCertificate::STATUS_NEW);
+            $certificate->save();
+        }
+    }
 
     /**
      * Check permissions
@@ -35,6 +61,24 @@ class srCertificateUserGUI extends srCertificateGUI {
     protected function checkPermission()
     {
         return true;
+    }
+
+
+    /**
+     * Build action menu for a record asynchronous
+     *
+     */
+
+    protected function buildActions()
+    {
+        // Download is only possible if certificate is processed
+        $alist = new ilAdvancedSelectionListGUI();
+        $alist->setId((int) $_GET['cert_id']);
+        $alist->setListTitle($this->pl->txt('actions'));
+        $this->ctrl->setParameter($this, 'cert_id', (int) $_GET['cert_id']);
+        $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, 'downloadCertificate'));
+        echo $alist->getHTML(true);
+        exit;
     }
 
 
