@@ -10,13 +10,7 @@ $cron->run();
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  *
  * Use the following command for the cronjob:
- * /usr/bin/php
- * /[ILIAS-Absolute-Path]/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.srCertificateCron.php
- * [adminuser] [adminpwd] [client_id]
- * /Applications/MAMP/bin/php/php5.4.10/bin/php
- * /Applications/MAMP/htdocs/sat_43/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.srCertificateCron.php
- * [adminuser] [adminpwd] [client_id]
- * @version
+ * /usr/bin/php /[ILIAS-Absolute-Path]/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.srCertificateCron.php [adminuser] [adminpwd] [client_id]
  */
 class srCertificateCron {
 
@@ -98,13 +92,20 @@ class srCertificateCron {
 			if ($cert->getStatus() != srCertificate::STATUS_DRAFT) {
 				continue;
 			}
-			if ($last_access = $this->getLastLPStatus($cert)) {
-				$diff = time() - $last_access;
-				if ($diff > $this->pl->config('max_diff_lp_seconds')) {
-					$cert->setStatus(srCertificate::STATUS_NEW);
-					$cert->update();
-				}
-			}
+			$max_diff_lp_seconds = $this->pl->config('max_diff_lp_seconds');
+            if ($max_diff_lp_seconds) {
+                if ($last_access = $this->getLastLPStatus($cert)) {
+                    $diff = time() - $last_access;
+                    if ($diff > $max_diff_lp_seconds) {
+                        $cert->setStatus(srCertificate::STATUS_NEW);
+                        $cert->update();
+                    }
+                }
+            } else {
+                // If the setting max_diff_lp_seconds is "0", the NEW status is set anyway
+                $cert->setStatus(srCertificate::STATUS_NEW);
+                $cert->update();
+            }
 		}
 	}
 

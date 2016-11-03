@@ -204,7 +204,7 @@ admin_form_notification_others_subject#:#Notification for Other Users (Subject)
 admin_form_notification_user_body#:#Notification for User (Body)
 admin_form_notification_others_body#:#Notification for Other Users (Body)
 admin_form_max_diff_lp_seconds#:#Time Range Certificate PDF Generation (seconds)
-admin_form_max_diff_lp_seconds_info#:#You can set a time range in seconds to invoke the PDF generation of a certificate. If you enter zero, the PDF is generated right after the user passed the course. Note that possible notifications are also sent after the given time range.
+admin_form_max_diff_lp_seconds_info#:#You can set a time range in seconds to invoke the PDF generation of a certificate. If you enter zero, the PDF is generated right after the user passed the course. The time range is calculated based on the users last access to the course according to the learning progress. Note that possible notifications are also sent after the given time range.
 admin_form_jasper_locale#:#Locale (Unix)
 admin_form_jasper_locale_info#:#The Locale should support all characters you need in the PDF files, such as German-Umlauts. Execute "locale -a" to see a list of available locales on your unix system.
 admin_form_jasper_path_java#:#Path to Java executable
