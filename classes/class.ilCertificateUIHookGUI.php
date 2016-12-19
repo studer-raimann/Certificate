@@ -30,10 +30,6 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 	 * @var ilAccessHandler
 	 */
 	protected $access;
-	/**
-	 * @var null
-	 */
-	protected static $ref_is_crs = null;
 
 
 	public function __construct() {
@@ -54,14 +50,8 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 		/**
 		 * @var $ilTabsGUI ilTabsGUI
 		 */
-		if ($a_part == 'tabs' && isset($_GET['ref_id']) && self::$ref_is_crs !== false) {
-			// ATM only display certificate tab in courses
-			if (self::$ref_is_crs === null && ilObject::_lookupType((int)$_GET['ref_id'], true) != 'crs' || $_GET['admin_mode']) {
-				self::$ref_is_crs = false;
-
-				return;
-			}
-			self::$ref_is_crs = true;
+        // ATM only display certificate tab in courses
+		if ($a_part == 'tabs' && $this->ctrl->getContextObjType() == 'crs' && isset($_GET['ref_id'])) {
 			// User needs write access to course to see the tab 'certificate'
 			if ($this->access->checkAccess('write', '', (int)$_GET['ref_id'])) {
 				$ilTabsGUI = $a_par['tabs'];
