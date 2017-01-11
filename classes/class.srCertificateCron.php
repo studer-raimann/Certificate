@@ -70,6 +70,11 @@ class srCertificateCron {
 		require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
 		require_once("./Services/Tracking/classes/class.ilTrQuery.php");
 		require_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
+
+		// fix for some stupid ilias init....
+		global $ilSetting;
+		if(!$ilSetting)
+			$ilSetting = new ilSessionMock();
 	}
 
 
@@ -130,4 +135,11 @@ class srCertificateCron {
 
 		return (int)$last_status;
 	}
+}
+
+class ilSessionMock {
+	public function get($what, $default) {
+		return $default;
+	}
+
 }
