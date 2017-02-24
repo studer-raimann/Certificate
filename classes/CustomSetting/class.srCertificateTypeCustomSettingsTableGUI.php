@@ -32,7 +32,7 @@ class srCertificateTypeCustomSettingsTableGUI extends ilTable2GUI
     protected $columns = array(
         'identifier',
         'editable_in',
-        'type',
+        'custom_setting_type',
         'default_value',
     );
 
