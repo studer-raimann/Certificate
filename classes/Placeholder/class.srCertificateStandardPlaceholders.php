@@ -194,6 +194,8 @@ class srCertificateStandardPlaceholders {
 			'CERT_TYPE_TITLE'       => $this->certificate->getDefinition()->getType()->getTitle(),
 			'CERT_TYPE_DESCRIPTION' => $this->certificate->getDefinition()->getType()->getDescription(),
 			'COURSE_TITLE'          => $course->getTitle(),
+			'COURSE_START'          => $course->getCourseStart() ? $this->formatDate('', $course->getCourseStart()->get(IL_CAL_UNIX)) : '',
+			'COURSE_END'            => $course->getCourseEnd() ? $this->formatDate('', $course->getCourseEnd()->get(IL_CAL_UNIX)) : '',
 		);
 
 		return $placeholder;
