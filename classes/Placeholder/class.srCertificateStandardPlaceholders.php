@@ -319,7 +319,7 @@ class srCertificateStandardPlaceholders {
 			'USER_FULLNAME'    => ($this->anonymized) ? 'John Doe' : $user->getFullname(),
 			'USER_FIRSTNAME'   => ($this->anonymized) ? 'John' : $user->getFirstname(),
 			'USER_LASTNAME'    => ($this->anonymized) ? 'Doe' : $user->getLastname(),
-			'USER_BIRTHDAY'    => $user->getBirthday(),
+			'USER_BIRTHDAY'    => $this->formatDate('', strtotime($user->getBirthday())),
 			'USER_INSTITUTION' => $user->getInstitution(),
 			'USER_DEPARTMENT'  => $user->getDepartment(),
 			'USER_STREET'      => ($this->anonymized) ? 'Manhattan Street' : $user->getStreet(),
