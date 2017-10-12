@@ -93,6 +93,7 @@ msg_called_back#:#Das Zertifikat wurde zurückgerufen.
 msg_undo_called_back#:#Das Zertifikat gilt nun nicht mehr als zurückgerufen.
 msg_not_created_yet#:#Das Zertifikat wurde bis jetzt noch nicht erstellt.
 msg_retry_generation#:#Das system versucht das Zertifikat neu zu generieren.
+msg_cert_created#:#Zertifikate werden mit dem eingegebenen Datum erstellt.
 change_cert_type#:#Zertifikatstyp ändern
 choose_cert_type#:#Zertifikatstyp wählen
 edit_settings#:#Einstellungen bearbeiten
@@ -209,3 +210,9 @@ admin_form_jasper_locale_info#:#Das verwendete Locale muss alle Zeichen unterst�
 admin_form_jasper_path_java#:#Pfad zur Java executable
 download_default_template#:#Default Template herunterladen
 download_template#:#Aktuelles Template herunterladen
+set_date_and_create#:#Datum setzen und Zertifikat erstellen
+passed_at#:#Bestanden am
+not_passed_yet#:#Noch nicht bestanden
+passed_date#:#Datum
+set_date_info#:#Bitte wählen Sie ein Datum für das zu erstellende Zertifikat. Das Datum betrifft die Gültigkeit des Zertifikats ("Gültig von"), nicht aber den Zeitpunkt der Erstellung (das Zertifikat wird per sofort erstellt).
+set_date_info_multi#:#Bitte wählen Sie ein Datum für die zu erstellenden Zertifikate. Das Datum betrifft die Gültigkeit der Zertifikate ("Gültig von"), nicht aber den Zeitpunkt der Erstellung (die Zertifikate werden per sofort erstellt).

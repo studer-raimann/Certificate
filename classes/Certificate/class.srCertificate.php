@@ -250,7 +250,7 @@ class srCertificate extends ActiveRecord
             throw new Exception("srCertificate::create() must have valid Definition and User-ID");
         }
         // Set validity dates
-        $valid_from = date("Y-m-d");
+        $valid_from = $this->getValidFrom() ? $this->getValidFrom() : date("Y-m-d");
         $valid_to = $this->calculateValidTo();
         $this->setValidFrom($valid_from);
         $this->setValidTo($valid_to);
@@ -584,7 +584,7 @@ class srCertificate extends ActiveRecord
                 if (isset($validity['d'])) {
                     $calc_str .= ' ' . $validity['d'] . 'days';
                 }
-                $to = ($calc_str) ? strtotime('+' . $calc_str) : time();
+                $to = ($calc_str) ? strtotime('+' . $calc_str, strtotime($this->getValidFrom())) : $this->getValidFrom();
                 $valid_to = date('Y-m-d', $to);
                 break;
             default:

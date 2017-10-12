@@ -96,6 +96,7 @@ msg_undo_called_back#:#The certificate is no longer called back.
 msg_not_created_yet#:#The certificate has not been created yet.
 msg_retry_generation#:#The system will try to regenerate the certificate.
 msg_error_preview_certificate#:#An error occurred while trying to preview the certificate.
+msg_cert_created#:#Certificates will be created with the chosen date.
 change_cert_type#:#Change Certificate Type
 choose_cert_type#:#Choose Certificate Type
 edit_settings#:#Edit Settings
@@ -210,3 +211,9 @@ admin_form_jasper_locale_info#:#The Locale should support all characters you nee
 admin_form_jasper_path_java#:#Path to Java executable
 download_default_template#:#Download Default Template
 download_template#:#Download Current Template
+set_date_and_create#:#Set date and create certificate
+passed_at#:#Passed at
+not_passed_yet#:#Not passed yet
+passed_date#:#Date
+set_date_info#:#Please choose a date for the certificate. The date is used for the validity of the certificate ("valid from"), but does not affect the time of creation (the certificate will be created immediately).
+set_date_info_multi#:#Please choose a date for the certificates. The date is used for the validity of the certificates ("valid from"), but does not affect the time of creation (the certificates will be created immediately).

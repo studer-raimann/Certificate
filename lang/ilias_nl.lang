@@ -91,6 +91,7 @@ msg_called_back#:#Het certificaat is verlopen.
 msg_undo_called_back#:#Het certificaat is niet meer verlopen.
 msg_not_created_yet#:#Het certificaat is nog niet aangemaakt.
 msg_retry_generation#:#Het systeem zal proberen het certificaat opnieuw aan te maken.
+msg_cert_created#:#Certificates will be created with the chosen date.
 
 change_cert_type#:#Wijzig certificaat type
 choose_cert_type#:#Kies certificaat type
@@ -206,3 +207,9 @@ admin_form_max_diff_lp_seconds_info#:#Je kunt een tijdsperiode opgeven om te bep
 
 download_default_template#:#Download Standaard sjabloon
 download_template#:#Download Huidig sjabloon
+set_date_and_create#:#Set date and create certificate
+passed_at#:#Passed at
+not_passed_yet#:#Not passed yet
+passed_date#:#Date
+set_date_info#:#Please choose a date for the certificate. The date is used for the validity of the certificate ("valid from"), but does not affect the time of creation (the certificate will be created immediately).
+set_date_info_multi#:#Please choose a date for the certificates. The date is used for the validity of the certificates ("valid from"), but does not affect the time of creation (the certificates will be created immediately).
