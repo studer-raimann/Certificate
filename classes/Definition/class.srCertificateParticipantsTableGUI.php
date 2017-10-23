@@ -58,6 +58,7 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
 		$this->addMultiCommand('setDate', $this->pl->txt('set_date_and_create'));
+		$this->setSelectAllCheckbox('user_id');
 
 		$this->parseData();
 	}
