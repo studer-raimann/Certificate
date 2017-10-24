@@ -4,6 +4,7 @@ require_once('./Services/Object/classes/class.ilObjectListGUIFactory.php');
 require_once('./Services/Link/classes/class.ilLink.php');
 require_once(dirname(__FILE__) . '/class.srCertificateDefinitionFormGUI.php');
 require_once(dirname(__FILE__) . '/class.srCertificateDefinitionPlaceholdersFormGUI.php');
+require_once(dirname(__FILE__) . '/class.srCertificateParticipantsTableGUI.php');
 require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificatePreview.php');
 require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificateTableGUI.php');
@@ -121,6 +122,7 @@ class srCertificateDefinitionGUI
                     case 'showDefinition':
                     case 'showPlaceholders':
                     case 'showCertificates':
+                    case 'showParticipants':
                     case 'downloadCertificate':
                     case 'downloadCertificates':
                     case 'updateDefinition':
@@ -130,9 +132,11 @@ class srCertificateDefinitionGUI
                     case 'updatePlaceholders':
                     case 'previewCertificate':
                     case 'buildActions':
-                        $this->$cmd();
-                        break;
-                    case 'updatePlaceholdersPreview':
+	                case 'setDateAndCreate':
+	                case 'setDate':
+		                $this->$cmd();
+		                break;
+	                case 'updatePlaceholdersPreview':
                         $this->updatePlaceholders('previewCertificate');
                         break;
                     case 'callBack':
@@ -252,6 +256,16 @@ class srCertificateDefinitionGUI
         $table = new srCertificateTableGUI($this, 'showCertificates', $options);
         $this->tpl->setContent($table->getHTML());
     }
+    /**
+     * Show all participants with the possibility to manually create new certificates
+     *
+     */
+    public function showParticipants()
+    {
+        $this->tabs->setSubTabActive("show_participants");
+        $table = new srCertificateParticipantsTableGUI($this, 'showParticipants', $this->definition);
+        $this->tpl->setContent($table->getHTML());
+    }
 
 
     /**
@@ -362,6 +376,57 @@ class srCertificateDefinitionGUI
     }
 
 
+	/**
+	 * called by srCertificateParticipantsTableGUI
+	 * shows form to choose a date for creating a new certificate manually
+	 * save -> setDateAndCreate()
+	 */
+    public function setDate() {
+    	$this->tabs->setSubTabActive('show_participants');
+    	ilUtil::sendInfo($this->pl->txt('set_date_info'));
+
+    	if ($_POST['user_id']) {
+			$user_ids = $_POST['user_id'];
+	    } else {
+    		$user_ids = array($_GET['user_id']);
+	    }
+
+	    $form = new ilPropertyFormGUI();
+	    $form->setFormAction($this->ctrl->getFormAction($this));
+
+	    $ilHiddenInputGUI = new ilHiddenInputGUI('user_ids');
+    	$ilHiddenInputGUI->setValue(json_encode($user_ids));
+    	$form->addItem($ilHiddenInputGUI);
+
+    	$ilDateInputGUI = new ilDateTimeInputGUI($this->pl->txt('passed_date'), 'passed_date');
+    	$form->addItem($ilDateInputGUI);
+
+    	$form->addCommandButton('setDateAndCreate', $this->lng->txt('save'));
+    	$form->addCommandButton('showParticipants', $this->lng->txt('cancel'));
+
+    	$this->tpl->setContent($form->getHTML());
+    }
+
+
+	/**
+	 * initiates the creation of a new certificate with the chosen date for the chosen user(s)
+	 */
+    public function setDateAndCreate() {
+    	$user_ids = json_decode($_POST['user_ids'], true);
+    	$date = $_POST['passed_date']['date'];
+    	$date_string = $date['y'] . '-' . $date['m'] . '-' . $date['d'];
+    	foreach ($user_ids as $user_id) {
+		    $cert = new srCertificate();
+		    $cert->setValidFrom($date_string);
+		    $cert->setUserId($user_id);
+		    $cert->setDefinition($this->definition);
+		    $cert->create();
+	    }
+	    ilUtil::sendSuccess($this->pl->txt('msg_cert_created'), true);
+	    $this->ctrl->redirect($this, 'showParticipants');
+    }
+
+
     /**
      * @param srCertificate $certificate
      */
@@ -455,6 +520,7 @@ class srCertificateDefinitionGUI
     {
         if ($this->definition !== NULL) {
             $this->tabs->addSubTab('show_certificates', 'Show Certificates', $this->ctrl->getLinkTarget($this, 'showCertificates'));
+            $this->tabs->addSubTab('show_participants', 'Participants', $this->ctrl->getLinkTarget($this, 'showParticipants'));
         }
         $this->tabs->addSubTab('show_definition', 'Definition settings', $this->ctrl->getLinkTarget($this, 'showDefinition'));
         if ($this->definition !== NULL) {
