@@ -584,7 +584,7 @@ class srCertificate extends ActiveRecord
                 if (isset($validity['d'])) {
                     $calc_str .= ' ' . $validity['d'] . 'days';
                 }
-                $to = ($calc_str) ? strtotime('+' . $calc_str, strtotime($this->getValidFrom())) : $this->getValidFrom();
+                $to = ($calc_str) ? strtotime('+' . $calc_str, strtotime($this->getValidFrom())) : strtotime($this->getValidFrom());
                 $valid_to = date('Y-m-d', $to);
                 break;
             default:
