@@ -117,7 +117,8 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 				/** @var srCertificate $cert */
 				$cert = srCertificate::where(array(
 					'active' => 1,
-					'user_id' => $a_set['id']
+					'user_id' => $a_set['id'],
+					'definition_id' => $this->definition->getId()
 				))->first();
 
 				if ($cert) {
