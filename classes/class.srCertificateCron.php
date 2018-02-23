@@ -1,7 +1,7 @@
 <?php
 $cron = new srCertificateCron($_SERVER['argv']);
 $cron->run();
-
+$cron->logout();    // this is necessary if the prevention of simulataneous logins is active
 /**
  * srCertificateCreatePdfCron
  *
@@ -15,6 +15,7 @@ $cron->run();
 class srCertificateCron {
 
 	const DEBUG = false;
+
 	/**
 	 * @var Ilias
 	 */
@@ -55,7 +56,13 @@ class srCertificateCron {
 		chdir(substr($_SERVER['SCRIPT_FILENAME'], 0, strpos($_SERVER['SCRIPT_FILENAME'], '/Customizing')));
 		require_once('include/inc.ilias_version.php');
 		require_once('Services/Component/classes/class.ilComponent.php');
-		if (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, '4.2.999')) {
+		if (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, '5.0.999')) {
+			require_once "Services/Context/classes/class.ilContext.php";
+			ilContext::init(ilContext::CONTEXT_CRON);
+			require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
+			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
+			require_once './include/inc.header.php';
+		} elseif (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, '4.2.999')) {
 			require_once './Services/Context/classes/class.ilContext.php';
 			ilContext::init(ilContext::CONTEXT_WEB);
 			require_once './Services/Init/classes/class.ilInitialisation.php';
@@ -114,6 +121,15 @@ class srCertificateCron {
 		}
 	}
 
+
+	/**
+	 *
+	 */
+	public function logout() {
+		global $ilAuth;
+		$ilAuth->logout();
+		session_destroy();
+	}
 
 	/**
 	 * Get timestamp of the last_status according to LP

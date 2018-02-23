@@ -194,6 +194,8 @@ class srCertificateStandardPlaceholders {
 			'CERT_TYPE_TITLE'       => $this->certificate->getDefinition()->getType()->getTitle(),
 			'CERT_TYPE_DESCRIPTION' => $this->certificate->getDefinition()->getType()->getDescription(),
 			'COURSE_TITLE'          => $course->getTitle(),
+			'COURSE_START'          => $course->getCourseStart() ? $this->formatDate('', $course->getCourseStart()->get(IL_CAL_UNIX)) : '',
+			'COURSE_END'            => $course->getCourseEnd() ? $this->formatDate('', $course->getCourseEnd()->get(IL_CAL_UNIX)) : '',
 		);
 
 		return $placeholder;
@@ -319,7 +321,7 @@ class srCertificateStandardPlaceholders {
 			'USER_FULLNAME'    => ($this->anonymized) ? 'John Doe' : $user->getFullname(),
 			'USER_FIRSTNAME'   => ($this->anonymized) ? 'John' : $user->getFirstname(),
 			'USER_LASTNAME'    => ($this->anonymized) ? 'Doe' : $user->getLastname(),
-			'USER_BIRTHDAY'    => $user->getBirthday(),
+			'USER_BIRTHDAY'    => $this->formatDate('', strtotime($user->getBirthday())),
 			'USER_INSTITUTION' => $user->getInstitution(),
 			'USER_DEPARTMENT'  => $user->getDepartment(),
 			'USER_STREET'      => ($this->anonymized) ? 'Manhattan Street' : $user->getStreet(),
