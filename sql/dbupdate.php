@@ -212,7 +212,8 @@
         srCertificateDefinition::updateDB();
 
         // Migrate from signature table
-        global $ilDB;
+     global $DIC;
+     $ilDB = $DIC->database();
         if ($ilDB->tableExists('cert_signature_def')) {
             $set = $ilDB->query('SELECT * FROM cert_signature_def');
             while ($row = $ilDB->fetchObject($set)) {
@@ -226,8 +227,8 @@
 <#18>
 <?php
 // Change data-type for longer emails
-global $ilDB;
-
+global $DIC;
+$ilDB = $DIC->database();
 if ($ilDB->tableExists('uihkcertificate_c')) {
     $ilDB->modifyTableColumn('uihkcertificate_c', 'value',
         array("type" => "clob", "default"=>null, "notnull" => false));

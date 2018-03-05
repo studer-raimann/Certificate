@@ -2,6 +2,7 @@
 $cron = new srCertificateCron($_SERVER['argv']);
 $cron->run();
 $cron->logout();    // this is necessary if the prevention of simulataneous logins is active
+
 /**
  * srCertificateCreatePdfCron
  *
@@ -15,7 +16,6 @@ $cron->logout();    // this is necessary if the prevention of simulataneous logi
 class srCertificateCron {
 
 	const DEBUG = false;
-
 	/**
 	 * @var Ilias
 	 */
@@ -24,30 +24,37 @@ class srCertificateCron {
 	 * @var ilCertificatePlugin
 	 */
 	protected $pl;
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
 
 
 	/**
 	 * @param array $data
 	 */
 	function __construct($data) {
+		global $DIC;
 		$_COOKIE['ilClientId'] = $data[3];
 		$_POST['username'] = $data[1];
 		$_POST['password'] = $data[2];
 		$this->initILIAS();
 
-		global $ilDB, $ilUser, $ilCtrl, $ilLog, $ilias;
 		if (self::DEBUG) {
-			$ilLog->write('Auth passed for async Certificate');
+			$DIC["ilLog"]->write('Auth passed for async Certificate');
 		}
-		/**
-		 * @var $ilDB   ilDB
-		 * @var $ilUser ilObjUser
-		 * @var $ilCtrl ilCtrl
-		 */
-		$this->db = $ilDB;
-		$this->user = $ilUser;
-		$this->ctrl = $ilCtrl;
-		$this->ilias = $ilias;
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->ilias = $DIC["ilias"];
 		$this->pl = ilCertificatePlugin::getInstance();
 	}
 
@@ -79,9 +86,10 @@ class srCertificateCron {
 		require_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
 
 		// fix for some stupid ilias init....
-		global $ilSetting;
-		if(!$ilSetting)
-			$ilSetting = new ilSessionMock();
+		global $DIC;
+		if (!$DIC["ilSetting"]) {
+			$DIC["ilSetting"] = new ilSessionMock();
+		}
 	}
 
 
@@ -105,19 +113,19 @@ class srCertificateCron {
 				continue;
 			}
 			$max_diff_lp_seconds = $this->pl->config('max_diff_lp_seconds');
-            if ($max_diff_lp_seconds) {
-                if ($last_access = $this->getLastLPStatus($cert)) {
-                    $diff = time() - $last_access;
-                    if ($diff > $max_diff_lp_seconds) {
-                        $cert->setStatus(srCertificate::STATUS_NEW);
-                        $cert->update();
-                    }
-                }
-            } else {
-                // If the setting max_diff_lp_seconds is "0", the NEW status is set anyway
-                $cert->setStatus(srCertificate::STATUS_NEW);
-                $cert->update();
-            }
+			if ($max_diff_lp_seconds) {
+				if ($last_access = $this->getLastLPStatus($cert)) {
+					$diff = time() - $last_access;
+					if ($diff > $max_diff_lp_seconds) {
+						$cert->setStatus(srCertificate::STATUS_NEW);
+						$cert->update();
+					}
+				}
+			} else {
+				// If the setting max_diff_lp_seconds is "0", the NEW status is set anyway
+				$cert->setStatus(srCertificate::STATUS_NEW);
+				$cert->update();
+			}
 		}
 	}
 
@@ -126,22 +134,25 @@ class srCertificateCron {
 	 *
 	 */
 	public function logout() {
-		global $ilAuth;
+		global $DIC;
+		$ilAuth = $DIC["ilAuth"];
 		$ilAuth->logout();
 		session_destroy();
 	}
+
 
 	/**
 	 * Get timestamp of the last_status according to LP
 	 *
 	 * @param srCertificate $cert
+	 *
 	 * @return int|null
 	 */
 	protected function getLastLPStatus(srCertificate $cert) {
 		$ref_id = $cert->getDefinition()->getRefId();
 		$obj_id = ilObject::_lookupObjectId($ref_id);
-		$lp_data = ilTrQuery::getObjectsDataForUser($cert->getUserId(), $obj_id, $ref_id, '', '', 0, 9999, null, array( 'last_access' ));
-		$last_status = null;
+		$lp_data = ilTrQuery::getObjectsDataForUser($cert->getUserId(), $obj_id, $ref_id, '', '', 0, 9999, NULL, array( 'last_access' ));
+		$last_status = NULL;
 		foreach ($lp_data['set'] as $data) {
 			if ($data['type'] == 'crs') {
 				$last_status = $data['last_access'];
@@ -154,8 +165,8 @@ class srCertificateCron {
 }
 
 class ilSessionMock {
+
 	public function get($what, $default) {
 		return $default;
 	}
-
 }

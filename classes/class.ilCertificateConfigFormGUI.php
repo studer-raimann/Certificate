@@ -28,18 +28,23 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 	 * @var ilLanguage
 	 */
 	protected $lng;
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
 
 
 	/**
 	 * @param ilCertificateConfigGUI $parent_gui
 	 */
 	public function __construct(ilCertificateConfigGUI $parent_gui) {
-		global $ilCtrl, $lng;
-
+		global $DIC;
+		parent::__construct();
 		$this->parent_gui = $parent_gui;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->pl = ilCertificatePlugin::getInstance();
+		$this->rbacreview = $DIC->rbac()->review();
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 		$this->initForm();
 	}
@@ -56,8 +61,6 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 
 
 	protected function initForm() {
-		global $rbacreview, $ilUser;
-
 		$this->setTitle($this->txt('title'));
 
 		// Course templates
@@ -111,7 +114,7 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 
 		/** @var ilRbacReview $rbacreview $roles */
 		$roles = array();
-		foreach ($rbacreview->getGlobalRoles() as $role_id) {
+		foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
 			$roles[$role_id] = ilObject::_lookupTitle($role_id);
 		}
 

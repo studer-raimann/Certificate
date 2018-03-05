@@ -29,14 +29,14 @@ class srCertificateType extends ActiveRecord {
 	 * @var array
 	 */
 	protected static $default_settings = array(
-		srCertificateTypeSetting::IDENTIFIER_DEFAULT_LANG      => array( 'default_value' => '' ),
-		srCertificateTypeSetting::IDENTIFIER_GENERATION        => array( 'default_value' => srCertificateTypeSetting::GENERATION_AUTO ),
-		srCertificateTypeSetting::IDENTIFIER_NOTIFICATION      => array( 'default_value' => '' ),
+		srCertificateTypeSetting::IDENTIFIER_DEFAULT_LANG => array( 'default_value' => '' ),
+		srCertificateTypeSetting::IDENTIFIER_GENERATION => array( 'default_value' => srCertificateTypeSetting::GENERATION_AUTO ),
+		srCertificateTypeSetting::IDENTIFIER_NOTIFICATION => array( 'default_value' => '' ),
 		srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER => array( 'default_value' => 0 ),
-		srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE     => array( 'default_value' => srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE ),
-		srCertificateTypeSetting::IDENTIFIER_VALIDITY          => array( 'default_value' => '' ),
-		srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE      => array( 'default_value' => 1 ),
-		srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING      => array( 'default_value' => 0 ),
+		srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE => array( 'default_value' => srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE ),
+		srCertificateTypeSetting::IDENTIFIER_VALIDITY => array( 'default_value' => '' ),
+		srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE => array( 'default_value' => 1 ),
+		srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING => array( 'default_value' => 0 ),
 	);
 	/**
 	 * @var int
@@ -133,11 +133,13 @@ class srCertificateType extends ActiveRecord {
 
 	// Public
 
+
 	/**
 	 * Set values after reading from DB, e.g. convert from JSON to Array
 	 *
 	 * @param $key
 	 * @param $value
+	 *
 	 * @return mixed|null
 	 */
 	public function wakeUp($key, $value) {
@@ -157,6 +159,7 @@ class srCertificateType extends ActiveRecord {
 	 * Set values before saving to DB
 	 *
 	 * @param $key
+	 *
 	 * @return int|mixed|string
 	 */
 	public function sleep($key) {
@@ -177,6 +180,7 @@ class srCertificateType extends ActiveRecord {
 	 * Get a path where the template layout file and static assets are stored
 	 *
 	 * @param bool $append_file True if filename should be included
+	 *
 	 * @return string
 	 */
 	public function getCertificateTemplatesPath($append_file = false) {
@@ -217,6 +221,7 @@ class srCertificateType extends ActiveRecord {
 	 * Store an asset file, e.g. an image
 	 *
 	 * @param array $file_data Array from PHPs $_FILES array
+	 *
 	 * @return bool
 	 */
 	public function storeAsset(array $file_data) {
@@ -237,6 +242,7 @@ class srCertificateType extends ActiveRecord {
 	 * to the template file of the srCertificateTemplateType instance. An existing file will be overridden!
 	 *
 	 * @param array $file_data Array from PHPs $_FILES array
+	 *
 	 * @return bool
 	 */
 	public function storeTemplateFile(array $file_data) {
@@ -299,6 +305,7 @@ class srCertificateType extends ActiveRecord {
 	 * Get a setting by identifier
 	 *
 	 * @param $identifier
+	 *
 	 * @return null|srCertificateTypeSetting
 	 */
 	public function getSettingByIdentifier($identifier) {
@@ -310,7 +317,7 @@ class srCertificateType extends ActiveRecord {
 			}
 		}
 
-		return null;
+		return NULL;
 	}
 
 
@@ -318,6 +325,7 @@ class srCertificateType extends ActiveRecord {
 	 * Get a custom setting by identifier
 	 *
 	 * @param $identifier
+	 *
 	 * @return null|\srCertificateTypeSetting
 	 */
 	public function getCustomSettingByIdentifier($identifier) {
@@ -329,7 +337,7 @@ class srCertificateType extends ActiveRecord {
 			}
 		}
 
-		return null;
+		return NULL;
 	}
 
 
@@ -348,6 +356,7 @@ class srCertificateType extends ActiveRecord {
 
 	// Static
 
+
 	/**
 	 * Check if a given user is allowed to select a given certificate type to create a new definition for the given ref_id.
 	 * This method checks the following steps:
@@ -355,20 +364,21 @@ class srCertificateType extends ActiveRecord {
 	 *  2) Is the type restricted to certain roles, e.g. check if the a user has at least one role
 	 *
 	 * @param srCertificateType $type
-	 * @param $ref_id
-	 * @param int $user_id If empty, the current user is used
+	 * @param                   $ref_id
+	 * @param int               $user_id If empty, the current user is used
+	 *
 	 * @return bool
 	 */
 	public static function isSelectable(srCertificateType $type, $ref_id, $user_id = 0) {
-		global $ilUser, $rbacreview;
-		$user_id = ($user_id) ? $user_id : $ilUser->getId();
+		global $DIC;
+		$user_id = ($user_id) ? $user_id : $DIC->user()->getId();
 		$pl = ilCertificatePlugin::getInstance();
 		$object_type = ($pl->isCourseTemplate($ref_id)) ? 'crs-tpl' : ilObject::_lookupType($ref_id, true);
 		if (!in_array($object_type, $type->getAvailableObjects())) {
 			return false;
 		}
 		// Access restricted by roles. Check if current user has a role to choose the type
-		if (count($type->getRoles()) && !$rbacreview->isAssignedToAtLeastOneGivenRole($user_id, $type->getRoles())) {
+		if (count($type->getRoles()) && !$DIC->rbac()->review()->isAssignedToAtLeastOneGivenRole($user_id, $type->getRoles())) {
 			return false;
 		}
 
@@ -413,6 +423,7 @@ class srCertificateType extends ActiveRecord {
 
 	// Protected
 
+
 	/**
 	 * Create corresponding default settings after creating type object
 	 *
@@ -431,6 +442,7 @@ class srCertificateType extends ActiveRecord {
 
 
 	// Getters & Setters
+
 
 	/**
 	 * @param array $available_objects

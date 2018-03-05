@@ -25,39 +25,39 @@ class srCertificateStandardPlaceholders {
 	 * @var array
 	 */
 	protected static $placeholders = array(
-		'USER_LOGIN'            => 'Login',
-		'USER_FULLNAME'         => 'Full name of the user (title, first name and last name)',
-		'USER_FIRSTNAME'        => 'First name of the user',
-		'USER_LASTNAME'         => 'Last name of the user',
-		'USER_TITLE'            => 'Title of the user',
-		'USER_BIRTHDAY'         => 'Birthday of the user',
-		'USER_INSTITUTION'      => 'Institution of the user',
-		'USER_DEPARTMENT'       => 'Department of the user',
-		'USER_STREET'           => "Street of the user address",
-		'USER_CITY'             => "City of the user address",
-		'USER_ZIPCODE'          => "ZIP code of the user address",
-		'USER_COUNTRY'          => "Country of the user address",
-		'TIMESTAMP'             => 'Current date in milliseconds since 01.01.1970',
-		'DATE'                  => 'Actual date',
-		'DATETIME'              => 'Actual date and time',
-		'DATE_COMPLETED'        => 'Date of completion',
-		'DATETIME_COMPLETED'    => 'Date and time of completion',
-		'CERT_VALID_FROM'       => 'From validity date of certificate',
-		'CERT_VALID_TO'         => 'To validity date of certificate',
-		'CERT_ID'               => 'Unique numerical ID of certificate',
-		'CERT_FILE_NAME'        => 'Filename of certificate',
-		'CERT_FILE_VERSION'     => 'File version of certificate',
-		'CERT_TYPE_TITLE'       => 'Name of certificate type',
+		'USER_LOGIN' => 'Login',
+		'USER_FULLNAME' => 'Full name of the user (title, first name and last name)',
+		'USER_FIRSTNAME' => 'First name of the user',
+		'USER_LASTNAME' => 'Last name of the user',
+		'USER_TITLE' => 'Title of the user',
+		'USER_BIRTHDAY' => 'Birthday of the user',
+		'USER_INSTITUTION' => 'Institution of the user',
+		'USER_DEPARTMENT' => 'Department of the user',
+		'USER_STREET' => "Street of the user address",
+		'USER_CITY' => "City of the user address",
+		'USER_ZIPCODE' => "ZIP code of the user address",
+		'USER_COUNTRY' => "Country of the user address",
+		'TIMESTAMP' => 'Current date in milliseconds since 01.01.1970',
+		'DATE' => 'Actual date',
+		'DATETIME' => 'Actual date and time',
+		'DATE_COMPLETED' => 'Date of completion',
+		'DATETIME_COMPLETED' => 'Date and time of completion',
+		'CERT_VALID_FROM' => 'From validity date of certificate',
+		'CERT_VALID_TO' => 'To validity date of certificate',
+		'CERT_ID' => 'Unique numerical ID of certificate',
+		'CERT_FILE_NAME' => 'Filename of certificate',
+		'CERT_FILE_VERSION' => 'File version of certificate',
+		'CERT_TYPE_TITLE' => 'Name of certificate type',
 		'CERT_TYPE_DESCRIPTION' => 'Description of certificate type',
-		'COURSE_TITLE'          => 'Title of course',
-		'LP_FIRST_ACCESS'       => 'Learning progress: First access',
-		'LP_LAST_ACCESS'        => 'Learning progress: Last access',
-		'LP_SPENT_TIME'         => 'Learning progress: Time spent in course',
-		'LP_SPENT_SECONDS'      => 'Learning progress: Time spent in course (seconds)',
-		'LP_READ_COUNT'         => 'Learning progress: Read count',
-		'LP_STATUS'             => 'Learning progress: Status code',
-		'LP_AVG_PERCENTAGE'     => 'Learning progress: Avg. percentage of course',
-		'CERT_TEMPLATE_PATH'    => 'Path where certificate template file and assets are stored',
+		'COURSE_TITLE' => 'Title of course',
+		'LP_FIRST_ACCESS' => 'Learning progress: First access',
+		'LP_LAST_ACCESS' => 'Learning progress: Last access',
+		'LP_SPENT_TIME' => 'Learning progress: Time spent in course',
+		'LP_SPENT_SECONDS' => 'Learning progress: Time spent in course (seconds)',
+		'LP_READ_COUNT' => 'Learning progress: Read count',
+		'LP_STATUS' => 'Learning progress: Status code',
+		'LP_AVG_PERCENTAGE' => 'Learning progress: Avg. percentage of course',
+		'CERT_TEMPLATE_PATH' => 'Path where certificate template file and assets are stored',
 	);
 	/**
 	 * @var srCertificate
@@ -77,16 +77,22 @@ class srCertificateStandardPlaceholders {
 	 * @var bool
 	 */
 	protected $anonymized = false;
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
 
 
 	/**
 	 * @param srCertificate $cert
-	 * @param bool $anonymized True to anonymize placeholder values
+	 * @param bool          $anonymized True to anonymize placeholder values
 	 */
 	public function __construct(srCertificate $cert, $anonymized = false) {
+		global $DIC;
 		$this->certificate = $cert;
 		$this->anonymized = $anonymized;
 		$this->pl = ilCertificatePlugin::getInstance();
+		$this->db = $DIC->database();
 	}
 
 
@@ -104,6 +110,7 @@ class srCertificateStandardPlaceholders {
 	 * Check if a given identifier is already reserved
 	 *
 	 * @param $identifier
+	 *
 	 * @return bool
 	 */
 	public static function isReservedIdentifier($identifier) {
@@ -165,6 +172,7 @@ class srCertificateStandardPlaceholders {
 	 * Parse general placeholders, mostly certificate data
 	 *
 	 * @param ilObjCourse $course
+	 *
 	 * @return array
 	 */
 	protected function parseGeneralPlaceholders(ilObjCourse $course) {
@@ -180,22 +188,22 @@ class srCertificateStandardPlaceholders {
 		}
 
 		$placeholder = array(
-			'DATE'                  => $this->formatDate('DATE'),
-			'DATETIME'              => $this->formatDateTime('DATETIME'),
-			'TIMESTAMP'             => ($utc) ? strtotime(gmdate('Y-m-d H:i:s')) : time(),
-			'CERT_FILE_NAME'        => $this->certificate->getFilename(),
-			'CERT_FILE_VERSION'     => $this->certificate->getFileVersion(),
-			'CERT_VALID_FROM'       => ($this->certificate->getValidFrom()
-			                            == '') ? $this->pl->txt('unlimited') : $this->formatDate('CERT_VALID_FROM', $cert_valid_from),
-			'CERT_VALID_TO'         => ($this->certificate->getValidTo()
-			                            == '') ? $this->pl->txt('unlimited') : $this->formatDate('CERT_VALID_TO', $cert_valid_to),
-			'CERT_ID'               => $this->certificate->getId(),
-			'CERT_TEMPLATE_PATH'    => $this->certificate->getDefinition()->getType()->getCertificateTemplatesPath(),
-			'CERT_TYPE_TITLE'       => $this->certificate->getDefinition()->getType()->getTitle(),
+			'DATE' => $this->formatDate('DATE'),
+			'DATETIME' => $this->formatDateTime('DATETIME'),
+			'TIMESTAMP' => ($utc) ? strtotime(gmdate('Y-m-d H:i:s')) : time(),
+			'CERT_FILE_NAME' => $this->certificate->getFilename(),
+			'CERT_FILE_VERSION' => $this->certificate->getFileVersion(),
+			'CERT_VALID_FROM' => ($this->certificate->getValidFrom()
+				== '') ? $this->pl->txt('unlimited') : $this->formatDate('CERT_VALID_FROM', $cert_valid_from),
+			'CERT_VALID_TO' => ($this->certificate->getValidTo()
+				== '') ? $this->pl->txt('unlimited') : $this->formatDate('CERT_VALID_TO', $cert_valid_to),
+			'CERT_ID' => $this->certificate->getId(),
+			'CERT_TEMPLATE_PATH' => $this->certificate->getDefinition()->getType()->getCertificateTemplatesPath(),
+			'CERT_TYPE_TITLE' => $this->certificate->getDefinition()->getType()->getTitle(),
 			'CERT_TYPE_DESCRIPTION' => $this->certificate->getDefinition()->getType()->getDescription(),
-			'COURSE_TITLE'          => $course->getTitle(),
-			'COURSE_START'          => $course->getCourseStart() ? $this->formatDate('', $course->getCourseStart()->get(IL_CAL_UNIX)) : '',
-			'COURSE_END'            => $course->getCourseEnd() ? $this->formatDate('', $course->getCourseEnd()->get(IL_CAL_UNIX)) : '',
+			'COURSE_TITLE' => $course->getTitle(),
+			'COURSE_START' => $course->getCourseStart() ? $this->formatDate('', $course->getCourseStart()->get(IL_CAL_UNIX)) : '',
+			'COURSE_END' => $course->getCourseEnd() ? $this->formatDate('', $course->getCourseEnd()->get(IL_CAL_UNIX)) : '',
 		);
 
 		return $placeholder;
@@ -209,6 +217,7 @@ class srCertificateStandardPlaceholders {
 	 *
 	 * @param identifier
 	 * @param $timestamp
+	 *
 	 * @return string
 	 */
 	protected function formatDate($identifier, $timestamp = 0) {
@@ -230,8 +239,9 @@ class srCertificateStandardPlaceholders {
 	/**
 	 * See formatDate() method
 	 *
-	 * @param $identifier
+	 * @param     $identifier
 	 * @param int $timestamp
+	 *
 	 * @return string
 	 */
 	protected function formatDateTime($identifier, $timestamp = 0) {
@@ -254,6 +264,7 @@ class srCertificateStandardPlaceholders {
 	 * Build a time string based on the spent seconds in the course
 	 *
 	 * @param $lp_data
+	 *
 	 * @return string
 	 */
 	protected function buildLpSpentTime($lp_data) {
@@ -280,13 +291,14 @@ class srCertificateStandardPlaceholders {
 	 * Build average percentage of objects in course
 	 *
 	 * @param array $lp_data
+	 *
 	 * @return float|null
 	 */
 	protected function buildAvgPercentageOfCourseObjects(array $lp_data) {
 		$count_objects = (int)$lp_data['cnt'];
 		$avg = 0;
 		$count_avg = 0;
-		$return = null;
+		$return = NULL;
 		if ($count_objects > 1) {
 			// Course itself is in pos 0 so we count from pos 1
 			for ($i = 0; $i < $count_objects; $i ++) {
@@ -301,7 +313,7 @@ class srCertificateStandardPlaceholders {
 				$avg += (int)$lp_data['set'][$i]['percentage'];
 				$count_avg ++;
 			}
-			$return = ($count_avg) ? $avg / ($count_avg) : null;
+			$return = ($count_avg) ? $avg / ($count_avg) : NULL;
 		}
 
 		return $return;
@@ -312,22 +324,23 @@ class srCertificateStandardPlaceholders {
 	 * Return all Placeholders of user data
 	 *
 	 * @param ilObjUser $user
+	 *
 	 * @return array
 	 */
 	protected function parseUserPlaceholders(ilObjUser $user) {
 		return array(
-			'USER_LOGIN'       => ($this->anonymized) ? 'johndoe' : $user->getLogin(),
-			'USER_TITLE'       => ($this->anonymized) ? 'Mister' : $user->getUTitle(),
-			'USER_FULLNAME'    => ($this->anonymized) ? 'John Doe' : $user->getFullname(),
-			'USER_FIRSTNAME'   => ($this->anonymized) ? 'John' : $user->getFirstname(),
-			'USER_LASTNAME'    => ($this->anonymized) ? 'Doe' : $user->getLastname(),
-			'USER_BIRTHDAY'    => $this->formatDate('', strtotime($user->getBirthday())),
+			'USER_LOGIN' => ($this->anonymized) ? 'johndoe' : $user->getLogin(),
+			'USER_TITLE' => ($this->anonymized) ? 'Mister' : $user->getUTitle(),
+			'USER_FULLNAME' => ($this->anonymized) ? 'John Doe' : $user->getFullname(),
+			'USER_FIRSTNAME' => ($this->anonymized) ? 'John' : $user->getFirstname(),
+			'USER_LASTNAME' => ($this->anonymized) ? 'Doe' : $user->getLastname(),
+			'USER_BIRTHDAY' => $this->formatDate('', strtotime($user->getBirthday())),
 			'USER_INSTITUTION' => $user->getInstitution(),
-			'USER_DEPARTMENT'  => $user->getDepartment(),
-			'USER_STREET'      => ($this->anonymized) ? 'Manhattan Street' : $user->getStreet(),
-			'USER_CITY'        => ($this->anonymized) ? 'New York' : $user->getCity(),
-			'USER_ZIPCODE'     => ($this->anonymized) ? 10026 : $user->getZipcode(),
-			'USER_COUNTRY'     => ($this->anonymized) ? 'USA' : $user->getCountry(),
+			'USER_DEPARTMENT' => $user->getDepartment(),
+			'USER_STREET' => ($this->anonymized) ? 'Manhattan Street' : $user->getStreet(),
+			'USER_CITY' => ($this->anonymized) ? 'New York' : $user->getCity(),
+			'USER_ZIPCODE' => ($this->anonymized) ? 10026 : $user->getZipcode(),
+			'USER_COUNTRY' => ($this->anonymized) ? 'USA' : $user->getCountry(),
 		);
 	}
 
@@ -336,13 +349,14 @@ class srCertificateStandardPlaceholders {
 	 * Return all Placeholders of Learning Progress data
 	 *
 	 * @param ilObjCourse $course
-	 * @param ilObjUser $user
+	 * @param ilObjUser   $user
+	 *
 	 * @return array
 	 */
 	protected function parseLearningProgressPlaceholders(ilObjCourse $course, ilObjUser $user) {
 		$passed_datetime = ilCourseParticipants::getDateTimeOfPassed($course->getId(), $user->getId());
 		$lp_fields = array( 'first_access', 'last_access', 'percentage', 'status', 'read_count', 'childs_spent_seconds' );
-		$lp_data = ilTrQuery::getObjectsDataForUser($user->getId(), $course->getId(), $course->getRefId(), '', '', 0, 9999, null, $lp_fields);
+		$lp_data = ilTrQuery::getObjectsDataForUser($user->getId(), $course->getId(), $course->getRefId(), '', '', 0, 9999, NULL, $lp_fields);
 		$lp_avg = $this->buildAvgPercentageOfCourseObjects($lp_data);
 		$lp_crs = array();
 		$max_last_access = 0;
@@ -378,15 +392,15 @@ class srCertificateStandardPlaceholders {
 		$lp_spent_time = $this->buildLpSpentTime($lp_crs);
 
 		return array(
-			'DATE_COMPLETED'     => $this->formatDate('DATE_COMPLETED', strtotime($passed_datetime)),
+			'DATE_COMPLETED' => $this->formatDate('DATE_COMPLETED', strtotime($passed_datetime)),
 			'DATETIME_COMPLETED' => $this->formatDateTime('DATETIME_COMPLETED', strtotime($passed_datetime)),
-			'LP_FIRST_ACCESS'    => $this->formatDateTime('LP_FIRST_ACCESS', (int)$lp_crs['first_access']),
-			'LP_LAST_ACCESS'     => $this->formatDateTime('LP_LAST_ACCESS', (int)$lp_crs['last_access']),
-			'LP_SPENT_TIME'      => $lp_spent_time,
-			'LP_SPENT_SECONDS'   => $lp_crs['childs_spent_seconds'],
-			'LP_READ_COUNT'      => $lp_crs['read_count'],
-			'LP_STATUS'          => $lp_crs['status'],
-			'LP_AVG_PERCENTAGE'  => $lp_avg,
+			'LP_FIRST_ACCESS' => $this->formatDateTime('LP_FIRST_ACCESS', (int)$lp_crs['first_access']),
+			'LP_LAST_ACCESS' => $this->formatDateTime('LP_LAST_ACCESS', (int)$lp_crs['last_access']),
+			'LP_SPENT_TIME' => $lp_spent_time,
+			'LP_SPENT_SECONDS' => $lp_crs['childs_spent_seconds'],
+			'LP_READ_COUNT' => $lp_crs['read_count'],
+			'LP_STATUS' => $lp_crs['status'],
+			'LP_AVG_PERCENTAGE' => $lp_avg,
 		);
 	}
 
@@ -396,29 +410,28 @@ class srCertificateStandardPlaceholders {
 	 *
 	 * @param $obj_id
 	 * @param $user_id
+	 *
 	 * @return int
 	 */
 	protected function getSpentSeconds($obj_id, $user_id) {
-		global $ilDB;
-
 		$spent_seconds = 0;
 
 		if (ilObject::_lookupType($obj_id) == 'sahs') {
-			$sql = $ilDB->query('SELECT cmi_node.total_time AS seconds
+			$sql = $this->db->query('SELECT cmi_node.total_time AS seconds
                                     FROM cmi_node
                                     INNER JOIN cp_node ON (cmi_node.cp_node_id = cp_node.cp_node_id)
                                     INNER JOIN object_reference ON (cp_node.slm_id = object_reference.obj_id)
-                                    WHERE cmi_node.user_id = ' . $ilDB->quote($user_id, 'integer') . ' AND cp_node.slm_id = '
-			                    . $ilDB->quote($obj_id, 'integer'));
-			while ($result = $ilDB->fetchAssoc($sql)) {
+                                    WHERE cmi_node.user_id = ' . $this->db->quote($user_id, 'integer') . ' AND cp_node.slm_id = '
+				. $this->db->quote($obj_id, 'integer'));
+			while ($result = $this->db->fetchAssoc($sql)) {
 				$spent_seconds += $this->formatScormToSeconds($result['seconds']);
 			}
 		} else {
-			$sql = $ilDB->query('SELECT read_event.spent_seconds AS seconds
+			$sql = $this->db->query('SELECT read_event.spent_seconds AS seconds
                                     FROM read_event
-                                    WHERE read_event.usr_id = ' . $ilDB->quote($user_id, 'integer') . ' AND read_event.obj_id = '
-			                    . $ilDB->quote($obj_id, 'integer'));
-			while ($result = $ilDB->fetchAssoc($sql)) {
+                                    WHERE read_event.usr_id = ' . $this->db->quote($user_id, 'integer') . ' AND read_event.obj_id = '
+				. $this->db->quote($obj_id, 'integer'));
+			while ($result = $this->db->fetchAssoc($sql)) {
 				$spent_seconds += $result['seconds'];
 			}
 		}
@@ -431,6 +444,7 @@ class srCertificateStandardPlaceholders {
 	 * formats a time in scorm 2004 format (e.g. PT0H0M47S) into seconds
 	 *
 	 * @param $duration
+	 *
 	 * @return int
 	 */
 	public function formatScormToSeconds($duration) {

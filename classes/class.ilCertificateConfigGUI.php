@@ -27,11 +27,11 @@ class ilCertificateConfigGUI extends ilPluginConfigGUI {
 
 
 	public function __construct() {
-		global $ilCtrl, $tpl;
+		global $DIC;
 
 		$this->pl = ilCertificatePlugin::getInstance();
-		$this->ctrl = $ilCtrl;
-		$this->tpl = $tpl;
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC->ui()->mainTemplate();
 	}
 
 

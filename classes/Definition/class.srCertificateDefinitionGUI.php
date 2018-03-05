@@ -71,21 +71,22 @@ class srCertificateDefinitionGUI {
 
 
 	public function __construct() {
-		global $tpl, $ilCtrl, $ilToolbar, $ilTabs, $lng, $ilAccess, $ilDB, $ilLocator;
-		$this->ctrl = $ilCtrl;
-		$this->tpl = $tpl;
-		$this->toolbar = $ilToolbar;
-		$this->tabs = $ilTabs;
+		global $DIC;
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC->ui()->mainTemplate();
+		$this->toolbar = $DIC->toolbar();
+		$this->tabs = $DIC->tabs();
 		$this->ref_id = (int)$_GET['ref_id'];
 		$this->crs = ilObjectFactory::getInstanceByRefId($this->ref_id);
 		$this->definition = srCertificateDefinition::where(array( 'ref_id' => $this->ref_id ))->first();
 		$this->pl = ilCertificatePlugin::getInstance();
-		$this->lng = $lng;
-		$this->access = $ilAccess;
-		$this->db = $ilDB;
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->db = $DIC->database();
 		$this->ctrl->saveParameter($this, 'ref_id');
 		$this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
 		$this->lng->loadLanguageModule('common');
+		$ilLocator = $DIC["ilLocator"];
 		$ilLocator->addRepositoryItems();
 		$this->tpl->setVariable("LOCATOR", $ilLocator->getHTML());
 	}

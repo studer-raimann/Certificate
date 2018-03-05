@@ -56,6 +56,14 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	 * @var ilCertificatePlugin
 	 */
 	protected static $instance;
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $ilPluginAdmin;
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
 
 
 	/**
@@ -86,10 +94,20 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	}
 
 
+	public function __construct() {
+		parent::__construct();
+		global $DIC;
+
+		$this->ilPluginAdmin = $DIC["ilPluginAdmin"];
+		$this->tree = $DIC->repositoryTree();
+	}
+
+
 	/**
 	 * Get a config value
 	 *
 	 * @param string $name
+	 *
 	 * @return string|null
 	 */
 	public function config($name) {
@@ -128,16 +146,14 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	 * This method returns true if the given ref-ID is a children of a category defined in the plugin options
 	 *
 	 * @param int $ref_id Ref-ID of the object to check
+	 *
 	 * @return bool
 	 */
 	public function isCourseTemplate($ref_id) {
-		global $tree;
-
 		if (ilCertificateConfig::getX('course_templates') && ilCertificateConfig::getX('course_templates_ref_ids')) {
 			// Course templates enabled -> check if given ref_id is defined as template
 			$ref_ids = explode(',', ilCertificateConfig::getX('course_templates_ref_ids'));
-			/** @var $tree ilTree */
-			$parent_ref_id = $tree->getParentId($ref_id);
+			$parent_ref_id = $this->tree->repositoryTree()->getParentId($ref_id);
 
 			return in_array($parent_ref_id, $ref_ids);
 		}
@@ -152,11 +168,8 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	 * @return bool
 	 */
 	public function checkPreConditions() {
-		global $ilPluginAdmin;
-
-		/** @var $ilPluginAdmin ilPluginAdmin */
-		$exists = $ilPluginAdmin->exists(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
-		$active = $ilPluginAdmin->isActive(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
+		$exists = $this->ilPluginAdmin->exists(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
+		$active = $this->ilPluginAdmin->isActive(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
 
 		return (self::getBaseClass() && $exists && $active);
 	}
@@ -180,6 +193,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 
 	/**
 	 * @param string $size
+	 *
 	 * @return string
 	 */
 	public static function getPluginIconImage($size = 'b') {
@@ -196,11 +210,12 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	 * @return bool|string
 	 */
 	public static function getBaseClass() {
+		global $DIC;
+		$ilCtrl = $DIC->ctrl();
 		if (!is_null(self::$base_class)) {
 			return self::$base_class;
 		}
 
-		global $ilCtrl;
 		if ($ilCtrl->lookupClassPath(ilUIPluginRouterGUI::class)) {
 			self::$base_class = ilUIPluginRouterGUI::class;
 		} elseif ($ilCtrl->lookupClassPath(ilRouterGUI::class)) {

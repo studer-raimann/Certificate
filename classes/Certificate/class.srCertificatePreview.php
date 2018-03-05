@@ -36,9 +36,9 @@ class srCertificatePreview extends srCertificate {
 
 
 	public function __construct($id = 0) {
-		global $ilUser;
+		global $DIC;
 		parent::__construct(0);
-		$this->setUserId($ilUser->getId());
+		$this->setUserId($DIC->user()->getId());
 		$this->filename = self::PREVIEW_FILENAME;
 	}
 
@@ -62,6 +62,7 @@ class srCertificatePreview extends srCertificate {
 	 * Generate the preview certificate
 	 *
 	 * @param bool $force
+	 *
 	 * @throws srCertificateException
 	 * @return bool|void
 	 */

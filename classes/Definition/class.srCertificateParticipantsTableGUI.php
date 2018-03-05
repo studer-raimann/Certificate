@@ -36,17 +36,18 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 	 */
 	protected $pl;
 
+
 	/**
 	 * srCertificateParticipantsTableGUI constructor.
 	 *
-	 * @param        $a_parent_obj
-	 * @param string $a_parent_cmd
+	 * @param                         $a_parent_obj
+	 * @param string                  $a_parent_cmd
 	 * @param srCertificateDefinition $definition
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $definition) {
-		global $ilCtrl, $ilUser;
-		$this->ctrl = $ilCtrl;
-		$this->user = $ilUser;
+		global $DIC;
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
 		$this->definition = $definition;
 		$this->pl = ilCertificatePlugin::getInstance();
 		$this->setPrefix('cert_par_');
@@ -62,6 +63,7 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 
 		$this->parseData();
 	}
+
 
 	protected function parseData() {
 		$ilCourseParticipants = new ilCourseParticipants(ilObject::_lookupObjectId($_GET['ref_id']));
@@ -87,8 +89,7 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 	 * Add columns to table
 	 *
 	 */
-	protected function addColumns()
-	{
+	protected function addColumns() {
 		// Multi actions
 		$this->addColumn("", "", "1", true);
 
@@ -108,7 +109,7 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 		$this->tpl->parseCurrentBlock();
 
 		$utc = ilCertificateConfig::getX('time_format_utc');
-		$date_function = ($utc)? 'gmdate' : 'date';
+		$date_function = ($utc) ? 'gmdate' : 'date';
 
 		foreach (self::$columns as $k => $column) {
 			$value = (is_null($a_set[$column])) ? '' : $a_set[$column];
@@ -140,7 +141,6 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 			$this->tpl->setCurrentBlock('COL');
 			$this->tpl->setVariable('VALUE', $value);
 			$this->tpl->parseCurrentBlock();
-
 		}
 		// Actions
 		$this->ctrl->setParameter($this->parent_obj, 'user_id', $a_set['id']);

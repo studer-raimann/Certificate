@@ -127,11 +127,8 @@ class srCertificateDefinition extends ActiveRecord {
 	 * @param $string
 	 */
 	protected function log($string) {
-		global $ilLog;
-
-		if ($ilLog && false) {
-			$ilLog->write('srCertificateDefinition(' . $this->getId() . '): ' . $string);
-		}
+		global $DIC;
+		//$DIC["ilLog"]->write('srCertificateDefinition(' . $this->getId() . '): ' . $string);
 	}
 
 

@@ -9,64 +9,74 @@ require_once('class.certCheckSignatureFormGUI.php');
  * @version           $Id:
  * @ilCtrl_IsCalledBy certCheckSignatureGUI: ilRouterGUI
  */
-class certCheckSignatureGUI
-{
+class certCheckSignatureGUI {
 
-    function __construct()
-    {
-        global $ilCtrl, $tpl, $lng;
-        /**
-         * @var $tpl    ilTemplate
-         * @var $ilCtrl ilCtrl
-         * @var $ilTabs ilTabsGUI
-         */
-        $this->tpl = $tpl;
-        $this->pl = new ilCertificatePlugin();
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-    }
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+	/**
+	 * @var ilCertificatePlugin
+	 */
+	protected $pl;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
 
 
-    /**
-     * @return bool
-     */
-    public function executeCommand()
-    {
-        $cmd = $this->ctrl->getCmd();
-        switch ($cmd) {
-            case 'showForm':
-            default:
-                $this->showForm();
-                break;
-            case 'decryptSignature':
-                $this->decryptSignature();
-                break;
-        }
+	function __construct() {
+		global $DIC;
+		$this->tpl = $DIC->ui()->mainTemplate();
+		$this->pl = ilCertificatePlugin::getInstance();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+	}
 
-        return true;
-    }
 
-    public function showForm()
-    {
+	/**
+	 * @return bool
+	 */
+	public function executeCommand() {
+		$cmd = $this->ctrl->getCmd();
+		switch ($cmd) {
+			case 'showForm':
+			default:
+				$this->showForm();
+				break;
+			case 'decryptSignature':
+				$this->decryptSignature();
+				break;
+		}
 
-        $form = new certCheckSignatureFormGUI();
-        $this->tpl->setContent($form->getHTML());
-    }
+		return true;
+	}
 
-    public function decryptSignature()
-    {
 
-        $form = new certCheckSignatureFormGUI();
-        if (!$form->checkInput()) {
-            ilUtil::sendFailure($this->pl->txt('decrypt_failed'), true);
-        }
-        $public_key = openssl_get_publickey('file://' . ilCertificateConfig::getX('signature_publickey'));
-        openssl_public_decrypt(base64_decode($form->getInput('signature')), $decrypted, $public_key);
+	public function showForm() {
 
-        if ($decrypted) {
-            ilUtil::sendInfo($this->pl->txt('decrypt_successful') . '<br/>' . $decrypted, true);
-        } else {
-            ilUtil::sendFailure($this->pl->txt('decrypt_failed'), true);
-        }
-    }
+		$form = new certCheckSignatureFormGUI();
+		$this->tpl->setContent($form->getHTML());
+	}
+
+
+	public function decryptSignature() {
+
+		$form = new certCheckSignatureFormGUI();
+		if (!$form->checkInput()) {
+			ilUtil::sendFailure($this->pl->txt('decrypt_failed'), true);
+		}
+		$public_key = openssl_get_publickey('file://' . ilCertificateConfig::getX('signature_publickey'));
+		openssl_public_decrypt(base64_decode($form->getInput('signature')), $decrypted, $public_key);
+
+		if ($decrypted) {
+			ilUtil::sendInfo($this->pl->txt('decrypt_successful') . '<br/>' . $decrypted, true);
+		} else {
+			ilUtil::sendFailure($this->pl->txt('decrypt_failed'), true);
+		}
+	}
 }
