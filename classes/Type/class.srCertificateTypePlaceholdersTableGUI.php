@@ -55,7 +55,10 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->addColumn($this->pl->txt('actions'));
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->toolbar->addButton($this->pl->txt('add_new_placeholder'), $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addPlaceholder'));
+	    $button = ilLinkButton::getInstance();
+	    $button->setCaption($this->pl->txt('add_new_placeholder'), false);
+	    $button->setUrl($this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addPlaceholder'));
+	    $this->toolbar->addButtonInstance($button);
         $this->buildData();
         $this->setTitle($this->pl->txt('custom_placeholders'));
     }

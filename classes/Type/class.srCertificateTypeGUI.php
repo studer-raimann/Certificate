@@ -281,7 +281,7 @@ class srCertificateTypeGUI
             $this->tpl->setTitle($this->type->getTitle());
             $this->tpl->setDescription($this->type->getDescription());
         }
-        $this->tabs->setTabActive($active_tab_id);
+        $this->tabs->activateTab($active_tab_id);
         $this->tabs->setBackTarget($this->pl->txt('back_to_overview'), $this->ctrl->getLinkTarget($this));
     }
 
@@ -369,7 +369,10 @@ class srCertificateTypeGUI
      */
     public function showSettings()
     {
-        $this->toolbar->addButton($this->pl->txt('add_new_custom_setting'), $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addCustomSetting'));
+	    $button = ilLinkButton::getInstance();
+	    $button->setCaption($this->pl->txt('add_new_custom_setting'), false);
+	    $button->setUrl($this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addCustomSetting'));
+	    $this->toolbar->addButtonInstance($button);
         $table = new srCertificateTypeSettingsTableGUI($this, 'showSettings', $this->type);
         $table_custom_settings = new srCertificateTypeCustomSettingsTableGUI($this, 'showSettings', $this->type);
         $spacer = '<div style="height: 30px;"></div>';
@@ -680,8 +683,14 @@ class srCertificateTypeGUI
 
         $toolbar = new ilToolbarGUI();
         $this->ctrl->saveParameter($this, 'signature_id');
-        $toolbar->addButton($this->pl->txt('confirm'), $this->ctrl->getLinkTarget($this, 'deleteSignature'));
-        $toolbar->addButton($this->pl->txt('cancel'), $this->ctrl->getLinkTarget($this, 'showSignatures'));
+	    $button = ilLinkButton::getInstance();
+	    $button->setCaption($this->pl->txt('confirm'), false);
+	    $button->setUrl($this->ctrl->getLinkTarget($this, 'deleteSignature'));
+	    $this->toolbar->addButtonInstance($button);
+	    $button = ilLinkButton::getInstance();
+	    $button->setCaption($this->pl->txt('cancel'), false);
+	    $button->setUrl($this->ctrl->getLinkTarget($this, 'showSignatures'));
+	    $this->toolbar->addButtonInstance($button);
 
         $this->tpl->setContent($item_html . '</br>' . $toolbar->getHTML());
     }

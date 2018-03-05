@@ -152,7 +152,10 @@ class srCertificateDefinitionGUI {
 	protected function showPreviewCertificateInToolbar() {
 		if ($this->definition) {
 			if (is_file($this->definition->getType()->getCertificateTemplatesPath(true))) {
-				$this->toolbar->addButton($this->pl->txt('preview_certificate'), $this->ctrl->getLinkTarget($this, 'previewCertificate'));
+				$button = ilLinkButton::getInstance();
+				$button->setCaption($this->pl->txt('preview_certificate'), false);
+				$button->setUrl($this->ctrl->getLinkTarget($this, 'previewCertificate'));
+				$this->toolbar->addButtonInstance($button);
 			} else {
 				ilUtil::sendInfo($this->pl->txt('msg_info_current_type_no_invalid_tempalte'));
 			}

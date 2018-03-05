@@ -1,7 +1,7 @@
 <#1>
 	<?php
 	require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
-    ilCertificateConfig::installDB();
+    ilCertificateConfig::updateDB();
 	?>
 <#2>
     <?php
@@ -16,13 +16,13 @@
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinitionSetting.php');
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateTypeSetting.php');
 
-    srCertificateType::installDB();
-    srCertificateDefinition::installDB();
-    srCertificatePlaceholder::installDB();
-    srCertificatePlaceholderValue::installDB();
-    srCertificate::installDB();
-    srCertificateTypeSetting::installDB();
-    srCertificateDefinitionSetting::installDB();
+    srCertificateType::updateDB();
+    srCertificateDefinition::updateDB();
+    srCertificatePlaceholder::updateDB();
+    srCertificatePlaceholderValue::updateDB();
+    srCertificate::updateDB();
+    srCertificateTypeSetting::updateDB();
+    srCertificateDefinitionSetting::updateDB();
 ?>
 <#3>
     <?php
@@ -115,8 +115,8 @@
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/CustomSetting/class.srCertificateCustomTypeSetting.php');
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/CustomSetting/class.srCertificateCustomDefinitionSetting.php');
 
-    srCertificateCustomTypeSetting::installDB();
-    srCertificateCustomDefinitionSetting::installDB();
+    srCertificateCustomTypeSetting::updateDB();
+    srCertificateCustomDefinitionSetting::updateDB();
     ?>
 <#10>
     <?php
@@ -177,7 +177,7 @@
 <#14>
     <?php
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignature.php');
-    srCertificateSignature::installDB();
+    srCertificateSignature::updateDB();
     ?>
 <#15>
     <?php

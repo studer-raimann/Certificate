@@ -51,7 +51,10 @@ class srCertificateTypeSignaturesTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.type_signatures_row.html', $this->pl->getDirectory());
         $this->initColumns();
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->toolbar->addButton($this->pl->txt('add_new_signature'), $this->ctrl->getLinkTarget($a_parent_obj, 'addSignature'));
+	    $button = ilLinkButton::getInstance();
+	    $button->setCaption($this->pl->txt('add_new_signature'), false);
+	    $button->setUrl($this->ctrl->getLinkTarget($a_parent_obj, 'addSignature'));
+	    $this->toolbar->addButtonInstance($button);
         $this->buildData();
     }
 
