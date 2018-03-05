@@ -50,7 +50,7 @@ class srCertificateTypeTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 	    $button = ilLinkButton::getInstance();
 	    $button->setCaption($this->pl->txt('add_new_type'), false);
-	    $button->setUrl($this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addType'));
+	    $button->setUrl($this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'addType'));
 	    $this->toolbar->addButtonInstance($button);
         $data = srCertificateType::getArray();
         $this->setData($data);
@@ -83,8 +83,8 @@ class srCertificateTypeTableGUI extends ilTable2GUI
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($a_set['id']);
         $alist->setListTitle($this->pl->txt('actions'));
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'type_id', $a_set['id']);
-        $alist->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editType'));
+        $this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'type_id', $a_set['id']);
+        $alist->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'editType'));
         return $alist;
     }
 

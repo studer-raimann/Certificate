@@ -68,7 +68,7 @@ class srCertificateCron {
 			require_once './Services/Init/classes/class.ilInitialisation.php';
 			ilInitialisation::initILIAS();
 		} else {
-			$_GET['baseClass'] = 'ilStartUpGUI';
+			$_GET['baseClass'] = ilStartUpGUI::class;
 			require_once('./include/inc.get_pear.php');
 			require_once('./include/inc.header.php');
 		}

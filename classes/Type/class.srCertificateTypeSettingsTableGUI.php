@@ -82,10 +82,10 @@ class srCertificateTypeSettingsTableGUI extends ilTable2GUI
         $list = new ilAdvancedSelectionListGUI();
         $list->setId($a_set['identifier']);
         $list->setListTitle($this->pl->txt('actions'));
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'type_id', $this->type->getId());
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'identifier', $a_set['identifier']);
-        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editSetting'));
-        $this->ctrl->clearParametersByClass('srcertificatetypegui');
+        $this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'type_id', $this->type->getId());
+        $this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'identifier', $a_set['identifier']);
+        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'editSetting'));
+        $this->ctrl->clearParametersByClass(srCertificateTypeGUI::class);
         return $list;
     }
 

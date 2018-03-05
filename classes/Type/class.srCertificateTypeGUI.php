@@ -111,7 +111,7 @@ class srCertificateTypeGUI
     {
         if (!$this->checkPermission()) {
             ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
-            $this->ctrl->redirectByClass('ilpersonaldesktopgui');
+            $this->ctrl->redirectByClass(ilPersonalDesktopGUI::class);
         }
 
         global $ilMainMenu;
@@ -125,7 +125,7 @@ class srCertificateTypeGUI
             $this->ctrl->saveParameter($this, 'signature_id');
         }
         // needed for ILIAS >= 4.5
-        if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
+        if (ilCertificatePlugin::getBaseClass() != ilRouterGUI::class) {
             $this->tpl->getStandardTemplate();
         }
         switch ($next_class) {
@@ -259,7 +259,7 @@ class srCertificateTypeGUI
                 break;
         }
         // needed for ILIAS >= 4.5
-        if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
+        if (ilCertificatePlugin::getBaseClass() != ilRouterGUI::class) {
             $this->tpl->show();
         }
     }
@@ -371,7 +371,7 @@ class srCertificateTypeGUI
     {
 	    $button = ilLinkButton::getInstance();
 	    $button->setCaption($this->pl->txt('add_new_custom_setting'), false);
-	    $button->setUrl($this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addCustomSetting'));
+	    $button->setUrl($this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'addCustomSetting'));
 	    $this->toolbar->addButtonInstance($button);
         $table = new srCertificateTypeSettingsTableGUI($this, 'showSettings', $this->type);
         $table_custom_settings = new srCertificateTypeCustomSettingsTableGUI($this, 'showSettings', $this->type);

@@ -201,10 +201,10 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		}
 
 		global $ilCtrl;
-		if ($ilCtrl->lookupClassPath('ilUIPluginRouterGUI')) {
-			self::$base_class = 'ilUIPluginRouterGUI';
-		} elseif ($ilCtrl->lookupClassPath('ilRouterGUI')) {
-			self::$base_class = 'ilRouterGUI';
+		if ($ilCtrl->lookupClassPath(ilUIPluginRouterGUI::class)) {
+			self::$base_class = ilUIPluginRouterGUI::class;
+		} elseif ($ilCtrl->lookupClassPath(ilRouterGUI::class)) {
+			self::$base_class = ilRouterGUI::class;
 		} else {
 			self::$base_class = false;
 		}

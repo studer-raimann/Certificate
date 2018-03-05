@@ -55,9 +55,9 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 			// User needs write access to course to see the tab 'certificate'
 			if ($this->access->checkAccess('write', '', (int)$_GET['ref_id'])) {
 				$ilTabsGUI = $a_par['tabs'];
-				$this->ctrl->setParameterByClass('srCertificateDefinitionGUI', 'ref_id', $_GET['ref_id']);
-				$link = $this->ctrl->getLinkTargetByClass(array( ilCertificatePlugin::getBaseClass(), 'srCertificateDefinitionGUI' ));
-				$ilTabsGUI->addTarget('certificate', $link, 'show', 'srCertificateDefinitionGUI');
+				$this->ctrl->setParameterByClass(srCertificateDefinitionGUI::class, 'ref_id', $_GET['ref_id']);
+				$link = $this->ctrl->getLinkTargetByClass(array( ilCertificatePlugin::getBaseClass(), srCertificateDefinitionGUI::class ));
+				$ilTabsGUI->addTarget('certificate', $link, 'show', srCertificateDefinitionGUI::class);
 			}
 		}
 	}

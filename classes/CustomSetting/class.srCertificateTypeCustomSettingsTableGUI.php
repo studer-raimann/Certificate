@@ -84,11 +84,11 @@ class srCertificateTypeCustomSettingsTableGUI extends ilTable2GUI
         $list = new ilAdvancedSelectionListGUI();
         $list->setId($a_set['id']);
         $list->setListTitle($this->pl->txt('actions'));
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'type_id', $this->type->getId());
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'custom_setting_id', $a_set['id']);
-        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editCustomSetting'));
-        $list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'confirmDeleteCustomSetting'));
-        $this->ctrl->clearParametersByClass('srcertificatetypegui');
+        $this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'type_id', $this->type->getId());
+        $this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'custom_setting_id', $a_set['id']);
+        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'editCustomSetting'));
+        $list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'confirmDeleteCustomSetting'));
+        $this->ctrl->clearParametersByClass(srCertificateTypeGUI::class);
 
         return $list;
     }

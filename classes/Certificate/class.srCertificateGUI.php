@@ -58,10 +58,10 @@ abstract class srCertificateGUI
     {
         if (!$this->checkPermission()) {
             ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
-            $this->ctrl->redirectByClass('ilpersonaldesktopgui');
+            $this->ctrl->redirectByClass(ilPersonalDesktopGUI::class);
         }
 
-        if (iLCertificatePlugin::getBaseClass() == 'ilUIPluginRouterGUI') {
+        if (iLCertificatePlugin::getBaseClass() == ilUIPluginRouterGUI::class) {
             $this->tpl->getStandardTemplate();
         }
 
@@ -89,7 +89,7 @@ abstract class srCertificateGUI
                 $this->performCommand($cmd);
         }
 
-        if (iLCertificatePlugin::getBaseClass() == 'ilUIPluginRouterGUI') {
+        if (iLCertificatePlugin::getBaseClass() == ilUIPluginRouterGUI::class) {
             $this->tpl->show();
         }
     }

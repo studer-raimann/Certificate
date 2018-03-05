@@ -98,7 +98,7 @@ class srCertificateDefinitionGUI {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		// needed for ILIAS >= 4.5
-		if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
+		if (ilCertificatePlugin::getBaseClass() != ilRouterGUI::class) {
 			$this->tpl->getStandardTemplate();
 		}
 		switch ($next_class) {
@@ -143,7 +143,7 @@ class srCertificateDefinitionGUI {
 				break;
 		}
 		// needed for ILIAS >= 4.5
-		if (ilCertificatePlugin::getBaseClass() != 'ilRouterGUI') {
+		if (ilCertificatePlugin::getBaseClass() != ilRouterGUI::class) {
 			$this->tpl->show();
 		}
 	}
@@ -478,9 +478,9 @@ class srCertificateDefinitionGUI {
 	 */
 	protected function checkPermission() {
 		if (!$this->access->checkAccess('write', '', $this->ref_id)) {
-			$this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->ref_id);
+			$this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
 			ilUtil::sendFailure($this->pl->txt('msg_no_permission_certificates'), true);
-			$this->ctrl->redirectByClass('ilrepositorygui');
+			$this->ctrl->redirectByClass(ilRepositoryGUI::class);
 		}
 	}
 
@@ -513,7 +513,7 @@ class srCertificateDefinitionGUI {
 			$this->tpl->setAlertProperties($lgui->getAlertProperties());
 		}
 		$this->tpl->setTitleIcon(ilUtil::getTypeIconPath('crs', $this->crs->getId(), 'big'));
-		$this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->ref_id);
-		$this->tabs->setBackTarget($this->pl->txt('back_to_course'), $this->ctrl->getLinkTargetByClass('ilrepositorygui'));
+		$this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
+		$this->tabs->setBackTarget($this->pl->txt('back_to_course'), $this->ctrl->getLinkTargetByClass(ilRepositoryGUI::class));
 	}
 }

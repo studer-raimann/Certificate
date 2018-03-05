@@ -57,7 +57,7 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 	    $button = ilLinkButton::getInstance();
 	    $button->setCaption($this->pl->txt('add_new_placeholder'), false);
-	    $button->setUrl($this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'addPlaceholder'));
+	    $button->setUrl($this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'addPlaceholder'));
 	    $this->toolbar->addButtonInstance($button);
         $this->buildData();
         $this->setTitle($this->pl->txt('custom_placeholders'));
@@ -93,10 +93,10 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI
         $list = new ilAdvancedSelectionListGUI();
         $list->setId($a_set['identifier']);
         $list->setListTitle($this->pl->txt('actions'));
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'type_id', $this->type->getId());
-        $this->ctrl->setParameterByClass('srcertificatetypegui', 'placeholder_id', $a_set['id']);
-        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'editPlaceholder'));
-        $list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('srcertificatetypegui', 'confirmDeletePlaceholder'));
+        $this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'type_id', $this->type->getId());
+        $this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'placeholder_id', $a_set['id']);
+        $list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'editPlaceholder'));
+        $list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'confirmDeletePlaceholder'));
 
         return $list;
     }
