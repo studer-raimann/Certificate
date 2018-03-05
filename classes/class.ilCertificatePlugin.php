@@ -93,7 +93,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	 * @return string|null
 	 */
 	public function config($name) {
-		return ilCertificateConfig::get($name);
+		return ilCertificateConfig::getX($name);
 	}
 
 
@@ -105,7 +105,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	public function getHooks() {
 		if (is_null($this->hooks)) {
 			$class_name = self::CLASS_NAME_HOOKS;
-			$path = ilCertificateConfig::get('path_hook_class');
+			$path = ilCertificateConfig::getX('path_hook_class');
 			if (substr($path, - 1) !== '/') {
 				$path .= '/';
 			}
@@ -133,9 +133,9 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	public function isCourseTemplate($ref_id) {
 		global $tree;
 
-		if (ilCertificateConfig::get('course_templates') && ilCertificateConfig::get('course_templates_ref_ids')) {
+		if (ilCertificateConfig::getX('course_templates') && ilCertificateConfig::getX('course_templates_ref_ids')) {
 			// Course templates enabled -> check if given ref_id is defined as template
-			$ref_ids = explode(',', ilCertificateConfig::get('course_templates_ref_ids'));
+			$ref_ids = explode(',', ilCertificateConfig::getX('course_templates_ref_ids'));
 			/** @var $tree ilTree */
 			$parent_ref_id = $tree->getParentId($ref_id);
 

@@ -202,7 +202,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
             $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER]);
         }
 
-        $this->addCommandButton("updateDefinition", "Save");
+        $this->addCommandButton("updateDefinition", $this->pl->txt('save'));
     }
 
 
@@ -298,7 +298,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI
         // Date
         $option = new ilRadioOption($this->pl->txt('setting_validity_date'), srCertificateTypeSetting::VALIDITY_TYPE_DATE);
         $subitem = new ilDateTimeInputGUI($this->pl->txt('date'), $setting->getIdentifier() . '_' . srCertificateTypeSetting::VALIDITY_TYPE_DATE);
-        $subitem->setMode(ilDateTimeInputGUI::MODE_INPUT);
+        //$subitem->setMode(ilDateTimeInputGUI::MODE_INPUT);
         if ($setting->getValue() == srCertificateTypeSetting::VALIDITY_TYPE_DATE && $validity_value)
             $subitem->setDate(new ilDateTime($validity_value, IL_CAL_DATE));
         $option->addSubItem($subitem);

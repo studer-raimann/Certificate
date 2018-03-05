@@ -139,9 +139,10 @@ class srCertificateDefinition extends ActiveRecord {
 	 * Clone/copy this definition for a new course
 	 *
 	 * @param int $ref_id ref-ID of new course
+	 *
 	 * @return srCertificateDefinition
 	 */
-	public function copy($ref_id) {
+	public function copy($ref_id = 0) {
 		$this->log('Certificate: copy definitions from ' . $this->getRefId() . ' to ' . $ref_id);
 		$new_definition = srCertificateDefinition::where(array( "ref_id" => $ref_id ))->first();
 		if (!$new_definition) {
@@ -225,6 +226,7 @@ class srCertificateDefinition extends ActiveRecord {
 	 * Get a setting by identifier
 	 *
 	 * @param $identifier
+	 *
 	 * @return null|srCertificateDefinitionSetting
 	 */
 	public function getSettingByIdentifier($identifier) {
@@ -236,7 +238,7 @@ class srCertificateDefinition extends ActiveRecord {
 			}
 		}
 
-		return null;
+		return NULL;
 	}
 
 
@@ -244,6 +246,7 @@ class srCertificateDefinition extends ActiveRecord {
 	 * Get a setting by identifier
 	 *
 	 * @param $identifier
+	 *
 	 * @return null|srCertificateCustomDefinitionSetting
 	 */
 	public function getCustomSettingByIdentifier($identifier) {
@@ -255,7 +258,7 @@ class srCertificateDefinition extends ActiveRecord {
 			}
 		}
 
-		return null;
+		return NULL;
 	}
 
 
@@ -263,6 +266,7 @@ class srCertificateDefinition extends ActiveRecord {
 	 * Get a placeholder value object by ID
 	 *
 	 * @param $id
+	 *
 	 * @return null|srCertificatePlaceholderValue
 	 */
 	public function getPlaceholderValueByPlaceholderId($id) {
@@ -274,7 +278,7 @@ class srCertificateDefinition extends ActiveRecord {
 			}
 		}
 
-		return null;
+		return NULL;
 	}
 
 
@@ -303,6 +307,8 @@ class srCertificateDefinition extends ActiveRecord {
 
 
 	// Shortcut-Getters implemented for the settings
+
+
 	/**
 	 * @return mixed
 	 */
@@ -349,7 +355,7 @@ class srCertificateDefinition extends ActiveRecord {
 	public function getDownloadable() {
 		$setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE);
 
-		return (is_null($setting)) ? null : $setting->getValue();
+		return (is_null($setting)) ? NULL : $setting->getValue();
 	}
 
 
@@ -359,7 +365,7 @@ class srCertificateDefinition extends ActiveRecord {
 	public function getNotificationUser() {
 		$setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER);
 
-		return (is_null($setting)) ? null : $setting->getValue();
+		return (is_null($setting)) ? NULL : $setting->getValue();
 	}
 
 
@@ -369,11 +375,12 @@ class srCertificateDefinition extends ActiveRecord {
 	public function getScormTiming() {
 		$setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING);
 
-		return (is_null($setting)) ? null : $setting->getValue();
+		return (is_null($setting)) ? NULL : $setting->getValue();
 	}
 
 
 	// Static
+
 
 	/**
 	 * @return string
@@ -386,6 +393,7 @@ class srCertificateDefinition extends ActiveRecord {
 
 	// Protected
 
+
 	/**
 	 * Create the settings inheriting default values defined in the type
 	 *
@@ -396,7 +404,7 @@ class srCertificateDefinition extends ActiveRecord {
 		foreach ($type_settings as $type_setting) {
 			$setting = srCertificateDefinitionSetting::where(array(
 				'definition_id' => $this->getId(),
-				'identifier'    => $type_setting->getIdentifier(),
+				'identifier' => $type_setting->getIdentifier(),
 			))->first();
 			if (!$setting) {
 				$setting = new srCertificateDefinitionSetting();
@@ -411,7 +419,7 @@ class srCertificateDefinition extends ActiveRecord {
 		foreach ($this->type->getCustomSettings() as $custom_setting) {
 			$setting = srCertificateCustomDefinitionSetting::where(array(
 				'definition_id' => $this->getId(),
-				'identifier'    => $type_setting->getIdentifier(),
+				'identifier' => $type_setting->getIdentifier(),
 			))->first();
 			if (!$setting) {
 				$setting = new srCertificateCustomDefinitionSetting();
@@ -445,6 +453,7 @@ class srCertificateDefinition extends ActiveRecord {
 	}
 
 	// Getter & Setter
+
 
 	/**
 	 * @param int $ref_id
@@ -544,7 +553,7 @@ class srCertificateDefinition extends ActiveRecord {
 	public function getPlaceholderValues() {
 		if (is_null($this->placeholder_values)) {
 			$this->placeholder_values = srCertificatePlaceholderValue::where(array( 'definition_id' => $this->getId() ))->orderBy('placeholder_id')
-			                                                         ->get();
+				->get();
 		}
 
 		return $this->placeholder_values;

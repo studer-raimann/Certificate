@@ -168,7 +168,7 @@ class srCertificateStandardPlaceholders {
 	 * @return array
 	 */
 	protected function parseGeneralPlaceholders(ilObjCourse $course) {
-		$utc = ilCertificateConfig::get('time_format_utc');
+		$utc = ilCertificateConfig::getX('time_format_utc');
 
 		$cert_valid_from = strtotime($this->certificate->getValidFrom());
 		$cert_valid_to = strtotime($this->certificate->getValidTo());
@@ -213,8 +213,8 @@ class srCertificateStandardPlaceholders {
 	 */
 	protected function formatDate($identifier, $timestamp = 0) {
 		$timestamp = ($timestamp) ? $timestamp : time();
-		$utc = ilCertificateConfig::get('time_format_utc');
-		$format = ilCertificateConfig::get('str_format_date');
+		$utc = ilCertificateConfig::getX('time_format_utc');
+		$format = ilCertificateConfig::getX('str_format_date');
 		// Check if a hook wants to modify the date format
 		$format_custom = $this->pl->getHooks()->formatDate($this->certificate, $identifier);
 		if ($format_custom) {
@@ -236,8 +236,8 @@ class srCertificateStandardPlaceholders {
 	 */
 	protected function formatDateTime($identifier, $timestamp = 0) {
 		$timestamp = ($timestamp) ? $timestamp : time();
-		$utc = ilCertificateConfig::get('time_format_utc');
-		$format = ilCertificateConfig::get('str_format_datetime');
+		$utc = ilCertificateConfig::getX('time_format_utc');
+		$format = ilCertificateConfig::getX('str_format_datetime');
 		// Check if a hook wants to modify the date format
 		$format_custom = $this->pl->getHooks()->formatDate($this->certificate, $identifier);
 		if ($format_custom) {

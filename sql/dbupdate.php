@@ -72,11 +72,11 @@
      */
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
 
-    ilCertificateConfig::set(ilCertificateConfig::DATE_FORMAT, ilCertificatePlugin::DEFAULT_DATE_FORMAT);
-    ilCertificateConfig::set(ilCertificateConfig::DATETIME_FORMAT, ilCertificatePlugin::DEFAULT_DATETIME_FORMAT);
-    ilCertificateConfig::set(ilCertificateConfig::PATH_HOOK_CLASS, ilCertificatePlugin::DEFAULT_PATH_HOOK_CLASS);
-    ilCertificateConfig::set(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATES, ilCertificatePlugin::DEFAULT_ROLES_ADMINISTRATE_CERTIFICATES);
-    ilCertificateConfig::set(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATE_TYPES, ilCertificatePlugin::DEFAULT_ROLES_ADMINISTRATE_CERTIFICATE_TYPES);
+    ilCertificateConfig::setX(ilCertificateConfig::DATE_FORMAT, ilCertificatePlugin::DEFAULT_DATE_FORMAT);
+    ilCertificateConfig::setX(ilCertificateConfig::DATETIME_FORMAT, ilCertificatePlugin::DEFAULT_DATETIME_FORMAT);
+    ilCertificateConfig::setX(ilCertificateConfig::PATH_HOOK_CLASS, ilCertificatePlugin::DEFAULT_PATH_HOOK_CLASS);
+    ilCertificateConfig::setX(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATES, ilCertificatePlugin::DEFAULT_ROLES_ADMINISTRATE_CERTIFICATES);
+    ilCertificateConfig::setX(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATE_TYPES, ilCertificatePlugin::DEFAULT_ROLES_ADMINISTRATE_CERTIFICATE_TYPES);
 
     ?>
 <#6>
@@ -137,8 +137,8 @@
 	$type->setRoles(array(2)); //2 Is the default administration role.
 	$type->setAvailableObjects(array('crs'));
     $type->setTemplateTypeId(1); // JasperReport
-    $type->storeTemplateFileFromServer(ILIAS_ABSOLUTE_PATH . '/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml');
 	$type->create();
+	$type->storeTemplateFileFromServer(ILIAS_ABSOLUTE_PATH . '/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml');
 
 //	$placeholder = new srCertificatePlaceholder();
 //	$placeholder->setCertificateType($type);
@@ -158,21 +158,21 @@
             "Course: [[COURSE_TITLE]]\n" .
             "Valid until: [[CERT_VALID_TO]]\n\n" .
             "The certificate is attached in this email";
-    ilCertificateConfig::set('notification_user_body', $body);
-    ilCertificateConfig::set('notification_user_subject', 'New certificate generated for course [[COURSE_TITLE]]');
-    ilCertificateConfig::set('notification_others_subject', 'New certificate generated for user [[USER_FULLNAME]]');
+    ilCertificateConfig::setX('notification_user_body', $body);
+    ilCertificateConfig::setX('notification_user_subject', 'New certificate generated for course [[COURSE_TITLE]]');
+    ilCertificateConfig::setX('notification_others_subject', 'New certificate generated for user [[USER_FULLNAME]]');
     $body = "Hi,\n\n" .
         "A new certificate was generated for user [[USER_FULLNAME]]:\n\n" .
         "Course: [[COURSE_TITLE]]\n" .
         "Valid until: [[CERT_VALID_TO]]\n\n" .
         "The certificate is attached in this email";
-    ilCertificateConfig::set('notification_others_body', $body);
+    ilCertificateConfig::setX('notification_others_body', $body);
 
-    ilCertificateConfig::set('max_diff_lp_seconds', 28800);
+    ilCertificateConfig::setX('max_diff_lp_seconds', 28800);
     ?>
 <#13>
     <?php
-    ilCertificateConfig::set(ilCertificateConfig::DISK_SPACE_WARNING, ilCertificatePlugin::DEFAULT_DISK_SPACE_WARNING);
+    ilCertificateConfig::setX(ilCertificateConfig::DISK_SPACE_WARNING, ilCertificatePlugin::DEFAULT_DISK_SPACE_WARNING);
     ?>
 <#14>
     <?php
@@ -236,6 +236,6 @@ if ($ilDB->tableExists('uihkcertificate_c')) {
 <#19>
 <?php
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
-ilCertificateConfig::set('jasper_locale', 'de_DE.UTF-8');
-ilCertificateConfig::set('jasper_path_java', '/usr/bin/java');
+ilCertificateConfig::setX('jasper_locale', 'de_DE.UTF-8');
+ilCertificateConfig::setX('jasper_path_java', '/usr/bin/java');
 ?>

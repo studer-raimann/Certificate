@@ -50,11 +50,11 @@ class ilCertificateConfig extends ActiveRecord {
 	 *
 	 * @return string
 	 */
-	public static function get($name) {
+	public static function getX($name) {
 		if (!isset(self::$cache_loaded[$name])) {
 			$obj = self::find($name);
-			if ($obj === null) {
-				self::$cache[$name] = null;
+			if ($obj === NULL) {
+				self::$cache[$name] = NULL;
 			} else {
 				self::$cache[$name] = $obj->getValue();
 			}
@@ -71,7 +71,7 @@ class ilCertificateConfig extends ActiveRecord {
 	 *
 	 * @return null
 	 */
-	public static function set($name, $value) {
+	public static function setX($name, $value) {
 		/**
 		 * @var $obj arConfig
 		 */

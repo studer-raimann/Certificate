@@ -27,7 +27,7 @@ class srCertificateAdministrationGUI extends srCertificateGUI
      */
     protected function checkPermission()
     {
-        $allowed_roles = ilCertificateConfig::get('roles_administrate_certificates');
+        $allowed_roles = ilCertificateConfig::getX('roles_administrate_certificates');
 
         return $this->rbac->isAssignedToAtLeastOneGivenRole($this->user->getId(), json_decode($allowed_roles, true));
     }

@@ -186,7 +186,7 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 	private function getValuesForItem($item, &$array) {
 		if (self::checkItem($item)) {
 			$key = $item->getPostVar();
-			$array[$key] = ilCertificateConfig::get($key);
+			$array[$key] = ilCertificateConfig::getX($key);
 			if ($item instanceof ilMultiSelectInputGUI) {
 				$array[$key] = json_decode($array[$key], true);
 			}
@@ -221,9 +221,9 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 		if (self::checkItem($item)) {
 			$key = $item->getPostVar();
 			if ($item instanceof ilMultiSelectInputGUI) {
-				ilCertificateConfig::set($key, json_encode($this->getInput($key)));
+				ilCertificateConfig::setX($key, json_encode($this->getInput($key)));
 			} else {
-				ilCertificateConfig::set($key, $this->getInput($key));
+				ilCertificateConfig::setX($key, $this->getInput($key));
 			}
 
 			if (self::checkForSubItem($item)) {

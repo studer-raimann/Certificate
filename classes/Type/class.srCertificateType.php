@@ -393,7 +393,7 @@ class srCertificateType extends ActiveRecord {
 	public static function getAllAvailableObjectTypes() {
 		$types = self::$all_available_object_types;
 		// crs-tpl is only available if activated in the plugin config
-		if (!ilCertificateConfig::get('course_templates')) {
+		if (!ilCertificateConfig::getX('course_templates')) {
 			$key = array_search('crs-tpl', $types);
 			unset($types[$key]);
 		}

@@ -107,7 +107,7 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('VALUE', $a_set['id']);
 		$this->tpl->parseCurrentBlock();
 
-		$utc = ilCertificateConfig::get('time_format_utc');
+		$utc = ilCertificateConfig::getX('time_format_utc');
 		$date_function = ($utc)? 'gmdate' : 'date';
 
 		foreach (self::$columns as $k => $column) {

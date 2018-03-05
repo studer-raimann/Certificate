@@ -728,7 +728,7 @@ class srCertificateTypeGUI
      */
     protected function checkPermission()
     {
-        $allowed_roles = ilCertificateConfig::get('roles_administrate_certificate_types');
+        $allowed_roles = ilCertificateConfig::getX('roles_administrate_certificate_types');
 
         return $this->rbac->isAssignedToAtLeastOneGivenRole($this->user->getId(), json_decode($allowed_roles, true));
     }

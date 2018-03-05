@@ -78,7 +78,8 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType
             }
             $from = $report_file . '.pdf';
             $to = $cert->getFilePath();
-            return ilUtil::moveUploadedFile($from, '', $to, false, 'rename');
+            //return ilUtil::moveUploadedFile($from, '', $to, false, 'rename');
+	        return rename($from, $to);
         } catch (JasperReportException $e) {
             $this->log->write("srCertificateTemplyteTypeJasper::generate() Report file of certificate with ID {$cert->getId()} was not created by Jasper: " . implode(', ', $e->getErrors()));
             return false;

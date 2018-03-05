@@ -169,7 +169,7 @@ class srCertificateTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    protected function fillRow(array $a_set)
+    protected function fillRow($a_set)
     {
         // For checkboxes in first column
         if (count($this->getOption('actions_multi')) && $a_set['status'] == 3) {
@@ -181,7 +181,7 @@ class srCertificateTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VALUE', '');
             $this->tpl->parseCurrentBlock();
         }
-        $utc = ilCertificateConfig::get('time_format_utc');
+        $utc = ilCertificateConfig::getX('time_format_utc');
         $date_function = ($utc)? 'gmdate' : 'date';
 
         foreach ($this->columns as $k => $column) {
@@ -249,10 +249,10 @@ class srCertificateTableGUI extends ilTable2GUI
 
 
     /**
-     * @param $worksheet
+     * @param ilExcel $worksheet
      * @param int $row
      */
-    public function fillHeaderExcel($worksheet, &$row)
+    public function fillHeaderExcel(ilExcel $worksheet, &$row)
     {
         $col = 0;
         foreach ($this->columns as $column) {
@@ -265,11 +265,11 @@ class srCertificateTableGUI extends ilTable2GUI
 
 
     /**
-     * @param object $a_worksheet
+     * @param ilExcel $a_worksheet
      * @param int $a_row
      * @param array $a_set
      */
-    protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_worksheet, &$a_row, $a_set)
     {
         $col = 0;
         foreach ($this->columns as $column) {
