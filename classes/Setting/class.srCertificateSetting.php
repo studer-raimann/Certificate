@@ -55,7 +55,7 @@ abstract class srCertificateSetting extends ActiveRecord implements srCertificat
      */
     static function returnDbTableName()
     {
-        return self::TABLE_NAME;
+        return static::TABLE_NAME;
     }
 
 
