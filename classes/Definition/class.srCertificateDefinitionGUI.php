@@ -509,12 +509,12 @@ class srCertificateDefinitionGUI {
 	 */
 	protected function setSubTabs() {
 		if ($this->definition !== NULL) {
-			$this->tabs->addSubTab(self::TAB_SHOW_CERTIFICATES, 'Show Certificates', $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CERTIFICATES));
-			$this->tabs->addSubTab(self::TAB_SHOW_PARTICIPANTS, 'Participants', $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PARTICIPANTS));
+			$this->tabs->addSubTab(self::TAB_SHOW_CERTIFICATES, $this->pl->txt('show_certificates'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CERTIFICATES));
+			$this->tabs->addSubTab(self::TAB_SHOW_PARTICIPANTS, $this->pl->txt('participants'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PARTICIPANTS));
 		}
-		$this->tabs->addSubTab(self::TAB_SHOW_DEFINITION, 'Definition settings', $this->ctrl->getLinkTarget($this, self::CMD_SHOW_DEFINITION));
+		$this->tabs->addSubTab(self::TAB_SHOW_DEFINITION, $this->pl->txt('definition_settings'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_DEFINITION));
 		if ($this->definition !== NULL) {
-			$this->tabs->addSubTab(self::TAB_SHOW_PLACEHOLDERS, 'Placeholders', $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PLACEHOLDERS));
+			$this->tabs->addSubTab(self::TAB_SHOW_PLACEHOLDERS, $this->pl->txt('placeholders'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PLACEHOLDERS));
 		}
 	}
 

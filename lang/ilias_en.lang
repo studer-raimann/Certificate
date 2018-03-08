@@ -217,3 +217,6 @@ not_passed_yet#:#Not passed yet
 passed_date#:#Date
 set_date_info#:#Please choose a date for the certificate. The date is used for the validity of the certificate ("valid from"), but does not affect the time of creation (the certificate will be created immediately).
 set_date_info_multi#:#Please choose a date for the certificates. The date is used for the validity of the certificates ("valid from"), but does not affect the time of creation (the certificates will be created immediately).
+show_certificates#:#Show Certificates
+participants#:#Participants
+definition_settings#:#Definition settings
