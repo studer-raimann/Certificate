@@ -24,6 +24,43 @@ require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
  */
 class srCertificateTypeGUI {
 
+	const CMD_ADD_CUSTOM_SETTING = 'addCustomSetting';
+	const CMD_ADD_PLACEHOLDER = 'addPlaceholder';
+	const CMD_ADD_SIGNATURE = 'addSignature';
+	const CMD_ADD_TYPE = 'addType';
+	const CMD_CONFIRM_DELETE_CUSTOM_SETTING = 'confirmDeleteCustomSetting';
+	const CMD_CONFIRM_DELETE_PLACEHOLDER = 'confirmDeletePlaceholder';
+	const CMD_CONFIRM_DELETE_SIGNATURE = 'confirmDeleteSignature';
+	const CMD_CREATE_PLACEHOLDER = 'createPlaceholder';
+	const CMD_CREATE_SIGNATURE = 'createSignature';
+	const CMD_DELETE_CUSTOM_SETTING = 'deleteCustomSetting';
+	const CMD_DELETE_PLACEHOLDER = 'deletePlaceholder';
+	const CMD_DELETE_SIGNATURE = 'deleteSignature';
+	const CMD_DOWNLOAD_DEFAULT_TEMPLATE = 'downloadDefaultTemplate';
+	const CMD_DOWNLOAD_SIGNATURE = 'downloadSignature';
+	const CMD_DOWNLOAD_TEMPLATE = 'downloadTemplate';
+	const CMD_EDIT_CUSTOM_SETTING = 'editCustomSetting';
+	const CMD_EDIT_PLACEHOLDER = 'editPlaceholder';
+	const CMD_EDIT_SETTING = 'editSetting';
+	const CMD_EDIT_SIGNATURE = 'editSignature';
+	const CMD_EDIT_TEMPLATE = 'editTemplate';
+	const CMD_EDIT_TYPE = 'editType';
+	const CMD_SAVE_CUSTOM_SETTING = 'saveCustomSetting';
+	const CMD_SAVE_TYPE = 'saveType';
+	const CMD_SHOW_PLACEHOLDERS = 'showPlaceholders';
+	const CMD_SHOW_SETTINGS = 'showSettings';
+	const CMD_SHOW_SIGNATURES = 'showSignatures';
+	const CMD_SHOW_TYPES = 'showTypes';
+	const CMD_UPDATE_PLACEHOLDER = 'updatePlaceholder';
+	const CMD_UPDATE_SETTING = 'updateSetting';
+	const CMD_UPDATE_SIGNATURE = 'updateSignature';
+	const CMD_UPDATE_TEMPLATE = 'updateTemplate';
+	const CMD_VIEW = 'view';
+	const TAB_GENERAL = 'general';
+	const TAB_PLACEHOLDERS = 'placeholders';
+	const TAB_SETTINGS = 'settings';
+	const TAB_SIGNATURES = 'signatures';
+	const TAB_TEMPLATE = 'template';
 	/**
 	 * @var ilTabsGUI
 	 */
@@ -37,7 +74,7 @@ class srCertificateTypeGUI {
 	 */
 	protected $tpl;
 	/**
-	 * @var ilToolbar
+	 * @var ilToolbarGUI
 	 */
 	protected $toolbar;
 	/**
@@ -109,7 +146,7 @@ class srCertificateTypeGUI {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 
-		if (!in_array($cmd, array( 'addType', '' ))) {
+		if (!in_array($cmd, array( self::CMD_ADD_TYPE, '' ))) {
 			$this->ctrl->saveParameter($this, 'type_id');
 			$this->ctrl->saveParameter($this, 'signature_id');
 		}
@@ -117,126 +154,126 @@ class srCertificateTypeGUI {
 		switch ($next_class) {
 			case '':
 				switch ($cmd) {
-					case 'showTypes':
+					case self::CMD_SHOW_TYPES:
 						$this->showTypes();
 						break;
-					case 'editType':
+					case self::CMD_EDIT_TYPE:
 						$this->editType();
-						$this->setTabs('general');
+						$this->setTabs(self::TAB_GENERAL);
 						break;
-					case 'addType':
+					case self::CMD_ADD_TYPE:
 						$this->addType();
-						$this->setTabs('general');
+						$this->setTabs(self::TAB_GENERAL);
 						break;
-					case 'saveType':
+					case self::CMD_SAVE_TYPE:
 						$this->saveType();
-						$this->setTabs('general');
+						$this->setTabs(self::TAB_GENERAL);
 						break;
-					case 'editTemplate':
+					case self::CMD_EDIT_TEMPLATE:
 						$this->editTemplate();
-						$this->setTabs('template');
+						$this->setTabs(self::TAB_TEMPLATE);
 						break;
-					case 'updateTemplate':
+					case self::CMD_UPDATE_TEMPLATE:
 						$this->updateTemplate();
-						$this->setTabs('template');
+						$this->setTabs(self::TAB_TEMPLATE);
 						break;
-					case 'downloadDefaultTemplate':
+					case self::CMD_DOWNLOAD_DEFAULT_TEMPLATE:
 						$this->downloadDefaultTemplate();
-						$this->setTabs('template');
+						$this->setTabs(self::TAB_TEMPLATE);
 						break;
-					case 'downloadTemplate':
+					case self::CMD_DOWNLOAD_TEMPLATE:
 						$this->downloadTemplate();
-						$this->setTabs('template');
+						$this->setTabs(self::TAB_TEMPLATE);
 						break;
-					case 'showSettings':
+					case self::CMD_SHOW_SETTINGS:
 						$this->showSettings();
-						$this->setTabs('settings');
+						$this->setTabs(self::TAB_SETTINGS);
 						break;
-					case 'editSetting':
+					case self::CMD_EDIT_SETTING:
 						$this->editSetting();
-						$this->setTabs('settings');
+						$this->setTabs(self::TAB_SETTINGS);
 						break;
-					case 'updateSetting':
+					case self::CMD_UPDATE_SETTING:
 						$this->updateSetting();
-						$this->setTabs('settings');
+						$this->setTabs(self::TAB_SETTINGS);
 						break;
-					case 'addCustomSetting':
+					case self::CMD_ADD_CUSTOM_SETTING:
 						$this->addCustomSetting();
-						$this->setTabs('settings');
+						$this->setTabs(self::TAB_SETTINGS);
 						break;
-					case 'editCustomSetting':
+					case self::CMD_EDIT_CUSTOM_SETTING:
 						$this->editCustomSetting();
-						$this->setTabs('settings');
+						$this->setTabs(self::TAB_SETTINGS);
 						break;
-					case 'confirmDeleteCustomSetting':
+					case self::CMD_CONFIRM_DELETE_CUSTOM_SETTING:
 						$this->confirmDeleteCustomSetting();
-						$this->setTabs('settings');
+						$this->setTabs(self::TAB_SETTINGS);
 						break;
-					case 'deleteCustomSetting':
+					case self::CMD_DELETE_CUSTOM_SETTING:
 						$this->deleteCustomSetting();
 						break;
-					case 'saveCustomSetting':
+					case self::CMD_SAVE_CUSTOM_SETTING:
 						$this->saveCustomSetting();
-						$this->setTabs('settings');
+						$this->setTabs(self::TAB_SETTINGS);
 						break;
-					case 'showPlaceholders':
+					case self::CMD_SHOW_PLACEHOLDERS:
 						$this->showPlaceholders();
-						$this->setTabs('placeholders');
+						$this->setTabs(self::TAB_PLACEHOLDERS);
 						break;
-					case 'addPlaceholder':
+					case self::CMD_ADD_PLACEHOLDER:
 						$this->addPlaceholder();
-						$this->setTabs('placeholders');
+						$this->setTabs(self::TAB_PLACEHOLDERS);
 						break;
-					case 'editPlaceholder':
+					case self::CMD_EDIT_PLACEHOLDER:
 						$this->editPlaceholder();
-						$this->setTabs('placeholders');
+						$this->setTabs(self::TAB_PLACEHOLDERS);
 						break;
-					case 'updatePlaceholder':
+					case self::CMD_UPDATE_PLACEHOLDER:
 						$this->updatePlaceholder();
-						$this->setTabs('placeholders');
+						$this->setTabs(self::TAB_PLACEHOLDERS);
 						break;
-					case 'createPlaceholder':
+					case self::CMD_CREATE_PLACEHOLDER:
 						$this->createPlaceholder();
-						$this->setTabs('placeholders');
+						$this->setTabs(self::TAB_PLACEHOLDERS);
 						break;
-					case 'deletePlaceholder':
+					case self::CMD_DELETE_PLACEHOLDER:
 						$this->deletePlaceholder();
 						break;
-					case 'confirmDeletePlaceholder':
+					case self::CMD_CONFIRM_DELETE_PLACEHOLDER:
 						$this->confirmDeletePlaceholder();
-						$this->setTabs('placeholders');
+						$this->setTabs(self::TAB_PLACEHOLDERS);
 						break;
-					case 'showSignatures':
+					case self::CMD_SHOW_SIGNATURES:
 						$this->showSignatures();
-						$this->setTabs('signatures');
+						$this->setTabs(self::TAB_SIGNATURES);
 						break;
-					case 'addSignature':
+					case self::CMD_ADD_SIGNATURE:
 						$this->addSignature();
-						$this->setTabs('signatures');
+						$this->setTabs(self::TAB_SIGNATURES);
 						break;
-					case 'editSignature':
+					case self::CMD_EDIT_SIGNATURE:
 						$this->editSignature();
-						$this->setTabs('signatures');
+						$this->setTabs(self::TAB_SIGNATURES);
 						break;
-					case 'createSignature':
+					case self::CMD_CREATE_SIGNATURE:
 						$this->createSignature();
-						$this->setTabs('signatures');
+						$this->setTabs(self::TAB_SIGNATURES);
 						break;
-					case 'updateSignature':
+					case self::CMD_UPDATE_SIGNATURE:
 						$this->updateSignature();
-						$this->setTabs('signatures');
+						$this->setTabs(self::TAB_SIGNATURES);
 						break;
-					case 'confirmDeleteSignature':
+					case self::CMD_CONFIRM_DELETE_SIGNATURE:
 						$this->confirmDeleteSignature();
-						$this->setTabs('signatures');
+						$this->setTabs(self::TAB_SIGNATURES);
 						break;
-					case 'deleteSignature':
+					case self::CMD_DELETE_SIGNATURE:
 						$this->deleteSignature();
-						$this->setTabs('signatures');
+						$this->setTabs(self::TAB_SIGNATURES);
 						break;
-					case 'downloadSignature':
+					case self::CMD_DOWNLOAD_SIGNATURE:
 						$this->downloadSignature();
-						$this->setTabs('signatures');
+						$this->setTabs(self::TAB_SIGNATURES);
 						break;
 					case '':
 						$this->showTypes();
@@ -253,13 +290,13 @@ class srCertificateTypeGUI {
 	 *
 	 * @param string $active_tab_id ID of activated tab
 	 */
-	protected function setTabs($active_tab_id = 'general') {
-		$this->tabs->addTab('general', $this->pl->txt('general'), $this->ctrl->getLinkTarget($this, 'editType'));
+	protected function setTabs($active_tab_id = self::TAB_GENERAL) {
+		$this->tabs->addTab(self::TAB_GENERAL, $this->pl->txt(self::TAB_GENERAL), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_TYPE));
 		if ($this->type) {
-			$this->tabs->addTab('template', $this->pl->txt('template'), $this->ctrl->getLinkTarget($this, 'editTemplate'));
-			$this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'showSettings'));
-			$this->tabs->addTab('placeholders', $this->pl->txt('placeholders'), $this->ctrl->getLinkTarget($this, 'showPlaceholders'));
-			$this->tabs->addTab('signatures', $this->pl->txt('signatures'), $this->ctrl->getLinkTarget($this, 'showSignatures'));
+			$this->tabs->addTab(self::TAB_TEMPLATE, $this->pl->txt(self::TAB_TEMPLATE), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_TEMPLATE));
+			$this->tabs->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SETTINGS));
+			$this->tabs->addTab(self::TAB_PLACEHOLDERS, $this->pl->txt(self::TAB_PLACEHOLDERS), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PLACEHOLDERS));
+			$this->tabs->addTab(self::TAB_SIGNATURES, $this->pl->txt(self::TAB_SIGNATURES), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SIGNATURES));
 			$this->tpl->setTitle($this->type->getTitle());
 			$this->tpl->setDescription($this->type->getDescription());
 		}
@@ -273,7 +310,7 @@ class srCertificateTypeGUI {
 	 */
 	public function showTypes() {
 		$this->tpl->setTitle($this->pl->txt('manage_cert_types'));
-		$table = new srCertificateTypeTableGUI($this, 'showTypes');
+		$table = new srCertificateTypeTableGUI($this, self::CMD_SHOW_TYPES);
 		$this->tpl->setContent($table->getHTML());
 	}
 
@@ -312,7 +349,7 @@ class srCertificateTypeGUI {
 		$form = new srCertificateTypeTemplateFormGUI($this, $this->type);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_type_saved'), true);
-			$this->ctrl->redirect($this, 'editTemplate');
+			$this->ctrl->redirect($this, self::CMD_EDIT_TEMPLATE);
 		} else {
 			$this->tpl->setContent($form->getHTML());
 		}
@@ -345,10 +382,10 @@ class srCertificateTypeGUI {
 	public function showSettings() {
 		$button = ilLinkButton::getInstance();
 		$button->setCaption($this->pl->txt('add_new_custom_setting'), false);
-		$button->setUrl($this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, 'addCustomSetting'));
+		$button->setUrl($this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, self::CMD_ADD_CUSTOM_SETTING));
 		$this->toolbar->addButtonInstance($button);
-		$table = new srCertificateTypeSettingsTableGUI($this, 'showSettings', $this->type);
-		$table_custom_settings = new srCertificateTypeCustomSettingsTableGUI($this, 'showSettings', $this->type);
+		$table = new srCertificateTypeSettingsTableGUI($this, self::CMD_SHOW_SETTINGS, $this->type);
+		$table_custom_settings = new srCertificateTypeCustomSettingsTableGUI($this, self::CMD_SHOW_SETTINGS, $this->type);
 		$spacer = '<div style="height: 30px;"></div>';
 		$this->tpl->setContent($table->getHTML() . $spacer . $table_custom_settings->getHTML());
 	}
@@ -361,8 +398,8 @@ class srCertificateTypeGUI {
 		$gui->setFormAction($this->ctrl->getFormAction($this));
 		$gui->setHeaderText($this->pl->txt('info_delete_custom_setting'));
 		$gui->addItem('custom_setting_id', $setting->getId(), $setting->getLabel($this->user->getLanguage()));
-		$gui->setConfirm($this->lng->txt('confirm'), 'deleteCustomSetting');
-		$gui->setCancel($this->lng->txt('cancel'), 'showSettings');
+		$gui->setConfirm($this->lng->txt('confirm'), self::CMD_DELETE_CUSTOM_SETTING);
+		$gui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_SETTINGS);
 		$this->tpl->setContent($gui->getHTML());
 	}
 
@@ -371,7 +408,7 @@ class srCertificateTypeGUI {
 		$setting = srCertificateCustomTypeSetting::findOrFail((int)$_POST['custom_setting_id']);
 		$setting->delete();
 		ilUtil::sendSuccess($this->pl->txt('msg_success_custom_setting_deleted'), true);
-		$this->ctrl->redirect($this, 'showSettings');
+		$this->ctrl->redirect($this, self::CMD_SHOW_SETTINGS);
 	}
 
 
@@ -382,8 +419,8 @@ class srCertificateTypeGUI {
 		$gui->setFormAction($this->ctrl->getFormAction($this));
 		$gui->setHeaderText($this->pl->txt('info_delete_custom_placeholder'));
 		$gui->addItem('placeholder_id', $placeholder->getId(), $placeholder->getLabel($this->user->getLanguage()));
-		$gui->setConfirm($this->lng->txt('confirm'), 'deletePlaceholder');
-		$gui->setCancel($this->lng->txt('cancel'), 'showPlaceholders');
+		$gui->setConfirm($this->lng->txt('confirm'), self::CMD_DELETE_PLACEHOLDER);
+		$gui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_PLACEHOLDERS);
 		$this->tpl->setContent($gui->getHTML());
 	}
 
@@ -392,7 +429,7 @@ class srCertificateTypeGUI {
 		$placeholder = srCertificatePlaceholder::findOrFail((int)$_POST['placeholder_id']);
 		$placeholder->delete();
 		ilUtil::sendSuccess($this->pl->txt('msg_success_custom_placeholder_deleted'), true);
-		$this->ctrl->redirect($this, 'showPlaceholders');
+		$this->ctrl->redirect($this, self::CMD_SHOW_PLACEHOLDERS);
 	}
 
 
@@ -405,7 +442,7 @@ class srCertificateTypeGUI {
 			$this->tpl->setContent($form->getHTML());
 		} catch (Exception $e) {
 			ilUtil::sendFailure($e->getMessage(), true);
-			$this->ctrl->redirect($this, 'showSettings');
+			$this->ctrl->redirect($this, self::CMD_SHOW_SETTINGS);
 		}
 	}
 
@@ -418,13 +455,13 @@ class srCertificateTypeGUI {
 			$form = new srCertificateTypeSettingFormGUI($this, $this->type, $_REQUEST['identifier']);
 			if ($form->saveObject()) {
 				ilUtil::sendSuccess($this->pl->txt('msg_setting_saved'), true);
-				$this->ctrl->redirect($this, 'showSettings');
+				$this->ctrl->redirect($this, self::CMD_SHOW_SETTINGS);
 			} else {
 				$this->tpl->setContent($form->getHTML());
 			}
 		} catch (Exception $e) {
 			ilUtil::sendFailure($e->getMessage(), true);
-			$this->ctrl->redirect($this, 'showSettings');
+			$this->ctrl->redirect($this, self::CMD_SHOW_SETTINGS);
 		}
 	}
 
@@ -460,7 +497,7 @@ class srCertificateTypeGUI {
 		$form = new srCertificateCustomTypeSettingFormGUI($this, $setting);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_setting_saved'), true);
-			$this->ctrl->redirect($this, 'showSettings');
+			$this->ctrl->redirect($this, self::CMD_SHOW_SETTINGS);
 		} else {
 			$form->setValuesByPost();
 			$this->tpl->setContent($form->getHTML());
@@ -472,8 +509,8 @@ class srCertificateTypeGUI {
 	 * Show table with available placeholders for this type
 	 */
 	public function showPlaceholders() {
-		$table1 = new srCertificateTypeStandardPlaceholdersTableGUI($this, 'showPlaceholders');
-		$table2 = new srCertificateTypePlaceholdersTableGUI($this, 'showPlaceholders', $this->type);
+		$table1 = new srCertificateTypeStandardPlaceholdersTableGUI($this, self::CMD_SHOW_PLACEHOLDERS);
+		$table2 = new srCertificateTypePlaceholdersTableGUI($this, self::CMD_SHOW_PLACEHOLDERS, $this->type);
 		$spacer = '<div style="height: 30px;"></div>';
 		$this->tpl->setContent($table1->getHTML() . $spacer . $table2->getHTML());
 		ilUtil::sendInfo(sprintf($this->pl->txt('msg_placeholder_format_info'), srCertificatePlaceholder::PLACEHOLDER_START_SYMBOL, srCertificatePlaceholder::PLACEHOLDER_END_SYMBOL));
@@ -504,7 +541,7 @@ class srCertificateTypeGUI {
 			$this->tpl->setContent($form->getHTML());
 		} catch (Exception $e) {
 			ilUtil::sendFailure($e->getMessage(), true);
-			$this->ctrl->redirect($this, 'showPlaceholders');
+			$this->ctrl->redirect($this, self::CMD_SHOW_PLACEHOLDERS);
 		}
 	}
 
@@ -518,7 +555,7 @@ class srCertificateTypeGUI {
 		$form = new srCertificateTypePlaceholderFormGUI($this, $placeholder);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_placeholder_saved'), true);
-			$this->ctrl->redirect($this, 'showPlaceholders');
+			$this->ctrl->redirect($this, self::CMD_SHOW_PLACEHOLDERS);
 		} else {
 			$this->tpl->setContent($form->getHTML());
 		}
@@ -537,13 +574,13 @@ class srCertificateTypeGUI {
 			$form = new srCertificateTypePlaceholderFormGUI($this, $placeholder);
 			if ($form->saveObject()) {
 				ilUtil::sendSuccess($this->pl->txt('msg_placeholder_saved'), true);
-				$this->ctrl->redirect($this, 'showPlaceholders');
+				$this->ctrl->redirect($this, self::CMD_SHOW_PLACEHOLDERS);
 			} else {
 				$this->tpl->setContent($form->getHTML());
 			}
 		} catch (ilException $e) {
 			ilUtil::sendFailure($e->getMessage(), true);
-			$this->ctrl->redirect($this, 'showPlaceholders');
+			$this->ctrl->redirect($this, self::CMD_SHOW_PLACEHOLDERS);
 		}
 	}
 
@@ -552,7 +589,7 @@ class srCertificateTypeGUI {
 	 * Show form for editing singatures
 	 */
 	public function showSignatures() {
-		$table = new srCertificateTypeSignaturesTableGUI($this, 'showSignatures', $this->type);
+		$table = new srCertificateTypeSignaturesTableGUI($this, self::CMD_SHOW_SIGNATURES, $this->type);
 		$this->tpl->setContent($table->getHTML());
 	}
 
@@ -577,7 +614,7 @@ class srCertificateTypeGUI {
 		$form = new srCertificateTypeSignatureFormGUI($this, $signature, $this->type);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_signature_saved'), true);
-			$this->ctrl->redirect($this, 'showSignatures');
+			$this->ctrl->redirect($this, self::CMD_SHOW_SIGNATURES);
 		} else {
 			$this->tpl->setContent($form->getHTML());
 		}
@@ -597,7 +634,7 @@ class srCertificateTypeGUI {
 			$this->tpl->setContent($form->getHTML());
 		} catch (Exception $e) {
 			ilUtil::sendFailure($e->getMessage(), true);
-			$this->ctrl->redirect($this, 'showSignatures');
+			$this->ctrl->redirect($this, self::CMD_SHOW_SIGNATURES);
 		}
 	}
 
@@ -614,13 +651,13 @@ class srCertificateTypeGUI {
 			$form = new srCertificateTypeSignatureFormGUI($this, $signature, $this->type);
 			if ($form->saveObject()) {
 				ilUtil::sendSuccess($this->pl->txt('msg_signature_saved'), true);
-				$this->ctrl->redirect($this, 'showSignatures');
+				$this->ctrl->redirect($this, self::CMD_SHOW_SIGNATURES);
 			} else {
 				$this->tpl->setContent($form->getHTML());
 			}
 		} catch (ilException $e) {
 			ilUtil::sendFailure($e->getMessage(), true);
-			$this->ctrl->redirect($this, 'showSignatures');
+			$this->ctrl->redirect($this, self::CMD_SHOW_SIGNATURES);
 		}
 	}
 
@@ -632,18 +669,18 @@ class srCertificateTypeGUI {
 		$signature = srCertificateSignature::find($_GET['signature_id']);
 		$item_html = $signature->getFirstName() . " " . $signature->getLastName() . '<br>';
 		$this->tabs->clearTargets();
-		$this->tabs->setBackTarget($this->pl->txt('common_back'), $this->ctrl->getLinkTarget($this, 'view'));
+		$this->tabs->setBackTarget($this->pl->txt('common_back'), $this->ctrl->getLinkTarget($this, self::CMD_VIEW));
 		ilUtil::sendQuestion($this->pl->txt('signatures_confirm_delete'));
 
 		$toolbar = new ilToolbarGUI();
 		$this->ctrl->saveParameter($this, 'signature_id');
 		$button = ilLinkButton::getInstance();
 		$button->setCaption($this->pl->txt('confirm'), false);
-		$button->setUrl($this->ctrl->getLinkTarget($this, 'deleteSignature'));
+		$button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_DELETE_SIGNATURE));
 		$this->toolbar->addButtonInstance($button);
 		$button = ilLinkButton::getInstance();
 		$button->setCaption($this->pl->txt('cancel'), false);
-		$button->setUrl($this->ctrl->getLinkTarget($this, 'showSignatures'));
+		$button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_SHOW_SIGNATURES));
 		$this->toolbar->addButtonInstance($button);
 
 		$this->tpl->setContent($item_html . '</br>' . $toolbar->getHTML());
@@ -657,7 +694,7 @@ class srCertificateTypeGUI {
 		$signature = srCertificateSignature::find($_GET['signature_id']);
 		$signature->delete();
 		ilUtil::sendSuccess($this->pl->txt('msg_delete_signature_success'), true);
-		$this->ctrl->redirect($this, 'showSignatures');
+		$this->ctrl->redirect($this, self::CMD_SHOW_SIGNATURES);
 	}
 
 
@@ -676,7 +713,7 @@ class srCertificateTypeGUI {
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_type_saved'), true);
 			$this->ctrl->setParameter($this, 'type_id', $type->getId());
-			$this->ctrl->redirect($this, 'editType');
+			$this->ctrl->redirect($this, self::CMD_EDIT_TYPE);
 		} else {
 			$this->tpl->setContent($form->getHTML());
 		}

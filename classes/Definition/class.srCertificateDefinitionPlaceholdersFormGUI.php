@@ -129,7 +129,7 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI {
 			$this->addItem($select_input);
 		}
 
-		$this->addCommandButton('updatePlaceholders', $this->pl->txt('save'));
+		$this->addCommandButton(srCertificateDefinitionGUI::CMD_UPDATE_PLACEHOLDERS, $this->pl->txt('save'));
 
 		return;
 	}

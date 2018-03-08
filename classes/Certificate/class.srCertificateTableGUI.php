@@ -115,7 +115,7 @@ class srCertificateTableGUI extends ilTable2GUI {
 
 		if ($this->has_any_certs && count($this->getOption('actions_multi'))) {
 			$this->setSelectAllCheckbox("cert_id[]");
-			$this->addMultiCommand("downloadCertificates", $this->pl->txt('download_zip'));
+			$this->addMultiCommand(srCertificateGUI::CMD_DOWNLOAD_CERTIFICATES, $this->pl->txt('download_zip'));
 		}
 	}
 
@@ -219,7 +219,7 @@ class srCertificateTableGUI extends ilTable2GUI {
 				$async_url = $this->ctrl->getLinkTargetByClass(array(
 					ilUIPluginRouterGUI::class,
 					get_class($this->parent_obj)
-				), 'buildActions', '', true);
+				), srCertificateGUI::CMD_BUILD_ACTIONS, '', true);
 				$actions = new ilAdvancedSelectionListGUI();
 				$actions->setId('action_list_' . $a_set['id']);
 				$actions->setAsynchUrl($async_url);

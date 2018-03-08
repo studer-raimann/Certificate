@@ -20,6 +20,29 @@ require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php'
  */
 class srCertificateDefinitionGUI {
 
+	const CMD_BUILD_ACTIONS = 'buildActions';
+	const CMD_CALL_BACK = 'callBack';
+	const CMD_CONFIRM_TYPE_CHANGE = 'confirmTypeChange';
+	const CMD_CREATE_DEFINITION = 'createDefinition';
+	const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
+	const CMD_DOWNLOAD_CERTIFICATES = 'downloadCertificates';
+	const CMD_PREVIEW_CERTIFICATE = 'previewCertificate';
+	const CMD_RETRY_GENERATION = 'retryGeneration';
+	const CMD_SET_DATE = 'setDate';
+	const CMD_SET_DATE_AND_CREATE = 'setDateAndCreate';
+	const CMD_SHOW_CERTIFICATES = 'showCertificates';
+	const CMD_SHOW_DEFINITION = 'showDefinition';
+	const CMD_SHOW_PARTICIPANTS = 'showParticipants';
+	const CMD_SHOW_PLACEHOLDERS = 'showPlaceholders';
+	const CMD_UNDO_CALL_BACK = 'undoCallBack';
+	const CMD_UPDATE_DEFINITION = 'updateDefinition';
+	const CMD_UPDATE_PLACEHOLDERS = 'updatePlaceholders';
+	const CMD_UPDATE_PLACEHOLDERS_PREVIEW = 'updatePlaceholdersPreview';
+	const CMD_UPDATE_TYPE = 'updateType';
+	const TAB_SHOW_CERTIFICATES = 'show_certificates';
+	const TAB_SHOW_DEFINITION = 'show_definition';
+	const TAB_SHOW_PARTICIPANTS = 'show_participants';
+	const TAB_SHOW_PLACEHOLDERS = 'show_placeholders';
 	/**
 	 * @var ilTabsGUI
 	 */
@@ -102,29 +125,29 @@ class srCertificateDefinitionGUI {
 		switch ($next_class) {
 			case '':
 				switch ($cmd) {
-					case 'showDefinition':
-					case 'showPlaceholders':
-					case 'showCertificates':
-					case 'showParticipants':
-					case 'downloadCertificate':
-					case 'downloadCertificates':
-					case 'updateDefinition':
-					case 'confirmTypeChange':
-					case 'updateType':
-					case 'createDefinition':
-					case 'updatePlaceholders':
-					case 'previewCertificate':
-					case 'buildActions':
-					case 'setDateAndCreate':
-					case 'setDate':
+					case self::CMD_SHOW_DEFINITION:
+					case self::CMD_SHOW_PLACEHOLDERS:
+					case self::CMD_SHOW_CERTIFICATES:
+					case self::CMD_SHOW_PARTICIPANTS:
+					case self::CMD_DOWNLOAD_CERTIFICATE:
+					case self::CMD_DOWNLOAD_CERTIFICATES:
+					case self::CMD_UPDATE_DEFINITION:
+					case self::CMD_CONFIRM_TYPE_CHANGE:
+					case self::CMD_UPDATE_TYPE:
+					case self::CMD_CREATE_DEFINITION:
+					case self::CMD_UPDATE_PLACEHOLDERS:
+					case self::CMD_PREVIEW_CERTIFICATE:
+					case self::CMD_BUILD_ACTIONS:
+					case self::CMD_SET_DATE_AND_CREATE:
+					case self::CMD_SET_DATE:
 						$this->$cmd();
 						break;
-					case 'updatePlaceholdersPreview':
-						$this->updatePlaceholders('previewCertificate');
+					case self::CMD_UPDATE_PLACEHOLDERS_PREVIEW:
+						$this->updatePlaceholders(self::CMD_PREVIEW_CERTIFICATE);
 						break;
-					case 'callBack':
-					case 'undoCallBack':
-					case 'retryGeneration':
+					case self::CMD_CALL_BACK:
+					case self::CMD_UNDO_CALL_BACK:
+					case self::CMD_RETRY_GENERATION:
 						/** @var srCertificate $certificate */
 						$certificate = srCertificate::find((int)$_GET['cert_id']);
 						if ($certificate->getDefinitionId() == $this->definition->getId()) {
@@ -149,7 +172,7 @@ class srCertificateDefinitionGUI {
 			if (is_file($this->definition->getType()->getCertificateTemplatesPath(true))) {
 				$button = ilLinkButton::getInstance();
 				$button->setCaption($this->pl->txt('preview_certificate'), false);
-				$button->setUrl($this->ctrl->getLinkTarget($this, 'previewCertificate'));
+				$button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_PREVIEW_CERTIFICATE));
 				$this->toolbar->addButtonInstance($button);
 			} else {
 				ilUtil::sendInfo($this->pl->txt('msg_info_current_type_no_invalid_tempalte'));
@@ -170,14 +193,14 @@ class srCertificateDefinitionGUI {
 
 		switch ($_GET['status']) {
 			case srCertificate::STATUS_CALLED_BACK:
-				$alist->addItem($this->pl->txt('undo_callback'), 'undoCallback', $this->ctrl->getLinkTarget($this, 'undoCallBack'));
+				$alist->addItem($this->pl->txt('undo_callback'), self::CMD_UNDO_CALL_BACK, $this->ctrl->getLinkTarget($this, self::CMD_UNDO_CALL_BACK));
 				break;
 			case srCertificate::STATUS_FAILED:
-				$alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this, 'retryGeneration'));
+				$alist->addItem($this->pl->txt('retry'), 'retry', $this->ctrl->getLinkTarget($this, self::CMD_RETRY_GENERATION));
 				break;
 			case srCertificate::STATUS_PROCESSED:
-				$alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, 'downloadCertificate'));
-				$alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this, 'callBack'));
+				$alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_CERTIFICATE));
+				$alist->addItem($this->pl->txt('call_back'), 'call_back', $this->ctrl->getLinkTarget($this, self::CMD_CALL_BACK));
 				break;
 		}
 
@@ -191,7 +214,7 @@ class srCertificateDefinitionGUI {
 	 *
 	 */
 	public function showDefinition() {
-		$this->tabs->setSubTabActive('show_definition');
+		$this->tabs->activateSubTab(self::TAB_SHOW_DEFINITION);
 		$definition = ($this->definition === NULL) ? new srCertificateDefinition() : $this->definition;
 		$this->form = new srCertificateDefinitionFormGUI($this, $definition);
 		$this->tpl->setContent($this->form->getHTML());
@@ -206,7 +229,7 @@ class srCertificateDefinitionGUI {
 	 *
 	 */
 	public function showPlaceholders() {
-		$this->tabs->setSubTabActive('show_placeholders');
+		$this->tabs->activateSubTab(self::TAB_SHOW_PLACEHOLDERS);
 		$this->showPreviewCertificateInToolbar();
 		/** @var srCertificateDefinition $definition */
 		$definition = srCertificateDefinition::where(array( 'ref_id' => $this->ref_id ))->first();
@@ -224,14 +247,14 @@ class srCertificateDefinitionGUI {
 	 *
 	 */
 	public function showCertificates() {
-		$this->tabs->setSubTabActive("show_certificates");
+		$this->tabs->activateSubTab(self::TAB_SHOW_CERTIFICATES);
 		$this->showPreviewCertificateInToolbar();
 		$options = array(
 			'columns' => array( 'firstname', 'lastname', 'valid_from', 'valid_to', 'file_version', 'status' ),
 			'definition_id' => $this->definition->getId(),
 			'show_filter' => false,
 		);
-		$table = new srCertificateTableGUI($this, 'showCertificates', $options);
+		$table = new srCertificateTableGUI($this, self::CMD_SHOW_CERTIFICATES, $options);
 		$this->tpl->setContent($table->getHTML());
 	}
 
@@ -241,8 +264,8 @@ class srCertificateDefinitionGUI {
 	 *
 	 */
 	public function showParticipants() {
-		$this->tabs->setSubTabActive("show_participants");
-		$table = new srCertificateParticipantsTableGUI($this, 'showParticipants', $this->definition);
+		$this->tabs->activateSubTab(self::TAB_SHOW_PARTICIPANTS);
+		$table = new srCertificateParticipantsTableGUI($this, self::CMD_SHOW_PARTICIPANTS, $this->definition);
 		$this->tpl->setContent($table->getHTML());
 	}
 
@@ -252,12 +275,12 @@ class srCertificateDefinitionGUI {
 	 *
 	 */
 	public function createDefinition() {
-		$this->tabs->setSubTabActive("show_definition");
+		$this->tabs->activateSubTab(self::TAB_SHOW_DEFINITION);
 		$definition = new srCertificateDefinition();
 		$this->form = new srCertificateDefinitionFormGUI($this, $definition);
 		if ($this->form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_definition_created'), true);
-			$this->ctrl->redirect($this, 'showDefinition');
+			$this->ctrl->redirect($this, self::CMD_SHOW_DEFINITION);
 		} else {
 			$this->tpl->setContent($this->form->getHTML());
 		}
@@ -269,14 +292,14 @@ class srCertificateDefinitionGUI {
 	 *
 	 */
 	public function updateDefinition() {
-		$this->tabs->setSubTabActive("show_definition");
+		$this->tabs->activateSubTab(self::TAB_SHOW_DEFINITION);
 		if ($_POST['change_type'] && $_POST['type_id'] != $this->definition->getTypeId()) {
 			$this->confirmTypeChange();
 		} else {
 			$this->form = new srCertificateDefinitionFormGUI($this, $this->definition);
 			if ($this->form->saveObject()) {
 				ilUtil::sendSuccess($this->pl->txt('msg_definition_updated'), true);
-				$this->ctrl->redirect($this, 'showDefinition');
+				$this->ctrl->redirect($this, self::CMD_SHOW_DEFINITION);
 			} else {
 				$this->tpl->setContent($this->form->getHTML());
 			}
@@ -288,8 +311,8 @@ class srCertificateDefinitionGUI {
 	 * Update placeholders
 	 *
 	 */
-	public function updatePlaceholders($redirect_cmd = 'showPlaceholders') {
-		$this->tabs->setSubTabActive("show_placeholders");
+	public function updatePlaceholders($redirect_cmd = self::CMD_SHOW_PLACEHOLDERS) {
+		$this->tabs->activateSubTab(self::TAB_SHOW_PLACEHOLDERS);
 		$this->form = new srCertificateDefinitionPlaceholdersFormGUI($this, $this->definition);
 		if ($this->form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_placeholders_updated'), true);
@@ -355,7 +378,7 @@ class srCertificateDefinitionGUI {
 	 * save -> setDateAndCreate()
 	 */
 	public function setDate() {
-		$this->tabs->setSubTabActive('show_participants');
+		$this->tabs->activateSubTab(self::TAB_SHOW_PARTICIPANTS);
 		ilUtil::sendInfo($this->pl->txt('set_date_info'));
 
 		if ($_POST['user_id']) {
@@ -374,8 +397,8 @@ class srCertificateDefinitionGUI {
 		$ilDateInputGUI = new ilDateTimeInputGUI($this->pl->txt('passed_date'), 'passed_date');
 		$form->addItem($ilDateInputGUI);
 
-		$form->addCommandButton('setDateAndCreate', $this->lng->txt('save'));
-		$form->addCommandButton('showParticipants', $this->lng->txt('cancel'));
+		$form->addCommandButton(self::CMD_SET_DATE_AND_CREATE, $this->lng->txt('save'));
+		$form->addCommandButton(self::CMD_SHOW_PARTICIPANTS, $this->lng->txt('cancel'));
 
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -398,7 +421,7 @@ class srCertificateDefinitionGUI {
 			$cert->create();
 		}
 		ilUtil::sendSuccess($this->pl->txt('msg_cert_created'), true);
-		$this->ctrl->redirect($this, 'showParticipants');
+		$this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
 	}
 
 
@@ -409,7 +432,7 @@ class srCertificateDefinitionGUI {
 		$certificate->setStatus(srCertificate::STATUS_CALLED_BACK);
 		$certificate->update();
 		ilUtil::sendSuccess($this->pl->txt('msg_called_back'), true);
-		$this->ctrl->redirect($this, 'showCertificates');
+		$this->ctrl->redirect($this, self::CMD_SHOW_CERTIFICATES);
 	}
 
 
@@ -420,7 +443,7 @@ class srCertificateDefinitionGUI {
 		$certificate->setStatus(srCertificate::STATUS_PROCESSED);
 		$certificate->update();
 		ilUtil::sendSuccess($this->pl->txt('msg_undo_called_back'), true);
-		$this->ctrl->redirect($this, 'showCertificates');
+		$this->ctrl->redirect($this, self::CMD_SHOW_CERTIFICATES);
 	}
 
 
@@ -431,7 +454,7 @@ class srCertificateDefinitionGUI {
 		$certificate->setStatus(srCertificate::STATUS_NEW);
 		$certificate->update();
 		ilUtil::sendSuccess($this->pl->txt('msg_retry_generation'), true);
-		$this->ctrl->redirect($this, 'showCertificates');
+		$this->ctrl->redirect($this, self::CMD_SHOW_CERTIFICATES);
 	}
 
 
@@ -445,8 +468,8 @@ class srCertificateDefinitionGUI {
 		$conf_gui->setFormAction($this->ctrl->getFormAction($this));
 		$conf_gui->setHeaderText($this->pl->txt('confirm_type_change'));
 		$conf_gui->addItem('type_id', $new_type_id, $this->pl->txt('confirm_type_change_text'));
-		$conf_gui->setConfirm($this->lng->txt('change'), 'updateType');
-		$conf_gui->setCancel($this->lng->txt('cancel'), 'showDefinition');
+		$conf_gui->setConfirm($this->lng->txt('change'), self::CMD_UPDATE_TYPE);
+		$conf_gui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_DEFINITION);
 		$this->tpl->setContent($conf_gui->getHTML());
 	}
 
@@ -462,7 +485,7 @@ class srCertificateDefinitionGUI {
 			$this->definition->update();
 			ilUtil::sendSuccess($this->pl->txt('msg_type_updated'), true);
 		}
-		$this->ctrl->redirect($this, 'showDefinition');
+		$this->ctrl->redirect($this, self::CMD_SHOW_DEFINITION);
 	}
 
 
@@ -486,12 +509,12 @@ class srCertificateDefinitionGUI {
 	 */
 	protected function setSubTabs() {
 		if ($this->definition !== NULL) {
-			$this->tabs->addSubTab('show_certificates', 'Show Certificates', $this->ctrl->getLinkTarget($this, 'showCertificates'));
-			$this->tabs->addSubTab('show_participants', 'Participants', $this->ctrl->getLinkTarget($this, 'showParticipants'));
+			$this->tabs->addSubTab(self::TAB_SHOW_CERTIFICATES, 'Show Certificates', $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CERTIFICATES));
+			$this->tabs->addSubTab(self::TAB_SHOW_PARTICIPANTS, 'Participants', $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PARTICIPANTS));
 		}
-		$this->tabs->addSubTab('show_definition', 'Definition settings', $this->ctrl->getLinkTarget($this, 'showDefinition'));
+		$this->tabs->addSubTab(self::TAB_SHOW_DEFINITION, 'Definition settings', $this->ctrl->getLinkTarget($this, self::CMD_SHOW_DEFINITION));
 		if ($this->definition !== NULL) {
-			$this->tabs->addSubTab('show_placeholders', 'Placeholders', $this->ctrl->getLinkTarget($this, 'showPlaceholders'));
+			$this->tabs->addSubTab(self::TAB_SHOW_PLACEHOLDERS, 'Placeholders', $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PLACEHOLDERS));
 		}
 	}
 

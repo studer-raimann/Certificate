@@ -12,6 +12,9 @@ require_once(dirname(__FILE__) . '/Placeholder/class.srCertificateStandardPlaceh
  */
 class ilCertificateConfigGUI extends ilPluginConfigGUI {
 
+	const CMD_CANCEL = 'cancel';
+	const CMD_CONFIGURE = 'configure';
+	const CMD_SAVE = 'save';
 	/**
 	 * @var ilCertificatePlugin
 	 */
@@ -40,8 +43,8 @@ class ilCertificateConfigGUI extends ilPluginConfigGUI {
 	 */
 	public function performCommand($cmd) {
 		switch ($cmd) {
-			case 'configure':
-			case 'save':
+			case self::CMD_CONFIGURE:
+			case self::CMD_SAVE:
 				$this->$cmd();
 				break;
 		}
@@ -74,7 +77,7 @@ class ilCertificateConfigGUI extends ilPluginConfigGUI {
 		$form = new ilCertificateConfigFormGUI($this);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_save_config'), true);
-			$this->ctrl->redirect($this, 'configure');
+			$this->ctrl->redirect($this, self::CMD_CONFIGURE);
 		} else {
 			$form->setValuesByPost();
 			$this->tpl->setContent($form->getHTML());

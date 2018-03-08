@@ -179,10 +179,10 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI {
 		$item->setFilenames(array( 0 => '' ));
 		$this->addItem($item);
 
-		$this->addCommandButton('downloadDefaultTemplate', $this->pl->txt('download_default_template'));
+		$this->addCommandButton(srCertificateTypeGUI::CMD_DOWNLOAD_DEFAULT_TEMPLATE, $this->pl->txt('download_default_template'));
 		if (is_file($this->type->getCertificateTemplatesPath(true))) {
-			$this->addCommandButton('downloadTemplate', $this->pl->txt('download_template'));
+			$this->addCommandButton(srCertificateTypeGUI::CMD_DOWNLOAD_TEMPLATE, $this->pl->txt('download_template'));
 		}
-		$this->addCommandButton('updateTemplate', $this->lng->txt('save'));
+		$this->addCommandButton(srCertificateTypeGUI::CMD_UPDATE_TEMPLATE, $this->lng->txt('save'));
 	}
 }

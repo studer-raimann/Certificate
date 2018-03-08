@@ -130,7 +130,7 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI {
 		$item->setValue($this->signature->getFilePath(true));
 		$this->addItem($item);
 
-		$command = $this->signature->getId() ? 'updateSignature' : 'createSignature';
+		$command = $this->signature->getId() ? srCertificateTypeGUI::CMD_UPDATE_SIGNATURE : srCertificateTypeGUI::CMD_CREATE_SIGNATURE;
 		$this->addCommandButton($command, $this->lng->txt('save'));
 	}
 }

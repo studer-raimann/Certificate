@@ -76,7 +76,7 @@ class srCertificateUserGUI extends srCertificateGUI
         $alist->setId((int) $_GET['cert_id']);
         $alist->setListTitle($this->pl->txt('actions'));
         $this->ctrl->setParameter($this, 'cert_id', (int) $_GET['cert_id']);
-        $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, 'downloadCertificate'));
+        $alist->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_CERTIFICATE));
         echo $alist->getHTML(true);
         exit;
     }
@@ -89,7 +89,7 @@ class srCertificateUserGUI extends srCertificateGUI
     protected function getTable($cmd)
     {
         $options = array();
-        if (in_array($cmd, array('resetFilter', 'applyFilter'))) {
+        if (in_array($cmd, array(self::CMD_RESET_FILTER, self::CMD_APPLY_FILTER))) {
             $options['build_data'] = false;
         }
 

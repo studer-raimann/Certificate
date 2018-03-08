@@ -160,7 +160,7 @@ class srCertificateTypeFormGUI extends ilPropertyFormGUI {
 		$item->setInfo($this->pl->txt('available_objects_info'));
 		$this->addItem($item);
 
-		$this->addCommandButton('saveType', $this->lng->txt('save'));
+		$this->addCommandButton(srCertificateTypeGUI::CMD_SAVE_TYPE, $this->lng->txt('save'));
 	}
 }
 

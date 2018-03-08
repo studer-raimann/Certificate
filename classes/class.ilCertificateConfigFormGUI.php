@@ -259,7 +259,7 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 
 
 	protected function addCommandButtons() {
-		$this->addCommandButton('save', $this->lng->txt('save'));
-		$this->addCommandButton('cancel', $this->lng->txt('cancel'));
+		$this->addCommandButton(ilCertificateConfigGUI::CMD_SAVE, $this->lng->txt('save'));
+		$this->addCommandButton(ilCertificateConfigGUI::CMD_CANCEL, $this->lng->txt('cancel'));
 	}
 }

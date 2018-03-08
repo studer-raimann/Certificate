@@ -58,7 +58,7 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 		$this->addColumns();
 
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
-		$this->addMultiCommand('setDate', $this->pl->txt('set_date_and_create'));
+		$this->addMultiCommand(srCertificateDefinitionGUI::CMD_SET_DATE, $this->pl->txt('set_date_and_create'));
 		$this->setSelectAllCheckbox('user_id');
 
 		$this->parseData();
@@ -147,7 +147,7 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setId('action_list_' . $a_set['id']);
 		$actions->setListTitle($this->pl->txt('actions'));
-		$actions->addItem($this->pl->txt('set_date_and_create'), 'setDate', $this->ctrl->getLinkTarget($this->parent_obj, 'setDate'));
+		$actions->addItem($this->pl->txt('set_date_and_create'), 'setDate', $this->ctrl->getLinkTarget($this->parent_obj, srCertificateDefinitionGUI::CMD_SET_DATE));
 
 		$this->tpl->setCurrentBlock('ACTIONS');
 		$this->tpl->setVariable('ACTIONS', $actions->getHTML());

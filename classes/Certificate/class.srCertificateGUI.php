@@ -13,6 +13,12 @@ require_once('class.srCertificateTableGUI.php');
  */
 abstract class srCertificateGUI {
 
+	const CMD_APPLY_FILTER = 'applyFilter';
+	const CMD_BUILD_ACTIONS = 'buildActions';
+	const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
+	const CMD_DOWNLOAD_CERTIFICATES = 'downloadCertificates';
+	const CMD_INDEX = 'index';
+	const CMD_RESET_FILTER = 'resetFilter';
 	/**
 	 * @var ilCtrl
 	 */
@@ -56,24 +62,24 @@ abstract class srCertificateGUI {
 
 		$this->tpl->getStandardTemplate();
 
-		$cmd = $this->ctrl->getCmd('index');
+		$cmd = $this->ctrl->getCmd(self::CMD_INDEX);
 		switch ($cmd) {
-			case 'index':
+			case self::CMD_INDEX:
 				$this->index();
 				break;
-			case 'applyFilter':
+			case self::CMD_APPLY_FILTER:
 				$this->applyFilter();
 				break;
-			case 'resetFilter':
+			case self::CMD_RESET_FILTER:
 				$this->resetFilter();
 				break;
-			case 'downloadCertificate':
+			case self::CMD_DOWNLOAD_CERTIFICATE:
 				$this->downloadCertificate();
 				break;
-			case 'downloadCertificates':
+			case self::CMD_DOWNLOAD_CERTIFICATES:
 				$this->downloadCertificates();
 				break;
-			case 'buildActions':
+			case self::CMD_BUILD_ACTIONS:
 				$this->buildActions();
 				break;
 			default:
@@ -85,13 +91,13 @@ abstract class srCertificateGUI {
 
 
 	public function index() {
-		$table = $this->getTable('index');
+		$table = $this->getTable(self::CMD_INDEX);
 		$this->tpl->setContent($table->getHTML());
 	}
 
 
 	public function applyFilter() {
-		$table = $this->getTable('index');
+		$table = $this->getTable(self::CMD_INDEX);
 		$table->writeFilterToSession();
 		$table->resetOffset();
 		$this->index();
@@ -99,7 +105,7 @@ abstract class srCertificateGUI {
 
 
 	public function resetFilter() {
-		$table = $this->getTable('index');
+		$table = $this->getTable(self::CMD_INDEX);
 		$table->resetOffset();
 		$table->resetFilter();
 		$this->index();
@@ -155,7 +161,7 @@ abstract class srCertificateGUI {
 	 * @return srCertificateTableGUI
 	 */
 	protected function getTable($cmd) {
-		$options = (in_array($cmd, array( 'resetFilter', 'applyFilter' ))) ? array( 'build_data' => false ) : array();
+		$options = (in_array($cmd, array( self::CMD_RESET_FILTER, self::CMD_APPLY_FILTER ))) ? array( 'build_data' => false ) : array();
 
 		return new srCertificateTableGUI($this, $cmd, $options);
 	}

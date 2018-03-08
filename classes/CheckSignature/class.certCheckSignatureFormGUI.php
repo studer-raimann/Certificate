@@ -36,7 +36,7 @@ class certCheckSignatureFormGUI extends ilPropertyFormGUI {
 
 
 	protected function initForm() {
-		$this->setFormAction($this->ctrl->getFormActionByClass(certCheckSignatureGUI::class, 'decryptSignature'));
+		$this->setFormAction($this->ctrl->getFormActionByClass(certCheckSignatureGUI::class, certCheckSignatureGUI::CMD_DECRYPT_SIGNATURE));
 		$te = new ilFormSectionHeaderGUI();
 		$te->setTitle($this->pl->txt('signature_check'));
 		$this->addItem($te);
@@ -45,7 +45,7 @@ class certCheckSignatureFormGUI extends ilPropertyFormGUI {
 		$signature = new ilTextInputGUI($this->pl->txt('signature'), 'signature');
 		$this->addItem($signature);
 
-		$this->addCommandButton('decryptSignature', $this->lng->txt('send'));
+		$this->addCommandButton(certCheckSignatureGUI::CMD_DECRYPT_SIGNATURE, $this->lng->txt('send'));
 	}
 }
 

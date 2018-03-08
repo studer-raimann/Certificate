@@ -180,7 +180,7 @@ class srCertificateTypePlaceholderFormGUI extends ilPropertyFormGUI {
 			$this->addLanguageInput($lang_code);
 		}
 
-		$command = $this->placeholder->getId() ? 'updatePlaceholder' : 'createPlaceholder';
+		$command = $this->placeholder->getId() ? srCertificateTypeGUI::CMD_UPDATE_PLACEHOLDER : srCertificateTypeGUI::CMD_CREATE_PLACEHOLDER;
 		$this->addCommandButton($command, $this->lng->txt('save'));
 	}
 

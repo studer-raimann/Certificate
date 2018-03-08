@@ -11,6 +11,8 @@ require_once('class.certCheckSignatureFormGUI.php');
  */
 class certCheckSignatureGUI {
 
+	const CMD_DECRYPT_SIGNATURE = 'decryptSignature';
+	const CMD_SHOW_FORM = 'showForm';
 	/**
 	 * @var ilTemplate
 	 */
@@ -44,11 +46,11 @@ class certCheckSignatureGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		switch ($cmd) {
-			case 'showForm':
+			case self::CMD_SHOW_FORM:
 			default:
 				$this->showForm();
 				break;
-			case 'decryptSignature':
+			case self::CMD_DECRYPT_SIGNATURE:
 				$this->decryptSignature();
 				break;
 		}

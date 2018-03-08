@@ -147,7 +147,7 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI {
 		$item->setValue($this->type->getSettingByIdentifier($this->identifier)->getEditableIn());
 		$this->addItem($item);
 
-		$this->addCommandButton('updateSetting', $this->lng->txt('save'));
+		$this->addCommandButton(srCertificateTypeGUI::CMD_UPDATE_SETTING, $this->lng->txt('save'));
 	}
 
 

@@ -140,7 +140,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 			} else {
 				$this->setTitle($title);
 				$this->addItem($type);
-				$this->addCommandButton('createDefinition', $this->pl->txt('save'));
+				$this->addCommandButton(srCertificateDefinitionGUI::CMD_CREATE_DEFINITION, $this->pl->txt('save'));
 			}
 
 			return;
@@ -194,7 +194,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 			$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER]);
 		}
 
-		$this->addCommandButton("updateDefinition", $this->pl->txt('save'));
+		$this->addCommandButton(srCertificateDefinitionGUI::CMD_UPDATE_DEFINITION, $this->pl->txt('save'));
 	}
 
 
