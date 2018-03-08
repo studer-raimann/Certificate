@@ -54,9 +54,7 @@ abstract class srCertificateGUI {
 			$this->ctrl->redirectByClass(ilPersonalDesktopGUI::class);
 		}
 
-		if (iLCertificatePlugin::getBaseClass() == ilUIPluginRouterGUI::class) {
-			$this->tpl->getStandardTemplate();
-		}
+		$this->tpl->getStandardTemplate();
 
 		$cmd = $this->ctrl->getCmd('index');
 		switch ($cmd) {
@@ -82,9 +80,7 @@ abstract class srCertificateGUI {
 				$this->performCommand($cmd);
 		}
 
-		if (iLCertificatePlugin::getBaseClass() == ilUIPluginRouterGUI::class) {
-			$this->tpl->show();
-		}
+		$this->tpl->show();
 	}
 
 

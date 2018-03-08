@@ -1,12 +1,6 @@
 <?php
 
-// Include ActiveRecord base class, in ILIAS >= 4.5 use ActiveRecord from Core
-if (is_file('./Services/ActiveRecord/class.ActiveRecord.php')) {
-	require_once('./Services/ActiveRecord/class.ActiveRecord.php');
-} elseif (is_file('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php')) {
-	require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
-}
-
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 require_once('./Services/UIComponent/classes/class.ilUserInterfaceHookPlugin.php');
 require_once('class.ilCertificateConfig.php');
 require_once('class.srCertificateHooks.php');
@@ -45,13 +39,6 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	 * @var srCertificateHooks
 	 */
 	protected $hooks;
-	/**
-	 * This will be ilRouterGUI for ILIAS <= 4.4.x if the corresponding Router service is installed
-	 * and ilUIPluginRouterGUI for ILIAS >= 4.5.x
-	 *
-	 * @var string
-	 */
-	protected static $base_class;
 	/**
 	 * @var ilCertificatePlugin
 	 */
@@ -171,7 +158,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		$exists = $this->ilPluginAdmin->exists(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
 		$active = $this->ilPluginAdmin->isActive(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
 
-		return (self::getBaseClass() && $exists && $active);
+		return ($exists && $active);
 	}
 
 
@@ -200,30 +187,5 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		$version = ILIAS_VERSION_NUMERIC;
 
 		return ((int)$version[0] >= 5) ? ilUtil::getImagePath('icon_cert.svg') : ilUtil::getImagePath("icon_cert_{$size}.png");
-	}
-
-
-	/**
-	 * Returns in what class the command/ctrl chain should start for this plugin.
-	 * Return value is ilRouterGUI for ILIAS <= 4.4.x, ilUIPluginRouterGUI for ILIAS >= 4.5, of false otherwise
-	 *
-	 * @return bool|string
-	 */
-	public static function getBaseClass() {
-		global $DIC;
-		$ilCtrl = $DIC->ctrl();
-		if (!is_null(self::$base_class)) {
-			return self::$base_class;
-		}
-
-		if ($ilCtrl->lookupClassPath(ilUIPluginRouterGUI::class)) {
-			self::$base_class = ilUIPluginRouterGUI::class;
-		} elseif ($ilCtrl->lookupClassPath(ilRouterGUI::class)) {
-			self::$base_class = ilRouterGUI::class;
-		} else {
-			self::$base_class = false;
-		}
-
-		return self::$base_class;
 	}
 }

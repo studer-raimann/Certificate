@@ -217,7 +217,7 @@ class srCertificateTableGUI extends ilTable2GUI {
 				$this->ctrl->setParameterByClass(get_class($this->parent_obj), 'cert_id', $a_set['id']);
 				$this->ctrl->setParameterByClass(get_class($this->parent_obj), 'status', $a_set['status']);
 				$async_url = $this->ctrl->getLinkTargetByClass(array(
-					ilCertificatePlugin::getBaseClass(),
+					ilUIPluginRouterGUI::class,
 					get_class($this->parent_obj)
 				), 'buildActions', '', true);
 				$actions = new ilAdvancedSelectionListGUI();

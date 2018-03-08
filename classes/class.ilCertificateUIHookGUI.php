@@ -56,7 +56,7 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 			if ($this->access->checkAccess('write', '', (int)$_GET['ref_id'])) {
 				$ilTabsGUI = $a_par['tabs'];
 				$this->ctrl->setParameterByClass(srCertificateDefinitionGUI::class, 'ref_id', $_GET['ref_id']);
-				$link = $this->ctrl->getLinkTargetByClass(array( ilCertificatePlugin::getBaseClass(), srCertificateDefinitionGUI::class ));
+				$link = $this->ctrl->getLinkTargetByClass(array( ilUIPluginRouterGUI::class, srCertificateDefinitionGUI::class ));
 				$ilTabsGUI->addTarget('certificate', $link, 'show', srCertificateDefinitionGUI::class);
 			}
 		}

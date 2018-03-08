@@ -113,10 +113,7 @@ class srCertificateTypeGUI {
 			$this->ctrl->saveParameter($this, 'type_id');
 			$this->ctrl->saveParameter($this, 'signature_id');
 		}
-		// needed for ILIAS >= 4.5
-		if (ilCertificatePlugin::getBaseClass() != ilRouterGUI::class) {
-			$this->tpl->getStandardTemplate();
-		}
+		$this->tpl->getStandardTemplate();
 		switch ($next_class) {
 			case '':
 				switch ($cmd) {
@@ -247,10 +244,7 @@ class srCertificateTypeGUI {
 				}
 				break;
 		}
-		// needed for ILIAS >= 4.5
-		if (ilCertificatePlugin::getBaseClass() != ilRouterGUI::class) {
-			$this->tpl->show();
-		}
+		$this->tpl->show();
 	}
 
 

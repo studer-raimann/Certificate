@@ -98,10 +98,7 @@ class srCertificateDefinitionGUI {
 		$this->setSubTabs();
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
-		// needed for ILIAS >= 4.5
-		if (ilCertificatePlugin::getBaseClass() != ilRouterGUI::class) {
-			$this->tpl->getStandardTemplate();
-		}
+		$this->tpl->getStandardTemplate();
 		switch ($next_class) {
 			case '':
 				switch ($cmd) {
@@ -143,10 +140,7 @@ class srCertificateDefinitionGUI {
 				}
 				break;
 		}
-		// needed for ILIAS >= 4.5
-		if (ilCertificatePlugin::getBaseClass() != ilRouterGUI::class) {
-			$this->tpl->show();
-		}
+		$this->tpl->show();
 	}
 
 
