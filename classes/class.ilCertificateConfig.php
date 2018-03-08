@@ -13,6 +13,7 @@ class ilCertificateConfig extends ActiveRecord {
 	const ROLES_ADMINISTRATE_CERTIFICATE_TYPES = 'roles_administrate_certificate_types';
 	const ROLES_ADMINISTRATE_CERTIFICATES = 'roles_administrate_certificates';
 	const DISK_SPACE_WARNING = 'disk_space_warning';
+	const TABLE_NAME = 'uihkcertificate_c';
 	/**
 	 * @var array
 	 */
@@ -86,7 +87,7 @@ class ilCertificateConfig extends ActiveRecord {
 
 
 	public static function returnDbTableName() {
-		return 'uihkcertificate_c';
+		return self::TABLE_NAME;
 	}
 
 

@@ -391,7 +391,7 @@ class srCertificateType extends ActiveRecord {
 	 * @description Return the Name of your Database Table
 	 */
 	static function returnDbTableName() {
-		return static::TABLE_NAME;
+		return self::TABLE_NAME;
 	}
 
 

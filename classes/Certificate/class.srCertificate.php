@@ -449,7 +449,7 @@ class srCertificate extends ActiveRecord {
 
 		$sql = "SELECT ";
 		$sql .= ($options['count']) ? 'COUNT(*) AS count ' : 'cert.*, usr.firstname, usr.lastname, cert_type.title AS cert_type, obj_data.title AS crs_title ';
-		$sql .= "FROM cert_obj AS cert " . "INNER JOIN cert_definition AS cert_def ON (cert_def.id = cert.definition_id) "
+		$sql .= "FROM " . self::TABLE_NAME . " AS cert " . "INNER JOIN cert_definition AS cert_def ON (cert_def.id = cert.definition_id) "
 			. "INNER JOIN cert_type ON (cert_type.id = cert_def.type_id) " . "LEFT JOIN usr_data AS usr ON (usr.usr_id = cert.user_id) "
 			. "LEFT JOIN object_reference AS obj_ref ON (obj_ref.ref_id = cert_def.ref_id) "
 			. "LEFT JOIN object_data AS obj_data ON (obj_data.obj_id = obj_ref.obj_id)";

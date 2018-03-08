@@ -90,7 +90,7 @@
     // Flag latest version of each certificate as active
     require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
     /** @var ilDB $ilDB */
-    $set = $ilDB->query('SELECT user_id, definition_id, MAX(file_version) AS max_file_version FROM cert_obj GROUP BY definition_id, user_id');
+    $set = $ilDB->query('SELECT user_id, definition_id, MAX(file_version) AS max_file_version FROM ' . srCertificate::TABLE_NAME .' GROUP BY definition_id, user_id');
     while ($row = $ilDB->fetchObject($set)) {
         /** @var srCertificate $cert */
         $cert = srCertificate::where(array(
@@ -106,8 +106,9 @@
     ?>
 <#8>
     <?php
-    if ( ! $ilDB->tableColumnExists('cert_type_setting', 'value')) {
-        $ilDB->renameTableColumn('cert_type_setting', 'default_value', 'value');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateTypeSetting.php');
+    if ( ! $ilDB->tableColumnExists(srCertificateTypeSetting::TABLE_NAME, 'value')) {
+        $ilDB->renameTableColumn(srCertificateTypeSetting::TABLE_NAME, 'default_value', 'value');
     }
     ?>
 <#9>
@@ -120,11 +121,12 @@
     ?>
 <#10>
     <?php
-    if ( ! $ilDB->tableColumnExists('uihkcertificate_c', 'value')) {
-        $ilDB->renameTableColumn('uihkcertificate_c', 'config_value', 'value');
+    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
+    if ( ! $ilDB->tableColumnExists(ilCertificateConfig::TABLE_NAME, 'value')) {
+        $ilDB->renameTableColumn(ilCertificateConfig::TABLE_NAME, 'config_value', 'value');
     }
-    if ( ! $ilDB->tableColumnExists('uihkcertificate_c', 'name')) {
-        $ilDB->renameTableColumn('uihkcertificate_c', 'config_key', 'name');
+    if ( ! $ilDB->tableColumnExists(ilCertificateConfig::TABLE_NAME, 'name')) {
+        $ilDB->renameTableColumn(ilCertificateConfig::TABLE_NAME, 'config_key', 'name');
     }
     ?>
 <#11>
@@ -209,13 +211,14 @@
 <#17>
      <?php
         require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
+        require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignatureDef.php';
         srCertificateDefinition::updateDB();
 
         // Migrate from signature table
      global $DIC;
      $ilDB = $DIC->database();
-        if ($ilDB->tableExists('cert_signature_def')) {
-            $set = $ilDB->query('SELECT * FROM cert_signature_def');
+        if ($ilDB->tableExists(srCertificateSignatureDef::TABLE_NAME)) {
+            $set = $ilDB->query('SELECT * FROM ' . srCertificateSignatureDef::TABLE_NAME);
             while ($row = $ilDB->fetchObject($set)) {
                 /** @var srCertificateDefinition $definition */
                 $definition = srCertificateDefinition::find($row->definition_id);
@@ -226,11 +229,12 @@
      ?>
 <#18>
 <?php
+require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
 // Change data-type for longer emails
 global $DIC;
 $ilDB = $DIC->database();
-if ($ilDB->tableExists('uihkcertificate_c')) {
-    $ilDB->modifyTableColumn('uihkcertificate_c', 'value',
+if ($ilDB->tableExists(ilCertificateConfig::TABLE_NAME)) {
+    $ilDB->modifyTableColumn(ilCertificateConfig::TABLE_NAME, 'value',
         array("type" => "clob", "default"=>null, "notnull" => false));
 }
 ?>
