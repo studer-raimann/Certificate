@@ -128,13 +128,29 @@ class srCertificateEmailNotification implements srCertificateNotification {
 	 * @return bool
 	 */
 	public function notify() {
+		global $DIC;
+
 		if (!$this->email) {
 			return false;
 		}
 		$this->mailer->To($this->email);
 		$from = $this->settings->get('mail_external_sender_noreply');
 		if ($from) {
-			$this->mailer->From($from);
+			if (ILIAS_VERSION_NUMERIC >= "5.3") {
+				/** @var ilMailMimeSenderFactory $senderFactory */
+				$senderFactory = $DIC["mail.mime.sender.factory"];
+
+				$this->mailer->From($senderFactory->userByEmailAddress($from));
+			} else {
+				$this->mailer->From($from);
+			}
+		} else {
+			if (ILIAS_VERSION_NUMERIC >= "5.3") {
+				/** @var ilMailMimeSenderFactory $senderFactory */
+				$senderFactory = $DIC["mail.mime.sender.factory"];
+
+				$this->mailer->From($senderFactory->system());
+			}
 		}
 		$this->mailer->Subject($this->getSubject());
 		$this->mailer->Body($this->getBody());
