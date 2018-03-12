@@ -206,7 +206,7 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI {
 						break;
 					case srCertificateTypeSetting::VALIDITY_TYPE_DATE:
 						$input = new ilDateTimeInputGUI($title, $name);
-						$input->setMode(ilDateTimeInputGUI::MODE_INPUT);
+						//$input->setMode(ilDateTimeInputGUI::MODE_INPUT);
 						if ($validity_value) {
 							$input->setDate(new ilDateTime($validity_value, IL_CAL_DATE));
 						}

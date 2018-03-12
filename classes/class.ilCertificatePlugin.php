@@ -51,6 +51,10 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	 * @var ilTree
 	 */
 	protected $tree;
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
 
 
 	/**
@@ -62,6 +66,15 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		}
 
 		return static::$instance;
+	}
+
+
+	function __construct() {
+		parent::__construct();
+
+		global $DIC;
+
+		$this->db = $DIC->database();
 	}
 
 
@@ -187,5 +200,24 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		$version = ILIAS_VERSION_NUMERIC;
 
 		return ((int)$version[0] >= 5) ? ilUtil::getImagePath('icon_cert.svg') : ilUtil::getImagePath("icon_cert_{$size}.png");
+	}
+
+
+	protected function beforeUninstall() {
+		$this->db->dropTable(ilCertificateConfig::TABLE_NAME, false);
+		$this->db->dropTable(srCertificateType::TABLE_NAME, false);
+		$this->db->dropTable(srCertificateDefinition::TABLE_NAME, false);
+		$this->db->dropTable(srCertificatePlaceholder::TABLE_NAME, false);
+		$this->db->dropTable(srCertificatePlaceholderValue::TABLE_NAME, false);
+		$this->db->dropTable(srCertificate::TABLE_NAME, false);
+		$this->db->dropTable(srCertificateTypeSetting::TABLE_NAME, false);
+		$this->db->dropTable(srCertificateDefinitionSetting::TABLE_NAME, false);
+		$this->db->dropTable(srCertificateSignatureDef::TABLE_NAME, false);
+		$this->db->dropTable(srCertificateCustomDefinitionSetting::TABLE_NAME, false);
+		$this->db->dropTable(srCertificateCustomTypeSetting::TABLE_NAME, false);
+		
+		// TODO Remove certificate folder in ilias data
+
+		return true;
 	}
 }

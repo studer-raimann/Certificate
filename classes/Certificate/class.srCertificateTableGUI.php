@@ -140,13 +140,13 @@ class srCertificateTableGUI extends ilTable2GUI {
 
 		if ($this->isColumnSelected('valid_from')) {
 			$item = new ilDateTimeInputGUI($this->pl->txt('valid_from'), 'valid_from');
-			$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+			//$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
 			$this->addFilterItemWithValue($item);
 		}
 
 		if ($this->isColumnSelected('valid_to')) {
 			$item = new ilDateTimeInputGUI($this->pl->txt('valid_to'), 'valid_to');
-			$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+			//$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
 			$this->addFilterItemWithValue($item);
 		}
 
