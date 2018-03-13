@@ -123,9 +123,8 @@ class srCertificateCron {
 	 */
 	public function logout() {
 		global $DIC;
-		$ilAuth = $DIC["ilAuth"];
+		$ilAuth = $DIC["ilAuthSession"];
 		$ilAuth->logout();
-		session_destroy();
 	}
 
 
