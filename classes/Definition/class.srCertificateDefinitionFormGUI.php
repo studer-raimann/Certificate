@@ -328,7 +328,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 	 * @return ilSelectInputGUI
 	 */
 	protected function getTypeInput() {
-		$types = srcertificateType::get();
+		$types = srCertificateType::get();
 		$options = array();
 		$object_type = ($this->pl->isCourseTemplate((int)$_GET['ref_id'])) ? 'crs-tpl' : ilObject::_lookupType((int)$_GET['ref_id'], true);
 		/** @var $type srCertificateType */
