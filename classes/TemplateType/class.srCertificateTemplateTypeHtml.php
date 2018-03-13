@@ -1,6 +1,4 @@
 <?php
-require_once('class.srCertificateTemplateType.php');
-require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholdersParser.php');
 
 /**
  * srCertificateTemplateTypeHtml

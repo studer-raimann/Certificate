@@ -1,14 +1,5 @@
 <?php
-
-require_once('./Services/Object/classes/class.ilObjectListGUIFactory.php');
-require_once('./Services/Link/classes/class.ilLink.php');
-require_once(dirname(__FILE__) . '/class.srCertificateDefinitionFormGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateDefinitionPlaceholdersFormGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateParticipantsTableGUI.php');
-require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
-require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificatePreview.php');
-require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificateTableGUI.php');
-require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php');
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 /**
  * GUI-Class srCertificateDefinitionGUI

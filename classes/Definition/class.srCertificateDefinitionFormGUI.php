@@ -1,7 +1,4 @@
 <?php
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Services/Form/classes/class.ilDurationInputGUI.php');
-require_once('class.srCertificateDefinition.php');
 
 /**
  * Form-Class srCertificateDefinitionFormGUI

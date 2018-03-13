@@ -1,7 +1,5 @@
 <?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once('./Services/UIComponent/classes/class.ilUIHookPluginGUI.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 /**
  * User interface hook class for CourseCertificate-Plugin

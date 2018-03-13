@@ -1,8 +1,5 @@
 <?php
 
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('class.srCertificateCustomDefinitionSetting.php');
-
 /**
  * Class srCertificateCustomSettingFormGUI
  *

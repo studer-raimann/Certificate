@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(dirname(__FILE__)) . '/Definition/class.srCertificateDefinition.php');
-
 /**
  * srCertificateSignature
  *

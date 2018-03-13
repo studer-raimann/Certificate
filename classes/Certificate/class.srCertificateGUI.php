@@ -1,7 +1,5 @@
 <?php
-
-require_once('class.srCertificate.php');
-require_once('class.srCertificateTableGUI.php');
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 /**
  * Class srCertificateGUI

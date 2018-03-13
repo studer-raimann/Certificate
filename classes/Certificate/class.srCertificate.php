@@ -1,9 +1,4 @@
 <?php
-require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificateStandardPlaceholders.php');
-require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholder.php');
-require_once(dirname(dirname(__FILE__)) . '/Definition/class.srCertificateDefinition.php');
-require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemplateTypeFactory.php');
-require_once(dirname(dirname(__FILE__)) . '/class.ilCertificatePlugin.php');
 
 /**
  * srCertificate

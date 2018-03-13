@@ -1,11 +1,4 @@
 <?php
-require_once('./Modules/Course/classes/class.ilObjCourse.php');
-require_once('./Modules/Course/classes/class.ilCourseParticipants.php');
-require_once('./Services/Tracking/classes/class.ilLearningProgress.php');
-require_once("./Services/Tracking/classes/class.ilTrQuery.php");
-require_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
-require_once(dirname(dirname(__FILE__)) . '/Certificate/class.srCertificate.php');
-require_once(dirname(dirname(__FILE__)) . '/class.ilCertificatePlugin.php');
 
 /**
  * srCertificateStandardPlaceholder

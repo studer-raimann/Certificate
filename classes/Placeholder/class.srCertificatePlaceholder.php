@@ -1,6 +1,4 @@
 <?php
-require_once(dirname(dirname(dirname(__FILE__))) . '/exceptions/class.srCertificateException.php');
-require_once('class.srCertificateStandardPlaceholders.php');
 
 /**
  * srCertificatePlaceholder

@@ -1,6 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
-require_once('class.certCheckSignatureFormGUI.php');
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 /**
  * GUI-Class certCheckSignatureGUI

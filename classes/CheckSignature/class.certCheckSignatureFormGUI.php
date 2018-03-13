@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
 
 /**
  * Form-Class certCheckSignatureFormGUI

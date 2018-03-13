@@ -1,8 +1,4 @@
 <?php
-require_once(dirname(dirname(__FILE__)) . '/TemplateType/class.srCertificateTemplateType.php');
-require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificatePlaceholder.php');
-require_once(dirname(dirname(__FILE__)) . '/Signature/class.srCertificateSignature.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypeSetting.php');
 
 /**
  * srCertificateType

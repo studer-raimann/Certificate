@@ -1,6 +1,5 @@
 <?php
 
-require_once(__DIR__ . '/class.srCertificateEmailNotification.php');
 
 /**
  * Class srCertificateDiskSpaceWarningNotification

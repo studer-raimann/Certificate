@@ -1,10 +1,5 @@
 <?php
-
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
-require_once('./Services/UIComponent/classes/class.ilUserInterfaceHookPlugin.php');
-require_once('class.ilCertificateConfig.php');
-require_once('class.srCertificateHooks.php');
-require_once('./Services/Mail/classes/class.ilMail.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Certificate Plugin

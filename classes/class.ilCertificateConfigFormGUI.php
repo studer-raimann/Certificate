@@ -1,9 +1,5 @@
 <?php
 
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
-require_once('class.ilCertificateConfig.php');
-
 /**
  * Class ilCertificateConfigFormGUI
  *

@@ -1,5 +1,4 @@
 <?php
-require_once(dirname(dirname(__FILE__)) . '/Placeholder/class.srCertificateStandardPlaceholders.php');
 
 /**
  * Table class srCertificateTypeStandardPlaceholdersTableGUI

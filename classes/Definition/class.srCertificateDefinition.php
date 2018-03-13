@@ -1,8 +1,4 @@
 <?php
-require_once (dirname(dirname(__FILE__))) . '/Type/class.srCertificateType.php';
-require_once (dirname(__FILE__)) . '/class.srCertificateDefinitionSetting.php';
-require_once (dirname(dirname(__FILE__))) . '/Placeholder/class.srCertificatePlaceholderValue.php';
-require_once (dirname(dirname(__FILE__))) . '/CustomSetting/class.srCertificateCustomDefinitionSetting.php';
 
 /**
  * srCertificateDefinition

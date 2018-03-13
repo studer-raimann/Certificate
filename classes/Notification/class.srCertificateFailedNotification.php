@@ -1,8 +1,5 @@
 <?php
 
-require_once(__DIR__ . '/class.srCertificateEmailNotification.php');
-require_once(dirname(__DIR__) . '/Placeholder/class.srCertificatePlaceholdersParser.php');
-
 /**
  * Class srCertificateFailedNotification
  *

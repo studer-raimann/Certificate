@@ -1,19 +1,5 @@
 <?php
-require_once(dirname(__FILE__) . '/class.srCertificateTypeTemplateFormGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypeFormGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypeTableGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypeSettingsTableGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholdersTableGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypeStandardPlaceholdersTableGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypeSettingFormGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypePlaceholderFormGUI.php');
-require_once(dirname(dirname(__FILE__)) . '/CustomSetting/class.srCertificateCustomTypeSettingFormGUI.php');
-require_once(dirname(dirname(__FILE__)) . '/CustomSetting/class.srCertificateCustomTypeSetting.php');
-require_once(dirname(dirname(__FILE__)) . '/CustomSetting/class.srCertificateTypeCustomSettingsTableGUI.php');
-require_once(dirname(dirname(__FILE__)) . '/Signature/class.srCertificateSignature.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypeSignaturesTableGUI.php');
-require_once(dirname(__FILE__) . '/class.srCertificateTypeSignatureFormGUI.php');
-require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 /**
  * GUI-Class srCertificateTypeGUI

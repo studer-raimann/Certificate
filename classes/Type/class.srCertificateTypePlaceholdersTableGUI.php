@@ -1,6 +1,4 @@
 <?php
-require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-require_once(dirname(__FILE__) . '/class.srCertificateType.php');
 
 /**
  * Table class srCertificateTypeSettingsTableGUI
