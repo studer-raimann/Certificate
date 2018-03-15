@@ -191,18 +191,6 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 
 
 	protected function beforeUninstall() {
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateType.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholder.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholderValue.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateTypeSetting.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinitionSetting.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignatureDef.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/CustomSetting/class.srCertificateCustomDefinitionSetting.php';
-		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/CustomSetting/class.srCertificateCustomTypeSetting.php';
-
 		$this->db->dropTable(ilCertificateConfig::TABLE_NAME, false);
 		$this->db->dropTable(srCertificateType::TABLE_NAME, false);
 		$this->db->dropTable(srCertificateDefinition::TABLE_NAME, false);

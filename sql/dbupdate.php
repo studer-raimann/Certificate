@@ -1,6 +1,6 @@
 <#1>
 	<?php
-	require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
+	require_once __DIR__ . '/../vendor/autoload.php';
     ilCertificateConfig::updateDB();
 	?>
 <#2>
@@ -8,13 +8,7 @@
     /*
      * Create tables
      */
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateType.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholder.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Placeholder/class.srCertificatePlaceholderValue.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinitionSetting.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateTypeSetting.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     srCertificateType::updateDB();
     srCertificateDefinition::updateDB();
@@ -26,7 +20,7 @@
 ?>
 <#3>
     <?php
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
     srCertificate::updateDB();
     ?>
 <#4>
@@ -36,8 +30,7 @@
     * Add new setting "notification_user" to certificate types and every existing definitions
     */
 
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateType.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     $types = srCertificateType::get();
     /** @var srCertificateType $type */
@@ -70,8 +63,7 @@
     /*
      * Add default values for new config settings
      */
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     ilCertificateConfig::setX(ilCertificateConfig::DATE_FORMAT, ilCertificatePlugin::DEFAULT_DATE_FORMAT);
     ilCertificateConfig::setX(ilCertificateConfig::DATETIME_FORMAT, ilCertificatePlugin::DEFAULT_DATETIME_FORMAT);
@@ -83,13 +75,13 @@
 <#6>
     <?php
     // Update database schema, added created_at timestamp and active flag to certificates
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
     srCertificate::updateDB();
     ?>
 <#7>
     <?php
     // Flag latest version of each certificate as active
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
     /** @var ilDB $ilDB */
     $set = $ilDB->query('SELECT user_id, definition_id, MAX(file_version) AS max_file_version FROM ' . srCertificate::TABLE_NAME .' GROUP BY definition_id, user_id');
     while ($row = $ilDB->fetchObject($set)) {
@@ -107,22 +99,21 @@
     ?>
 <#8>
     <?php
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateTypeSetting.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
     if ( ! $ilDB->tableColumnExists(srCertificateTypeSetting::TABLE_NAME, 'value')) {
         $ilDB->renameTableColumn(srCertificateTypeSetting::TABLE_NAME, 'default_value', 'value');
     }
     ?>
 <#9>
     <?php
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/CustomSetting/class.srCertificateCustomTypeSetting.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/CustomSetting/class.srCertificateCustomDefinitionSetting.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     srCertificateCustomTypeSetting::updateDB();
     srCertificateCustomDefinitionSetting::updateDB();
     ?>
 <#10>
     <?php
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
     if ( ! $ilDB->tableColumnExists(ilCertificateConfig::TABLE_NAME, 'value')) {
         $ilDB->renameTableColumn(ilCertificateConfig::TABLE_NAME, 'config_value', 'value');
     }
@@ -133,7 +124,7 @@
 <#11>
 	<?php
 	// We will add one default certificate definition for easier installation.
-	require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
+	require_once __DIR__ . '/../vendor/autoload.php';
 	$type = new srCertificateType();
 	$type->setTitle("Default Certificate");
 	$type->setLanguages(array('en'));
@@ -154,7 +145,7 @@
 <#12>
     <?php
     // Add some new config settings
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
     $body = "Hi,\n\n" .
             "A new certificate was generated for you:\n\n" .
             "User: [[USER_FULLNAME]]\n" .
@@ -179,7 +170,7 @@
     ?>
 <#14>
     <?php
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignature.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
     srCertificateSignature::updateDB();
     ?>
 <#15>
@@ -188,10 +179,7 @@
     ?>
 <#16>
     <?php
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinitionSetting.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateTypeSetting.php');
-    require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Type/class.srCertificateType.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
     foreach (srCertificateDefinition::get() as $cert_def) {
         $setting = new srCertificateDefinitionSetting();
         $setting->setDefinitionId($cert_def->getId());
@@ -211,8 +199,7 @@
     ?>
 <#17>
      <?php
-        require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Definition/class.srCertificateDefinition.php');
-        require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Signature/class.srCertificateSignatureDef.php';
+     require_once __DIR__ . '/../vendor/autoload.php';
         srCertificateDefinition::updateDB();
 
         // Migrate from signature table
@@ -230,7 +217,7 @@
      ?>
 <#18>
 <?php
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 // Change data-type for longer emails
 global $DIC;
 $ilDB = $DIC->database();
@@ -241,7 +228,7 @@ if ($ilDB->tableExists(ilCertificateConfig::TABLE_NAME)) {
 ?>
 <#19>
 <?php
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificateConfig.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 ilCertificateConfig::setX('jasper_locale', 'de_DE.UTF-8');
 ilCertificateConfig::setX('jasper_path_java', '/usr/bin/java');
 ?>
