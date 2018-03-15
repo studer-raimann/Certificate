@@ -11,6 +11,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
  */
 class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 
+	const PLUGIN_ID = 'cert';
+	const PLUGIN_NAME = 'Certificate';
 	/**
 	 * Name of class that can implement hooks
 	 */
@@ -76,7 +78,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	 * @return string
 	 */
 	public function getPluginName() {
-		return 'Certificate';
+		return self::PLUGIN_NAME;
 	}
 
 
