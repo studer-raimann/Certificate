@@ -346,7 +346,7 @@ class srCertificateTypeGUI {
 	 * Download default template
 	 */
 	public function downloadDefaultTemplate() {
-		ilUtil::deliverFile('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml', 'template.jrxml');
+		ilUtil::deliverFile($this->pl->getDirectory() . '/resources/template.jrxml', 'template.jrxml');
 	}
 
 
