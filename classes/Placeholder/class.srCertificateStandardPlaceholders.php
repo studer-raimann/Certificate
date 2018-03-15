@@ -368,7 +368,6 @@ class srCertificateStandardPlaceholders {
 		$cert_definition = $this->certificate->getDefinition();
 		if ($cert_definition->getScormTiming()) {
 			$spent_seconds = 0;
-			require_once('./Services/Object/classes/class.ilObjectLP.php');
 			$ilScormLP = ilObjectLP::getInstance($course->getId());
 			/**
 			 * @var $ilLPCollection ilLPCollection

@@ -1,5 +1,5 @@
 <?php
-require_once('./Services/Exceptions/classes/class.ilException.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class srCertificateException extends ilException
 {

@@ -31,6 +31,9 @@
       "../../../../../../../Services/Mail",
       "../../../../../../../Services/Tracking",
       "../../../../../../../Services/ActiveRecord",
+      "../../../../../../../Services/Exceptions",
+      "../../../../../../../Services/Object",
+      "../../../../../../../Services/PDFGeneration",
       "../../../../../../../Modules/Course"
     ]
   },

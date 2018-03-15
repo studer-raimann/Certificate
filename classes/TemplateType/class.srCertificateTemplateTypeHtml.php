@@ -41,7 +41,6 @@ class srCertificateTemplateTypeHtml extends srCertificateTemplateType {
 		if (!is_file($template)) {
 			return false;
 		}
-		require_once('./Services/PDFGeneration/classes/class.ilPDFGeneration.php');
 		// Get HTML markup by parsing the template and replace placeholders
 		$markup = file_get_contents($template);
 		$markup = srCertificatePlaceholdersParser::getInstance()->parse($markup, $cert->getPlaceholders());

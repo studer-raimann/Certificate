@@ -55,23 +55,24 @@ class srCertificateCron {
 		$this->user = $DIC->user();
 		$this->ctrl = $DIC->ctrl();
 		$this->ilias = $DIC["ilias"];
+		require_once __DIR__ . '/../vendor/autoload.php';
 		$this->pl = ilCertificatePlugin::getInstance();
 	}
 
 
 	public function initILIAS() {
 		chdir(substr($_SERVER['SCRIPT_FILENAME'], 0, strpos($_SERVER['SCRIPT_FILENAME'], '/Customizing')));
-		require_once('include/inc.ilias_version.php');
-		require_once('Services/Component/classes/class.ilComponent.php');
-		require_once "Services/Context/classes/class.ilContext.php";
+		require_once 'include/inc.ilias_version.php';
+		require_once 'Services/Component/classes/class.ilComponent.php';
+		require_once 'Services/Context/classes/class.ilContext.php';
 		ilContext::init(ilContext::CONTEXT_CRON);
 		require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 		ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 		require_once './include/inc.header.php';
-		require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php');
-		require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php');
-		require_once("./Services/Tracking/classes/class.ilTrQuery.php");
-		require_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
+		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php';
+		require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/Certificate/class.srCertificate.php';
+		require_once './Services/Tracking/classes/class.ilTrQuery.php';
+		require_once './Services/Tracking/classes/class.ilLPStatusFactory.php';
 
 		// fix for some stupid ilias init....
 		global $DIC;

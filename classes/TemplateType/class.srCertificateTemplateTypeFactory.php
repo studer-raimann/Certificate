@@ -26,11 +26,9 @@ class srCertificateTemplateTypeFactory
             $object = NULL;
             switch ($id) {
                 case srCertificateTemplateType::TEMPLATE_TYPE_JASPER:
-                    require_once('class.srCertificateTemplateTypeJasper.php');
                     $object = new srCertificateTemplateTypeJasper();
                     break;
                 case srCertificateTemplateType::TEMPLATE_TYPE_HTML:
-                    require_once('class.srCertificateTemplateTypeHtml.php');
                     $object = new srCertificateTemplateTypeHtml();
                     break;
                 default:

@@ -116,7 +116,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 			}
 			$file = $path . "class.{$class_name}.php";
 			if (is_file($file)) {
-				require_once($file);
+				require_once $file;
 				$object = new $class_name($this);
 			} else {
 				$object = new srCertificateHooks($this);
