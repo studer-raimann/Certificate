@@ -597,7 +597,7 @@ class srCertificate extends ActiveRecord {
 		$placeholders = $this->getStandardPlaceholders($anonymized)->getParsedPlaceholders();
 		$available_langs = $this->definition->getType()->getLanguages();
 		$user_lang = $this->getUser()->getLanguage();
-		$default_lang = $this->definition->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_DEFAULT_LANG);
+		$default_lang = $this->definition->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_DEFAULT_LANG)->getValue();
 		$lang = (in_array($user_lang, $available_langs)) ? $user_lang : $default_lang;
 		/** @var $ph_value srCertificatePlaceholderValue */
 		foreach ($this->definition->getPlaceholderValues() as $ph_value) {

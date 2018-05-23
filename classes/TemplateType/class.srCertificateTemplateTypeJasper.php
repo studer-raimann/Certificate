@@ -8,11 +8,12 @@
  */
 class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 
-	const JASPER_CLASS = __DIR__ . '/../../../../../../Libraries/JasperReport/classes/class.JasperReport.php';
-
-
+    /**
+     * srCertificateTemplateTypeJasper constructor.
+     */
 	public function __construct() {
 		parent::__construct();
+
 
 		$this->setId(self::TEMPLATE_TYPE_JASPER);
 		$this->setTitle('Jasper Report');
@@ -26,7 +27,7 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 	 * @return bool
 	 */
 	public function isAvailable() {
-		return is_file(self::JASPER_CLASS);
+		return is_file('./Customizing/global/plugins/Libraries/JasperReport/classes/class.JasperReport.php');
 	}
 
 
@@ -42,7 +43,6 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 		if (!$this->isAvailable()) {
 			throw new ilException("Generating certificates with TemplateTypeJasper is only available if the JasperReport service is installed");
 		}
-		require_once self::JASPER_CLASS;
 		$template = $cert->getDefinition()->getType()->getCertificateTemplatesPath(true);
 		// A template is required, so quit early if it does not exist for some reason
 		if (!is_file($template)) {

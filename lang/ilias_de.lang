@@ -141,7 +141,7 @@ available_objects_info#:#Definieren Sie in welchen Modulen dieser Zertifikatstyp
 edit_type#:#Zertifikatstyp bearbeiten
 add_type#:#Zertifikatstyp hinzufügen
 assets#:#Zusätzliche Dateien
-assets_info#:#Prüfen Sie die zuästzlichen Dateien, welche Sie nach dem Speichern löschen möchten
+assets_info#:#Wählen Sie die Dateien aus, welche nach dem Speichern gelöscht werden sollen.
 add_assets#:#Zusätzliche Dateien hinzufügen
 template_file#:#Template-Datei
 template_file_info#:#Die Datei muss ein gültiges Template für den gewählten Templattypen sein. Falls bereits eine Template-Datei besteht, wird die bestehende Datei überschrieben.
