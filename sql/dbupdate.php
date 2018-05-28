@@ -2,6 +2,10 @@
 	<?php
 	require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
     ilCertificateConfig::updateDB();
+
+    // Unfortunately ILIAS not load languages before running updating database
+	$pl = ilCertificatePlugin::getInstance();
+	$pl->updateLanguages();
 	?>
 <#2>
     <?php

@@ -216,7 +216,7 @@ not_passed_yet#:#Noch nicht bestanden
 passed_date#:#Datum
 set_date_info#:#Bitte wählen Sie ein Datum für das zu erstellende Zertifikat. Das Datum betrifft die Gültigkeit des Zertifikats ("Gültig von"), nicht aber den Zeitpunkt der Erstellung (das Zertifikat wird per sofort erstellt).
 set_date_info_multi#:#Bitte wählen Sie ein Datum für die zu erstellenden Zertifikate. Das Datum betrifft die Gültigkeit der Zertifikate ("Gültig von"), nicht aber den Zeitpunkt der Erstellung (die Zertifikate werden per sofort erstellt).
-show_certificates#:#Show Certificates
-participants#:#Participants
-definition_settings#:#Definition settings
-default_certificate#:#Default Certificate
+show_certificates#:#Zertifikate anzeigen
+participants#:#Teilnehmer
+definition_settings#:#Definitionseinstellungen
+default_certificate#:#Standardzertifikat
