@@ -59,10 +59,6 @@ class srCertificateDefinitionGUI {
 	 */
 	protected $ctrl;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilCertificatePlugin
 	 */
 	protected $pl;
@@ -94,12 +90,10 @@ class srCertificateDefinitionGUI {
 		$this->crs = ilObjectFactory::getInstanceByRefId($this->ref_id);
 		$this->definition = srCertificateDefinition::where(array( 'ref_id' => $this->ref_id ))->first();
 		$this->pl = ilCertificatePlugin::getInstance();
-		$this->lng = $DIC->language();
 		$this->access = $DIC->access();
 		$this->db = $DIC->database();
 		$this->ctrl->saveParameter($this, 'ref_id');
 		$this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
-		$this->lng->loadLanguageModule('common');
 		$ilLocator = $DIC["ilLocator"];
 		$ilLocator->addRepositoryItems();
 		$this->tpl->setVariable("LOCATOR", $ilLocator->getHTML());
@@ -388,8 +382,8 @@ class srCertificateDefinitionGUI {
 		$ilDateInputGUI = new ilDateTimeInputGUI($this->pl->txt('passed_date'), 'passed_date');
 		$form->addItem($ilDateInputGUI);
 
-		$form->addCommandButton(self::CMD_SET_DATE_AND_CREATE, $this->lng->txt('save'));
-		$form->addCommandButton(self::CMD_SHOW_PARTICIPANTS, $this->lng->txt('cancel'));
+		$form->addCommandButton(self::CMD_SET_DATE_AND_CREATE, $this->pl->txt('save'));
+		$form->addCommandButton(self::CMD_SHOW_PARTICIPANTS, $this->pl->txt('cancel'));
 
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -459,8 +453,8 @@ class srCertificateDefinitionGUI {
 		$conf_gui->setFormAction($this->ctrl->getFormAction($this));
 		$conf_gui->setHeaderText($this->pl->txt('confirm_type_change'));
 		$conf_gui->addItem('type_id', $new_type_id, $this->pl->txt('confirm_type_change_text'));
-		$conf_gui->setConfirm($this->lng->txt('change'), self::CMD_UPDATE_TYPE);
-		$conf_gui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_DEFINITION);
+		$conf_gui->setConfirm($this->pl->txt('change'), self::CMD_UPDATE_TYPE);
+		$conf_gui->setCancel($this->pl->txt('cancel'), self::CMD_SHOW_DEFINITION);
 		$this->tpl->setContent($conf_gui->getHTML());
 	}
 

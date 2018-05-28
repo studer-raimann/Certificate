@@ -13,6 +13,7 @@ class srCertificateCustomDefinitionSetting extends srCertificateDefinitionSettin
 	const TABLE_NAME = 'cert_def_setting_cus';
 	// Public
 
+
 	/**
 	 * Check in the certificate type if this setting is editable in the current context (crs, tst...)
 	 *
@@ -55,6 +56,7 @@ class srCertificateCustomDefinitionSetting extends srCertificateDefinitionSettin
 
 	/**
 	 * @param $lang
+	 *
 	 * @return string
 	 */
 	public function getLabel($lang) {

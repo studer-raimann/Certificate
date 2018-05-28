@@ -87,8 +87,8 @@ class srCertificateTypePlaceholdersTableGUI extends ilTable2GUI {
 		$list->setListTitle($this->pl->txt('actions'));
 		$this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'type_id', $this->type->getId());
 		$this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'placeholder_id', $a_set['id']);
-		$list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_EDIT_PLACEHOLDER));
-		$list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_CONFIRM_DELETE_PLACEHOLDER));
+		$list->addItem($this->pl->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_EDIT_PLACEHOLDER));
+		$list->addItem($this->pl->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_CONFIRM_DELETE_PLACEHOLDER));
 
 		return $list;
 	}

@@ -29,10 +29,6 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI {
 	 */
 	protected $pl;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -58,7 +54,6 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI {
 		$this->tpl = $DIC->ui()->mainTemplate();
 		$this->ctrl = $DIC->ctrl();
 		$this->pl = ilCertificatePlugin::getInstance();
-		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->initForm();
 	}
@@ -159,5 +154,3 @@ class srCertificateDefinitionPlaceholdersFormGUI extends ilPropertyFormGUI {
 		return $input;
 	}
 }
-
-?>

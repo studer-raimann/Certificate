@@ -65,7 +65,6 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI {
 		$this->pl = ilCertificatePlugin::getInstance();
 		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('meta');
-		$this->lng->loadLanguageModule('form');
 		$this->initForm();
 	}
 
@@ -146,7 +145,7 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI {
 		$item->setValue($this->type->getSettingByIdentifier($this->identifier)->getEditableIn());
 		$this->addItem($item);
 
-		$this->addCommandButton(srCertificateTypeGUI::CMD_UPDATE_SETTING, $this->lng->txt('save'));
+		$this->addCommandButton(srCertificateTypeGUI::CMD_UPDATE_SETTING, $this->pl->txt('save'));
 	}
 
 
@@ -234,5 +233,3 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI {
 		return $input;
 	}
 }
-
-?>

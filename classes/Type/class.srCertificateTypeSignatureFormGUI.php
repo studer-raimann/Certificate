@@ -17,10 +17,6 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI {
 	 */
 	protected $pl;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -47,8 +43,6 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI {
 		$this->signature = $signature;
 		$this->ctrl = $DIC->ctrl();
 		$this->pl = ilCertificatePlugin::getInstance();
-		$this->lng = $DIC->language();
-		$this->lng->loadLanguageModule('meta');
 		$this->initForm();
 	}
 
@@ -129,8 +123,6 @@ class srCertificateTypeSignatureFormGUI extends ilPropertyFormGUI {
 		$this->addItem($item);
 
 		$command = $this->signature->getId() ? srCertificateTypeGUI::CMD_UPDATE_SIGNATURE : srCertificateTypeGUI::CMD_CREATE_SIGNATURE;
-		$this->addCommandButton($command, $this->lng->txt('save'));
+		$this->addCommandButton($command, $this->pl->txt('save'));
 	}
 }
-
-?>

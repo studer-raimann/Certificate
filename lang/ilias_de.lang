@@ -220,3 +220,57 @@ show_certificates#:#Zertifikate anzeigen
 participants#:#Teilnehmer
 definition_settings#:#Definitionseinstellungen
 default_certificate#:#Standardzertifikat
+notification_user_body_1#:#Hallo,\n\n
+notification_user_body_2#:#Ein neues Zertifikat wurde für Sie generiert:\n\n
+notification_user_body_3#:#Benutzer: [[USER_FULLNAME]]\n
+notification_user_body_4#:#Kurs: [[COURSE_TITLE]]\n
+notification_user_body_5#:#Gültig bis: [[CERT_VALID_TO]]\n\n
+notification_user_body_6#:#Das Zertifikat ist dieser Mail angehängt
+notification_user_subject#:#Neues Zertifikat generiert für Kurs [[COURSE_TITLE]]
+notification_others_subject#:#Neues Zertifikat generiert für Benutzer [[USER_FULLNAME]]
+notification_others_body_1#:#Hallo,\n\n
+notification_others_body_2#:#Ein neues Zertifikat wurde für den Benutzer [[USER_FULLNAME]] generiert:\n\n
+notification_others_body_3#:#Kurs: [[COURSE_TITLE]]\n
+notification_others_body_4#:#Gültig bis: [[CERT_VALID_TO]]\n\n
+notification_others_body_5#:#Das Zertifikat ist dieser Mail angehängt
+placeholder_USER_LOGIN#:#Login
+placeholder_USER_FULLNAME#:#Vollständiger Name des Benutzers (Titel, Vorname und Nachname)
+placeholder_USER_FIRSTNAME#:#Vorname des Benutzers
+placeholder_USER_LASTNAME#:#Nachname des Benutzers
+placeholder_USER_TITLE#:#Titel des Benutzers
+placeholder_USER_BIRTHDAY#:#Geburtstag des Benutzers
+placeholder_USER_INSTITUTION#:#Institution des Benutzers
+placeholder_USER_DEPARTMENT#:#Abteilung des Benutzers
+placeholder_USER_STREET#:#Strasse des Benutzers
+placeholder_USER_CITY#:#Ort des Benutzers
+placeholder_USER_ZIPCODE#:#PLZ des Benutzers
+placeholder_USER_COUNTRY#:#Land des Benutzers
+placeholder_TIMESTAMP#:#Aktuelles Datum in Millisekunden seit 01.01.1970
+placeholder_DATE#:#Aktuelles Datum
+placeholder_DATETIME#:#Aktuelles Datum und Zeit
+placeholder_DATE_COMPLETED#:#Datum des Bestehens
+placeholder_DATETIME_COMPLETED#:#Datum und Zeit des Bestehens
+placeholder_CERT_VALID_FROM#:#Gültig von des Zertifikats
+placeholder_CERT_VALID_TO#:#Gültig bis des Zertifikats
+placeholder_CERT_ID#:#Eindeutige nummerische ID des Zertifikats
+placeholder_CERT_FILE_NAME#:#Dateiname des Zertifikats
+placeholder_CERT_FILE_VERSION#:#Dateiversion des Zertifikats
+placeholder_CERT_TYPE_TITLE#:#Name des Zertifikattyps
+placeholder_CERT_TYPE_DESCRIPTION#:#Beschreibung des Zertifikattyps
+placeholder_COURSE_TITLE#:#Titel des Kurses
+placeholder_LP_FIRST_ACCESS#:#Lernfortschritt: Erster Zugriff
+placeholder_LP_LAST_ACCESS#:#Lernfortschritt: Letzter Zugriff
+placeholder_LP_SPENT_TIME#:#Lernfortschritt: Im Kurs verprachte Zeit
+placeholder_LP_SPENT_SECONDS#:#Lernfortschritt: Im Kurs verprachte Zeit (Sekunden)
+placeholder_LP_READ_COUNT#:#Lernfortschritt: Anzahl Lesen
+placeholder_LP_STATUS#:#Lernfortschritt: Status-Code
+placeholder_LP_AVG_PERCENTAGE#:#Lernfortschritt: Durchschn. Prozent des Kurses
+placeholder_CERT_TEMPLATE_PATH#:#Pfad, in dem die Zertifikat-Vorlagen-Datei und Assets gespeichert sind
+admin_form_notifications#:#Benachrichtigungen
+send#:#Senden
+edit#:#Bearbeiten
+delete#:#Löschen
+change#:#Ändern
+settings#:#Einstellungen
+diploma_confirm#:#Dieses Diplom bestätigt, dass die oben genannte Person an dem unten angegebenen Kurs-Trainings teilgenommen hat:
+valid_until#:#Gültig bis

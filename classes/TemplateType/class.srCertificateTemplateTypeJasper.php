@@ -8,12 +8,11 @@
  */
 class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 
-    /**
-     * srCertificateTemplateTypeJasper constructor.
-     */
+	/**
+	 * srCertificateTemplateTypeJasper constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
-
 
 		$this->setId(self::TEMPLATE_TYPE_JASPER);
 		$this->setTitle('Jasper Report');

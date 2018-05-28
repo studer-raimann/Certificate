@@ -139,6 +139,13 @@
 	$type->create();
 	$type->storeTemplateFileFromServer(ILIAS_ABSOLUTE_PATH . '/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/resources/template.jrxml');
 
+	$file = file_get_contents($type->getCertificateTemplatesPath(). '/template.jrxml');
+	$file = str_replace('[[TXT_CERTIFICATE]]', strtoupper($pl->txt('certificate')), $file);
+	$file = str_replace('[[TXT_DIPLOMA_CONFIRM]]', $pl->txt('diploma_confirm'), $file);
+	$file = str_replace('[[TXT_VALID_UNTIL]]', $pl->txt('valid_until'), $file);
+	$file = str_replace('[[TXT_CERTIFICATE_ID]]', $pl->txt('cert_id'), $file);
+	file_put_contents($type->getCertificateTemplatesPath(). '/template.jrxml', $file);
+
 //	$placeholder = new srCertificatePlaceholder();
 //	$placeholder->setCertificateType($type);
 //	$placeholder->setIdentifier('crs_title');
@@ -151,20 +158,20 @@
     <?php
     // Add some new config settings
     require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
-    $body = "Hi,\n\n" .
-            "A new certificate was generated for you:\n\n" .
-            "User: [[USER_FULLNAME]]\n" .
-            "Course: [[COURSE_TITLE]]\n" .
-            "Valid until: [[CERT_VALID_TO]]\n\n" .
-            "The certificate is attached in this email";
+
+    $pl = ilCertificatePlugin::getInstance();
+
+    $body = implode('', array_map(function ($num) use ($pl) {
+	    return $pl->txt('notification_user_body_' . $num);
+    }, range(1, 6)));
+    $body = str_replace("\\n", "\n", $body);
     ilCertificateConfig::setX('notification_user_body', $body);
-    ilCertificateConfig::setX('notification_user_subject', 'New certificate generated for course [[COURSE_TITLE]]');
-    ilCertificateConfig::setX('notification_others_subject', 'New certificate generated for user [[USER_FULLNAME]]');
-    $body = "Hi,\n\n" .
-        "A new certificate was generated for user [[USER_FULLNAME]]:\n\n" .
-        "Course: [[COURSE_TITLE]]\n" .
-        "Valid until: [[CERT_VALID_TO]]\n\n" .
-        "The certificate is attached in this email";
+    ilCertificateConfig::setX('notification_user_subject', $pl->txt('notification_user_subject'));
+    ilCertificateConfig::setX('notification_others_subject', $pl->txt('notification_others_subject'));
+    $body = implode('', array_map(function ($num) use ($pl) {
+	    return $pl->txt("notification_user_body_" . $num);
+    }, range(1, 5)));
+    $body = str_replace("\\n", "\n", $body);
     ilCertificateConfig::setX('notification_others_body', $body);
 
     ilCertificateConfig::setX('max_diff_lp_seconds', 28800);

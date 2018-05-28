@@ -180,7 +180,7 @@ class srCertificateTypePlaceholderFormGUI extends ilPropertyFormGUI {
 		}
 
 		$command = $this->placeholder->getId() ? srCertificateTypeGUI::CMD_UPDATE_PLACEHOLDER : srCertificateTypeGUI::CMD_CREATE_PLACEHOLDER;
-		$this->addCommandButton($command, $this->lng->txt('save'));
+		$this->addCommandButton($command, $this->pl->txt('save'));
 	}
 
 
@@ -197,5 +197,3 @@ class srCertificateTypePlaceholderFormGUI extends ilPropertyFormGUI {
 		$this->addItem($item);
 	}
 }
-
-?>

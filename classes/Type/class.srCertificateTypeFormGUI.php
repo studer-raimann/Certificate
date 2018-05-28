@@ -109,16 +109,16 @@ class srCertificateTypeFormGUI extends ilPropertyFormGUI {
 		$title = ($this->isNew) ? $this->pl->txt('add_new_type') : $this->pl->txt('edit_type');
 		$this->setTitle($title);
 
-		$item = new ilTextInputGUI($this->lng->txt('title'), 'title');
+		$item = new ilTextInputGUI($this->pl->txt('title'), 'title');
 		$item->setRequired(true);
 		$item->setValue($this->type->getTitle());
 		$this->addItem($item);
 
-		$item = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
+		$item = new ilTextAreaInputGUI($this->pl->txt('description'), 'description');
 		$item->setValue($this->type->getDescription());
 		$this->addItem($item);
 
-		$item = new ilMultiSelectInputGUI($this->lng->txt('languages'), 'languages');
+		$item = new ilMultiSelectInputGUI($this->pl->txt('languages'), 'languages');
 		$item->setWidth(self::WIDTH_MULTISELECT_INPUT);
 		$langs = $this->lng->getInstalledLanguages();
 		$options = array();
@@ -130,7 +130,7 @@ class srCertificateTypeFormGUI extends ilPropertyFormGUI {
 		$item->setRequired(true);
 		$this->addItem($item);
 
-		$item = new ilMultiSelectInputGUI($this->lng->txt('roles'), 'roles');
+		$item = new ilMultiSelectInputGUI($this->pl->txt('roles'), 'roles');
 		$item->setWidth(self::WIDTH_MULTISELECT_INPUT);
 		$roles = $this->rbac->getRolesByFilter(ilRbacReview::FILTER_ALL, 0, '');
 		$options = array();
@@ -159,8 +159,6 @@ class srCertificateTypeFormGUI extends ilPropertyFormGUI {
 		$item->setInfo($this->pl->txt('available_objects_info'));
 		$this->addItem($item);
 
-		$this->addCommandButton(srCertificateTypeGUI::CMD_SAVE_TYPE, $this->lng->txt('save'));
+		$this->addCommandButton(srCertificateTypeGUI::CMD_SAVE_TYPE, $this->pl->txt('save'));
 	}
 }
-
-?>

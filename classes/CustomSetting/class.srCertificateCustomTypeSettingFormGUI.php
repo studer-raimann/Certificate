@@ -58,7 +58,7 @@ class srCertificateCustomTypeSettingFormGUI extends ilPropertyFormGUI {
 		$this->pl = ilCertificatePlugin::getInstance();
 		$this->lng->loadLanguageModule('meta');
 		$this->setFormAction($this->ctrl->getFormAction($parent_gui));
-		$this->addCommandButton(srCertificateTypeGUI::CMD_SAVE_CUSTOM_SETTING, $this->lng->txt('save'));
+		$this->addCommandButton(srCertificateTypeGUI::CMD_SAVE_CUSTOM_SETTING, $this->pl->txt('save'));
 		$this->initForm();
 	}
 

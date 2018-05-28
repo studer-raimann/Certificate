@@ -35,8 +35,9 @@ class srCertificateHooks {
 	 *          }
 	 *          return $placeholders;
 	 *
-	 * @param array $placeholders
+	 * @param array         $placeholders
 	 * @param srCertificate $cert
+	 *
 	 * @return array
 	 */
 	public function processPlaceholders(srCertificate $cert, array $placeholders) {
@@ -54,11 +55,12 @@ class srCertificateHooks {
 	 *          return null
 	 *
 	 * @param \srCertificate $cert
-	 * @param $identifier
+	 * @param                $identifier
+	 *
 	 * @internal param $value
 	 * @return string
 	 */
 	public function formatDate(srCertificate $cert, $identifier) {
-		return null;
+		return NULL;
 	}
 }

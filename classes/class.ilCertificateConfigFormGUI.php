@@ -21,10 +21,6 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 	 */
 	protected $pl;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilRbacReview
 	 */
 	protected $rbacreview;
@@ -38,7 +34,6 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 		parent::__construct();
 		$this->parent_gui = $parent_gui;
 		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
 		$this->pl = ilCertificatePlugin::getInstance();
 		$this->rbacreview = $DIC->rbac()->review();
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
@@ -144,7 +139,7 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 
 		// Notification
 		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('notifications'));
+		$section->setTitle($this->txt('notifications'));
 		$this->addItem($section);
 
 		$item = new ilTextInputGUI($this->txt('notification_user_subject'), 'notification_user_subject');
@@ -255,7 +250,7 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 
 
 	protected function addCommandButtons() {
-		$this->addCommandButton(ilCertificateConfigGUI::CMD_SAVE, $this->lng->txt('save'));
-		$this->addCommandButton(ilCertificateConfigGUI::CMD_CANCEL, $this->lng->txt('cancel'));
+		$this->addCommandButton(ilCertificateConfigGUI::CMD_SAVE, $this->pl->txt('save'));
+		$this->addCommandButton(ilCertificateConfigGUI::CMD_CANCEL, $this->pl->txt('cancel'));
 	}
 }

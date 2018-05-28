@@ -18,39 +18,39 @@ class srCertificateStandardPlaceholders {
 	 * @var array
 	 */
 	protected static $placeholders = array(
-		'USER_LOGIN' => 'Login',
-		'USER_FULLNAME' => 'Full name of the user (title, first name and last name)',
-		'USER_FIRSTNAME' => 'First name of the user',
-		'USER_LASTNAME' => 'Last name of the user',
-		'USER_TITLE' => 'Title of the user',
-		'USER_BIRTHDAY' => 'Birthday of the user',
-		'USER_INSTITUTION' => 'Institution of the user',
-		'USER_DEPARTMENT' => 'Department of the user',
-		'USER_STREET' => "Street of the user address",
-		'USER_CITY' => "City of the user address",
-		'USER_ZIPCODE' => "ZIP code of the user address",
-		'USER_COUNTRY' => "Country of the user address",
-		'TIMESTAMP' => 'Current date in milliseconds since 01.01.1970',
-		'DATE' => 'Actual date',
-		'DATETIME' => 'Actual date and time',
-		'DATE_COMPLETED' => 'Date of completion',
-		'DATETIME_COMPLETED' => 'Date and time of completion',
-		'CERT_VALID_FROM' => 'From validity date of certificate',
-		'CERT_VALID_TO' => 'To validity date of certificate',
-		'CERT_ID' => 'Unique numerical ID of certificate',
-		'CERT_FILE_NAME' => 'Filename of certificate',
-		'CERT_FILE_VERSION' => 'File version of certificate',
-		'CERT_TYPE_TITLE' => 'Name of certificate type',
-		'CERT_TYPE_DESCRIPTION' => 'Description of certificate type',
-		'COURSE_TITLE' => 'Title of course',
-		'LP_FIRST_ACCESS' => 'Learning progress: First access',
-		'LP_LAST_ACCESS' => 'Learning progress: Last access',
-		'LP_SPENT_TIME' => 'Learning progress: Time spent in course',
-		'LP_SPENT_SECONDS' => 'Learning progress: Time spent in course (seconds)',
-		'LP_READ_COUNT' => 'Learning progress: Read count',
-		'LP_STATUS' => 'Learning progress: Status code',
-		'LP_AVG_PERCENTAGE' => 'Learning progress: Avg. percentage of course',
-		'CERT_TEMPLATE_PATH' => 'Path where certificate template file and assets are stored',
+		'USER_LOGIN',
+		'USER_FULLNAME',
+		'USER_FIRSTNAME',
+		'USER_LASTNAME',
+		'USER_TITLE',
+		'USER_BIRTHDAY',
+		'USER_INSTITUTION',
+		'USER_DEPARTMENT',
+		'USER_STREET',
+		'USER_CITY',
+		'USER_ZIPCODE',
+		'USER_COUNTRY',
+		'TIMESTAMP',
+		'DATE',
+		'DATETIME',
+		'DATE_COMPLETED',
+		'DATETIME_COMPLETED',
+		'CERT_VALID_FROM',
+		'CERT_VALID_TO',
+		'CERT_ID',
+		'CERT_FILE_NAME',
+		'CERT_FILE_VERSION',
+		'CERT_TYPE_TITLE',
+		'CERT_TYPE_DESCRIPTION',
+		'COURSE_TITLE',
+		'LP_FIRST_ACCESS',
+		'LP_LAST_ACCESS',
+		'LP_SPENT_TIME',
+		'LP_SPENT_SECONDS',
+		'LP_READ_COUNT',
+		'LP_STATUS',
+		'LP_AVG_PERCENTAGE',
+		'CERT_TEMPLATE_PATH',
 	);
 	/**
 	 * @var srCertificate
@@ -95,7 +95,9 @@ class srCertificateStandardPlaceholders {
 	 * @return array
 	 */
 	public static function getPlaceholderIdentifiers() {
-		return array_keys(self::$placeholders);
+		ksort(self::$placeholders);
+
+		return self::$placeholders;
 	}
 
 
@@ -117,10 +119,17 @@ class srCertificateStandardPlaceholders {
 	 * @return array
 	 */
 	public static function getStandardPlaceholders() {
-		// TODO i18n
-		ksort(self::$placeholders);
+		$pl = ilCertificatePlugin::getInstance();
 
-		return self::$placeholders;
+		$placeholders = self::getPlaceholderIdentifiers();
+
+		$placeholders = array_reduce($placeholders, function (array $placeholders, $placeholder) use ($pl) {
+			$placeholders[$placeholder] = $pl->txt('placeholder_' . $placeholder);
+
+			return $placeholders;
+		}, []);
+
+		return $placeholders;
 	}
 
 
@@ -135,7 +144,7 @@ class srCertificateStandardPlaceholders {
 		}
 		// Initialize with empty values
 		$this->parsed_placeholders = array();
-		foreach (self::$placeholders as $k => $v) {
+		foreach (self::getPlaceholderIdentifiers() as $k) {
 			$this->parsed_placeholders[$k] = '';
 		}
 		$user = $this->certificate->getUser();

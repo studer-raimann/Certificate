@@ -7,36 +7,34 @@
  */
 interface srCertificateNotification {
 
-
-    /**
-     * Execute notification
-     *
-     * @return mixed
-     */
-    public function notify();
-
-
-    /**
-     * @param string $subject
-     */
-    public function setSubject($subject);
+	/**
+	 * Execute notification
+	 *
+	 * @return mixed
+	 */
+	public function notify();
 
 
-    /**
-     * @return mixed
-     */
-    public function getSubject();
+	/**
+	 * @param string $subject
+	 */
+	public function setSubject($subject);
 
 
-    /**
-     * @param string $body
-     */
-    public function setBody($body);
+	/**
+	 * @return mixed
+	 */
+	public function getSubject();
 
 
-    /**
-     * @return mixed
-     */
-    public function getBody();
+	/**
+	 * @param string $body
+	 */
+	public function setBody($body);
 
+
+	/**
+	 * @return mixed
+	 */
+	public function getBody();
 }

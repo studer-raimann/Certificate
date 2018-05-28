@@ -21,10 +21,6 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI {
 	 */
 	protected $pl;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -51,9 +47,6 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI {
 		$this->ctrl = $DIC->ctrl();
 		$this->rbac = $DIC->rbac()->review();
 		$this->pl = ilCertificatePlugin::getInstance();
-		$this->lng = $DIC->language();
-		$this->lng->loadLanguageModule('meta');
-		$this->lng->loadLanguageModule('form');
 		$this->initForm();
 	}
 
@@ -182,6 +175,6 @@ class srCertificateTypeTemplateFormGUI extends ilPropertyFormGUI {
 		if (is_file($this->type->getCertificateTemplatesPath(true))) {
 			$this->addCommandButton(srCertificateTypeGUI::CMD_DOWNLOAD_TEMPLATE, $this->pl->txt('download_template'));
 		}
-		$this->addCommandButton(srCertificateTypeGUI::CMD_UPDATE_TEMPLATE, $this->lng->txt('save'));
+		$this->addCommandButton(srCertificateTypeGUI::CMD_UPDATE_TEMPLATE, $this->pl->txt('save'));
 	}
 }

@@ -221,3 +221,57 @@ show_certificates#:#Show Certificates
 participants#:#Participants
 definition_settings#:#Definition settings
 default_certificate#:#Default Certificate
+notification_user_body_1#:#Hi,\n\n
+notification_user_body_2#:#A new certificate was generated for you:\n\n
+notification_user_body_3#:#User: [[USER_FULLNAME]]\n
+notification_user_body_4#:#Course: [[COURSE_TITLE]]\n
+notification_user_body_5#:#Valid until: [[CERT_VALID_TO]]\n\n
+notification_user_body_6#:#The certificate is attached in this email
+notification_user_subject#:#New certificate generated for course [[COURSE_TITLE]]
+notification_others_subject#:#New certificate generated for user [[USER_FULLNAME]]
+notification_others_body_1#:#Hi,\n\n
+notification_others_body_2#:#A new certificate was generated for user [[USER_FULLNAME]]:\n\n
+notification_others_body_3#:#Course: [[COURSE_TITLE]]\n
+notification_others_body_4#:#Valid until: [[CERT_VALID_TO]]\n\n
+notification_others_body_5#:#The certificate is attached in this email
+placeholder_USER_LOGIN#:#Login
+placeholder_USER_FULLNAME#:#Full name of the user (title, first name and last name)
+placeholder_USER_FIRSTNAME#:#First name of the user
+placeholder_USER_LASTNAME#:#Last name of the user
+placeholder_USER_TITLE#:#Title of the user
+placeholder_USER_BIRTHDAY#:#Birthday of the user
+placeholder_USER_INSTITUTION#:#Institution of the user
+placeholder_USER_DEPARTMENT#:#Department of the user
+placeholder_USER_STREET#:#Street of the user address
+placeholder_USER_CITY#:#City of the user address
+placeholder_USER_ZIPCODE#:#ZIP code of the user address
+placeholder_USER_COUNTRY#:#Country of the user address
+placeholder_TIMESTAMP#:#Current date in milliseconds since 01.01.1970
+placeholder_DATE#:#Actual date
+placeholder_DATETIME#:#Actual date and time
+placeholder_DATE_COMPLETED#:#Date of completion
+placeholder_DATETIME_COMPLETED#:#Date and time of completion
+placeholder_CERT_VALID_FROM#:#From validity date of certificate
+placeholder_CERT_VALID_TO#:#To validity date of certificate
+placeholder_CERT_ID#:#Unique numerical ID of certificate
+placeholder_CERT_FILE_NAME#:#Filename of certificate
+placeholder_CERT_FILE_VERSION#:#File version of certificate
+placeholder_CERT_TYPE_TITLE#:#Name of certificate type
+placeholder_CERT_TYPE_DESCRIPTION#:#Description of certificate type
+placeholder_COURSE_TITLE#:#Title of course
+placeholder_LP_FIRST_ACCESS#:#Learning progress: First access
+placeholder_LP_LAST_ACCESS#:#Learning progress: Last access
+placeholder_LP_SPENT_TIME#:#Learning progress: Time spent in course
+placeholder_LP_SPENT_SECONDS#:#Learning progress: Time spent in course (seconds)
+placeholder_LP_READ_COUNT#:#Learning progress: Read count
+placeholder_LP_STATUS#:#Learning progress: Status code
+placeholder_LP_AVG_PERCENTAGE#:#Learning progress: Avg. percentage of course
+placeholder_CERT_TEMPLATE_PATH#:#Path where certificate template file and assets are stored
+admin_form_notifications#:#Notifications
+send#:#Send
+edit#:#Edit
+delete#:#Delete
+change#:#Change
+settings#:#Settings
+diploma_confirm#:#This diploma confirms that the above named person attended the training course stated below:
+valid_until#:#Valid until

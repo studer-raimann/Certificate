@@ -34,6 +34,7 @@ class srCertificateDefinitionSetting extends srCertificateSetting {
 
 	// Public
 
+
 	/**
 	 * Check in the certificate type if this setting is editable in the current context (crs, tst...)
 	 *
@@ -67,6 +68,7 @@ class srCertificateDefinitionSetting extends srCertificateSetting {
 
 
 	// Getters & Setters
+
 
 	/**
 	 * @param int $definition_id

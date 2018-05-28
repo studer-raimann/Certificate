@@ -83,9 +83,9 @@ class srCertificateTypeSignaturesTableGUI extends ilTable2GUI {
 		$list->setListTitle($this->pl->txt('actions'));
 		$this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'type_id', $this->type->getId());
 		$this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'signature_id', $a_set['id']);
-		$list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_EDIT_SIGNATURE));
-		$list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_CONFIRM_DELETE_SIGNATURE));
-		$list->addItem($this->lng->txt('download'), 'download', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_DOWNLOAD_SIGNATURE));
+		$list->addItem($this->pl->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_EDIT_SIGNATURE));
+		$list->addItem($this->pl->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_CONFIRM_DELETE_SIGNATURE));
+		$list->addItem($this->pl->txt('download'), 'download', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_DOWNLOAD_SIGNATURE));
 
 		return $list;
 	}

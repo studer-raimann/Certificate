@@ -76,7 +76,7 @@ class srCertificateTypeTableGUI extends ilTable2GUI {
 		$alist->setId($a_set['id']);
 		$alist->setListTitle($this->pl->txt('actions'));
 		$this->ctrl->setParameterByClass(srCertificateTypeGUI::class, 'type_id', $a_set['id']);
-		$alist->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_EDIT_TYPE));
+		$alist->addItem($this->pl->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass(srCertificateTypeGUI::class, srCertificateTypeGUI::CMD_EDIT_TYPE));
 
 		return $alist;
 	}

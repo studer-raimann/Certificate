@@ -24,10 +24,6 @@ class certCheckSignatureGUI {
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
 
 
 	function __construct() {
@@ -35,7 +31,6 @@ class certCheckSignatureGUI {
 		$this->tpl = $DIC->ui()->mainTemplate();
 		$this->pl = ilCertificatePlugin::getInstance();
 		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
 	}
 
 

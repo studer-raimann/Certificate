@@ -21,10 +21,6 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 	 */
 	protected $pl;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -58,7 +54,6 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 		$this->tpl = $DIC->ui()->mainTemplate();
 		$this->ctrl = $DIC->ctrl();
 		$this->pl = ilCertificatePlugin::getInstance();
-		$this->lng = $DIC->language();
 		$this->isNew = ($this->definition->getId()) ? false : true;
 		$this->rbac = $DIC->rbac()->review();
 		$this->user = $DIC->user();

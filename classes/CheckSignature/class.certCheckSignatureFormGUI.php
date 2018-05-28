@@ -16,10 +16,6 @@ class certCheckSignatureFormGUI extends ilPropertyFormGUI {
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
 
 
 	function __construct() {
@@ -28,7 +24,6 @@ class certCheckSignatureFormGUI extends ilPropertyFormGUI {
 		$this->ctrl = $DIC->ctrl();
 		$this->pl = ilCertificatePlugin::getInstance();
 
-		$this->lng = $DIC->language();
 		$this->initForm();
 	}
 
@@ -43,8 +38,6 @@ class certCheckSignatureFormGUI extends ilPropertyFormGUI {
 		$signature = new ilTextInputGUI($this->pl->txt('signature'), 'signature');
 		$this->addItem($signature);
 
-		$this->addCommandButton(certCheckSignatureGUI::CMD_DECRYPT_SIGNATURE, $this->lng->txt('send'));
+		$this->addCommandButton(certCheckSignatureGUI::CMD_DECRYPT_SIGNATURE, $this->pl->txt('send'));
 	}
 }
-
-?>

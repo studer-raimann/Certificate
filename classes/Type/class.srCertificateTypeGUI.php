@@ -68,10 +68,6 @@ class srCertificateTypeGUI {
 	 */
 	protected $ctrl;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilCertificatePlugin
 	 */
 	protected $pl;
@@ -109,11 +105,9 @@ class srCertificateTypeGUI {
 		$this->tabs = $DIC->tabs();
 		$this->type = (isset($_GET['type_id'])) ? srCertificateType::find((int)$_GET['type_id']) : NULL;
 		$this->pl = ilCertificatePlugin::getInstance();
-		$this->lng = $DIC->language();
 		$this->access = $DIC->access();
 		$this->db = $DIC->database();
 		$this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
-		$this->lng->loadLanguageModule('common');
 		$this->tpl->setTitleIcon(ilCertificatePlugin::getPluginIconImage());
 		$this->rbac = $DIC->rbac()->review();
 		$this->user = $DIC->user();
@@ -280,7 +274,7 @@ class srCertificateTypeGUI {
 		$this->tabs->addTab(self::TAB_GENERAL, $this->pl->txt(self::TAB_GENERAL), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_TYPE));
 		if ($this->type) {
 			$this->tabs->addTab(self::TAB_TEMPLATE, $this->pl->txt(self::TAB_TEMPLATE), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_TEMPLATE));
-			$this->tabs->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SETTINGS));
+			$this->tabs->addTab(self::TAB_SETTINGS, $this->pl->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SETTINGS));
 			$this->tabs->addTab(self::TAB_PLACEHOLDERS, $this->pl->txt(self::TAB_PLACEHOLDERS), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PLACEHOLDERS));
 			$this->tabs->addTab(self::TAB_SIGNATURES, $this->pl->txt(self::TAB_SIGNATURES), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SIGNATURES));
 			$this->tpl->setTitle($this->type->getTitle());
@@ -384,8 +378,8 @@ class srCertificateTypeGUI {
 		$gui->setFormAction($this->ctrl->getFormAction($this));
 		$gui->setHeaderText($this->pl->txt('info_delete_custom_setting'));
 		$gui->addItem('custom_setting_id', $setting->getId(), $setting->getLabel($this->user->getLanguage()));
-		$gui->setConfirm($this->lng->txt('confirm'), self::CMD_DELETE_CUSTOM_SETTING);
-		$gui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_SETTINGS);
+		$gui->setConfirm($this->pl->txt('confirm'), self::CMD_DELETE_CUSTOM_SETTING);
+		$gui->setCancel($this->pl->txt('cancel'), self::CMD_SHOW_SETTINGS);
 		$this->tpl->setContent($gui->getHTML());
 	}
 
@@ -405,8 +399,8 @@ class srCertificateTypeGUI {
 		$gui->setFormAction($this->ctrl->getFormAction($this));
 		$gui->setHeaderText($this->pl->txt('info_delete_custom_placeholder'));
 		$gui->addItem('placeholder_id', $placeholder->getId(), $placeholder->getLabel($this->user->getLanguage()));
-		$gui->setConfirm($this->lng->txt('confirm'), self::CMD_DELETE_PLACEHOLDER);
-		$gui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_PLACEHOLDERS);
+		$gui->setConfirm($this->pl->txt('confirm'), self::CMD_DELETE_PLACEHOLDER);
+		$gui->setCancel($this->pl->txt('cancel'), self::CMD_SHOW_PLACEHOLDERS);
 		$this->tpl->setContent($gui->getHTML());
 	}
 
