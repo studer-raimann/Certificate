@@ -12,6 +12,25 @@ class srCertificatePlaceholderValue extends ActiveRecord {
 	 * MySQL Table-Name
 	 */
 	const TABLE_NAME = 'cert_placeholder_value';
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	public static function returnDbTableName() {
+		return self::TABLE_NAME;
+	}
+
+
 	/**
 	 * @var int
 	 *
@@ -116,19 +135,6 @@ class srCertificatePlaceholderValue extends ActiveRecord {
 		}
 
 		return $value;
-	}
-
-
-
-	// Static
-
-
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 */
-	static function returnDbTableName() {
-		return self::TABLE_NAME;
 	}
 
 

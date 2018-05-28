@@ -12,6 +12,25 @@ class srCertificateSignature extends ActiveRecord {
 	 * MySQL Table-Name
 	 */
 	const TABLE_NAME = 'cert_signature';
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	public static function returnDbTableName() {
+		return self::TABLE_NAME;
+	}
+
+
 	/**
 	 * @var int
 	 *
@@ -130,18 +149,6 @@ class srCertificateSignature extends ActiveRecord {
 		}
 
 		return false;
-	}
-
-
-	// Static
-
-
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 */
-	static function returnDbTableName() {
-		return self::TABLE_NAME;
 	}
 
 

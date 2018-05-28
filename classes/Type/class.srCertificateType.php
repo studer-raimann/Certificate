@@ -13,6 +13,25 @@ class srCertificateType extends ActiveRecord {
 	 *
 	 */
 	const TABLE_NAME = 'cert_type';
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return static::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	public static function returnDbTableName() {
+		return static::TABLE_NAME;
+	}
+
+
 	/**
 	 * Objects (type) are allowed to generate certificates
 	 *
@@ -379,15 +398,6 @@ class srCertificateType extends ActiveRecord {
 		}
 
 		return true;
-	}
-
-
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 */
-	static function returnDbTableName() {
-		return static::TABLE_NAME;
 	}
 
 

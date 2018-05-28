@@ -14,6 +14,25 @@ class ilCertificateConfig extends ActiveRecord {
 	const ROLES_ADMINISTRATE_CERTIFICATES = 'roles_administrate_certificates';
 	const DISK_SPACE_WARNING = 'disk_space_warning';
 	const TABLE_NAME = 'uihkcertificate_c';
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	public static function returnDbTableName() {
+		return self::TABLE_NAME;
+	}
+
+
 	/**
 	 * @var array
 	 */
@@ -83,11 +102,6 @@ class ilCertificateConfig extends ActiveRecord {
 		} else {
 			$obj->create();
 		}
-	}
-
-
-	public static function returnDbTableName() {
-		return self::TABLE_NAME;
 	}
 
 

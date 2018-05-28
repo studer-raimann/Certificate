@@ -19,6 +19,25 @@ class srCertificate extends ActiveRecord {
 	const STATUS_CALLED_BACK = 5;
 	// timezone offets are from -39600 to +46800
 	const TIME_ZONE_CORRECTION = 39600;
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	public static function returnDbTableName() {
+		return self::TABLE_NAME;
+	}
+
+
 	/**
 	 * @var int
 	 *
@@ -367,15 +386,6 @@ class srCertificate extends ActiveRecord {
 		}
 
 		return $path_string;
-	}
-
-
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 */
-	public static function returnDbTableName() {
-		return self::TABLE_NAME;
 	}
 
 

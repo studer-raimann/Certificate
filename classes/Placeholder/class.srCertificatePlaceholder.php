@@ -21,6 +21,25 @@ class srCertificatePlaceholder extends ActiveRecord {
 	 * Valid characters for identifier
 	 */
 	const REGEX_VALID_IDENTIFIER = '#^[A-Za-z0-9_\-]+$#';
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	public static function returnDbTableName() {
+		return self::TABLE_NAME;
+	}
+
+
 	/**
 	 * @var int
 	 *
@@ -206,18 +225,6 @@ class srCertificatePlaceholder extends ActiveRecord {
 		}
 
 		return $value;
-	}
-
-
-	// Static
-
-
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 */
-	static function returnDbTableName() {
-		return self::TABLE_NAME;
 	}
 
 

@@ -9,6 +9,25 @@
 abstract class srCertificateSetting extends ActiveRecord implements srCertificateSettingInterface {
 
 	const TABLE_NAME = 'You must define the constant TABLE_NAME in the subclass';
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return static::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	public static function returnDbTableName() {
+		return static::TABLE_NAME;
+	}
+
+
 	/**
 	 * @var int
 	 *
@@ -39,15 +58,6 @@ abstract class srCertificateSetting extends ActiveRecord implements srCertificat
 
 	public function __construct($id = 0) {
 		parent::__construct($id);
-	}
-
-
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 */
-	static function returnDbTableName() {
-		return static::TABLE_NAME;
 	}
 
 
