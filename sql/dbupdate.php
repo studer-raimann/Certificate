@@ -125,8 +125,9 @@
 	<?php
 	// We will add one default certificate definition for easier installation.
 	require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
+	$pl = ilCertificatePlugin::getInstance();
 	$type = new srCertificateType();
-	$type->setTitle("Default Certificate");
+	$type->setTitle($pl->txt('default_certificate'));
 	$type->setLanguages(array('en'));
 	$type->setRoles(array(2)); //2 Is the default administration role.
 	$type->setAvailableObjects(array('crs'));

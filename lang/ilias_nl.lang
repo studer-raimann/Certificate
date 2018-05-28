@@ -207,12 +207,13 @@ admin_form_max_diff_lp_seconds_info#:#Je kunt een tijdsperiode opgeven om te bep
 
 download_default_template#:#Download Standaard sjabloon
 download_template#:#Download Huidig sjabloon
-set_date_and_create#:#Set date and create certificate
-passed_at#:#Passed at
-not_passed_yet#:#Not passed yet
-passed_date#:#Date
-set_date_info#:#Please choose a date for the certificate. The date is used for the validity of the certificate ("valid from"), but does not affect the time of creation (the certificate will be created immediately).
-set_date_info_multi#:#Please choose a date for the certificates. The date is used for the validity of the certificates ("valid from"), but does not affect the time of creation (the certificates will be created immediately).
+set_date_and_create#:#MISSING
+passed_at#:#MISSING
+not_passed_yet#:#MISSING
+passed_date#:#MISSING
+set_date_info#:#MISSING
+set_date_info_multi#:#MISSING
 show_certificates#:#MISSING
 participants#:#MISSING
 definition_settings#:#MISSING
+default_certificate#:#MISSING

@@ -181,17 +181,16 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 
 
 	/**
-	 * @param string $size
-	 *
 	 * @return string
 	 */
-	public static function getPluginIconImage($size = 'b') {
-		$version = ILIAS_VERSION_NUMERIC;
-
-		return ((int)$version[0] >= 5) ? ilUtil::getImagePath('icon_cert.svg') : ilUtil::getImagePath("icon_cert_{$size}.png");
+	public static function getPluginIconImage() {
+		return ilUtil::getImagePath('icon_cert.svg');
 	}
 
 
+	/**
+	 * @return bool
+	 */
 	protected function beforeUninstall() {
 		$this->db->dropTable(ilCertificateConfig::TABLE_NAME, false);
 		$this->db->dropTable(srCertificateType::TABLE_NAME, false);
@@ -205,7 +204,9 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		$this->db->dropTable(srCertificateCustomDefinitionSetting::TABLE_NAME, false);
 		$this->db->dropTable(srCertificateCustomTypeSetting::TABLE_NAME, false);
 
-		// TODO Remove certificate folder in ilias data
+		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_signatures');
+		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_templates');
+		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_data');
 
 		return true;
 	}

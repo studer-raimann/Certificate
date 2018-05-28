@@ -172,8 +172,7 @@ class srCertificate extends ActiveRecord {
 	 * @return string
 	 */
 	public function getCertificatePath() {
-		return CLIENT_DATA_DIR . DIRECTORY_SEPARATOR . 'cert_data' . DIRECTORY_SEPARATOR . self::createPathFromId($this->getUserId())
-			. DIRECTORY_SEPARATOR . 'cert_' . $this->getId();
+		return CLIENT_DATA_DIR . '/cert_data/' . self::createPathFromId($this->getUserId()) . '/cert_' . $this->getId();
 	}
 
 
@@ -183,7 +182,7 @@ class srCertificate extends ActiveRecord {
 	 * @return string
 	 */
 	public function getFilePath() {
-		return $this->getCertificatePath() . DIRECTORY_SEPARATOR . $this->getFilename();
+		return $this->getCertificatePath() . '/' . $this->getFilename();
 	}
 
 
@@ -364,7 +363,7 @@ class srCertificate extends ActiveRecord {
 
 		$path_string = '';
 		if (count($path)) {
-			$path_string = implode(DIRECTORY_SEPARATOR, $path);
+			$path_string = implode('/', $path);
 		}
 
 		return $path_string;

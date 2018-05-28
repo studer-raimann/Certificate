@@ -219,3 +219,4 @@ set_date_info_multi#:#Bitte wählen Sie ein Datum für die zu erstellenden Zerti
 show_certificates#:#Show Certificates
 participants#:#Participants
 definition_settings#:#Definition settings
+default_certificate#:#Default Certificate

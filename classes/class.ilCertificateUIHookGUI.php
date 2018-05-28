@@ -12,6 +12,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
  */
 class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 
+	const TAB_CERTIFICATE = 'certificate';
 	/**
 	 * @var ilCtrl
 	 */
@@ -54,8 +55,10 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 			if ($this->access->checkAccess('write', '', (int)$_GET['ref_id'])) {
 				$ilTabsGUI = $a_par['tabs'];
 				$this->ctrl->setParameterByClass(srCertificateDefinitionGUI::class, 'ref_id', $_GET['ref_id']);
-				$link = $this->ctrl->getLinkTargetByClass(array( ilUIPluginRouterGUI::class, srCertificateDefinitionGUI::class ));
-				$ilTabsGUI->addTarget('certificate', $link, 'show', srCertificateDefinitionGUI::class);
+				$ilTabsGUI->addTab(self::TAB_CERTIFICATE, $this->pl->txt('certificate'), $this->ctrl->getLinkTargetByClass(array(
+					ilUIPluginRouterGUI::class,
+					srCertificateDefinitionGUI::class
+				)));
 			}
 		}
 	}

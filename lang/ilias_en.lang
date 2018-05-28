@@ -220,3 +220,4 @@ set_date_info_multi#:#Please choose a date for the certificates. The date is use
 show_certificates#:#Show Certificates
 participants#:#Participants
 definition_settings#:#Definition settings
+default_certificate#:#Default Certificate
