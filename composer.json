@@ -35,7 +35,8 @@
       "../../../../../../../Services/Exceptions",
       "../../../../../../../Services/Object",
       "../../../../../../../Services/PDFGeneration",
-      "../../../../../../../Modules/Course"
+      "../../../../../../../Modules/Course",
+      "../../../../../../../Services/Component"
     ]
   },
   "config": {
