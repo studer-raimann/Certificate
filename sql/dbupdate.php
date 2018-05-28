@@ -151,7 +151,7 @@
 //	$placeholder->setIdentifier('crs_title');
 //	$placeholder->setIsMandatory(true);
 //	$placeholder->setEditableIn(array('crs'));
-//	$placeholder->setLabel('Course Title', 'en');
+//	$placeholder->setLabel($pl->txt('crs_title'), 'en');
 //	$placeholder->create();
 	?>
 <#12>
