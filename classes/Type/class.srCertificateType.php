@@ -162,10 +162,12 @@ class srCertificateType extends ActiveRecord {
         $this->create();
 
         // default settings
-        foreach ($old_type->getDefaultSettings() as $setting) {
+        foreach ($old_type->getSettings() as $setting) {
             $new_setting = $this->getSettingByIdentifier($setting->getIdentifier());
-            $new_setting->cloneSetting($setting);
-            $new_setting->update();
+            if ($new_setting) {
+                $new_setting->cloneSetting($setting);
+                $new_setting->update();
+            }
         }
 
         // custom settings
@@ -466,7 +468,7 @@ class srCertificateType extends ActiveRecord {
 	/**
 	 * Get the default settings
 	 *
-	 * @return srCertificateTypeSetting[]
+	 * @return array
 	 */
 	public static function getDefaultSettings() {
 		return self::$default_settings;
