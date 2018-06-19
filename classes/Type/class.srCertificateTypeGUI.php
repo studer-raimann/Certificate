@@ -31,6 +31,7 @@ class srCertificateTypeGUI {
 	const CMD_EDIT_SIGNATURE = 'editSignature';
 	const CMD_EDIT_TEMPLATE = 'editTemplate';
 	const CMD_EDIT_TYPE = 'editType';
+	const CMD_COPY_TYPE = 'copyType';
 	const CMD_SAVE_CUSTOM_SETTING = 'saveCustomSetting';
 	const CMD_SAVE_TYPE = 'saveType';
 	const CMD_SHOW_PLACEHOLDERS = 'showPlaceholders';
@@ -139,6 +140,10 @@ class srCertificateTypeGUI {
 						break;
 					case self::CMD_EDIT_TYPE:
 						$this->editType();
+						$this->setTabs(self::TAB_GENERAL);
+						break;
+					case self::CMD_COPY_TYPE:
+						$this->copyType();
 						$this->setTabs(self::TAB_GENERAL);
 						break;
 					case self::CMD_ADD_TYPE:
@@ -310,6 +315,17 @@ class srCertificateTypeGUI {
 	public function editType() {
 		$form = new srCertificateTypeFormGUI($this, $this->type);
 		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * create a copy of a type
+	 */
+	public function copyType() {
+		$new_type = new srCertificateType();
+		$new_type->cloneType($this->type);
+        ilUtil::sendSuccess($this->pl->txt('msg_type_copied'), true);
+        ilUtil::sendInfo($this->pl->txt('msg_type_copied_info'), true);
+		$this->ctrl->redirect($this, self::CMD_SHOW_TYPES);
 	}
 
 

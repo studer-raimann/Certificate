@@ -97,6 +97,8 @@ msg_not_created_yet#:#The certificate has not been created yet.
 msg_retry_generation#:#The system will try to regenerate the certificate.
 msg_error_preview_certificate#:#An error occurred while trying to preview the certificate.
 msg_cert_created#:#Certificates will be created with the chosen date.
+msg_type_copied#:#Certificate Type copied successfully.
+msg_type_copied_info#:#Warning: The 'Template' settings of a certificate type are not copied.
 change_cert_type#:#Change Certificate Type
 choose_cert_type#:#Choose Certificate Type
 edit_settings#:#Edit Settings

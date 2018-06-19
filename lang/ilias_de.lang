@@ -94,6 +94,8 @@ msg_undo_called_back#:#Das Zertifikat gilt nun nicht mehr als zurückgerufen.
 msg_not_created_yet#:#Das Zertifikat wurde bis jetzt noch nicht erstellt.
 msg_retry_generation#:#Das system versucht das Zertifikat neu zu generieren.
 msg_cert_created#:#Zertifikate werden mit dem eingegebenen Datum erstellt.
+msg_type_copied#:#Zertifikatstyp erfolgreich kopiert.
+msg_type_copied_info#:#Achtung: Die 'Template'-Einstellungen von Zertifikatstypen werden nicht mitkopiert.
 change_cert_type#:#Zertifikatstyp ändern
 choose_cert_type#:#Zertifikatstyp wählen
 edit_settings#:#Einstellungen bearbeiten

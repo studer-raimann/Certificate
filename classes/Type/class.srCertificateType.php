@@ -148,6 +148,51 @@ class srCertificateType extends ActiveRecord {
 
 	// Public
 
+    /**
+     * @param srCertificateType $old_type
+     * @throws srCertificateException
+     */
+    public function cloneType(srCertificateType $old_type) {
+        global $DIC;
+        $this->setTitle($old_type->getTitle() . ' ' . $DIC->language()->txt('copy_of_suffix'));
+        $this->setDescription($old_type->getDescription());
+        $this->setAvailableObjects($old_type->getAvailableObjects());
+        $this->setLanguages($old_type->getLanguages());
+        $this->setRoles($old_type->getRoles());
+        $this->create();
+
+        // default settings
+        foreach ($old_type->getDefaultSettings() as $setting) {
+            $new_setting = $this->getSettingByIdentifier($setting->getIdentifier());
+            $new_setting->cloneSetting($setting);
+            $new_setting->update();
+        }
+
+        // custom settings
+        foreach ($old_type->getCustomSettings() as $setting) {
+            $new_setting = new srCertificateCustomTypeSetting();
+            $new_setting->setSettingTypeId($this->getId());
+            $new_setting->cloneSetting($setting);
+            $new_setting->create();
+        }
+
+        // placeholders
+        foreach ($old_type->getPlaceholders() as $placeholder) {
+            $new_placeholder = new srCertificatePlaceholder();
+            $new_placeholder->setCertificateType($this);
+            $new_placeholder->clonePlaceholder($placeholder);
+            $new_placeholder->create();
+        }
+
+        // signature
+        foreach ($old_type->getSignatures() as $signature) {
+            $new_signature = new srCertificateSignature();
+            $new_signature->setCertificateType($this);
+            $new_signature->cloneSignature($signature);
+            $new_signature->create();
+        }
+    }
+
 
 	/**
 	 * Set values after reading from DB, e.g. convert from JSON to Array
@@ -421,7 +466,7 @@ class srCertificateType extends ActiveRecord {
 	/**
 	 * Get the default settings
 	 *
-	 * @return array
+	 * @return srCertificateTypeSetting[]
 	 */
 	public static function getDefaultSettings() {
 		return self::$default_settings;
