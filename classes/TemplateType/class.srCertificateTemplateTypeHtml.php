@@ -45,15 +45,26 @@ class srCertificateTemplateTypeHtml extends srCertificateTemplateType {
 		$markup = file_get_contents($template);
 		$markup = srCertificatePlaceholdersParser::getInstance()->parse($markup, $cert->getPlaceholders());
 		try {
-			$job = new ilPDFGenerationJob();
-			$job->setMarginLeft('20');
-			$job->setMarginBottom('20');
-			$job->setMarginRight('20');
-			$job->setMarginTop('20');
-			$job->setOutputMode('F'); // Save to disk
-			$job->setFilename($cert->getFilePath());
-			$job->addPage($markup);
-			ilPDFGeneration::doJob($job);
+            // create new PDF document
+            $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+            $pdf->SetMargins('20', '20', '20');
+            $pdf->SetAutoPageBreak('auto', '20');
+//            $pdf->setImageScale($config['image_scale']);  // I'm not sure if this is needed or what value should be given to it
+
+            $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+            $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+            $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+            $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+            $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+            $pdf->SetFont('dejavusans', '', 10);
+            $pdf->setSpacesRE('/[^\S\xa0]/'); // Fixing unicode/PCRE-mess #17547
+
+            $page = ' '.$markup;
+            $pdf->AddPage();
+            $pdf->writeHTML($page, true, false, true, false, '');
+
+            $result = $pdf->Output($cert->getFilePath(), 'F'); // (I - Inline, D - Download, F - File)
 
 			return true; // Method above gives no feedback so assume true -.-
 		} catch (Exception $e) {
