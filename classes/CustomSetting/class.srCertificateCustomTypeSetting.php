@@ -52,9 +52,9 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
     protected $data;
 
     /**
-     * @param srCertificateCustomTypeSetting $old_setting
+     * @param srCertificateTypeSetting $old_setting
      */
-    public function cloneSetting(srCertificateCustomTypeSetting $old_setting) {
+    public function cloneSetting(srCertificateTypeSetting $old_setting) {
         parent::cloneSetting($old_setting);
         $this->setLabel($old_setting->getLabel());
         $this->setData($old_setting->getData());
