@@ -64,11 +64,16 @@ class srCertificateTemplateTypeHtml extends srCertificateTemplateType {
             $pdf->AddPage();
             $pdf->writeHTML($page, true, false, true, false, '');
 
+            $cert_path = $cert->getCertificatePath();
+            if (!file_exists($cert_path)) {
+                ilUtil::makeDirParents($cert_path);
+            }
+
             $result = $pdf->Output($cert->getFilePath(), 'F'); // (I - Inline, D - Download, F - File)
 
 			return true; // Method above gives no feedback so assume true -.-
 		} catch (Exception $e) {
-			$this->log->write("srCertificateTemplyteTypeHtml::generate() : " . $e->getMessage());
+			$this->log->write("srCertificateTemplateTypeHtml::generate() : " . $e->getMessage());
 
 			return false;
 		}
