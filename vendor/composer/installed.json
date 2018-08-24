@@ -1,1 +1,193 @@
-[]
+[
+    {
+        "name": "rdpascua/jasperstarter",
+        "version": "3.3.0",
+        "version_normalized": "3.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/rdpascua/jasperstarter.git",
+            "reference": "03e847f651b259bb26d8cb2457b28b110734c97b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/rdpascua/jasperstarter/zipball/03e847f651b259bb26d8cb2457b28b110734c97b",
+            "reference": "03e847f651b259bb26d8cb2457b28b110734c97b",
+            "shasum": ""
+        },
+        "time": "2018-03-27T12:00:07+00:00",
+        "bin": [
+            "bin/jasperstarter"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Darick Pascua",
+                "email": "rdpascua@outlook.com"
+            }
+        ],
+        "description": "JasperStarter is an opensource command line launcher and batch compiler for JasperReports",
+        "homepage": "http://jasperstarter.cenote.de/",
+        "keywords": [
+            "jasper",
+            "reports"
+        ]
+    },
+    {
+        "name": "setasign/fpdi",
+        "version": "v2.0.3",
+        "version_normalized": "2.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Setasign/FPDI.git",
+            "reference": "5998a2f81ae5b4a59eb75ed65e6ec0518163de8d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/5998a2f81ae5b4a59eb75ed65e6ec0518163de8d",
+            "reference": "5998a2f81ae5b4a59eb75ed65e6ec0518163de8d",
+            "shasum": ""
+        },
+        "require": {
+            "ext-zlib": "*",
+            "php": "^5.6 || ^7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~5.7",
+            "setasign/fpdf": "~1.8",
+            "tecnickcom/tcpdf": "~6.2"
+        },
+        "suggest": {
+            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnickcom/tcpdf\" as an alternative there's no fixed dependency configured.",
+            "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
+            "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF."
+        },
+        "time": "2018-04-18T13:00:41+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "setasign\\Fpdi\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jan Slabon",
+                "email": "jan.slabon@setasign.com",
+                "homepage": "https://www.setasign.com"
+            },
+            {
+                "name": "Maximilian Kresse",
+                "email": "maximilian.kresse@setasign.com",
+                "homepage": "https://www.setasign.com"
+            }
+        ],
+        "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF. Because it is also possible to use FPDI with TCPDF, there are no fixed dependencies defined. Please see suggestions for packages which evaluates the dependencies automatically.",
+        "homepage": "https://www.setasign.com/fpdi",
+        "keywords": [
+            "fpdf",
+            "fpdi",
+            "pdf"
+        ]
+    },
+    {
+        "name": "srag/dic",
+        "version": "0.2.2",
+        "version_normalized": "0.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/studer-raimann/DIC.git",
+            "reference": "592ee2c3640a24563b6367d7ce4d63f123ffea9a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/592ee2c3640a24563b6367d7ce4d63f123ffea9a",
+            "reference": "592ee2c3640a24563b6367d7ce4d63f123ffea9a",
+            "shasum": ""
+        },
+        "time": "2018-08-23T13:41:34+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\DIC\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "srag",
+                "email": "support@studer-raimann.ch",
+                "homepage": "https://studer-raimann.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Use all ILIAS globals in your class",
+        "homepage": "https://github.com/studer-raimann/DIC",
+        "keywords": [
+            "ILIAS",
+            "dic",
+            "globals",
+            "trait"
+        ]
+    },
+    {
+        "name": "srag/jasperreport",
+        "version": "2.0.2",
+        "version_normalized": "2.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/studer-raimann/JasperReport.git",
+            "reference": "89d9fa51ad787af9c9208182b46d7878400faf7c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/89d9fa51ad787af9c9208182b46d7878400faf7c",
+            "reference": "89d9fa51ad787af9c9208182b46d7878400faf7c",
+            "shasum": ""
+        },
+        "require": {
+            "rdpascua/jasperstarter": "^3.3.0",
+            "setasign/fpdi": "^2.0.3",
+            "srag/dic": "^0.2.2"
+        },
+        "time": "2018-08-24T12:59:56+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\JasperReport\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "srag",
+                "email": "support@studer-raimann.ch",
+                "homepage": "https://studer-raimann.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "This is an ILIAS wrapper for the JasperReport library. It allows ILIAS to print pretty PDF reports.",
+        "homepage": "https://github.com/studer-raimann/JasperReport",
+        "keywords": [
+            "ILIAS",
+            "jasper",
+            "report"
+        ]
+    }
+]

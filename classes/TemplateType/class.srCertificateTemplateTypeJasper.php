@@ -1,5 +1,8 @@
 <?php
 
+use srag\JasperReport\JasperReport;
+use srag\JasperReport\JasperReportException;
+
 /**
  * srCertificateTemplateTypeJasper
  *
@@ -26,7 +29,7 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 	 * @return bool
 	 */
 	public function isAvailable() {
-		return is_file('./Customizing/global/plugins/Libraries/JasperReport/classes/class.JasperReport.php');
+		return true;
 	}
 
 
