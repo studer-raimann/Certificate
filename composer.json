@@ -17,7 +17,7 @@
   "prefer-stable": true,
   "require": {
     "php": "^5.5.9 || ^7.0",
-    "srag/jasperreport": "^2.0.5"
+    "srag/jasperreport": "^2.0.6"
   },
   "autoload": {
     "classmap": [

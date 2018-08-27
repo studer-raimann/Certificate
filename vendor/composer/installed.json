@@ -144,17 +144,17 @@
     },
     {
         "name": "srag/jasperreport",
-        "version": "2.0.5",
-        "version_normalized": "2.0.5.0",
+        "version": "2.0.6",
+        "version_normalized": "2.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/JasperReport.git",
-            "reference": "4b73c25e1923345c4b50f0cca976b2107483d04d"
+            "reference": "40ebd441b4304ea89e79c90fbe367e5c8f086fee"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/4b73c25e1923345c4b50f0cca976b2107483d04d",
-            "reference": "4b73c25e1923345c4b50f0cca976b2107483d04d",
+            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/40ebd441b4304ea89e79c90fbe367e5c8f086fee",
+            "reference": "40ebd441b4304ea89e79c90fbe367e5c8f086fee",
             "shasum": ""
         },
         "require": {
@@ -162,7 +162,7 @@
             "setasign/fpdi": "^2.0.3",
             "srag/dic": "^0.2.3"
         },
-        "time": "2018-08-27T09:00:16+00:00",
+        "time": "2018-08-27T09:39:45+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
