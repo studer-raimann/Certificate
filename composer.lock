@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a6428113f7d7b415ceb6b58b0bb33fd",
+    "content-hash": "77ff5b09c6161620223b46b83cf6baed",
     "packages": [
         {
             "name": "rdpascua/jasperstarter",
@@ -103,16 +103,16 @@
         },
         {
             "name": "srag/dic",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/DIC.git",
-                "reference": "01a7b20792fc6c49ed60aabda8027548b7aabb02"
+                "reference": "add33e5c5cc3a8ea7bf433719f320d8910d71bc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/01a7b20792fc6c49ed60aabda8027548b7aabb02",
-                "reference": "01a7b20792fc6c49ed60aabda8027548b7aabb02",
+                "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/add33e5c5cc3a8ea7bf433719f320d8910d71bc2",
+                "reference": "add33e5c5cc3a8ea7bf433719f320d8910d71bc2",
                 "shasum": ""
             },
             "require": {
@@ -144,27 +144,27 @@
                 "globals",
                 "trait"
             ],
-            "time": "2018-08-28T08:56:11+00:00"
+            "time": "2018-08-28T09:49:32+00:00"
         },
         {
             "name": "srag/jasperreport",
-            "version": "2.0.7",
+            "version": "2.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/JasperReport.git",
-                "reference": "def9831739a558cafd1766e9282e3659623ac9ec"
+                "reference": "a02a4e3215f74d486a47bfee47c3c75fb2f8168f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/def9831739a558cafd1766e9282e3659623ac9ec",
-                "reference": "def9831739a558cafd1766e9282e3659623ac9ec",
+                "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/a02a4e3215f74d486a47bfee47c3c75fb2f8168f",
+                "reference": "a02a4e3215f74d486a47bfee47c3c75fb2f8168f",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.6 || ^7.0",
                 "rdpascua/jasperstarter": "^3.3.0",
                 "setasign/fpdi": "^2.0.3",
-                "srag/dic": "^0.3.0"
+                "srag/dic": "^0.4.0"
             },
             "type": "library",
             "autoload": {
@@ -191,7 +191,7 @@
                 "jasper",
                 "report"
             ],
-            "time": "2018-08-28T09:01:04+00:00"
+            "time": "2018-08-28T09:54:05+00:00"
         }
     ],
     "packages-dev": [],
@@ -201,7 +201,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5.5.9 || ^7.0"
+        "php": "^5.6.0 || ^7.0"
     },
     "platform-dev": []
 }
