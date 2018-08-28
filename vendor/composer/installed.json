@@ -100,20 +100,23 @@
     },
     {
         "name": "srag/dic",
-        "version": "0.2.3",
-        "version_normalized": "0.2.3.0",
+        "version": "0.3.0",
+        "version_normalized": "0.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/DIC.git",
-            "reference": "4c36aa7d1240d8bf4966f9e2d1c5a5f37a991878"
+            "reference": "01a7b20792fc6c49ed60aabda8027548b7aabb02"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/4c36aa7d1240d8bf4966f9e2d1c5a5f37a991878",
-            "reference": "4c36aa7d1240d8bf4966f9e2d1c5a5f37a991878",
+            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/01a7b20792fc6c49ed60aabda8027548b7aabb02",
+            "reference": "01a7b20792fc6c49ed60aabda8027548b7aabb02",
             "shasum": ""
         },
-        "time": "2018-08-27T08:56:04+00:00",
+        "require": {
+            "php": "^5.6 || ^7.0"
+        },
+        "time": "2018-08-28T08:56:11+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -144,25 +147,26 @@
     },
     {
         "name": "srag/jasperreport",
-        "version": "2.0.6",
-        "version_normalized": "2.0.6.0",
+        "version": "2.0.7",
+        "version_normalized": "2.0.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/JasperReport.git",
-            "reference": "40ebd441b4304ea89e79c90fbe367e5c8f086fee"
+            "reference": "def9831739a558cafd1766e9282e3659623ac9ec"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/40ebd441b4304ea89e79c90fbe367e5c8f086fee",
-            "reference": "40ebd441b4304ea89e79c90fbe367e5c8f086fee",
+            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/def9831739a558cafd1766e9282e3659623ac9ec",
+            "reference": "def9831739a558cafd1766e9282e3659623ac9ec",
             "shasum": ""
         },
         "require": {
+            "php": "^5.6 || ^7.0",
             "rdpascua/jasperstarter": "^3.3.0",
             "setasign/fpdi": "^2.0.3",
-            "srag/dic": "^0.2.3"
+            "srag/dic": "^0.3.0"
         },
-        "time": "2018-08-27T09:39:45+00:00",
+        "time": "2018-08-28T09:01:04+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
