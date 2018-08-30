@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.0.11]
+- Use always latest version of JasperReport
+
+## [2.0.10]
+- Use latest DIC
+
+## [2.0.9]
+- Use latest DIC
+
 ## [2.0.8]
 - DICStatic
 
