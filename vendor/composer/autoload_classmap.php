@@ -667,7 +667,6 @@ return array(
     'srCertificateUserNotification' => $baseDir . '/classes/Notification/class.srCertificateUserNotification.php',
     'srCertificateUserTableGUI' => $baseDir . '/classes/Certificate/class.srCertificateUserTableGUI.php',
     'srag\\DIC\\AbstractDIC' => $vendorDir . '/srag/dic/src/AbstractDIC.php',
-    'srag\\DIC\\DICCache' => $vendorDir . '/srag/dic/src/DICCache.php',
     'srag\\DIC\\DICException' => $vendorDir . '/srag/dic/src/DICException.php',
     'srag\\DIC\\DICInterface' => $vendorDir . '/srag/dic/src/DICInterface.php',
     'srag\\DIC\\DICStatic' => $vendorDir . '/srag/dic/src/DICStatic.php',

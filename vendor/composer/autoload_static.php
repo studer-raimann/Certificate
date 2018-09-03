@@ -692,7 +692,6 @@ class ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed
         'srCertificateUserNotification' => __DIR__ . '/../..' . '/classes/Notification/class.srCertificateUserNotification.php',
         'srCertificateUserTableGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateUserTableGUI.php',
         'srag\\DIC\\AbstractDIC' => __DIR__ . '/..' . '/srag/dic/src/AbstractDIC.php',
-        'srag\\DIC\\DICCache' => __DIR__ . '/..' . '/srag/dic/src/DICCache.php',
         'srag\\DIC\\DICException' => __DIR__ . '/..' . '/srag/dic/src/DICException.php',
         'srag\\DIC\\DICInterface' => __DIR__ . '/..' . '/srag/dic/src/DICInterface.php',
         'srag\\DIC\\DICStatic' => __DIR__ . '/..' . '/srag/dic/src/DICStatic.php',
