@@ -23,6 +23,11 @@ Please follow the installation guide of the [documentation](/doc/Documentation.p
 
 An installation and user guide is available in [the doc/Documentation.pdf](/doc/Documentation.pdf?raw=true) file.
 
+### Dependencies
+* [srag/jasperreport](https://packagist.org/packages/srag/jasperreport)
+
+Please use it for further development!
+
 ## Patches
 
 The following classes/methods need to be patched in order for the plugin to work correctly. Most likely these patches will be part of the ILIAS core in future ILIAS versions.
