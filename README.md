@@ -24,6 +24,7 @@ Please follow the installation guide of the [documentation](/doc/Documentation.p
 An installation and user guide is available in [the doc/Documentation.pdf](/doc/Documentation.pdf?raw=true) file.
 
 ### Dependencies
+* [composer](https://getcomposer.org)
 * [srag/jasperreport](https://packagist.org/packages/srag/jasperreport)
 
 Please use it for further development!
