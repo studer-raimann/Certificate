@@ -1,8 +1,7 @@
 {
   "name": "srag/plugins/certificate",
   "description": "",
-  "version": "1.6.0",
-  "type": "library",
+  "type": "project",
   "keywords": [
     "ILIAS",
     "Plugin",
