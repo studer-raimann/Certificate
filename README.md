@@ -24,7 +24,7 @@ Please follow the installation guide of the [documentation](/doc/Documentation.p
 An installation and user guide is available in [the doc/Documentation.pdf](/doc/Documentation.pdf?raw=true) file.
 
 ### Dependencies
-* PHP 5.6
+* PHP >=5.6
 * [composer](https://getcomposer.org)
 * [srag/jasperreport](https://packagist.org/packages/srag/jasperreport)
 
