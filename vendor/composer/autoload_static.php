@@ -4,11 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed
+class ComposerStaticInit35130d3710e679d0b90e319856199798
 {
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
+            'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\JasperReport\\' => 18,
             'srag\\DIC\\' => 9,
             'setasign\\Fpdi\\' => 14,
@@ -16,6 +17,10 @@ class ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed
     );
 
     public static $prefixDirsPsr4 = array (
+        'srag\\LibrariesNamespaceChanger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
+        ),
         'srag\\JasperReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/jasperreport/src',
@@ -595,6 +600,7 @@ class ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed
         'ilUtil' => __DIR__ . '/../..' . '/../../../../../../../Services/Utilities/classes/class.ilUtil.php',
         'pdoDB' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/Connector/DataBase/class.pdoDB.php',
         'setasign\\Fpdi\\FpdfTpl' => __DIR__ . '/..' . '/setasign/fpdi/src/FpdfTpl.php',
+        'setasign\\Fpdi\\FpdfTplTrait' => __DIR__ . '/..' . '/setasign/fpdi/src/FpdfTplTrait.php',
         'setasign\\Fpdi\\Fpdi' => __DIR__ . '/..' . '/setasign/fpdi/src/Fpdi.php',
         'setasign\\Fpdi\\FpdiException' => __DIR__ . '/..' . '/setasign/fpdi/src/FpdiException.php',
         'setasign\\Fpdi\\FpdiTrait' => __DIR__ . '/..' . '/setasign/fpdi/src/FpdiTrait.php',
@@ -637,6 +643,9 @@ class ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed
         'setasign\\Fpdi\\PdfReader\\PdfReader' => __DIR__ . '/..' . '/setasign/fpdi/src/PdfReader/PdfReader.php',
         'setasign\\Fpdi\\PdfReader\\PdfReaderException' => __DIR__ . '/..' . '/setasign/fpdi/src/PdfReader/PdfReaderException.php',
         'setasign\\Fpdi\\TcpdfFpdi' => __DIR__ . '/..' . '/setasign/fpdi/src/TcpdfFpdi.php',
+        'setasign\\Fpdi\\Tcpdf\\Fpdi' => __DIR__ . '/..' . '/setasign/fpdi/src/Tcpdf/Fpdi.php',
+        'setasign\\Fpdi\\Tfpdf\\FpdfTpl' => __DIR__ . '/..' . '/setasign/fpdi/src/Tfpdf/FpdfTpl.php',
+        'setasign\\Fpdi\\Tfpdf\\Fpdi' => __DIR__ . '/..' . '/setasign/fpdi/src/Tfpdf/Fpdi.php',
         'srCertificate' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificate.php',
         'srCertificateAdministrationGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateAdministrationGUI.php',
         'srCertificateCallBackNotification' => __DIR__ . '/../..' . '/classes/Notification/class.srCertificateCallBackNotification.php',
@@ -691,26 +700,30 @@ class ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed
         'srCertificateUserGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateUserGUI.php',
         'srCertificateUserNotification' => __DIR__ . '/../..' . '/classes/Notification/class.srCertificateUserNotification.php',
         'srCertificateUserTableGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateUserTableGUI.php',
-        'srag\\DIC\\DICStatic' => __DIR__ . '/..' . '/srag/dic/src/DICStatic.php',
-        'srag\\DIC\\DICStaticInterface' => __DIR__ . '/..' . '/srag/dic/src/DICStaticInterface.php',
-        'srag\\DIC\\DICTrait' => __DIR__ . '/..' . '/srag/dic/src/DICTrait.php',
-        'srag\\DIC\\DIC\\AbstractDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/AbstractDIC.php',
-        'srag\\DIC\\DIC\\DICInterface' => __DIR__ . '/..' . '/srag/dic/src/DIC/DICInterface.php',
-        'srag\\DIC\\DIC\\LegacyDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/LegacyDIC.php',
-        'srag\\DIC\\DIC\\NewDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/NewDIC.php',
-        'srag\\DIC\\Exception\\DICException' => __DIR__ . '/..' . '/srag/dic/src/Exception/DICException.php',
-        'srag\\DIC\\Plugin\\Plugin' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Plugin.php',
-        'srag\\DIC\\Plugin\\PluginInterface' => __DIR__ . '/..' . '/srag/dic/src/Plugin/PluginInterface.php',
-        'srag\\JasperReport\\JasperReport' => __DIR__ . '/..' . '/srag/jasperreport/src/class.JasperReport.php',
-        'srag\\JasperReport\\JasperReportException' => __DIR__ . '/..' . '/srag/jasperreport/src/class.JasperReportException.php',
+        'srag\\DIC\\Certificate\\DICStatic' => __DIR__ . '/..' . '/srag/dic/src/DICStatic.php',
+        'srag\\DIC\\Certificate\\DICStaticInterface' => __DIR__ . '/..' . '/srag/dic/src/DICStaticInterface.php',
+        'srag\\DIC\\Certificate\\DICTrait' => __DIR__ . '/..' . '/srag/dic/src/DICTrait.php',
+        'srag\\DIC\\Certificate\\DIC\\AbstractDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/AbstractDIC.php',
+        'srag\\DIC\\Certificate\\DIC\\DICInterface' => __DIR__ . '/..' . '/srag/dic/src/DIC/DICInterface.php',
+        'srag\\DIC\\Certificate\\DIC\\LegacyDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/LegacyDIC.php',
+        'srag\\DIC\\Certificate\\DIC\\NewDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/NewDIC.php',
+        'srag\\DIC\\Certificate\\Exception\\DICException' => __DIR__ . '/..' . '/srag/dic/src/Exception/DICException.php',
+        'srag\\DIC\\Certificate\\Plugin\\Plugin' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Plugin.php',
+        'srag\\DIC\\Certificate\\Plugin\\PluginInterface' => __DIR__ . '/..' . '/srag/dic/src/Plugin/PluginInterface.php',
+        'srag\\DIC\\Certificate\\Plugin\\Pluginable' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Pluginable.php',
+        'srag\\DIC\\Certificate\\Version\\Version' => __DIR__ . '/..' . '/srag/dic/src/Version/Version.php',
+        'srag\\DIC\\Certificate\\Version\\VersionInterface' => __DIR__ . '/..' . '/srag/dic/src/Version/VersionInterface.php',
+        'srag\\JasperReport\\Certificate\\JasperReport' => __DIR__ . '/..' . '/srag/jasperreport/src/class.JasperReport.php',
+        'srag\\JasperReport\\Certificate\\JasperReportException' => __DIR__ . '/..' . '/srag/jasperreport/src/class.JasperReportException.php',
+        'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitd7295d63ddfeffe6be1a0e1a8089f5ed::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit35130d3710e679d0b90e319856199798::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit35130d3710e679d0b90e319856199798::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit35130d3710e679d0b90e319856199798::$classMap;
 
         }, null, ClassLoader::class);
     }

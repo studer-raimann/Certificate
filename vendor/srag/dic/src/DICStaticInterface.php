@@ -1,15 +1,18 @@
 <?php
 
-namespace srag\DIC;
+namespace srag\DIC\Certificate;
 
-use srag\DIC\DIC\DICInterface;
-use srag\DIC\Exception\DICException;
-use srag\DIC\Plugin\PluginInterface;
+use srag\DIC\Certificate\DIC\DICInterface;
+use srag\DIC\Certificate\Exception\DICException;
+use srag\DIC\Certificate\Plugin\PluginInterface;
+use srag\DIC\Certificate\Version\VersionInterface;
 
 /**
  * Interface DICStaticInterface
  *
- * @package srag\DIC
+ * @package srag\DIC\Certificate
+ *
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface DICStaticInterface {
 
@@ -18,7 +21,8 @@ interface DICStaticInterface {
 	 *
 	 * @return DICInterface DIC interface
 	 */
-	public static function dic();
+	public static function dic()/*: DICInterface*/
+	;
 
 
 	/**
@@ -29,7 +33,19 @@ interface DICStaticInterface {
 	 * @return PluginInterface Plugin interface
 	 *
 	 * @throws DICException Class $plugin_class_name not exists!
+	 * @throws DICException Class $plugin_class_name not extends ilPlugin!
 	 * @logs   DEBUG Please implement $plugin_class_name::getInstance()!
 	 */
-	public static function plugin($plugin_class_name);
+	public static function plugin(/*string*/
+		$plugin_class_name)/*: PluginInterface*/
+	;
+
+
+	/**
+	 * Get version interface
+	 *
+	 * @return VersionInterface Version interface
+	 */
+	public static function version()/*: VersionInterface*/
+	;
 }

@@ -1,13 +1,15 @@
 <?php
 
-namespace srag\DIC\Exception;
+namespace srag\DIC\Certificate\Exception;
 
 use ilException;
 
 /**
  * Class DICException
  *
- * @package srag\DIC\Exception
+ * @package srag\DIC\Certificate\Exception
+ *
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 final class DICException extends ilException {
 
@@ -16,8 +18,12 @@ final class DICException extends ilException {
 	 *
 	 * @param string $message
 	 * @param int    $code
+	 *
+	 * @access namespace
 	 */
-	public function __construct($message, $code = 0) {
+	public function __construct(/*string*/
+		$message, /*int*/
+		$code = 0) {
 		parent::__construct($message, $code);
 	}
 }

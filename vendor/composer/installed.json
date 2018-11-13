@@ -39,17 +39,17 @@
     },
     {
         "name": "setasign/fpdi",
-        "version": "v2.0.3",
-        "version_normalized": "2.0.3.0",
+        "version": "v2.1.1",
+        "version_normalized": "2.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Setasign/FPDI.git",
-            "reference": "5998a2f81ae5b4a59eb75ed65e6ec0518163de8d"
+            "reference": "356de9cb6b6a826ac952c86aee6599463ea87362"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/5998a2f81ae5b4a59eb75ed65e6ec0518163de8d",
-            "reference": "5998a2f81ae5b4a59eb75ed65e6ec0518163de8d",
+            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/356de9cb6b6a826ac952c86aee6599463ea87362",
+            "reference": "356de9cb6b6a826ac952c86aee6599463ea87362",
             "shasum": ""
         },
         "require": {
@@ -59,14 +59,16 @@
         "require-dev": {
             "phpunit/phpunit": "~5.7",
             "setasign/fpdf": "~1.8",
+            "setasign/tfpdf": "1.25",
             "tecnickcom/tcpdf": "~6.2"
         },
         "suggest": {
-            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnickcom/tcpdf\" as an alternative there's no fixed dependency configured.",
+            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured.",
             "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
-            "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF."
+            "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF.",
+            "setasign/fpdi-tfpdf": "Use this package to automatically evaluate dependencies to tFPDF."
         },
-        "time": "2018-04-18T13:00:41+00:00",
+        "time": "2018-11-06T10:02:00+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -100,23 +102,23 @@
     },
     {
         "name": "srag/dic",
-        "version": "0.7.1",
-        "version_normalized": "0.7.1.0",
+        "version": "v0.10.3",
+        "version_normalized": "0.10.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/DIC.git",
-            "reference": "8df28d5d4e794bf7cc3912bd889e96a81b402163"
+            "reference": "7b4208ac5d0733e13d443099aac45dd89cf14b29"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/8df28d5d4e794bf7cc3912bd889e96a81b402163",
-            "reference": "8df28d5d4e794bf7cc3912bd889e96a81b402163",
+            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/7b4208ac5d0733e13d443099aac45dd89cf14b29",
+            "reference": "7b4208ac5d0733e13d443099aac45dd89cf14b29",
             "shasum": ""
         },
         "require": {
             "php": ">=5.6"
         },
-        "time": "2018-09-03T08:18:36+00:00",
+        "time": "2018-10-15T12:09:44+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -130,7 +132,7 @@
         ],
         "authors": [
             {
-                "name": "srag",
+                "name": "studer + raimann ag - Team Custom 1",
                 "email": "support-custom1@studer-raimann.ch",
                 "homepage": "https://studer-raimann.ch",
                 "role": "Developer"
@@ -147,26 +149,26 @@
     },
     {
         "name": "srag/jasperreport",
-        "version": "2.0.11",
-        "version_normalized": "2.0.11.0",
+        "version": "2.0.18",
+        "version_normalized": "2.0.18.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/JasperReport.git",
-            "reference": "196a48a9dc184fe55c5215a70dd755ded0eafaa1"
+            "reference": "6be35dd93883da053db91f08ea3b2569db7df87e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/196a48a9dc184fe55c5215a70dd755ded0eafaa1",
-            "reference": "196a48a9dc184fe55c5215a70dd755ded0eafaa1",
+            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/6be35dd93883da053db91f08ea3b2569db7df87e",
+            "reference": "6be35dd93883da053db91f08ea3b2569db7df87e",
             "shasum": ""
         },
         "require": {
-            "php": "^5.6 || ^7.0",
+            "php": ">=5.6",
             "rdpascua/jasperstarter": "^3.3.0",
             "setasign/fpdi": "^2.0.3",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2018-08-30T13:24:16+00:00",
+        "time": "2018-09-18T06:47:10+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -180,7 +182,7 @@
         ],
         "authors": [
             {
-                "name": "srag",
+                "name": "studer + raimann ag - Team Custom 1",
                 "email": "support-custom1@studer-raimann.ch",
                 "homepage": "https://studer-raimann.ch",
                 "role": "Developer"
@@ -192,6 +194,51 @@
             "ILIAS",
             "jasper",
             "report"
+        ]
+    },
+    {
+        "name": "srag/librariesnamespacechanger",
+        "version": "v0.3.2",
+        "version_normalized": "0.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
+            "reference": "60c9c9293acb9a2b9d51b3ce3ce18722c0ac87bb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/60c9c9293acb9a2b9d51b3ce3ce18722c0ac87bb",
+            "reference": "60c9c9293acb9a2b9d51b3ce3ce18722c0ac87bb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.6"
+        },
+        "time": "2018-11-13T10:30:02+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\LibrariesNamespaceChanger\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "studer + raimann ag - Team Custom 1",
+                "email": "support-custom1@studer-raimann.ch",
+                "homepage": "https://studer-raimann.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Change namespace of libraries to plugin namespace",
+        "homepage": "https://github.com/studer-raimann/LibrariesNamespaceChanger",
+        "keywords": [
+            "ILIAS",
+            "libraries"
         ]
     }
 ]
