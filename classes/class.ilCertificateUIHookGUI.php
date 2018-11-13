@@ -50,7 +50,8 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 		 * @var $ilTabsGUI ilTabsGUI
 		 */
 		// ATM only display certificate tab in courses
-		if ($a_part == 'tabs' && $this->ctrl->getContextObjType() == 'crs' && isset($_GET['ref_id']) && $this->ctrl->getCmdClass() == 'ilrepositorygui') {
+		if ($a_part == 'tabs' && $this->ctrl->getContextObjType() == 'crs' && isset($_GET['ref_id'])
+			&& $this->ctrl->getCmdClass() === strtolower(ilRepositoryGUI::class)) {
 			// User needs write access to course to see the tab 'certificate'
 			if ($this->access->checkAccess('write', '', (int)$_GET['ref_id'])) {
 				$ilTabsGUI = $a_par['tabs'];
