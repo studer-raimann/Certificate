@@ -58,7 +58,7 @@ no_space_left_message#:#The creation of a certificate failed due to missing disk
 disk_space_warning_mail_subject#:#Certificate: Free Space Warning
 disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.\n\nFree disk space left: %s Bytes
 msg_info_invalid_cert_types#:#Some certificate types are not selectable because their template file is currently missing: %s
-msg_info_current_type_no_invalid_tempalte#:#The current certificate type does not have a valid template file assigned, certificates won't be generated!
+msg_info_current_type_no_invalid_tempalte#:#The current certificate type does not have a valid template file assigned, certificates won't be generated
 valid_from#:#Valid from
 valid_to#:#Valid to
 unlimited#:#Unlimited
