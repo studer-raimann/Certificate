@@ -10,7 +10,7 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         's' => 
         array (
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\JasperReport\\' => 18,
+            'srag\\JasperReport\\Certificate\\' => 30,
             'srag\\DIC\\' => 9,
             'setasign\\Fpdi\\' => 14,
         ),
@@ -21,7 +21,7 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\JasperReport\\' => 
+        'srag\\JasperReport\\Certificate\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/jasperreport/src',
         ),
