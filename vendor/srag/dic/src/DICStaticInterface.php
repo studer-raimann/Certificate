@@ -4,6 +4,7 @@ namespace srag\DIC\Certificate;
 
 use srag\DIC\Certificate\DIC\DICInterface;
 use srag\DIC\Certificate\Exception\DICException;
+use srag\DIC\Certificate\Output\OutputInterface;
 use srag\DIC\Certificate\Plugin\PluginInterface;
 use srag\DIC\Certificate\Version\VersionInterface;
 
@@ -17,11 +18,27 @@ use srag\DIC\Certificate\Version\VersionInterface;
 interface DICStaticInterface {
 
 	/**
+	 * Clear cache. Needed for instance in unit tests
+	 */
+	public static function clearCache()/*: void*/
+	;
+
+
+	/**
 	 * Get DIC interface
 	 *
 	 * @return DICInterface DIC interface
 	 */
 	public static function dic()/*: DICInterface*/
+	;
+
+
+	/**
+	 * Get output interface
+	 *
+	 * @return OutputInterface Output interface
+	 */
+	public static function output()/*: OutputInterface*/
 	;
 
 

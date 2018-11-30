@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "148b9a545d4589eba4045c076faab389",
+    "content-hash": "f0f233efe5f08a18a4ef62516b424b61",
     "packages": [
         {
             "name": "rdpascua/jasperstarter",
@@ -105,16 +105,16 @@
         },
         {
             "name": "srag/dic",
-            "version": "v0.10.3",
+            "version": "v0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/DIC.git",
-                "reference": "7b4208ac5d0733e13d443099aac45dd89cf14b29"
+                "reference": "bf91c68bf89438753c90bafe143648601f479c60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/7b4208ac5d0733e13d443099aac45dd89cf14b29",
-                "reference": "7b4208ac5d0733e13d443099aac45dd89cf14b29",
+                "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/bf91c68bf89438753c90bafe143648601f479c60",
+                "reference": "bf91c68bf89438753c90bafe143648601f479c60",
                 "shasum": ""
             },
             "require": {
@@ -146,7 +146,7 @@
                 "globals",
                 "trait"
             ],
-            "time": "2018-10-15T12:09:44+00:00"
+            "time": "2018-11-30T07:22:56+00:00"
         },
         {
             "name": "srag/jasperreport",
@@ -197,16 +197,16 @@
         },
         {
             "name": "srag/librariesnamespacechanger",
-            "version": "v0.3.2",
+            "version": "v0.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
-                "reference": "60c9c9293acb9a2b9d51b3ce3ce18722c0ac87bb"
+                "reference": "cf5f3be4341270fbe46a977bbd1403d744fb797a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/60c9c9293acb9a2b9d51b3ce3ce18722c0ac87bb",
-                "reference": "60c9c9293acb9a2b9d51b3ce3ce18722c0ac87bb",
+                "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/cf5f3be4341270fbe46a977bbd1403d744fb797a",
+                "reference": "cf5f3be4341270fbe46a977bbd1403d744fb797a",
                 "shasum": ""
             },
             "require": {
@@ -236,7 +236,7 @@
                 "ILIAS",
                 "libraries"
             ],
-            "time": "2018-11-13T10:30:02+00:00"
+            "time": "2018-11-21T08:31:42+00:00"
         }
     ],
     "packages-dev": [],

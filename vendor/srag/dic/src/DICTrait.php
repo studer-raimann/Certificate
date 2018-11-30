@@ -4,6 +4,7 @@ namespace srag\DIC\Certificate;
 
 use srag\DIC\Certificate\DIC\DICInterface;
 use srag\DIC\Certificate\Exception\DICException;
+use srag\DIC\Certificate\Output\OutputInterface;
 use srag\DIC\Certificate\Plugin\PluginInterface;
 use srag\DIC\Certificate\Version\VersionInterface;
 
@@ -32,6 +33,16 @@ trait DICTrait {
 	 */
 	protected static final function dic()/*: DICInterface*/ {
 		return DICStatic::dic();
+	}
+
+
+	/**
+	 * Get output interface
+	 *
+	 * @return OutputInterface Output interface
+	 */
+	protected static final function output()/*: OutputInterface*/ {
+		return DICStatic::output();
 	}
 
 
