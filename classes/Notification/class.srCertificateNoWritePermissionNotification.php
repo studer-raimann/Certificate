@@ -16,7 +16,7 @@ class srCertificateNoWritePermissionNotification extends srCertificateEmailNotif
 		$this->setEmail(ilSetting::_lookupValue('common', 'admin_email'));
 		$this->setSubject($this->pl->txt('writeperm_failed_subject'));
 		$parser = srCertificatePlaceholdersParser::getInstance();
-		$body = $parser->parse($this->pl->txt('writeperm_failed_message'), $this->certificate->getPlaceholders());
+		$body = $parser->parse(nl2br($this->pl->txt('writeperm_failed_message')), array_merge($this->certificate->getPlaceholders(), ['TARGET_DIR' => $certificate->getCertificatePath()]));
 		$this->setBody($body);
 	}
 }

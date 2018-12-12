@@ -30,7 +30,7 @@ preview_certificate#:#Vorschau Zertifikat
 certificate#:#Zertifikat
 back_to_course#:#Zurück zum Kurs
 callback_email_subject#:#Zertifikat zurückrufen
-callback_email_message#:#Folgendes Zertifikat wurde zurückgerufen und ist daher nicht mehr verfügbar:\n\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
+callback_email_message#:#Folgendes Zertifikat wurde zurückgerufen und ist daher nicht mehr verfügbar:\n\nVorgesehenes Verzeichnis: [[TARGET_DIR]]\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
 status#:#Status
 waiting#:#Wartend
 created#:#Erstellt
@@ -50,13 +50,13 @@ cert_status_3#:#Erstellt
 cert_status_4#:#Erstellung fehlgeschlagen
 cert_status_5#:#Zurückgerufen
 writeperm_failed_subject#:#Zertifikat: Erstellung eines Zertifikats wegen fehlenden Schreibrechten fehlgeschlagen
-writeperm_failed_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlender Schreibberechtigung im Zielverzeichnis:\n\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
+writeperm_failed_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlender Schreibberechtigung im Zielverzeichnis:\n\nVorgesehenes Verzeichnis: [[TARGET_DIR]]\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
 no_space_left_subject#:#Zertifikat: Erstellung eines Zertifikats wegen fehlendem Speicherplatz fehlgeschlagen
-no_space_left_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlendem Speicherplatz im Zertifikatsverzeichnis:\n\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
+no_space_left_message#:#Die Erstellung eines Zertifikats ist fehlgeschlagen aufgrund fehlendem Speicherplatz im Zertifikatsverzeichnis:\n\nVorgesehenes Verzeichnis: [[TARGET_DIR]]\nZertifikat ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nDatei Name: [[CERT_FILE_NAME]]\nDatei Version: [[CERT_FILE_VERSION]]
 disk_space_warning_mail_subject#:#Zertifikat: Speicherplatzwarnung
 disk_space_warning_mail_message#:#Nach der Erstellung des letzten Zertifikats, der freie Speicherplatz im Zertifikatsverzeichnis hat einen kritischen Wert erreicht. Sie können diesen Wert in der Zertifikatsadministration anpassen.\n\nVerbleibender Speicherplatz: %s Bytes
 cert_failed_subject#:#Erstellung eines Zertifikats fehlgeschlagen
-cert_failed_message#:#Folgendes Zertifikat konnte nicht erzeugt werden:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
+cert_failed_message#:#Folgendes Zertifikat konnte nicht erzeugt werden:\n\nVorgesehenes Verzeichnis: [[TARGET_DIR]]\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 valid_from#:#Gültig ab
 valid_to#:#Gültig bis
 unlimited#:#unbeschränkt

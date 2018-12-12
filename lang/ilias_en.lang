@@ -50,11 +50,11 @@ cert_status_3#:#Created
 cert_status_4#:#Creation Failed
 cert_status_5#:#Called Back
 writeperm_failed_subject#:#Certificate: Creation of certificate failed due to missing write permission
-writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
+writeperm_failed_message#:#The creation of a certificate failed due to missing write permissions on the target directory:\n\nTarget Directory:[[TARGET_DIR]]\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 cert_failed_subject#:#Creation of certificate failed
-cert_failed_message#:#The creation of a certificate failed:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
+cert_failed_message#:#The creation of a certificate failed:\n\nTarget Directory: [[TARGET_DIR]]\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 no_space_left_subject#:#Certificate: Creation of certificate failed due to missing disk space
-no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:\n\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
+no_space_left_message#:#The creation of a certificate failed due to missing disk space of the certificate data directory:\n\nTarget Directory: [[TARGET_DIR]]\nCertificate ID: [[CERT_ID]]\nUser Login: [[USER_LOGIN]]\nUser Name: [[USER_FULLNAME]]\nFile Name: [[CERT_FILE_NAME]]\nFile Version: [[CERT_FILE_VERSION]]
 disk_space_warning_mail_subject#:#Certificate: Free Space Warning
 disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.\n\nFree disk space left: %s Bytes
 msg_info_invalid_cert_types#:#Some certificate types are not selectable because their template file is currently missing: %s
