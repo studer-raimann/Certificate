@@ -16,7 +16,7 @@ class srCertificateFailedNotification extends srCertificateEmailNotification {
 		$this->setEmail(ilSetting::_lookupValue('common', 'admin_email'));
 		$this->setSubject($this->pl->txt('cert_failed_subject'));
 		$parser = srCertificatePlaceholdersParser::getInstance();
-		$body = $parser->parse($this->pl->txt('cert_failed_message'), array_merge($this->certificate->getPlaceholders(), ['TARGET_DIR' => $certificate->getCertificatePath()]));
+		$body = $parser->parse($this->pl->txt('cert_failed_message'), array_merge($this->certificate->getPlaceholders(), ['[[TARGET_DIR]]' => $certificate->getCertificatePath()]));
 		$this->setBody($body);
 	}
 }
