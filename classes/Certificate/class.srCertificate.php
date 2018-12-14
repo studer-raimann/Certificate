@@ -235,8 +235,8 @@ class srCertificate extends ActiveRecord {
 		}
 		// Set validity dates
 		$valid_from = $this->getValidFrom() ? $this->getValidFrom() : date("Y-m-d");
-		$valid_to = $this->calculateValidTo();
-		$this->setValidFrom($valid_from);
+        $this->setValidFrom($valid_from);
+        $valid_to = $this->calculateValidTo();
 		$this->setValidTo($valid_to);
 		// Check if we need to increase the version if a certificate for same user & definition already exists
 		/** @var srCertificate $cert_last_version */
