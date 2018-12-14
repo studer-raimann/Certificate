@@ -142,7 +142,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		if (ilCertificateConfig::getX('course_templates') && ilCertificateConfig::getX('course_templates_ref_ids')) {
 			// Course templates enabled -> check if given ref_id is defined as template
 			$ref_ids = explode(',', ilCertificateConfig::getX('course_templates_ref_ids'));
-			$parent_ref_id = $this->tree->repositoryTree()->getParentId($ref_id);
+			$parent_ref_id = $this->tree->getParentId($ref_id);
 
 			return in_array($parent_ref_id, $ref_ids);
 		}
