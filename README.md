@@ -27,7 +27,9 @@ An installation and user guide is available in [the doc/Documentation.pdf](/doc/
 * ILIAS 5.2 or ILIAS 5.3
 * PHP >=5.6
 * [composer](https://getcomposer.org)
+* [srag/dic](https://packagist.org/packages/srag/dic)
 * [srag/jasperreport](https://packagist.org/packages/srag/jasperreport)
+* [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger)
 * [CertificateEvents](https://github.com/studer-raimann/CertificateEvents)
 
 Please use it for further development!

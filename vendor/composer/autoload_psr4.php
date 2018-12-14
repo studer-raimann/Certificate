@@ -6,7 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'srag\\JasperReport\\' => array($vendorDir . '/srag/jasperreport/src'),
+    'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
+    'srag\\JasperReport\\Certificate\\' => array($vendorDir . '/srag/jasperreport/src'),
     'srag\\DIC\\' => array($vendorDir . '/srag/dic/src'),
     'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
 );

@@ -14,6 +14,6 @@ class srCertificateDiskSpaceWarningNotification extends srCertificateEmailNotifi
 		parent::__construct($certificate);
 		$this->setEmail(ilSetting::_lookupValue('common', 'admin_email'));
 		$this->setSubject($this->pl->txt('disk_space_warning_mail_subject'));
-		$this->setBody(sprintf($this->pl->txt('disk_space_warning_mail_message'), disk_free_space($this->certificate->getCertificatePath())));
+		$this->setBody(nl2br(sprintf($this->pl->txt('disk_space_warning_mail_message'), disk_free_space($this->certificate->getCertificatePath()))));
 	}
 }

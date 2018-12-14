@@ -1,7 +1,7 @@
 <?php
 
-use srag\JasperReport\JasperReport;
-use srag\JasperReport\JasperReportException;
+use srag\JasperReport\Reporting\JasperReport;
+use srag\JasperReport\Reporting\JasperReportException;
 
 /**
  * srCertificateTemplateTypeJasper
@@ -59,7 +59,7 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 		}
 		// Only send defined placeholders to jasper, otherwise the template file is not considered as valid
 		$placeholders = array_intersect_key($placeholders, $defined_placeholders);
-		$placeholders = $this->nl2br($placeholders);
+		$placeholders = $this->nl2br($placeholders, false);
 		$report = new JasperReport($template, $cert->getFilename(false));
 		if ($locale = $this->pl->config('jasper_locale')) {
 			$report->setLocale($this->pl->config('jasper_locale'));
@@ -122,7 +122,7 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 	 */
 	protected function nl2br(array $placeholders = array()) {
 		foreach ($placeholders as $k => $v) {
-			$placeholders[$k] = nl2br($v);
+			$placeholders[$k] = nl2br($v, false);
 		}
 
 		return $placeholders;

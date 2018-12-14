@@ -1,14 +1,15 @@
 <?php
 
-namespace srag\JasperReport;
+namespace srag\JasperReport\Certificate;
 
 use Exception;
 
 /**
  * Class JasperReportException
  *
- * @package srag\JasperReport
+ * @package srag\JasperReport\Certificate
  *
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class JasperReportException extends Exception {
@@ -24,7 +25,8 @@ class JasperReportException extends Exception {
 	 *
 	 * @param string $message
 	 */
-	public function __construct($message) {
+	public function __construct(/*string*/
+		$message) {
 		parent::__construct($message, 0, NULL);
 	}
 
@@ -32,7 +34,7 @@ class JasperReportException extends Exception {
 	/**
 	 * @param array $errors
 	 */
-	public function setErrors(array $errors) {
+	public function setErrors(array $errors)/*: void*/ {
 		$this->errors = $errors;
 	}
 
@@ -40,7 +42,7 @@ class JasperReportException extends Exception {
 	/**
 	 * @return array
 	 */
-	public function getErrors() {
+	public function getErrors()/*: array*/ {
 		return $this->errors;
 	}
 }

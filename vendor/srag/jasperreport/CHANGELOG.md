@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.0.18]
+- Update readme
+
+## [2.0.17]
+- Update readme
+
+## [2.0.16]
+- Added dependencies to readme
+
+## [2.0.15]
+- Add `@author` to classes
+
+## [2.0.14]
+- PHP7 comments
+
+## [2.0.13]
+- PHP7 comments
+
+## [2.0.12]
+- PHP min version
+
 ## [2.0.11]
 - Use always latest version of JasperReport
 
@@ -35,4 +56,3 @@
 
 ## [2.0.0]
 - First version over Composer
-

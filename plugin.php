@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . "/vendor/srag/dic/src/PHPVersionChecker.php";
+
 $id = 'cert';
 $version = '1.6';
 $ilias_min_version = '5.2.0';
