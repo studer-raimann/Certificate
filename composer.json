@@ -48,7 +48,8 @@
       "../../../../../../../Services/Object",
       "../../../../../../../Services/PDFGeneration",
       "../../../../../../../Modules/Course",
-      "../../../../../../../Services/Component"
+      "../../../../../../../Services/Component",
+      "../../../../../../../Services/Repository"
     ]
   },
   "config": {

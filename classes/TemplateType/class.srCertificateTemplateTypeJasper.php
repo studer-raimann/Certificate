@@ -1,7 +1,7 @@
 <?php
 
-use srag\JasperReport\Reporting\JasperReport;
-use srag\JasperReport\Reporting\JasperReportException;
+use srag\JasperReport\Certificate\JasperReport;
+use srag\JasperReport\Certificate\JasperReportException;
 
 /**
  * srCertificateTemplateTypeJasper
