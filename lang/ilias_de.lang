@@ -205,8 +205,8 @@ admin_form_notification_user_subject#:#Benachrichtigung für Benutzer (Betreff)
 admin_form_notification_others_subject#:#Benachrichtigung für weitere Benutzer (Betreff)
 admin_form_notification_user_body#:#Benachrichtigung für Benutzer (Body)
 admin_form_notification_others_body#:#Benachrichtigung für weitere Benutzer (Body)
-admin_form_max_diff_lp_seconds#:#Zeitspannte für PDF Erstellung (Sekunden)
-admin_form_max_diff_lp_seconds_info#:#Sie können eine Zeitsptanne in Sekunden definieren, um die PDF-Erzeugung eines Zertifikats zurückzuhalten. Wenn Sie 0 eingeben, wird das PDF direkt nachdem der Benutzer den Kurs bestanden erzeugt. Die Zeitspanne wird mit dem letzten Zugriff auf einen Kurs gemäss Lernfortschritt berechnet. Beachten Sie, dass mögliche E-Mails ebenfalls nach der eingestellten Zeitspanne gesendet werden.
+admin_form_max_diff_lp_seconds#:#Zeitspanne für PDF Erstellung (Sekunden)
+admin_form_max_diff_lp_seconds_info#:#Sie können eine Zeitspanne in Sekunden definieren, um die PDF-Erzeugung eines Zertifikats zurückzuhalten. Wenn Sie 0 eingeben, wird das PDF direkt nachdem der Benutzer den Kurs bestanden erzeugt. Die Zeitspanne wird mit dem letzten Zugriff auf einen Kurs gemäss Lernfortschritt berechnet. Beachten Sie, dass mögliche E-Mails ebenfalls nach der eingestellten Zeitspanne gesendet werden.
 admin_form_jasper_locale#:#Locale (Unix)
 admin_form_jasper_locale_info#:#Das verwendete Locale muss alle Zeichen unterstützen, welche in den Zertifikaten verwendet werden, z.B. Umlaute. Verwenden Sie den Befehl "locale -a" um eine Liste von verfügbaren locales zu sehen (Unix-System).
 admin_form_jasper_path_java#:#Pfad zur Java executable
