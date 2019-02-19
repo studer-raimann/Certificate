@@ -156,6 +156,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_GENERATION]);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE]);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING]);
+		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE]);
 
 		// Custom settings
 		/** @var srCertificateCustomDefinitionSetting $setting */
@@ -234,6 +235,14 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 						$input->setChecked(true);
 					}
 					break;
+                case srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE:
+                    $input = new ilRepositorySelector2InputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier);
+                    $input->setInfo($this->pl->txt("setting_id_{$identifier}_info"));
+                    $input->getExplorerGUI()->setClickableTypes(['crs']);
+                    $input->getExplorerGUI()->setSelectableTypes(['crs']);
+                    $input->getExplorerGUI()->setTypeWhiteList(['crs', 'cat']);
+                    $input->setValue($setting->getValue());
+                    break;
 				default:
 					$input = new ilTextInputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier);
 					$input->setInfo($this->pl->txt("setting_id_{$identifier}_info"));

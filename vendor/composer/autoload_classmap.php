@@ -647,6 +647,7 @@ return array(
     'srCertificateAdministrationGUI' => $baseDir . '/classes/Certificate/class.srCertificateAdministrationGUI.php',
     'srCertificateCallBackNotification' => $baseDir . '/classes/Notification/class.srCertificateCallBackNotification.php',
     'srCertificateCron' => $baseDir . '/classes/class.srCertificateCron.php',
+    'srCertificateCronjob' => $baseDir . '/classes/class.srCertificateCronjob.php',
     'srCertificateCustomDefinitionSetting' => $baseDir . '/classes/CustomSetting/class.srCertificateCustomDefinitionSetting.php',
     'srCertificateCustomTypeSetting' => $baseDir . '/classes/CustomSetting/class.srCertificateCustomTypeSetting.php',
     'srCertificateCustomTypeSettingFormGUI' => $baseDir . '/classes/CustomSetting/class.srCertificateCustomTypeSettingFormGUI.php',

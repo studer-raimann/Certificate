@@ -22,6 +22,7 @@ class srCertificateTypeSetting extends srCertificateSetting
     const IDENTIFIER_NOTIFICATION_USER = 'notification_user';
     const IDENTIFIER_DOWNLOADABLE = 'downloadable';
     const IDENTIFIER_SCORM_TIMING = 'scorm_timing';
+    const IDENTIFIER_SUCCESSOR_COURSE = 'successor_course';
 
     const VALIDITY_TYPE_ALWAYS = 1;
     const VALIDITY_TYPE_DATE_RANGE = 2;
@@ -56,8 +57,18 @@ class srCertificateTypeSetting extends srCertificateSetting
         parent::__construct($id);
     }
 
-
     // Public
+
+
+    public function create() {
+        // TODO: predecessor/successor
+        parent::create();
+    }
+
+    public function update() {
+        // TODO: predecessor/successor
+        parent::update();
+    }
 
     /**
      * @param srCertificateTypeSetting $old_setting

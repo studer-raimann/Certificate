@@ -677,6 +677,7 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         'srCertificateAdministrationGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateAdministrationGUI.php',
         'srCertificateCallBackNotification' => __DIR__ . '/../..' . '/classes/Notification/class.srCertificateCallBackNotification.php',
         'srCertificateCron' => __DIR__ . '/../..' . '/classes/class.srCertificateCron.php',
+        'srCertificateCronjob' => __DIR__ . '/../..' . '/classes/class.srCertificateCronjob.php',
         'srCertificateCustomDefinitionSetting' => __DIR__ . '/../..' . '/classes/CustomSetting/class.srCertificateCustomDefinitionSetting.php',
         'srCertificateCustomTypeSetting' => __DIR__ . '/../..' . '/classes/CustomSetting/class.srCertificateCustomTypeSetting.php',
         'srCertificateCustomTypeSettingFormGUI' => __DIR__ . '/../..' . '/classes/CustomSetting/class.srCertificateCustomTypeSettingFormGUI.php',

@@ -111,6 +111,8 @@ setting_id_downloadable#:#Zertifikat kann heruntergeladen werden
 setting_id_downloadable_info#:#Falls aktiviert, hat ein Benutzer die Möglichkeit das Zertifikat herunterzuladen.
 setting_id_scorm_timing#:#SCORM Timing aktivieren
 setting_id_scorm_timing_info#:#Aktiviert die alternative Berechnung von 'Spent Seconds' für SCORM 2004 Module.
+setting_id_successor_course#:#Nachfolgekurs
+setting_id_successor_course_info#:#Nach Ablauf der Gültigkeit eines Zertifikats wird der Benutzer automatisiert im Nachfolgekurs angemeldet.
 setting_generation_auto#:#Nachdem ein Kurs beendet wurde (automatisch)
 setting_generation_manually#:#Manuell
 setting_validity_range#:#Zeitraum nachdem ein Zertifikat generiert wurde
@@ -131,6 +133,7 @@ confirm_type_change#:#Bestätigung Änderung Zertifikatstyp
 confirm_type_change_text#:#Bei Änderung des Zertifikatstyp, alle Einstellungen und Platzhalter werden gelöscht. Neue Platzhalter, welche der Typ zur Verfügung stellt, werden verfügbar sein.
 msg_success_custom_setting_deleted#:#Spezifische Einstellung wurde gelöscht
 msg_success_custom_placeholder_deleted#:#Spezifischer Platzhalter wurde gelöscht
+msg_cronjob_success#:#Cronjob erfolgreich ausgeführt.
 add_new_type#:#Neuer Zertifikatstyp hinzufügen
 languages#:#Sprachen
 description#:#Beschreibung
@@ -276,3 +279,4 @@ change#:#Ändern
 settings#:#Einstellungen
 diploma_confirm#:#Dieses Diplom bestätigt, dass die oben genannte Person an dem unten angegebenen Kurs-Trainings teilgenommen hat:
 valid_until#:#Gültig bis
+button_start_cronjob#:#Cronjob Starten

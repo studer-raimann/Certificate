@@ -390,6 +390,14 @@ class srCertificateDefinition extends ActiveRecord {
 		return (is_null($setting)) ? NULL : $setting->getValue();
 	}
 
+    /**
+     * @return int|null
+     */
+	public function getSuccessorCourseRefId() {
+	    $setting = $this->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE);
+
+	    return (is_null($setting)) ? NULL : $setting->getValue();
+    }
 
 	// Protected
 
@@ -416,6 +424,7 @@ class srCertificateDefinition extends ActiveRecord {
 			$setting->update();
 			$this->settings[] = $setting;
 		}
+
 		foreach ($this->type->getCustomSettings() as $custom_setting) {
 			$setting = srCertificateCustomDefinitionSetting::where(array(
 				'definition_id' => $this->getId(),
