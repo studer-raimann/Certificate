@@ -27,6 +27,7 @@
   },
   "require": {
     "php": ">=5.6",
+    "2amigos/qrcode-library": "^1.1",
     "srag/dic": ">=0.1.0",
     "srag/jasperreport": ">=0.1.0",
     "srag/librariesnamespacechanger": ">=0.1.0"

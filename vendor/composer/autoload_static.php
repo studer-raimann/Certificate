@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit35130d3710e679d0b90e319856199798
 {
+    public static $files = array (
+        'a9ed0d27b5a698798a89181429f162c5' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/customFunctions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
@@ -13,6 +17,14 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
             'srag\\JasperReport\\Certificate\\' => 30,
             'srag\\DIC\\Certificate\\' => 21,
             'setasign\\Fpdi\\' => 14,
+        ),
+        'Z' => 
+        array (
+            'Zxing\\' => 6,
+        ),
+        'D' => 
+        array (
+            'Da\\QrCode\\' => 10,
         ),
     );
 
@@ -33,16 +45,174 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         array (
             0 => __DIR__ . '/..' . '/setasign/fpdi/src',
         ),
+        'Zxing\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib',
+        ),
+        'Da\\QrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/qrcode-library/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'B' => 
+        array (
+            'BaconQrCode' => 
+            array (
+                0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
         'ActiveRecord' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/class.ActiveRecord.php',
         'ActiveRecordList' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/class.ActiveRecordList.php',
+        'BaconQrCode\\Common\\AbstractEnum' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/AbstractEnum.php',
+        'BaconQrCode\\Common\\BitArray' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/BitArray.php',
+        'BaconQrCode\\Common\\BitMatrix' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/BitMatrix.php',
+        'BaconQrCode\\Common\\BitUtils' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/BitUtils.php',
+        'BaconQrCode\\Common\\CharacterSetEci' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/CharacterSetEci.php',
+        'BaconQrCode\\Common\\EcBlock' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/EcBlock.php',
+        'BaconQrCode\\Common\\EcBlocks' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/EcBlocks.php',
+        'BaconQrCode\\Common\\ErrorCorrectionLevel' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/ErrorCorrectionLevel.php',
+        'BaconQrCode\\Common\\FormatInformation' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/FormatInformation.php',
+        'BaconQrCode\\Common\\Mode' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/Mode.php',
+        'BaconQrCode\\Common\\ReedSolomonCodec' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/ReedSolomonCodec.php',
+        'BaconQrCode\\Common\\Version' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Common/Version.php',
+        'BaconQrCode\\Encoder\\BlockPair' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Encoder/BlockPair.php',
+        'BaconQrCode\\Encoder\\ByteMatrix' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Encoder/ByteMatrix.php',
+        'BaconQrCode\\Encoder\\Encoder' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Encoder/Encoder.php',
+        'BaconQrCode\\Encoder\\MaskUtil' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Encoder/MaskUtil.php',
+        'BaconQrCode\\Encoder\\MatrixUtil' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Encoder/MatrixUtil.php',
+        'BaconQrCode\\Encoder\\QrCode' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Encoder/QrCode.php',
+        'BaconQrCode\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Exception/ExceptionInterface.php',
+        'BaconQrCode\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Exception/InvalidArgumentException.php',
+        'BaconQrCode\\Exception\\OutOfBoundsException' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Exception/OutOfBoundsException.php',
+        'BaconQrCode\\Exception\\RuntimeException' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Exception/RuntimeException.php',
+        'BaconQrCode\\Exception\\UnexpectedValueException' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Exception/UnexpectedValueException.php',
+        'BaconQrCode\\Exception\\WriterException' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Exception/WriterException.php',
+        'BaconQrCode\\Renderer\\Color\\Cmyk' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Color/Cmyk.php',
+        'BaconQrCode\\Renderer\\Color\\ColorInterface' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Color/ColorInterface.php',
+        'BaconQrCode\\Renderer\\Color\\Gray' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Color/Gray.php',
+        'BaconQrCode\\Renderer\\Color\\Rgb' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Color/Rgb.php',
+        'BaconQrCode\\Renderer\\Image\\AbstractRenderer' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Image/AbstractRenderer.php',
+        'BaconQrCode\\Renderer\\Image\\Decorator\\DecoratorInterface' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Image/Decorator/DecoratorInterface.php',
+        'BaconQrCode\\Renderer\\Image\\Decorator\\FinderPattern' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Image/Decorator/FinderPattern.php',
+        'BaconQrCode\\Renderer\\Image\\Eps' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Image/Eps.php',
+        'BaconQrCode\\Renderer\\Image\\Png' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Image/Png.php',
+        'BaconQrCode\\Renderer\\Image\\RendererInterface' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Image/RendererInterface.php',
+        'BaconQrCode\\Renderer\\Image\\Svg' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Image/Svg.php',
+        'BaconQrCode\\Renderer\\RendererInterface' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/RendererInterface.php',
+        'BaconQrCode\\Renderer\\Text\\Html' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Text/Html.php',
+        'BaconQrCode\\Renderer\\Text\\Plain' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Renderer/Text/Plain.php',
+        'BaconQrCode\\Writer' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/BaconQrCode/Writer.php',
+        'Da\\QrCode\\Action\\QrCodeAction' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Action/QrCodeAction.php',
+        'Da\\QrCode\\Component\\QrCodeComponent' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Component/QrCodeComponent.php',
+        'Da\\QrCode\\Contracts\\ErrorCorrectionLevelInterface' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Contracts/ErrorCorrectionLevelInterface.php',
+        'Da\\QrCode\\Contracts\\FormatInterface' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Contracts/FormatInterface.php',
+        'Da\\QrCode\\Contracts\\LabelInterface' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Contracts/LabelInterface.php',
+        'Da\\QrCode\\Contracts\\QrCodeInterface' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Contracts/QrCodeInterface.php',
+        'Da\\QrCode\\Contracts\\WriterInterface' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Contracts/WriterInterface.php',
+        'Da\\QrCode\\Exception\\BadMethodCallException' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/BadMethodCallException.php',
+        'Da\\QrCode\\Exception\\Exception' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/Exception.php',
+        'Da\\QrCode\\Exception\\InvalidCallException' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/InvalidCallException.php',
+        'Da\\QrCode\\Exception\\InvalidConfigException' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/InvalidConfigException.php',
+        'Da\\QrCode\\Exception\\InvalidPathException' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/InvalidPathException.php',
+        'Da\\QrCode\\Exception\\UnknownMethodException' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/UnknownMethodException.php',
+        'Da\\QrCode\\Exception\\UnknownPropertyException' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/UnknownPropertyException.php',
+        'Da\\QrCode\\Exception\\UnknownWriterException' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/UnknownWriterException.php',
+        'Da\\QrCode\\Exception\\ValidationException' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Exception/ValidationException.php',
+        'Da\\QrCode\\Factory\\WriterFactory' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Factory/WriterFactory.php',
+        'Da\\QrCode\\Format\\AbstractFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/AbstractFormat.php',
+        'Da\\QrCode\\Format\\BookMarkFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/BookMarkFormat.php',
+        'Da\\QrCode\\Format\\BtcFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/BtcFormat.php',
+        'Da\\QrCode\\Format\\GeoFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/GeoFormat.php',
+        'Da\\QrCode\\Format\\MailMessageFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/MailMessageFormat.php',
+        'Da\\QrCode\\Format\\MailToFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/MailToFormat.php',
+        'Da\\QrCode\\Format\\MeCardFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/MeCardFormat.php',
+        'Da\\QrCode\\Format\\MmsFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/MmsFormat.php',
+        'Da\\QrCode\\Format\\PhoneFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/PhoneFormat.php',
+        'Da\\QrCode\\Format\\SmsFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/SmsFormat.php',
+        'Da\\QrCode\\Format\\WifiFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/WifiFormat.php',
+        'Da\\QrCode\\Format\\YoutubeFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/YoutubeFormat.php',
+        'Da\\QrCode\\Format\\iCalFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/iCalFormat.php',
+        'Da\\QrCode\\Format\\vCardFormat' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Format/vCardFormat.php',
+        'Da\\QrCode\\Label' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Label.php',
+        'Da\\QrCode\\QrCode' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/QrCode.php',
+        'Da\\QrCode\\Renderer\\Jpg' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Renderer/Jpg.php',
+        'Da\\QrCode\\Traits\\EmailTrait' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Traits/EmailTrait.php',
+        'Da\\QrCode\\Traits\\ImageTrait' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Traits/ImageTrait.php',
+        'Da\\QrCode\\Traits\\UrlTrait' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Traits/UrlTrait.php',
+        'Da\\QrCode\\Writer\\AbstractWriter' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Writer/AbstractWriter.php',
+        'Da\\QrCode\\Writer\\EpsWriter' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Writer/EpsWriter.php',
+        'Da\\QrCode\\Writer\\JpgWriter' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Writer/JpgWriter.php',
+        'Da\\QrCode\\Writer\\PngWriter' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Writer/PngWriter.php',
+        'Da\\QrCode\\Writer\\SvgWriter' => __DIR__ . '/..' . '/2amigos/qrcode-library/src/Writer/SvgWriter.php',
         'Mail_RFC822' => __DIR__ . '/../..' . '/../../../../../../../Services/Mail/classes/Address/Parser/RFC822.php',
         'OnlyIncludeReplacer' => __DIR__ . '/../..' . '/../../../../../../../Services/Utilities/classes/Parser.php',
         'Parser' => __DIR__ . '/../..' . '/../../../../../../../Services/Utilities/classes/Parser.php',
         'Sanitizer' => __DIR__ . '/../..' . '/../../../../../../../Services/Utilities/classes/Sanitizer.php',
         'StripState' => __DIR__ . '/../..' . '/../../../../../../../Services/Utilities/classes/Parser.php',
+        'Zxing\\Binarizer' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Binarizer.php',
+        'Zxing\\BinaryBitmap' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/BinaryBitmap.php',
+        'Zxing\\ChecksumException' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/ChecksumException.php',
+        'Zxing\\Common\\BitArray' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/BitArray.php',
+        'Zxing\\Common\\BitMatrix' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/BitMatrix.php',
+        'Zxing\\Common\\BitSource' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/BitSource.php',
+        'Zxing\\Common\\CharacterSetECI' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/CharacterSetECI.php',
+        'Zxing\\Common\\CharacterSetEci\\AbstractEnum\\AbstractEnum' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/AbstractEnum.php',
+        'Zxing\\Common\\DecoderResult' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/DecoderResult.php',
+        'Zxing\\Common\\DefaultGridSampler' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/DefaultGridSampler.php',
+        'Zxing\\Common\\DetectorResult' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/DetectorResult.php',
+        'Zxing\\Common\\Detector\\MathUtils' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/Detector/MathUtils.php',
+        'Zxing\\Common\\Detector\\MonochromeRectangleDetector' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/Detector/MonochromeRectangleDetector.php',
+        'Zxing\\Common\\GlobalHistogramBinarizer' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/GlobalHistogramBinarizer.php',
+        'Zxing\\Common\\GridSampler' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/GridSampler.php',
+        'Zxing\\Common\\HybridBinarizer' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/HybridBinarizer.php',
+        'Zxing\\Common\\PerspectiveTransform' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/PerspectiveTransform.php',
+        'Zxing\\Common\\Reedsolomon\\GenericGF' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/Reedsolomon/GenericGF.php',
+        'Zxing\\Common\\Reedsolomon\\GenericGFPoly' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/Reedsolomon/GenericGFPoly.php',
+        'Zxing\\Common\\Reedsolomon\\ReedSolomonDecoder' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/Reedsolomon/ReedSolomonDecoder.php',
+        'Zxing\\Common\\Reedsolomon\\ReedSolomonException' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/Reedsolomon/ReedSolomonException.php',
+        'Zxing\\FormatException' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/FormatException.php',
+        'Zxing\\GDLuminanceSource' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/GDLuminanceSource.php',
+        'Zxing\\IMagickLuminanceSource' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/IMagickLuminanceSource.php',
+        'Zxing\\LuminanceSource' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/LuminanceSource.php',
+        'Zxing\\NotFoundException' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/NotFoundException.php',
+        'Zxing\\PlanarYUVLuminanceSource' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/PlanarYUVLuminanceSource.php',
+        'Zxing\\QrReader' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/QrReader.php',
+        'Zxing\\Qrcode\\Decoder\\BitMatrixParser' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/BitMatrixParser.php',
+        'Zxing\\Qrcode\\Decoder\\DataBlock' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataBlock.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask000' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask001' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask010' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask011' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask100' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask101' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask110' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DataMask111' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DataMask.php',
+        'Zxing\\Qrcode\\Decoder\\DecodedBitStreamParser' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/DecodedBitStreamParser.php',
+        'Zxing\\Qrcode\\Decoder\\Decoder' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/Decoder.php',
+        'Zxing\\Qrcode\\Decoder\\ECB' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/Version.php',
+        'Zxing\\Qrcode\\Decoder\\ECBlocks' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/Version.php',
+        'Zxing\\Qrcode\\Decoder\\ErrorCorrectionLevel' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/ErrorCorrectionLevel.php',
+        'Zxing\\Qrcode\\Decoder\\FormatInformation' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/FormatInformation.php',
+        'Zxing\\Qrcode\\Decoder\\Mode' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/Mode.php',
+        'Zxing\\Qrcode\\Decoder\\Version' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Decoder/Version.php',
+        'Zxing\\Qrcode\\Detector\\AlignmentPattern' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Detector/AlignmentPattern.php',
+        'Zxing\\Qrcode\\Detector\\AlignmentPatternFinder' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Detector/AlignmentPatternFinder.php',
+        'Zxing\\Qrcode\\Detector\\Detector' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Detector/Detector.php',
+        'Zxing\\Qrcode\\Detector\\FinderPattern' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Detector/FinderPattern.php',
+        'Zxing\\Qrcode\\Detector\\FinderPatternFinder' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Detector/FinderPatternFinder.php',
+        'Zxing\\Qrcode\\Detector\\FinderPatternInfo' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/Detector/FinderPatternInfo.php',
+        'Zxing\\Qrcode\\QRCodeReader' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Qrcode/QRCodeReader.php',
+        'Zxing\\RGBLuminanceSource' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/RGBLuminanceSource.php',
+        'Zxing\\Reader' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Reader.php',
+        'Zxing\\ReaderException' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/ReaderException.php',
+        'Zxing\\Result' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Result.php',
+        'Zxing\\ResultPoint' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/ResultPoint.php',
         'arBuilder' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/Fields/Converter/class.arBuilder.php',
         'arCalledClassCache' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/Cache/class.arCalledClassCache.php',
         'arConcat' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/Connector/Concat/class.arConcat.php',
@@ -756,6 +926,7 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit35130d3710e679d0b90e319856199798::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit35130d3710e679d0b90e319856199798::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit35130d3710e679d0b90e319856199798::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit35130d3710e679d0b90e319856199798::$classMap;
 
         }, null, ClassLoader::class);
