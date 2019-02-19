@@ -8,6 +8,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  * @version           $Id:
  * @ilCtrl_isCalledBy srCertificateDefinitionGUI: ilRouterGUI, ilUIPluginRouterGUI
+ * @ilCtrl_Calls      srCertificateDefinitionGUI: ilPropertyFormGUI
  */
 class srCertificateDefinitionGUI {
 
@@ -78,6 +79,10 @@ class srCertificateDefinitionGUI {
 	 * @var ilDB
 	 */
 	protected $db;
+    /**
+     * @var ilLogger
+     */
+	protected $log;
 
 
 	public function __construct() {
@@ -92,6 +97,7 @@ class srCertificateDefinitionGUI {
 		$this->pl = ilCertificatePlugin::getInstance();
 		$this->access = $DIC->access();
 		$this->db = $DIC->database();
+		$this->log = $DIC->logger()->root();
 		$this->ctrl->saveParameter($this, 'ref_id');
 		$this->tpl->addJavaScript($this->pl->getStyleSheetLocation('uihk_certificate.js'));
 		$ilLocator = $DIC["ilLocator"];
@@ -314,10 +320,13 @@ class srCertificateDefinitionGUI {
 	public function previewCertificate() {
 		$preview = new srCertificatePreview();
 		$preview->setDefinition($this->definition);
-		if ($preview->generate()) {
-			$preview->download();
-		}
-		ilUtil::sendFailure($this->pl->txt('msg_error_preview_certificate'));
+		try {
+            $preview->generate();
+            $preview->download();
+        } catch (Exception $e) {
+            $this->log->log($e->getMessage(), ilLogLevel::ERROR);
+            ilUtil::sendFailure($this->pl->txt('msg_error_preview_certificate'));
+        }
 		$this->showCertificates();
 	}
 

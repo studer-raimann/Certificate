@@ -48,15 +48,12 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 		$template = $cert->getDefinition()->getType()->getCertificateTemplatesPath(true);
 		// A template is required, so quit early if it does not exist for some reason
 		if (!is_file($template)) {
-			return false;
+			throw new srCertificateException('No template file found for cert type with id=' . $cert->getDefinition()->getType()->getId());
 		}
+
 		$placeholders = $cert->getPlaceholders();
-		try {
-			$defined_placeholders = $this->parseDefinedPlaceholders($template);
-		} catch (Exception $e) {
-			// XML is not valid
-			return false;
-		}
+		$defined_placeholders = $this->parseDefinedPlaceholders($template); // can throw an xml exception
+
 		// Only send defined placeholders to jasper, otherwise the template file is not considered as valid
 		$placeholders = array_intersect_key($placeholders, $defined_placeholders);
 		$placeholders = $this->nl2br($placeholders, false);
@@ -81,12 +78,12 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 			$to = $cert->getFilePath();
 
 			//return ilUtil::moveUploadedFile($from, '', $to, false, 'rename');
-			return rename($from, $to);
+			if (!rename($from, $to)) {
+			    throw new srCertificateException("renaming certificate from '$from' to '$to' failed");
+            }
 		} catch (JasperReportException $e) {
-			$this->log->write("srCertificateTemplyteTypeJasper::generate() Report file of certificate with ID {$cert->getId()} was not created by Jasper: "
+			throw new srCertificateException("srCertificateTemplyteTypeJasper::generate() Report file of certificate with ID {$cert->getId()} was not created by Jasper: "
 				. implode(', ', $e->getErrors()));
-
-			return false;
 		}
 	}
 

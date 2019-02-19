@@ -57,14 +57,15 @@ class srCertificatePreview extends srCertificate {
 	}
 
 
-	/**
-	 * Generate the preview certificate
-	 *
-	 * @param bool $force
-	 *
-	 * @throws srCertificateException
-	 * @return bool|void
-	 */
+    /**
+     * Generate the preview certificate
+     *
+     * @param bool $force
+     *
+     * @return bool
+     * @throws srCertificateException
+     * @throws ilException
+     */
 	public function generate($force = false) {
 		if (!$this->getDefinitionId()) {
 			throw new srCertificateException("srCertificatePreview needs definition id before generating preview file");
@@ -72,7 +73,8 @@ class srCertificatePreview extends srCertificate {
 		$cert_type = $this->definition->getType();
 		$template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
 
-		return $template_type->generate($this);
+		$template_type->generate($this);
+		return true;
 	}
 
 

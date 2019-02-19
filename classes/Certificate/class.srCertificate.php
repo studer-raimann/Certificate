@@ -267,17 +267,17 @@ class srCertificate extends ActiveRecord {
 
 	public function update() {
 		parent::update();
-		if ($this->hasStatusChanged()) {
-			// Status has changed
-			$this->event_handler->raise('Certificate/srCertificate', 'changeStatus', array(
-				'object' => $this,
-				'old_status' => $this->old_status,
-				'new_status' => $this->status,
-			));
-		}
-		$this->event_handler->raise('Certificate/srCertificate', 'update', array( 'object' => $this ));
-		$this->old_status = NULL;
-	}
+        if ($this->hasStatusChanged()) {
+            // Status has changed
+            $this->event_handler->raise('Certificate/srCertificate', 'changeStatus', array(
+                'object' => $this,
+                'old_status' => $this->old_status,
+                'new_status' => $this->status,
+            ));
+        }
+        $this->event_handler->raise('Certificate/srCertificate', 'update', array( 'object' => $this ));
+        $this->old_status = NULL;
+    }
 
 
 	/**
@@ -289,13 +289,14 @@ class srCertificate extends ActiveRecord {
 	}
 
 
-	/**
-	 * Generate certificate pdf
-	 *
-	 * @param bool $force If true, recreates the PDF if already existing
-	 *
-	 * @return bool
-	 */
+    /**
+     * Generate certificate pdf
+     *
+     * @param bool $force If true, recreates the PDF if already existing
+     *
+     * @return bool
+     * @throws Exception
+     */
 	public function generate($force = false) {
 		// Don't generate certificate if a PDF is already existing, unless $force is set to true
 		if ($this->getStatus() == self::STATUS_PROCESSED && is_file($this->getFilePath()) && !$force) {
@@ -305,20 +306,17 @@ class srCertificate extends ActiveRecord {
 		$template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
 		$this->setStatus(self::STATUS_WORKING);
 		$this->update();
-		$generated = $template_type->generate($this);
-		// Only set the status to processed if generating was successful
-		if ($generated) {
-			$this->setStatus(self::STATUS_PROCESSED);
-			$this->update();
-
-			return true;
-		} else {
-			$this->setStatus(self::STATUS_FAILED);
-			$this->update();
-			$this->log->write("srCertificate::generate() Failed to generate certificate with ID {$this->getId()}");
-
-			return false;
-		}
+		try {
+            $template_type->generate($this);
+            $this->setStatus(self::STATUS_PROCESSED);
+            $this->update();
+            return true;
+        } catch (Exception $e) {
+		    // set status to failed if an exception occured, throw exception nonetheless
+		    $this->setStatus(self::STATUS_FAILED);
+		    $this->update();
+            throw $e;
+        }
 	}
 
 

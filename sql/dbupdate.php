@@ -244,3 +244,25 @@ require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/
 ilCertificateConfig::setX('jasper_locale', 'de_DE.UTF-8');
 ilCertificateConfig::setX('jasper_path_java', '/usr/bin/java');
 ?>
+<#20>
+<?php
+require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
+srCertificateDefinitionSuccession::updateDB();
+
+foreach (srCertificateDefinition::get() as $cert_def) {
+    $setting = new srCertificateDefinitionSetting();
+    $setting->setDefinitionId($cert_def->getId());
+    $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE);
+    $setting->setValue(0);
+    $setting->save();
+}
+
+foreach (srCertificateType::get() as $type) {
+    $setting = new srCertificateTypeSetting();
+    $setting->setTypeId($type->getId());
+    $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE);
+    $setting->setEditableIn(array('crs'));
+    $setting->setValue(0);
+    $setting->save();
+}
+?>
