@@ -117,6 +117,8 @@ setting_id_scorm_timing#:#Enable SCORM Timing
 setting_id_scorm_timing_info#:#Activates alternative calculation of 'Spent Seconds' for SCORM 2004 modules.
 setting_id_successor_course#:#Successor Course
 setting_id_successor_course_info#:#When a certificate expires, the user will be automatically subscribed to the successor course.
+setting_id_predecessor_courses#:#Predecessor Course(s)
+setting_id_predecessor_courses_info#:#To configure a predecessor course, please define this course as a successor course in the desired predecessor course.
 setting_generation_auto#:#After Course is Completed (auto)
 setting_generation_manually#:#Manually
 setting_validity_range#:#Date Range after Creation of Certificate

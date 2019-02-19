@@ -113,6 +113,8 @@ setting_id_scorm_timing#:#SCORM Timing aktivieren
 setting_id_scorm_timing_info#:#Aktiviert die alternative Berechnung von 'Spent Seconds' für SCORM 2004 Module.
 setting_id_successor_course#:#Nachfolgekurs
 setting_id_successor_course_info#:#Nach Ablauf der Gültigkeit eines Zertifikats wird der Benutzer automatisiert im Nachfolgekurs angemeldet.
+setting_id_predecessor_courses#:#Vorgängerkurs(e)
+setting_id_predecessor_courses_info#:#Um einen Vorgängerkurs festzulegen, bitte definieren Sie diesen Kurs im gewünschten Vorgängerkurs als Nachfolgekurs.
 setting_generation_auto#:#Nachdem ein Kurs beendet wurde (automatisch)
 setting_generation_manually#:#Manuell
 setting_validity_range#:#Zeitraum nachdem ein Zertifikat generiert wurde

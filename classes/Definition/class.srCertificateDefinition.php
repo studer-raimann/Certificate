@@ -399,8 +399,44 @@ class srCertificateDefinition extends ActiveRecord {
 	    return (is_null($setting)) ? NULL : $setting->getValue();
     }
 
+    /**
+     * @return array
+     */
+    public function getPredecessorCourseRefIds() {
+        $definition_ids = srCertificateDefinitionSetting::where(['identifier' => srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE, 'value' => $this->getRefId()])->getArray(null, 'definition_id');
+        if (!$definition_ids) {
+            return [];
+        }
+        return self::where(['id' => $definition_ids], ['id' => 'IN'])->getArray(null, 'ref_id');
+    }
+
+    /**
+     * @param $as_link
+     * @return array
+     */
+    public function getPredecessorCourseTitles($as_link) {
+        $titles = [];
+        foreach ($this->getPredecessorCourseRefIds() as $predecessorCourseRefId) {
+            $titles[] = $this->getCourseTitleFromRefId($predecessorCourseRefId, $as_link);
+        }
+        return $titles;
+    }
+
 	// Protected
 
+    /**
+     * Helper function for getPredecessorCourseTitles
+     *
+     * @param $ref_id
+     * @param bool $as_link
+     * @return string
+     */
+    protected function getCourseTitleFromRefId($ref_id, $as_link = true) {
+        $title = ilObjCourse::_lookupTitle(ilObjCourse::_lookupObjectId($ref_id));
+        return $as_link ?
+            '<a href="/goto_' . CLIENT_ID . '_crs_' . $ref_id . '.html">' . $title . '</a>' :
+            $title;
+    }
 
 	/**
 	 * Create the settings inheriting default values defined in the type
