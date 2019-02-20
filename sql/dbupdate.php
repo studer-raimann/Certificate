@@ -247,7 +247,6 @@ ilCertificateConfig::setX('jasper_path_java', '/usr/bin/java');
 <#20>
 <?php
 require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
-srCertificateDefinitionSuccession::updateDB();
 
 foreach (srCertificateDefinition::get() as $cert_def) {
     $setting = new srCertificateDefinitionSetting();
@@ -265,4 +264,20 @@ foreach (srCertificateType::get() as $type) {
     $setting->setValue(0);
     $setting->save();
 }
+?>
+<#21>
+<?php
+require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
+global $DIC;
+$keys = openssl_pkey_new([
+    'digest_alg' => OPENSSL_ALGO_SHA1,
+    'private_key_bits' => 2048,
+    'private_key_type' => OPENSSL_KEYTYPE_RSA
+]);
+openssl_pkey_export($keys, $private_key);
+$public_key = openssl_pkey_get_details($keys);
+$public_key = $public_key["key"];
+$DIC->filesystem()->storage()->createDir(srCertificateDigitalSignature::KEY_PATH, \ILIAS\Filesystem\Visibility::PRIVATE_ACCESS);
+file_put_contents(srCertificateDigitalSignature::getPathOf(srCertificateDigitalSignature::KEYTYPE_PRIVATE), $private_key);
+file_put_contents(srCertificateDigitalSignature::getPathOf(srCertificateDigitalSignature::KEYTYPE_PUBLIC), $public_key);
 ?>

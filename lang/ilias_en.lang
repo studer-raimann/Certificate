@@ -272,6 +272,8 @@ placeholder_LP_READ_COUNT#:#Learning progress: Read count
 placeholder_LP_STATUS#:#Learning progress: Status code
 placeholder_LP_AVG_PERCENTAGE#:#Learning progress: Avg. percentage of course
 placeholder_CERT_TEMPLATE_PATH#:#Path where certificate template file and assets are stored
+placeholder_DIGITAL_SIGNATURE#:#Digital Signature
+placeholder_DIGITAL_SIGNATURE_QR_CODE#:#QR code to decrypt the digital signature
 admin_form_notifications#:#Notifications
 send#:#Send
 edit#:#Edit
