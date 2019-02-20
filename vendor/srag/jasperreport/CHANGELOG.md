@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.20]
+- Fixes
+
+## [2.0.19]
+- Fix
+
 ## [2.0.18]
 - Update readme
 

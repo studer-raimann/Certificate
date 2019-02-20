@@ -51,6 +51,8 @@ class srCertificateStandardPlaceholders {
 		'LP_STATUS',
 		'LP_AVG_PERCENTAGE',
 		'CERT_TEMPLATE_PATH',
+        'DIGITAL_SIGNATURE',
+        'DIGITAL_SIGNATURE_QR_CODE'
 	);
 	/**
 	 * @var srCertificate

@@ -12,6 +12,7 @@ class certCheckSignatureGUI {
 
 	const CMD_DECRYPT_SIGNATURE = 'decryptSignature';
 	const CMD_SHOW_FORM = 'showForm';
+
 	/**
 	 * @var ilTemplate
 	 */

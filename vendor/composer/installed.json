@@ -39,17 +39,17 @@
     },
     {
         "name": "setasign/fpdi",
-        "version": "v2.1.1",
-        "version_normalized": "2.1.1.0",
+        "version": "v2.2.0",
+        "version_normalized": "2.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Setasign/FPDI.git",
-            "reference": "356de9cb6b6a826ac952c86aee6599463ea87362"
+            "reference": "3c266002f8044f61b17329f7cd702d44d73f0f7f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/356de9cb6b6a826ac952c86aee6599463ea87362",
-            "reference": "356de9cb6b6a826ac952c86aee6599463ea87362",
+            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/3c266002f8044f61b17329f7cd702d44d73f0f7f",
+            "reference": "3c266002f8044f61b17329f7cd702d44d73f0f7f",
             "shasum": ""
         },
         "require": {
@@ -68,7 +68,7 @@
             "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF.",
             "setasign/fpdi-tfpdf": "Use this package to automatically evaluate dependencies to tFPDF."
         },
-        "time": "2018-11-06T10:02:00+00:00",
+        "time": "2019-01-30T14:11:19+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -101,24 +101,73 @@
         ]
     },
     {
-        "name": "srag/dic",
-        "version": "v0.14.2",
-        "version_normalized": "0.14.2.0",
+        "name": "srag/custominputguis",
+        "version": "v0.19.2",
+        "version_normalized": "0.19.2.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/studer-raimann/DIC.git",
-            "reference": "cf93a05f7c14ed9f0279f64e2325e8e88a66fbf9"
+            "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
+            "reference": "4767515f350c1e51d06bc221bfe0c555754b1c08"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/cf93a05f7c14ed9f0279f64e2325e8e88a66fbf9",
-            "reference": "cf93a05f7c14ed9f0279f64e2325e8e88a66fbf9",
+            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/4767515f350c1e51d06bc221bfe0c555754b1c08",
+            "reference": "4767515f350c1e51d06bc221bfe0c555754b1c08",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.6",
+            "srag/dic": ">=0.1.0"
+        },
+        "time": "2019-02-18T15:12:57+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\CustomInputGUIs\\Certificate\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "studer + raimann ag - Team Custom 1",
+                "email": "support-custom1@studer-raimann.ch",
+                "homepage": "https://studer-raimann.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Custom Input-GUI's",
+        "homepage": "https://github.com/studer-raimann/CustomInputGUIs",
+        "keywords": [
+            "ILIAS",
+            "PropertyForm",
+            "gui",
+            "input",
+            "table"
+        ]
+    },
+    {
+        "name": "srag/dic",
+        "version": "v0.14.12",
+        "version_normalized": "0.14.12.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/studer-raimann/DIC.git",
+            "reference": "e824df3032bfc201d68d29b1a2cc2c251d4e4b92"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/e824df3032bfc201d68d29b1a2cc2c251d4e4b92",
+            "reference": "e824df3032bfc201d68d29b1a2cc2c251d4e4b92",
             "shasum": ""
         },
         "require": {
             "php": ">=5.6"
         },
-        "time": "2018-11-30T09:06:55+00:00",
+        "time": "2019-01-28T11:49:30+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -149,17 +198,17 @@
     },
     {
         "name": "srag/jasperreport",
-        "version": "2.0.18",
-        "version_normalized": "2.0.18.0",
+        "version": "v2.0.20",
+        "version_normalized": "2.0.20.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/JasperReport.git",
-            "reference": "6be35dd93883da053db91f08ea3b2569db7df87e"
+            "reference": "4438a4d3cce2b6b6f91caa7150891ceef042ad20"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/6be35dd93883da053db91f08ea3b2569db7df87e",
-            "reference": "6be35dd93883da053db91f08ea3b2569db7df87e",
+            "url": "https://api.github.com/repos/studer-raimann/JasperReport/zipball/4438a4d3cce2b6b6f91caa7150891ceef042ad20",
+            "reference": "4438a4d3cce2b6b6f91caa7150891ceef042ad20",
             "shasum": ""
         },
         "require": {
@@ -168,7 +217,7 @@
             "setasign/fpdi": "^2.0.3",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2018-09-18T06:47:10+00:00",
+        "time": "2019-01-22T09:20:25+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -198,23 +247,23 @@
     },
     {
         "name": "srag/librariesnamespacechanger",
-        "version": "v0.3.6",
-        "version_normalized": "0.3.6.0",
+        "version": "v0.5.1",
+        "version_normalized": "0.5.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
-            "reference": "cf5f3be4341270fbe46a977bbd1403d744fb797a"
+            "reference": "64a1728ed926f14d6d17b70caf4ebcc3d86df717"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/cf5f3be4341270fbe46a977bbd1403d744fb797a",
-            "reference": "cf5f3be4341270fbe46a977bbd1403d744fb797a",
+            "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/64a1728ed926f14d6d17b70caf4ebcc3d86df717",
+            "reference": "64a1728ed926f14d6d17b70caf4ebcc3d86df717",
             "shasum": ""
         },
         "require": {
             "php": ">=5.6"
         },
-        "time": "2018-11-21T08:31:42+00:00",
+        "time": "2019-01-22T09:19:11+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

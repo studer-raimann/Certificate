@@ -273,6 +273,8 @@ placeholder_LP_READ_COUNT#:#Lernfortschritt: Anzahl Lesen
 placeholder_LP_STATUS#:#Lernfortschritt: Status-Code
 placeholder_LP_AVG_PERCENTAGE#:#Lernfortschritt: Durchschn. Prozent des Kurses
 placeholder_CERT_TEMPLATE_PATH#:#Pfad, in dem die Zertifikat-Vorlagen-Datei und Assets gespeichert sind
+placeholder_DIGITAL_SIGNATURE#:#Digitale Signatur
+placeholder_DIGITAL_SIGNATURE_QR_CODE#:#QR-Code zum Entschlüsseln der digitalen Signatur
 admin_form_notifications#:#Benachrichtigungen
 send#:#Senden
 edit#:#Bearbeiten

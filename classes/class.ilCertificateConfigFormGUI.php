@@ -55,48 +55,48 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 		$this->setTitle($this->txt('title'));
 
 		// Course templates
-		$item = new ilCheckboxInputGUI($this->txt('course_templates'), 'course_templates');
-		$item->setInfo($this->txt('course_templates_info'));
-		$subitem = new ilTextAreaInputGUI($this->txt('course_templates_ref_ids'), 'course_templates_ref_ids');
-		$subitem->setInfo($this->txt('course_templates_ref_ids_info'));
+		$item = new ilCheckboxInputGUI($this->txt(ilCertificateConfig::COURSE_TEMPLATES), ilCertificateConfig::COURSE_TEMPLATES);
+		$item->setInfo($this->txt(ilCertificateConfig::COURSE_TEMPLATES . '_info'));
+		$subitem = new ilTextAreaInputGUI($this->txt(ilCertificateConfig::COURSE_TEMPLATES_REF_IDS), ilCertificateConfig::COURSE_TEMPLATES_REF_IDS);
+		$subitem->setInfo($this->txt(ilCertificateConfig::COURSE_TEMPLATES_REF_IDS . '_info'));
 		$item->addSubItem($subitem);
 		$this->addItem($item);
 
 		// UTC
-		$item = new ilCheckboxInputGUI($this->txt('time_format_utc'), 'time_format_utc');
-		$item->setInfo($this->txt('time_format_utc'));
+		$item = new ilCheckboxInputGUI($this->txt(ilCertificateConfig::TIME_FORMAT_UTC), ilCertificateConfig::TIME_FORMAT_UTC);
+		$item->setInfo($this->txt(ilCertificateConfig::TIME_FORMAT_UTC));
 		$this->addItem($item);
 
 		// Date format
-		$item = new ilTextInputGUI($this->txt('str_format_date'), 'str_format_date');
-		$item->setInfo($this->txt('str_format_date_info'));
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::DATE_FORMAT), ilCertificateConfig::DATE_FORMAT);
+		$item->setInfo($this->txt(ilCertificateConfig::DATE_FORMAT . '_info'));
 		$item->setRequired(true);
 		$this->addItem($item);
 
 		// Datetime format
-		$item = new ilTextInputGUI($this->txt('str_format_datetime'), 'str_format_datetime');
-		$item->setInfo($this->txt('str_format_datetime_info'));
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::DATETIME_FORMAT), ilCertificateConfig::DATETIME_FORMAT);
+		$item->setInfo($this->txt(ilCertificateConfig::DATETIME_FORMAT . '_info'));
 		$item->setRequired(true);
 		$this->addItem($item);
 
 		// Max diff LP seconds
-		$item = new ilNumberInputGUI($this->txt('max_diff_lp_seconds'), 'max_diff_lp_seconds');
-		$item->setInfo($this->txt('max_diff_lp_seconds_info'));
+		$item = new ilNumberInputGUI($this->txt(ilCertificateConfig::MAX_DIFF_LP_SECONDS), ilCertificateConfig::MAX_DIFF_LP_SECONDS);
+		$item->setInfo($this->txt(ilCertificateConfig::MAX_DIFF_LP_SECONDS . '_info'));
 		$this->addItem($item);
 
 		// Hook class
-		$item = new ilTextInputGUI($this->txt('path_hook_class'), 'path_hook_class');
-		$item->setInfo($this->txt('path_hook_class_info'));
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::PATH_HOOK_CLASS), ilCertificateConfig::PATH_HOOK_CLASS);
+		$item->setInfo($this->txt(ilCertificateConfig::PATH_HOOK_CLASS . '_info'));
 		$this->addItem($item);
 
 		//Call Back email
-		$item = new ilTextInputGUI($this->txt('callback_email'), 'callback_email');
-		$item->setInfo($this->txt('callback_email_info'));
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::CALLBACK_EMAIL), ilCertificateConfig::CALLBACK_EMAIL);
+		$item->setInfo($this->txt(ilCertificateConfig::CALLBACK_EMAIL . '_info'));
 		$this->addItem($item);
 
 		//disk space Warning
-		$item = new ilTextInputGUI($this->txt('disk_space_warning'), 'disk_space_warning');
-		$item->setInfo($this->txt('disk_space_warning_info'));
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::DISK_SPACE_WARNING), ilCertificateConfig::DISK_SPACE_WARNING);
+		$item->setInfo($this->txt(ilCertificateConfig::DISK_SPACE_WARNING . '_info'));
 		$this->addItem($item);
 
 		$section = new ilFormSectionHeaderGUI();
@@ -110,17 +110,17 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 		}
 
 		// Administrate types
-		$item = new ilMultiSelectInputGUI($this->txt('roles_administrate_certificate_types'), 'roles_administrate_certificate_types');
+		$item = new ilMultiSelectInputGUI($this->txt(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATE_TYPES), ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATE_TYPES);
 		$item->setOptions($roles);
-		$item->setInfo($this->txt('roles_administrate_certificate_types_info'));
+		$item->setInfo($this->txt(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATE_TYPES . '_info'));
 		$item->setWidth(272);
 		$item->setHeight(165);
 		$this->addItem($item);
 
 		// Administrate certificates
-		$item = new ilMultiSelectInputGUI($this->txt('roles_administrate_certificates'), 'roles_administrate_certificates');
+		$item = new ilMultiSelectInputGUI($this->txt(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATES), ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATES);
 		$item->setOptions($roles);
-		$item->setInfo($this->txt('roles_administrate_certificates_info'));
+		$item->setInfo($this->txt(ilCertificateConfig::ROLES_ADMINISTRATE_CERTIFICATES . '_info'));
 		$item->setWidth(272);
 		$item->setHeight(165);
 		$this->addItem($item);
@@ -130,11 +130,11 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 		$section->setTitle('Jasper Reports');
 		$this->addItem($section);
 
-		$item = new ilTextInputGUI($this->txt('jasper_locale'), 'jasper_locale');
-		$item->setInfo($this->txt('jasper_locale_info'));
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::JASPER_LOCALE), ilCertificateConfig::JASPER_LOCALE);
+		$item->setInfo($this->txt(ilCertificateConfig::JASPER_LOCALE . '_info'));
 		$this->addItem($item);
 
-		$item = new ilTextInputGUI($this->txt('jasper_path_java'), 'jasper_path_java');
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::JASPER_JAVA_PATH), ilCertificateConfig::JASPER_JAVA_PATH);
 		$this->addItem($item);
 
 		// Notification
@@ -142,18 +142,18 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 		$section->setTitle($this->txt('notifications'));
 		$this->addItem($section);
 
-		$item = new ilTextInputGUI($this->txt('notification_user_subject'), 'notification_user_subject');
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::NOTIFICATIONS_USER_SUBJECT), ilCertificateConfig::NOTIFICATIONS_USER_SUBJECT);
 		$this->addItem($item);
 
-		$item = new ilTextAreaInputGUI($this->txt('notification_user_body'), 'notification_user_body');
+		$item = new ilTextAreaInputGUI($this->txt(ilCertificateConfig::NOTIFICATIONS_USER_BODY), ilCertificateConfig::NOTIFICATIONS_USER_BODY);
 		$item->setRows(10);
 		$item->setCols(100);
 		$this->addItem($item);
 
-		$item = new ilTextInputGUI($this->txt('notification_others_subject'), 'notification_others_subject');
+		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::NOTIFICATIONS_OTHERS_SUBJECT), ilCertificateConfig::NOTIFICATIONS_OTHERS_SUBJECT);
 		$this->addItem($item);
 
-		$item = new ilTextAreaInputGUI($this->txt('notification_others_body'), 'notification_others_body');
+		$item = new ilTextAreaInputGUI($this->txt(ilCertificateConfig::NOTIFICATIONS_OTHERS_BODY), ilCertificateConfig::NOTIFICATIONS_OTHERS_BODY);
 		$item->setRows(10);
 		$item->setCols(100);
 		$this->addItem($item);
