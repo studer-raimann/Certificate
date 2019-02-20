@@ -770,7 +770,7 @@ class srCertificate extends ActiveRecord {
 
 
 	/**
-	 * @return int
+	 * @return String
 	 */
 	public function getValidFrom() {
 		return $this->valid_from;
@@ -778,7 +778,7 @@ class srCertificate extends ActiveRecord {
 
 
 	/**
-	 * @param int $valid_to
+	 * @param String $valid_to
 	 */
 	public function setValidTo($valid_to) {
 		$this->valid_to = $valid_to;

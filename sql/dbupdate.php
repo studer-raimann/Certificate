@@ -270,7 +270,7 @@ foreach (srCertificateType::get() as $type) {
 require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
 global $DIC;
 $keys = openssl_pkey_new([
-    'digest_alg' => OPENSSL_ALGO_SHA1,
+    'digest_alg' => OPENSSL_ALGO_SHA256,
     'private_key_bits' => 2048,
     'private_key_type' => OPENSSL_KEYTYPE_RSA
 ]);
