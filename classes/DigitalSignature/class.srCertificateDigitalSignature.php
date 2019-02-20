@@ -55,8 +55,8 @@ class srCertificateDigitalSignature {
      * @param $cert srCertificate
      */
     public static function getSignatureForCertificate($cert) {
-        $data = $cert->getTitle() . " - "
-            . date('Y-m-d', $cert->getValidFrom()) . " - "
+        $data = ilObjCourse::_lookupTitle(ilObjCourse::_lookupObjectId($cert->getDefinition()->getRefId())) . " - "
+            . $cert->getValidFrom() . " - "
             . ($cert->getUser()->getLastname() == "-" ? "" : $cert->getUser()->getLastname() . ", ")
             . $cert->getUser()->getFirstname();
         return self::encryptData($data);

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  *
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @version           $Id:
- * @ilCtrl_IsCalledBy certCheckSignatureGUI: ilRouterGUI
+ * @ilCtrl_IsCalledBy certCheckSignatureGUI: ilRouterGUI, ilUIPluginRouterGUI
  */
 class certCheckSignatureGUI {
 
@@ -39,7 +39,8 @@ class certCheckSignatureGUI {
 	 * @return bool
 	 */
 	public function executeCommand() {
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd(self::CMD_SHOW_FORM);
+		$this->tpl->getStandardTemplate();
 		switch ($cmd) {
 			case self::CMD_SHOW_FORM:
 			default:
@@ -49,8 +50,7 @@ class certCheckSignatureGUI {
 				$this->decryptSignature();
 				break;
 		}
-
-		return true;
+		$this->tpl->show();
 	}
 
 
@@ -62,13 +62,13 @@ class certCheckSignatureGUI {
 
 
 	public function decryptSignature() {
-
 		$form = new certCheckSignatureFormGUI();
 		if (!$form->checkInput()) {
 			ilUtil::sendFailure($this->pl->txt('decrypt_failed'), true);
 		}
-		$public_key = openssl_get_publickey('file://' . ilCertificateConfig::getX('signature_publickey'));
-		openssl_public_decrypt(base64_decode($form->getInput('signature')), $decrypted, $public_key);
+
+		$signature = $form->getInput('signature');
+		$decrypted = srCertificateDigitalSignature::decryptSignature($signature);
 
 		if ($decrypted) {
 			ilUtil::sendInfo($this->pl->txt('decrypt_successful') . '<br/>' . $decrypted, true);

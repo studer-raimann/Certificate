@@ -208,6 +208,7 @@ class srCertificateStandardPlaceholders {
 			'COURSE_TITLE' => $course->getTitle(),
 			'COURSE_START' => $course->getCourseStart() ? $this->formatDate('', $course->getCourseStart()->get(IL_CAL_UNIX)) : '',
 			'COURSE_END' => $course->getCourseEnd() ? $this->formatDate('', $course->getCourseEnd()->get(IL_CAL_UNIX)) : '',
+            'DIGITAL_SIGNATURE' => srCertificateDigitalSignature::getSignatureForCertificate($this->certificate),
 		);
 
 		return $placeholder;
