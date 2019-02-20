@@ -1,5 +1,7 @@
 <?php
 
+use Da\QrCode\QrCode;
+
 /**
  * srCertificateStandardPlaceholder
  *
@@ -191,6 +193,11 @@ class srCertificateStandardPlaceholders {
 			$cert_valid_from += srCertificate::TIME_ZONE_CORRECTION;
 		}
 
+		$digital_signature = srCertificateDigitalSignature::getSignatureForCertificate($this->certificate);
+		$link_digital_signature = ILIAS_HTTP_PATH . '/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/checkCertificate.php?client_id=' . CLIENT_ID . '&signature=' . strtr($digital_signature, '+/=', '-_,');
+		$QrCode = new QrCode($link_digital_signature);
+		$QrCode->setSize(80);
+
 		$placeholder = array(
 			'DATE' => $this->formatDate('DATE'),
 			'DATETIME' => $this->formatDateTime('DATETIME'),
@@ -208,7 +215,8 @@ class srCertificateStandardPlaceholders {
 			'COURSE_TITLE' => $course->getTitle(),
 			'COURSE_START' => $course->getCourseStart() ? $this->formatDate('', $course->getCourseStart()->get(IL_CAL_UNIX)) : '',
 			'COURSE_END' => $course->getCourseEnd() ? $this->formatDate('', $course->getCourseEnd()->get(IL_CAL_UNIX)) : '',
-            'DIGITAL_SIGNATURE' => srCertificateDigitalSignature::getSignatureForCertificate($this->certificate),
+            'DIGITAL_SIGNATURE' => $digital_signature,
+            'DIGITAL_SIGNATURE_QR_CODE' => base64_encode($QrCode->writeString()),
 		);
 
 		return $placeholder;
