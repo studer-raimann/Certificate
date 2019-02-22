@@ -40,6 +40,8 @@ The following classes/methods need to be patched in order for the plugin to work
 
 ### /Modules/Course/classes/class.ilCourseParticipants.php
 
+*This Patch is no longer required with ILIAS 5.3.* 
+
 Copy whole method or the code blocks between `PATCH START` and `PATCH END`
 
 ```php
