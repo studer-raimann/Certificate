@@ -241,7 +241,7 @@ if ($ilDB->tableExists(ilCertificateConfig::TABLE_NAME)) {
 <#19>
 <?php
 require_once 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/vendor/autoload.php';
-ilCertificateConfig::setX('jasper_locale', 'de_DE.UTF-8');
+ilCertificateConfig::setX('jasper_locale', 'C.UTF-8');
 ilCertificateConfig::setX('jasper_path_java', '/usr/bin/java');
 ?>
 <#20>
