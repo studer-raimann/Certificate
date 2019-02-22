@@ -896,7 +896,7 @@ return array(
     'srag\\DIC\\Certificate\\Plugin\\Pluginable' => $vendorDir . '/srag/dic/src/Plugin/Pluginable.php',
     'srag\\DIC\\Certificate\\Version\\Version' => $vendorDir . '/srag/dic/src/Version/Version.php',
     'srag\\DIC\\Certificate\\Version\\VersionInterface' => $vendorDir . '/srag/dic/src/Version/VersionInterface.php',
-    'srag\\JasperReport\\Certificate\\JasperReport' => $vendorDir . '/srag/jasperreport/src/class.JasperReport.php',
-    'srag\\JasperReport\\Certificate\\JasperReportException' => $vendorDir . '/srag/jasperreport/src/class.JasperReportException.php',
+    'srag\\JasperReport\\Certificate\\JasperReport' => $vendorDir . '/srag/jasperreport/src/JasperReport.php',
+    'srag\\JasperReport\\Certificate\\JasperReportException' => $vendorDir . '/srag/jasperreport/src/JasperReportException.php',
     'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => $vendorDir . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
 );

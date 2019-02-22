@@ -14,7 +14,7 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         's' => 
         array (
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\JasperReport\\Certificate\\' => 30,
+            'srag\\JasperReport\\' => 18,
             'srag\\DIC\\Certificate\\' => 21,
             'srag\\CustomInputGUIs\\Certificate\\' => 33,
             'setasign\\Fpdi\\' => 14,
@@ -34,7 +34,7 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\JasperReport\\Certificate\\' => 
+        'srag\\JasperReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/jasperreport/src',
         ),
@@ -961,8 +961,8 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         'srag\\DIC\\Certificate\\Plugin\\Pluginable' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Pluginable.php',
         'srag\\DIC\\Certificate\\Version\\Version' => __DIR__ . '/..' . '/srag/dic/src/Version/Version.php',
         'srag\\DIC\\Certificate\\Version\\VersionInterface' => __DIR__ . '/..' . '/srag/dic/src/Version/VersionInterface.php',
-        'srag\\JasperReport\\Certificate\\JasperReport' => __DIR__ . '/..' . '/srag/jasperreport/src/class.JasperReport.php',
-        'srag\\JasperReport\\Certificate\\JasperReportException' => __DIR__ . '/..' . '/srag/jasperreport/src/class.JasperReportException.php',
+        'srag\\JasperReport\\Certificate\\JasperReport' => __DIR__ . '/..' . '/srag/jasperreport/src/JasperReport.php',
+        'srag\\JasperReport\\Certificate\\JasperReportException' => __DIR__ . '/..' . '/srag/jasperreport/src/JasperReportException.php',
         'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
     );
 

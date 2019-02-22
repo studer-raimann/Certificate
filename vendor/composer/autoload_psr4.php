@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
-    'srag\\JasperReport\\Certificate\\' => array($vendorDir . '/srag/jasperreport/src'),
+    'srag\\JasperReport\\' => array($vendorDir . '/srag/jasperreport/src'),
     'srag\\DIC\\Certificate\\' => array($vendorDir . '/srag/dic/src'),
     'srag\\CustomInputGUIs\\Certificate\\' => array($vendorDir . '/srag/custominputguis/src'),
     'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
