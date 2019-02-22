@@ -207,6 +207,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_signatures');
 		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_templates');
 		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_data');
+		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_keys');
 
 		return true;
 	}
