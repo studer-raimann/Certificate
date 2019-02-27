@@ -196,7 +196,7 @@ admin_form_str_format_date_info#:#Datumsformat, welches für die Standardplatzha
 admin_form_str_format_datetime#:#Datums-/Zeit-Format
 admin_form_str_format_datetime_info#:#Datumsformat, welches für die Standardplatzhalter verwendet wird.
 admin_form_path_hook_class#:#Pfad zur Hook-Class
-admin_form_path_hook_class_info#:#Pfad zur Klasse 'srCertificateCustomHooks', z.B. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>Diese Klasse kann verwendet werden, um das Standardverhalten des Plugins zu verändern. Die Klasse muss von srCertificateHooks 'extend' (Siehe Klassenbeschreibung für zusätzliche Informationen).
+admin_form_path_hook_class_info#:#Pfad zur Klasse 'srCertificateCustomHooks', z.B. './Customizing/global/Certificate/'.<br>Diese Klasse kann verwendet werden, um das Standardverhalten des Plugins zu verändern. Die Klasse muss von srCertificateHooks 'extend' (Siehe Klassenbeschreibung für zusätzliche Informationen).
 admin_form_callback_email#:#Rückruf E-Mail(s)
 admin_form_callback_email_info#:#E-Mail wird an diese Adresse gesendet, immer wenn ein Zertifikat zurückgerufen wird. Es können mehrere Adressen angegeben werden, kommasepariert.
 admin_form_disk_space_warning#:#Warnung freier Speicherplatz (MB)
