@@ -5,6 +5,8 @@
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
+ *
+ * @ilCtrl_Calls      srCertificateDefinitionFormGUI: ilFormPropertyDispatchGUI
  */
 class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 
@@ -61,7 +63,6 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 		$this->user = $DIC->user();
 		$this->initForm();
 	}
-
 
 	/**
 	 * @return bool
@@ -239,7 +240,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 					}
 					break;
                 case srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE:
-                    $input = new ilRepositorySelector2InputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier);
+                    $input = new ilRepositorySelector2InputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier, false, get_class($this));
                     $input->setInfo($this->pl->txt("setting_id_{$identifier}_info"));
                     $input->getExplorerGUI()->setClickableTypes(['crs']);
                     $input->getExplorerGUI()->setSelectableTypes(['crs']);

@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  * @version           $Id:
  * @ilCtrl_isCalledBy srCertificateDefinitionGUI: ilRouterGUI, ilUIPluginRouterGUI
- * @ilCtrl_Calls      srCertificateDefinitionGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls      srCertificateDefinitionGUI: srCertificateDefinitionFormGUI
  */
 class srCertificateDefinitionGUI {
 
@@ -114,6 +114,9 @@ class srCertificateDefinitionGUI {
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->tpl->getStandardTemplate();
 		switch ($next_class) {
+            case strtolower(srCertificateDefinitionFormGUI::class):
+                $this->initForm();
+                return $this->ctrl->forwardCommand($this->form);
 			case '':
 				switch ($cmd) {
 					case self::CMD_SHOW_DEFINITION:
@@ -206,12 +209,19 @@ class srCertificateDefinitionGUI {
 	 */
 	public function showDefinition() {
 		$this->tabs->activateSubTab(self::TAB_SHOW_DEFINITION);
-		$definition = ($this->definition === NULL) ? new srCertificateDefinition() : $this->definition;
-		$this->form = new srCertificateDefinitionFormGUI($this, $definition);
+		$this->initForm();
 		$this->tpl->setContent($this->form->getHTML());
 		if ($this->definition) {
 			$this->showPreviewCertificateInToolbar();
 		}
+	}
+
+    /**
+     *
+     */
+    public function initForm() {
+        $definition = ($this->definition === NULL) ? new srCertificateDefinition() : $this->definition;
+        $this->form = new srCertificateDefinitionFormGUI($this, $definition);
 	}
 
 
