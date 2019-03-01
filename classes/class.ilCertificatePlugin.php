@@ -20,7 +20,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	/**
 	 * Default path for hook class (can be changed in plugin config)
 	 */
-	const DEFAULT_PATH_HOOK_CLASS = './Customizing/global/Certificate/';
+	const DEFAULT_PATH_HOOK_CLASS = './Customizing/global/certificate/';
 	/**
 	 * Default formats (can be changed in plugin config)
 	 */
