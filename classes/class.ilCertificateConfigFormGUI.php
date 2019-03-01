@@ -86,7 +86,7 @@ class ilCertificateConfigFormGUI extends ilPropertyFormGUI {
 
 		// Hook class
 		$item = new ilTextInputGUI($this->txt(ilCertificateConfig::PATH_HOOK_CLASS), ilCertificateConfig::PATH_HOOK_CLASS);
-		$item->setInfo($this->txt(ilCertificateConfig::PATH_HOOK_CLASS . '_info'));
+		$item->setInfo(sprintf($this->txt(ilCertificateConfig::PATH_HOOK_CLASS . '_info'), ilCertificatePlugin::CLASS_NAME_HOOKS, ilCertificatePlugin::DEFAULT_PATH_HOOK_CLASS));
 		$this->addItem($item);
 
 		//Call Back email
