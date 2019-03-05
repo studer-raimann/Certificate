@@ -159,7 +159,7 @@ class srCertificateTypeSetting extends srCertificateSetting
                 $value = "";
                 break;
             case srCertificateTypeSetting::VALIDITY_TYPE_DATE:
-                $value = (isset($value['date'])) ? date('Y-m-d', strtotime($value['date'])) : '';
+                $value = (isset($value['date'])) ? date('Y-m-d', strtotime($value['date'])) : $value;
                 break;
             case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
                 if (is_array($value) && isset($value['dd']) && isset($value['MM'])) {
