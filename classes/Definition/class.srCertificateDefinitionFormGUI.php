@@ -5,8 +5,12 @@
  *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
+ *
+ * @ilCtrl_Calls      srCertificateDefinitionFormGUI: ilFormPropertyDispatchGUI
  */
 class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
+
+    const IDENTIFIER_PREDECESSOR_COURSES = 'predecessor_courses';
 
 	/**
 	 * @var srCertificateDefinition
@@ -59,7 +63,6 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 		$this->user = $DIC->user();
 		$this->initForm();
 	}
-
 
 	/**
 	 * @return bool
@@ -156,6 +159,8 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_GENERATION]);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE]);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING]);
+		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE]);
+		$this->addItem($settings_inputs[self::IDENTIFIER_PREDECESSOR_COURSES]);
 
 		// Custom settings
 		/** @var srCertificateCustomDefinitionSetting $setting */
@@ -234,6 +239,14 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 						$input->setChecked(true);
 					}
 					break;
+                case srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE:
+                    $input = new ilRepositorySelector2InputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier, false, get_class($this));
+                    $input->setInfo($this->pl->txt("setting_id_{$identifier}_info"));
+                    $input->getExplorerGUI()->setClickableTypes(['crs']);
+                    $input->getExplorerGUI()->setSelectableTypes(['crs']);
+                    $input->getExplorerGUI()->setTypeWhiteList(['crs', 'cat']);
+                    $input->setValue($setting->getValue());
+                    break;
 				default:
 					$input = new ilTextInputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier);
 					$input->setInfo($this->pl->txt("setting_id_{$identifier}_info"));
@@ -243,6 +256,13 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 			$input->setDisabled(!$setting->isEditable());
 			$settings[$identifier] = $input;
 		}
+
+		// "predecessor courses" is just a display and therefore not in the type settings
+        $input = new ilCustomInputGUI($this->pl->txt("setting_id_" . self::IDENTIFIER_PREDECESSOR_COURSES));
+		$input->setInfo($this->pl->txt("setting_id_" . self::IDENTIFIER_PREDECESSOR_COURSES . "_info"));
+		$course_titles = implode(', ', $this->definition->getPredecessorCourseTitles(true));
+		$input->setHtml($course_titles ? $course_titles : '-');
+        $settings[self::IDENTIFIER_PREDECESSOR_COURSES] = $input;
 
 		return $settings;
 	}

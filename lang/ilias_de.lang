@@ -111,6 +111,10 @@ setting_id_downloadable#:#Zertifikat kann heruntergeladen werden
 setting_id_downloadable_info#:#Falls aktiviert, hat ein Benutzer die Möglichkeit das Zertifikat herunterzuladen.
 setting_id_scorm_timing#:#SCORM Timing aktivieren
 setting_id_scorm_timing_info#:#Aktiviert die alternative Berechnung von 'Spent Seconds' für SCORM 2004 Module.
+setting_id_successor_course#:#Nachfolgekurs
+setting_id_successor_course_info#:#Nach Ablauf der Gültigkeit eines Zertifikats wird der Benutzer automatisiert im Nachfolgekurs angemeldet.
+setting_id_predecessor_courses#:#Vorgängerkurs(e)
+setting_id_predecessor_courses_info#:#Um einen Vorgängerkurs festzulegen, bitte definieren Sie diesen Kurs im gewünschten Vorgängerkurs als Nachfolgekurs.
 setting_generation_auto#:#Nachdem ein Kurs beendet wurde (automatisch)
 setting_generation_manually#:#Manuell
 setting_validity_range#:#Zeitraum nachdem ein Zertifikat generiert wurde
@@ -131,6 +135,7 @@ confirm_type_change#:#Bestätigung Änderung Zertifikatstyp
 confirm_type_change_text#:#Bei Änderung des Zertifikatstyp, alle Einstellungen und Platzhalter werden gelöscht. Neue Platzhalter, welche der Typ zur Verfügung stellt, werden verfügbar sein.
 msg_success_custom_setting_deleted#:#Spezifische Einstellung wurde gelöscht
 msg_success_custom_placeholder_deleted#:#Spezifischer Platzhalter wurde gelöscht
+msg_cronjob_success#:#Cronjob erfolgreich ausgeführt.
 add_new_type#:#Neuer Zertifikatstyp hinzufügen
 languages#:#Sprachen
 description#:#Beschreibung
@@ -191,7 +196,7 @@ admin_form_str_format_date_info#:#Datumsformat, welches für die Standardplatzha
 admin_form_str_format_datetime#:#Datums-/Zeit-Format
 admin_form_str_format_datetime_info#:#Datumsformat, welches für die Standardplatzhalter verwendet wird.
 admin_form_path_hook_class#:#Pfad zur Hook-Class
-admin_form_path_hook_class_info#:#Pfad zur Klasse 'srCertificateCustomHooks', z.B. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>Diese Klasse kann verwendet werden, um das Standardverhalten des Plugins zu verändern. Die Klasse muss von srCertificateHooks 'extend' (Siehe Klassenbeschreibung für zusätzliche Informationen).
+admin_form_path_hook_class_info#:#Pfad zur Klasse '%1$s', z.B. '%2$s'.<br>Diese Klasse kann verwendet werden, um das Standardverhalten des Plugins zu verändern. Die Klasse muss von srCertificateHooks 'extend' (Siehe Klassenbeschreibung für zusätzliche Informationen).
 admin_form_callback_email#:#Rückruf E-Mail(s)
 admin_form_callback_email_info#:#E-Mail wird an diese Adresse gesendet, immer wenn ein Zertifikat zurückgerufen wird. Es können mehrere Adressen angegeben werden, kommasepariert.
 admin_form_disk_space_warning#:#Warnung freier Speicherplatz (MB)
@@ -205,8 +210,8 @@ admin_form_notification_user_subject#:#Benachrichtigung für Benutzer (Betreff)
 admin_form_notification_others_subject#:#Benachrichtigung für weitere Benutzer (Betreff)
 admin_form_notification_user_body#:#Benachrichtigung für Benutzer (Body)
 admin_form_notification_others_body#:#Benachrichtigung für weitere Benutzer (Body)
-admin_form_max_diff_lp_seconds#:#Zeitspannte für PDF Erstellung (Sekunden)
-admin_form_max_diff_lp_seconds_info#:#Sie können eine Zeitsptanne in Sekunden definieren, um die PDF-Erzeugung eines Zertifikats zurückzuhalten. Wenn Sie 0 eingeben, wird das PDF direkt nachdem der Benutzer den Kurs bestanden erzeugt. Die Zeitspanne wird mit dem letzten Zugriff auf einen Kurs gemäss Lernfortschritt berechnet. Beachten Sie, dass mögliche E-Mails ebenfalls nach der eingestellten Zeitspanne gesendet werden.
+admin_form_max_diff_lp_seconds#:#Zeitspanne für PDF Erstellung (Sekunden)
+admin_form_max_diff_lp_seconds_info#:#Sie können eine Zeitspanne in Sekunden definieren, um die PDF-Erzeugung eines Zertifikats zurückzuhalten. Wenn Sie 0 eingeben, wird das PDF direkt nachdem der Benutzer den Kurs bestanden erzeugt. Die Zeitspanne wird mit dem letzten Zugriff auf einen Kurs gemäss Lernfortschritt berechnet. Beachten Sie, dass mögliche E-Mails ebenfalls nach der eingestellten Zeitspanne gesendet werden.
 admin_form_jasper_locale#:#Locale (Unix)
 admin_form_jasper_locale_info#:#Das verwendete Locale muss alle Zeichen unterstützen, welche in den Zertifikaten verwendet werden, z.B. Umlaute. Verwenden Sie den Befehl "locale -a" um eine Liste von verfügbaren locales zu sehen (Unix-System).
 admin_form_jasper_path_java#:#Pfad zur Java executable
@@ -268,6 +273,8 @@ placeholder_LP_READ_COUNT#:#Lernfortschritt: Anzahl Lesen
 placeholder_LP_STATUS#:#Lernfortschritt: Status-Code
 placeholder_LP_AVG_PERCENTAGE#:#Lernfortschritt: Durchschn. Prozent des Kurses
 placeholder_CERT_TEMPLATE_PATH#:#Pfad, in dem die Zertifikat-Vorlagen-Datei und Assets gespeichert sind
+placeholder_DIGITAL_SIGNATURE#:#Digitale Signatur
+placeholder_DIGITAL_SIGNATURE_QR_CODE#:#QR-Code zum Entschlüsseln der digitalen Signatur
 admin_form_notifications#:#Benachrichtigungen
 send#:#Senden
 edit#:#Bearbeiten
@@ -276,3 +283,5 @@ change#:#Ändern
 settings#:#Einstellungen
 diploma_confirm#:#Dieses Diplom bestätigt, dass die oben genannte Person an dem unten angegebenen Kurs-Trainings teilgenommen hat:
 valid_until#:#Gültig bis
+button_start_cronjob#:#Cronjob Starten
+

@@ -20,7 +20,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 	/**
 	 * Default path for hook class (can be changed in plugin config)
 	 */
-	const DEFAULT_PATH_HOOK_CLASS = './Customizing/global/Certificate/';
+	const DEFAULT_PATH_HOOK_CLASS = './Customizing/global/certificate/';
 	/**
 	 * Default formats (can be changed in plugin config)
 	 */
@@ -207,6 +207,7 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin {
 		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_signatures');
 		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_templates');
 		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_data');
+		ilUtil::delDir(CLIENT_DATA_DIR . '/cert_keys');
 
 		return true;
 	}

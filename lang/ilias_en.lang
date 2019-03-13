@@ -58,7 +58,7 @@ no_space_left_message#:#The creation of a certificate failed due to missing disk
 disk_space_warning_mail_subject#:#Certificate: Free Space Warning
 disk_space_warning_mail_message#:#After the creation of the last certificate, the amount of free disk space of the certificate data directory has gone below a critical value. You can change this value inside the certificate configuration.\n\nFree disk space left: %s Bytes
 msg_info_invalid_cert_types#:#Some certificate types are not selectable because their template file is currently missing: %s
-msg_info_current_type_no_invalid_tempalte#:#The current certificate type does not have a valid template file assigned, certificates won't be generated!
+msg_info_current_type_no_invalid_tempalte#:#The current certificate type does not have a valid template file assigned, certificates won't be generated
 valid_from#:#Valid from
 valid_to#:#Valid to
 unlimited#:#Unlimited
@@ -99,6 +99,7 @@ msg_error_preview_certificate#:#An error occurred while trying to preview the ce
 msg_cert_created#:#Certificates will be created with the chosen date.
 msg_type_copied#:#Certificate Type copied successfully.
 msg_type_copied_info#:#Warning: The 'Template' settings of a certificate type are not copied.
+msg_cronjob_success#:#Cronjob successfully executed.
 change_cert_type#:#Change Certificate Type
 choose_cert_type#:#Choose Certificate Type
 edit_settings#:#Edit Settings
@@ -114,6 +115,10 @@ setting_id_downloadable#:#Certificate Downloadable
 setting_id_downloadable_info#:#If checked, a user has the possibility to download the certificate.
 setting_id_scorm_timing#:#Enable SCORM Timing
 setting_id_scorm_timing_info#:#Activates alternative calculation of 'Spent Seconds' for SCORM 2004 modules.
+setting_id_successor_course#:#Successor Course
+setting_id_successor_course_info#:#When a certificate expires, the user will be automatically subscribed to the successor course.
+setting_id_predecessor_courses#:#Predecessor Course(s)
+setting_id_predecessor_courses_info#:#To configure a predecessor course, please define this course as a successor course in the desired predecessor course.
 setting_generation_auto#:#After Course is Completed (auto)
 setting_generation_manually#:#Manually
 setting_validity_range#:#Date Range after Creation of Certificate
@@ -192,7 +197,7 @@ admin_form_str_format_date_info#:#Date format used to format all dates from the 
 admin_form_str_format_datetime#:#Datetime Format
 admin_form_str_format_datetime_info#:#Date format used to format all dates with time from the standard placeholders.
 admin_form_path_hook_class#:#Path to Hook-Class
-admin_form_path_hook_class_info#:#Path to the class 'srCertificateCustomHooks', e.g. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
+admin_form_path_hook_class_info#:#Path to the class '%1$s', e.g. '%2$s'.<br>This class can be used to modify the standard behaviour of this plugin at various points. Must extend srCertificateHooks (see class description for more information).
 admin_form_callback_email#:#Callback Email(s)
 admin_form_callback_email_info#:#Email will be sent to this address whenever a certificate is called back. You can add multiple e-mail addresses, comma separated.
 admin_form_disk_space_warning#:#Free Space Warning (MB)
@@ -269,6 +274,8 @@ placeholder_LP_READ_COUNT#:#Learning progress: Read count
 placeholder_LP_STATUS#:#Learning progress: Status code
 placeholder_LP_AVG_PERCENTAGE#:#Learning progress: Avg. percentage of course
 placeholder_CERT_TEMPLATE_PATH#:#Path where certificate template file and assets are stored
+placeholder_DIGITAL_SIGNATURE#:#Digital Signature
+placeholder_DIGITAL_SIGNATURE_QR_CODE#:#QR code to decrypt the digital signature
 admin_form_notifications#:#Notifications
 send#:#Send
 edit#:#Edit
@@ -277,3 +284,4 @@ change#:#Change
 settings#:#Settings
 diploma_confirm#:#This diploma confirms that the above named person attended the training course stated below:
 valid_until#:#Valid until
+button_start_cronjob#:#Execute Cronjob

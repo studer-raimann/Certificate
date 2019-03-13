@@ -190,7 +190,7 @@ admin_form_str_format_date_info#:#Datum formaat voor alle data van standaard pla
 admin_form_str_format_datetime#:#Datum/Tijd formaat
 admin_form_str_format_datetime_info#:#Datum formaat voor alle data en tijdsvelden van de standaard plaatshouders
 admin_form_path_hook_class#:#Pad naar Hook class
-admin_form_path_hook_class_info#:#Pad naar de class 'srCertificateCustomHooks', b.v. './Customizing/global/Certificate/class.srCertificateCustomHooks.php'.<br>Deze class kan worden gebruikt om het standaard gedrag van deze plugin te wijzigen. Je moet extend srCertificateHooks gebruiken (zie class description voor meer informatie).
+admin_form_path_hook_class_info#:#Pad naar de class '%1$s', b.v. '%2$s'.<br>Deze class kan worden gebruikt om het standaard gedrag van deze plugin te wijzigen. Je moet extend srCertificateHooks gebruiken (zie class description voor meer informatie).
 admin_form_callback_email#:#"Verlopen" E-mail
 admin_form_callback_email_info#:#Er wordt een e-mail gestuurd naar dit adress voor elk certificaat dat verloopt.
 admin_form_disk_space_warning#:#Waarschuwing beschikbare ruimte (MB)

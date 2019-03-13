@@ -6,4 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
+    'srag\\JasperReport\\' => array($vendorDir . '/srag/jasperreport/src'),
+    'srag\\DIC\\Certificate\\' => array($vendorDir . '/srag/dic/src'),
+    'srag\\CustomInputGUIs\\Certificate\\' => array($vendorDir . '/srag/custominputguis/src'),
+    'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
+    'Zxing\\' => array($vendorDir . '/khanamiryan/qrcode-detector-decoder/lib'),
+    'Da\\QrCode\\' => array($vendorDir . '/2amigos/qrcode-library/src'),
 );

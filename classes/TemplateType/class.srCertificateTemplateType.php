@@ -55,9 +55,8 @@ abstract class srCertificateTemplateType {
 	 * Generate the report for given certificate
 	 *
 	 * @param srCertificate $certificate
-	 *
-	 * @return bool
-	 */
+	 * @throws ilException
+     */
 	abstract public function generate(srCertificate $certificate);
 
 

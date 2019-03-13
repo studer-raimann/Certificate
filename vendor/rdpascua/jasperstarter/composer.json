@@ -1,0 +1,17 @@
+{
+    "name": "rdpascua/jasperstarter",
+    "description": "JasperStarter is an opensource command line launcher and batch compiler for JasperReports",
+    "keywords": ["jasper", "reports"],
+    "license": "Apache-2.0",
+    "homepage": "http://jasperstarter.cenote.de/",
+    "authors": [
+        {
+            "name": "Darick Pascua",
+            "email": "rdpascua@outlook.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "bin": [
+        "bin/jasperstarter"
+    ]
+}

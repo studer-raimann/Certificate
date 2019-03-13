@@ -1,8 +1,20 @@
 {
-  "name": "studer-raimann.ch/certificate",
+  "name": "srag/plugins/certificate",
+  "description": "",
   "type": "project",
+  "keywords": [
+    "ILIAS",
+    "Plugin",
+    "Certificate"
+  ],
   "license": "GPL-3.0+",
   "authors": [
+    {
+      "name": "studer + raimann ag - Team Custom 1",
+      "email": "support-custom1@studer-raimann.ch",
+      "homepage": "https://studer-raimann.ch",
+      "role": "Developer"
+    },
     {
       "name": "Theodor Truffer",
       "email": "tt@studer-raimann.ch",
@@ -11,18 +23,20 @@
     }
   ],
   "support": {
-    "email": "info@studer-raimann.ch"
+    "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_PLCERTIFICATE"
   },
-  "minimum-stability": "beta",
-  "prefer-stable": true,
   "require": {
-    "php": "^5.5.9 || ^7.0"
+    "php": ">=5.6",
+    "2amigos/qrcode-library": "^1.1",
+    "srag/dic": ">=0.1.0",
+    "srag/jasperreport": ">=0.1.0",
+    "srag/librariesnamespacechanger": ">=0.1.0",
+    "srag/custominputguis": ">=0.1.0"
   },
   "autoload": {
     "classmap": [
       "./classes/",
       "./exceptions/",
-      "../../../../Libraries/JasperReport",
       "../../../../../../../Services/Table",
       "../../../../../../../Services/Form",
       "../../../../../../../Services/UIComponent",
@@ -36,12 +50,16 @@
       "../../../../../../../Services/Object",
       "../../../../../../../Services/PDFGeneration",
       "../../../../../../../Modules/Course",
-      "../../../../../../../Services/Component"
+      "../../../../../../../Services/Component",
+      "../../../../../../../Services/Repository"
     ]
   },
   "config": {
     "optimize-autoloader": true,
     "sort-packages": true,
     "classmap-authoritative": true
+  },
+  "scripts": {
+    "pre-autoload-dump": "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces"
   }
 }

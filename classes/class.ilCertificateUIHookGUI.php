@@ -50,10 +50,13 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 		 * @var $ilTabsGUI ilTabsGUI
 		 */
 		// ATM only display certificate tab in courses
-		if ($a_part == 'tabs' && $this->ctrl->getContextObjType() == 'crs' && ((isset($_GET['ref_id']) && strtolower($_GET['baseClass']) == 'ilrepositorygui') || strpos($_GET['target'], 'crs') === 0)) {
-		    $ref_id = $_GET['ref_id'] ? $_GET['ref_id'] : array_pop(explode('_', $_GET['target']));
+		if ($a_part == 'tabs' && $this->ctrl->getContextObjType() == 'crs'
+			&& ((isset($_GET['ref_id'])
+					&& strtolower($_GET['baseClass']) === strtolower(ilRepositoryGUI::class))
+				|| strpos($_GET['target'], 'crs') === 0)) {
+			$ref_id = $_GET['ref_id'] ? $_GET['ref_id'] : array_pop(explode('_', $_GET['target']));
 			// User needs write access to course to see the tab 'certificate'
-			if ($this->access->checkAccess('write', '', (int) $ref_id)) {
+			if ($this->access->checkAccess('write', '', (int)$ref_id)) {
 				$ilTabsGUI = $a_par['tabs'];
 				$this->ctrl->setParameterByClass(srCertificateDefinitionGUI::class, 'ref_id', $_GET['ref_id']);
 				$ilTabsGUI->addTab(self::TAB_CERTIFICATE, $this->pl->txt('certificate'), $this->ctrl->getLinkTargetByClass(array(
