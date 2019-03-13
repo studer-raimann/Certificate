@@ -2,7 +2,7 @@
 
 The certificate plugin offers an enhanced support for creating and administrating certificates inside ILIAS.
 
-![001][overview]
+![001](doc/images/certificate_plugin_preview.jpg)
 
 ## Features
 
