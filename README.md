@@ -1,4 +1,4 @@
-#Certificate
+# Certificate
 
 The certificate plugin offers an enhanced support for creating and administrating certificates inside ILIAS.
 
