@@ -37,6 +37,7 @@ class srCertificateStandardPlaceholders {
 		'DATETIME',
 		'DATE_COMPLETED',
 		'DATETIME_COMPLETED',
+		'CATEGORY_TITLE',
 		'CERT_VALID_FROM',
 		'CERT_VALID_TO',
 		'CERT_ID',
@@ -78,6 +79,10 @@ class srCertificateStandardPlaceholders {
 	 * @var ilDB
 	 */
 	protected $db;
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
 
 
 	/**
@@ -90,6 +95,7 @@ class srCertificateStandardPlaceholders {
 		$this->anonymized = $anonymized;
 		$this->pl = ilCertificatePlugin::getInstance();
 		$this->db = $DIC->database();
+		$this->tree = $DIC->repositoryTree();
 	}
 
 
@@ -202,6 +208,7 @@ class srCertificateStandardPlaceholders {
 			'DATE' => $this->formatDate('DATE'),
 			'DATETIME' => $this->formatDateTime('DATETIME'),
 			'TIMESTAMP' => ($utc) ? strtotime(gmdate('Y-m-d H:i:s')) : time(),
+			'CATEGORY_TITLE' => ilObjCategory::_lookupTitle(ilObjCategory::_lookupObjectId($this->tree->getParentId($course->getRefId()))),
 			'CERT_FILE_NAME' => $this->certificate->getFilename(),
 			'CERT_FILE_VERSION' => $this->certificate->getFileVersion(),
 			'CERT_VALID_FROM' => ($this->certificate->getValidFrom()

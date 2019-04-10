@@ -276,6 +276,7 @@ placeholder_LP_AVG_PERCENTAGE#:#Learning progress: Avg. percentage of course
 placeholder_CERT_TEMPLATE_PATH#:#Path where certificate template file and assets are stored
 placeholder_DIGITAL_SIGNATURE#:#Digital Signature
 placeholder_DIGITAL_SIGNATURE_QR_CODE#:#QR code to decrypt the digital signature
+placeholder_CATEGORY_TITLE#:#Title of the repository category containing the course
 admin_form_notifications#:#Notifications
 send#:#Send
 edit#:#Edit
