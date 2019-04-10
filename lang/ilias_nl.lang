@@ -265,6 +265,7 @@ placeholder_LP_READ_COUNT#:#MISSING
 placeholder_LP_STATUS#:#MISSING
 placeholder_LP_AVG_PERCENTAGE#:#MISSING
 placeholder_CERT_TEMPLATE_PATH#:#MISSING
+placeholder_CATEGORY_TITLE#:#MISSING
 admin_form_notifications#:#MISSING
 send#:#Verzenden
 edit#:#Wijzig
