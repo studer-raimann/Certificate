@@ -286,3 +286,11 @@ settings#:#Settings
 diploma_confirm#:#This diploma confirms that the above named person attended the training course stated below:
 valid_until#:#Valid until
 button_start_cronjob#:#Execute Cronjob
+participation_certificate#:#Participation Certificate
+condition_object_type#:#Certificate will be created when..
+condition_object_type_0#:#Any learning progress relevant object
+condition_object_type_1#:#Specific Object
+condition_object_type_2#:#Object Type
+condition_status#:#.. has the following Status:
+condition_status_0#:#Completed
+condition_status_1#:#In Progress

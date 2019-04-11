@@ -26,15 +26,19 @@ class srCertificateDefinitionGUI {
 	const CMD_SHOW_DEFINITION = 'showDefinition';
 	const CMD_SHOW_PARTICIPANTS = 'showParticipants';
 	const CMD_SHOW_PLACEHOLDERS = 'showPlaceholders';
+	const CMD_SHOW_PARTICIPATION_CERTIFICATE = 'showParticipationCertificate';
 	const CMD_UNDO_CALL_BACK = 'undoCallBack';
 	const CMD_UPDATE_DEFINITION = 'updateDefinition';
 	const CMD_UPDATE_PLACEHOLDERS = 'updatePlaceholders';
 	const CMD_UPDATE_PLACEHOLDERS_PREVIEW = 'updatePlaceholdersPreview';
 	const CMD_UPDATE_TYPE = 'updateType';
+	const CMD_UPDATE_PARTICIPATION_CERTIFICATE = 'updateParticipationCertificate';
 	const TAB_SHOW_CERTIFICATES = 'show_certificates';
 	const TAB_SHOW_DEFINITION = 'show_definition';
 	const TAB_SHOW_PARTICIPANTS = 'show_participants';
 	const TAB_SHOW_PLACEHOLDERS = 'show_placeholders';
+	const TAB_PARTICIPATION_CERTIFICATE = 'participation_certificate';
+
 	/**
 	 * @var ilTabsGUI
 	 */
@@ -85,6 +89,9 @@ class srCertificateDefinitionGUI {
 	protected $log;
 
 
+	/**
+	 * srCertificateDefinitionGUI constructor.
+	 */
 	public function __construct() {
 		global $DIC;
 		$this->ctrl = $DIC->ctrl();
@@ -106,6 +113,10 @@ class srCertificateDefinitionGUI {
 	}
 
 
+	/**
+	 * @return mixed
+	 * @throws ilCtrlException
+	 */
 	public function executeCommand() {
 		$this->checkPermission();
 		$this->initHeader();
@@ -123,6 +134,7 @@ class srCertificateDefinitionGUI {
 					case self::CMD_SHOW_PLACEHOLDERS:
 					case self::CMD_SHOW_CERTIFICATES:
 					case self::CMD_SHOW_PARTICIPANTS:
+                    case self::CMD_SHOW_PARTICIPATION_CERTIFICATE:
 					case self::CMD_DOWNLOAD_CERTIFICATE:
 					case self::CMD_DOWNLOAD_CERTIFICATES:
 					case self::CMD_UPDATE_DEFINITION:
@@ -161,6 +173,9 @@ class srCertificateDefinitionGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	protected function showPreviewCertificateInToolbar() {
 		if ($this->definition) {
 			if (is_file($this->definition->getType()->getCertificateTemplatesPath(true))) {
@@ -242,6 +257,17 @@ class srCertificateDefinitionGUI {
 		}
 	}
 
+
+	/**
+	 *
+	 */
+	public function showParticipationCertificate() {
+        $this->tabs->activateSubTab(self::TAB_PARTICIPATION_CERTIFICATE);
+//        $this->showPreviewCertificateInToolbar(); // TODO: show custom preview
+        /** @var srCertificateDefinition $definition */
+		$this->form = new srCertParticipationCertificateFormGUI($this, $definition);
+		$this->tpl->setContent($this->form->getHTML());
+    }
 
 	/**
 	 * Show all certificates
@@ -492,6 +518,20 @@ class srCertificateDefinitionGUI {
 		$this->ctrl->redirect($this, self::CMD_SHOW_DEFINITION);
 	}
 
+	/**
+	 *
+	 */
+	public function updateParticipationCertificate() {
+		/** @var srCertificateDefinition $definition */
+		$this->form = new srCertParticipationCertificateFormGUI($this, $definition);
+		$this->form->setValuesByPost();
+		if ($this->form->saveObject()) {
+			ilUtil::sendSuccess($this->pl->txt('msg_setting_saved'), true);
+			$this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPATION_CERTIFICATE);
+		} else {
+			$this->tpl->setContent($this->form->getHTML());
+		}
+	}
 
 	/**
 	 * Check permission of user
@@ -519,6 +559,7 @@ class srCertificateDefinitionGUI {
 		$this->tabs->addSubTab(self::TAB_SHOW_DEFINITION, $this->pl->txt('definition_settings'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_DEFINITION));
 		if ($this->definition !== NULL) {
 			$this->tabs->addSubTab(self::TAB_SHOW_PLACEHOLDERS, $this->pl->txt('placeholders'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PLACEHOLDERS));
+			$this->tabs->addSubTab(self::TAB_PARTICIPATION_CERTIFICATE, $this->pl->txt('participation_certificate'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PARTICIPATION_CERTIFICATE));
 		}
 	}
 

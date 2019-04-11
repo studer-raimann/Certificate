@@ -281,3 +281,7 @@ $DIC->filesystem()->storage()->createDir(srCertificateDigitalSignature::KEY_PATH
 file_put_contents(srCertificateDigitalSignature::getPathOf(srCertificateDigitalSignature::KEYTYPE_PRIVATE), $private_key);
 file_put_contents(srCertificateDigitalSignature::getPathOf(srCertificateDigitalSignature::KEYTYPE_PUBLIC), $public_key);
 ?>
+<#22>
+<?php
+srCertParticipationCertificate::updateDB();
+?>

@@ -783,6 +783,8 @@ return array(
     'setasign\\Fpdi\\Tcpdf\\Fpdi' => $vendorDir . '/setasign/fpdi/src/Tcpdf/Fpdi.php',
     'setasign\\Fpdi\\Tfpdf\\FpdfTpl' => $vendorDir . '/setasign/fpdi/src/Tfpdf/FpdfTpl.php',
     'setasign\\Fpdi\\Tfpdf\\Fpdi' => $vendorDir . '/setasign/fpdi/src/Tfpdf/Fpdi.php',
+    'srCertParticipationCertificate' => $baseDir . '/classes/Definition/ParticipationCertificate/class.srCertParticipationCertificate.php',
+    'srCertParticipationCertificateFormGUI' => $baseDir . '/classes/Definition/ParticipationCertificate/class.srCertParticipationCertificateFormGUI.php',
     'srCertificate' => $baseDir . '/classes/Certificate/class.srCertificate.php',
     'srCertificateAdministrationGUI' => $baseDir . '/classes/Certificate/class.srCertificateAdministrationGUI.php',
     'srCertificateCallBackNotification' => $baseDir . '/classes/Notification/class.srCertificateCallBackNotification.php',
