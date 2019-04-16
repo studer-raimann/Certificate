@@ -264,8 +264,7 @@ class srCertificateDefinitionGUI {
 	public function showParticipationCertificate() {
         $this->tabs->activateSubTab(self::TAB_PARTICIPATION_CERTIFICATE);
 //        $this->showPreviewCertificateInToolbar(); // TODO: show custom preview
-        /** @var srCertificateDefinition $definition */
-		$this->form = new srCertParticipationCertificateFormGUI($this, $definition);
+		$this->form = new srCertParticipationCertificateFormGUI($this, $this->definition);
 		$this->tpl->setContent($this->form->getHTML());
     }
 
@@ -522,8 +521,7 @@ class srCertificateDefinitionGUI {
 	 *
 	 */
 	public function updateParticipationCertificate() {
-		/** @var srCertificateDefinition $definition */
-		$this->form = new srCertParticipationCertificateFormGUI($this, $definition);
+		$this->form = new srCertParticipationCertificateFormGUI($this, $this->definition);
 		$this->form->setValuesByPost();
 		if ($this->form->saveObject()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_setting_saved'), true);
