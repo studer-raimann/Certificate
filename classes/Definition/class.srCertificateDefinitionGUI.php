@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  * @version           $Id:
  * @ilCtrl_isCalledBy srCertificateDefinitionGUI: ilRouterGUI, ilUIPluginRouterGUI
- * @ilCtrl_Calls      srCertificateDefinitionGUI: srCertificateDefinitionFormGUI
+ * @ilCtrl_Calls      srCertificateDefinitionGUI: srCertificateDefinitionFormGUI, srCertParticipationCertificateFormGUI
  */
 class srCertificateDefinitionGUI {
 

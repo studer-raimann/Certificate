@@ -13,29 +13,53 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 
 	const PROPERTY_TITLE = 'setTitle';
 
-	public function __construct($parent) {
+	/**
+	 * @var srCertParticipationCertificate
+	 */
+	protected $srCertParticipationCertificate;
+
+	/**
+	 * srCertParticipationCertificateFormGUI constructor.
+	 * @param $parent
+	 * @param $srCertificateDefinition srCertificateDefinition
+	 * @throws \srag\DIC\Certificate\Exception\DICException
+	 */
+	public function __construct($parent, $srCertificateDefinition) {
+		$this->srCertParticipationCertificate = srCertParticipationCertificate::findOrGetInstance($srCertificateDefinition->getId());
 		parent::__construct($parent);
 		self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . '/templates/js/participation_certificate_form.js');
 	}
 
 
+	/**
+	 * @param string $key
+	 * @return mixed|void
+	 */
 	protected function getValue($key) {
-		// TODO: Implement getValue() method.
+
 	}
 
+	/**
+	 *
+	 */
 	protected function initCommands() {
 		$this->addCommandButton(srCertificateDefinitionGUI::CMD_UPDATE_PARTICIPATION_CERTIFICATE, self::dic()->language()->txt('update'));
 	}
 
+	/**
+	 * @throws \srag\DIC\Certificate\Exception\DICException
+	 */
 	protected function initFields() {
 		$this->fields = [
 			srCertParticipationCertificate::F_TYPE => [
 				self::PROPERTY_CLASS => ilSelectInputGUI::class,
 				self::PROPERTY_TITLE => self::plugin()->translate('cert_type'),
 				self::PROPERTY_OPTIONS => $this->getTypeInputOptions(),
+				self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getTypeId(),
 			],
 			srCertParticipationCertificate::F_CONDITION_OBJECT_TYPE => [
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+				self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectType(),
 				self::PROPERTY_SUBITEMS => [
 					srCertParticipationCertificate::CONDITION_OBJECT_TYPE_ANY => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
@@ -45,7 +69,8 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 						self::PROPERTY_SUBITEMS => [
 							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE . '[' . srCertParticipationCertificate::CONDITION_OBJECT_TYPE_SPECIFIC_OBJECT . ']' =>
 							[
-								self::PROPERTY_CLASS => ilNumberInputGUI::class
+								self::PROPERTY_CLASS => ilNumberInputGUI::class,
+								self::PROPERTY_VALUE => ($this->srCertParticipationCertificate->getConditionObjectType() == srCertParticipationCertificate::CONDITION_OBJECT_TYPE_SPECIFIC_OBJECT ? $this->srCertParticipationCertificate->getConditionObjectValue() : 0),
 							]
 						]
 					],
@@ -54,6 +79,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 						self::PROPERTY_SUBITEMS => [
 							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE . '[' . srCertParticipationCertificate::CONDITION_OBJECT_TYPE_OBJECT_TYPE . ']' => [
 								self::PROPERTY_CLASS => ilTextInputGUI::class,
+								self::PROPERTY_VALUE => ($this->srCertParticipationCertificate->getConditionObjectType() == srCertParticipationCertificate::CONDITION_OBJECT_TYPE_OBJECT_TYPE ? $this->srCertParticipationCertificate->getConditionObjectValue() : ''),
 							]
 						]
 					]
@@ -61,6 +87,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 			],
 			srCertParticipationCertificate::F_CONDITION_STATUS => [
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+				self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionStatusType(),
 				self::PROPERTY_SUBITEMS => [
 					srCertParticipationCertificate::CONDITION_STATUS_TYPE_COMPLETED => [
 						self::PROPERTY_CLASS => ilRadioOption::class
@@ -73,14 +100,27 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 		];
 	}
 
+	/**
+	 *
+	 */
 	protected function initId() {
 	}
 
+	/**
+	 * @throws \srag\DIC\Certificate\Exception\DICException
+	 */
 	protected function initTitle() {
 		$this->setTitle(self::plugin()->translate('participation_certificate'));
 	}
 
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	protected function storeValue($key, $value) {
+		switch ($key) {
+			
+		}
 	}
 
 

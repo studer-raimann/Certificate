@@ -906,6 +906,8 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         'srCertificateUserGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateUserGUI.php',
         'srCertificateUserNotification' => __DIR__ . '/../..' . '/classes/Notification/class.srCertificateUserNotification.php',
         'srCertificateUserTableGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateUserTableGUI.php',
+        'srLPObjectsSelectorExplorer' => __DIR__ . '/../..' . '/classes/Util/class.srLPObjectsSelectorExplorer.php',
+        'srLPObjectsSelectorInputGUI' => __DIR__ . '/../..' . '/classes/Util/class.srLPObjectsSelectorInputGUI.php',
         'srag\\CustomInputGUIs\\Certificate\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\Certificate\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
         'srag\\CustomInputGUIs\\Certificate\\CustomInputGUIsTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIsTrait.php',
