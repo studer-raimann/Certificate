@@ -12,7 +12,8 @@ class srCertParticipationCertificate extends ActiveRecord {
 	const F_DEFINITION_ID = 'definition_id';
 	const F_TYPE = 'type_id';
 	const F_CONDITION_OBJECT_TYPE = 'condition_object_type';
-	const F_CONDITION_OBJECT_VALUE = 'condition_object_value';
+	const F_CONDITION_OBJECT_VALUE_REF_ID = 'condition_object_value_ref_id';
+	const F_CONDITION_OBJECT_VALUE_TYPE = 'condition_object_value_type';
 	const F_CONDITION_STATUS = 'condition_status';
 
 	const CONDITION_OBJECT_TYPE_ANY = 0;
@@ -56,13 +57,21 @@ class srCertParticipationCertificate extends ActiveRecord {
 	 */
 	protected $condition_object_type = self::CONDITION_OBJECT_TYPE_ANY;
 	/**
+	 * @var int
+	 *
+	 * @db_has_field    true
+	 * @db_fieldtype    integer
+	 * @db_length       8
+	 */
+	protected $condition_object_value_ref_id;
+	/**
 	 * @var String
 	 *
 	 * @db_has_field    true
 	 * @db_fieldtype    text
 	 * @db_length       128
 	 */
-	protected $condition_object_value;
+	protected $condition_object_value_type;
 	/**
 	 * @var int
 	 *
@@ -121,18 +130,34 @@ class srCertParticipationCertificate extends ActiveRecord {
 	}
 
 	/**
-	 * @return String
+	 * @return int
 	 */
-	public function getConditionObjectValue() {
-		return $this->condition_object_value;
+	public function getConditionObjectValueRefId() {
+		return $this->condition_object_value_ref_id;
 	}
 
 	/**
-	 * @param String $condition_object_value
+	 * @param int $condition_object_value_ref_id
 	 * @return static
 	 */
-	public function setConditionObjectValue($condition_object_value) {
-		$this->condition_object_value = $condition_object_value;
+	public function setConditionObjectValueRefId($condition_object_value_ref_id) {
+		$this->condition_object_value_ref_id = $condition_object_value_ref_id;
+		return $this;
+	}
+
+	/**
+	 * @return String
+	 */
+	public function getConditionObjectValueType() {
+		return $this->condition_object_value_type;
+	}
+
+	/**
+	 * @param String $condition_object_value_type
+	 * @return static
+	 */
+	public function setConditionObjectValueType($condition_object_value_type) {
+		$this->condition_object_value_type = $condition_object_value_type;
 		return $this;
 	}
 

@@ -67,19 +67,18 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 					srCertParticipationCertificate::CONDITION_OBJECT_TYPE_SPECIFIC_OBJECT => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
-							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE . '[' . srCertParticipationCertificate::CONDITION_OBJECT_TYPE_SPECIFIC_OBJECT . ']' =>
-							[
+							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_REF_ID => [
 								self::PROPERTY_CLASS => ilNumberInputGUI::class,
-								self::PROPERTY_VALUE => ($this->srCertParticipationCertificate->getConditionObjectType() == srCertParticipationCertificate::CONDITION_OBJECT_TYPE_SPECIFIC_OBJECT ? $this->srCertParticipationCertificate->getConditionObjectValue() : 0),
+								self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectValueRefId(),
 							]
 						]
 					],
 					srCertParticipationCertificate::CONDITION_OBJECT_TYPE_OBJECT_TYPE => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
-							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE . '[' . srCertParticipationCertificate::CONDITION_OBJECT_TYPE_OBJECT_TYPE . ']' => [
+							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPE => [
 								self::PROPERTY_CLASS => ilTextInputGUI::class,
-								self::PROPERTY_VALUE => ($this->srCertParticipationCertificate->getConditionObjectType() == srCertParticipationCertificate::CONDITION_OBJECT_TYPE_OBJECT_TYPE ? $this->srCertParticipationCertificate->getConditionObjectValue() : ''),
+								self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectValueType(),
 							]
 						]
 					]
@@ -119,8 +118,33 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 	 */
 	protected function storeValue($key, $value) {
 		switch ($key) {
-			
+			case srCertParticipationCertificate::F_TYPE:
+				$this->srCertParticipationCertificate->setTypeId($value);
+				break;
+			case srCertParticipationCertificate::F_CONDITION_STATUS:
+				$this->srCertParticipationCertificate->setConditionStatusType($value);
+				break;
+			case srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_REF_ID:
+				$this->srCertParticipationCertificate->setConditionObjectValueRefId($value);
+				break;
+			case srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPE:
+				$this->srCertParticipationCertificate->setConditionObjectValueType($value);
+				break;
+			case srCertParticipationCertificate::F_CONDITION_OBJECT_TYPE:
+				$this->srCertParticipationCertificate->setConditionObjectType($value);
+				break;
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function storeForm() {
+		if (parent::storeForm() === false) {
+			return false;
+		}
+		$this->srCertParticipationCertificate->store();
+		return true;
 	}
 
 

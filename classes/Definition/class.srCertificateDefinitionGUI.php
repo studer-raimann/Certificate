@@ -44,7 +44,7 @@ class srCertificateDefinitionGUI {
 	 */
 	protected $tabs;
 	/**
-	 * @var srCertificateDefinitionFormGUI
+	 * @var srCertificateDefinitionFormGUI | srCertParticipationCertificateFormGUI
 	 */
 	protected $form;
 	/**
@@ -135,6 +135,7 @@ class srCertificateDefinitionGUI {
 					case self::CMD_SHOW_CERTIFICATES:
 					case self::CMD_SHOW_PARTICIPANTS:
                     case self::CMD_SHOW_PARTICIPATION_CERTIFICATE:
+                    case self::CMD_UPDATE_PARTICIPATION_CERTIFICATE:
 					case self::CMD_DOWNLOAD_CERTIFICATE:
 					case self::CMD_DOWNLOAD_CERTIFICATES:
 					case self::CMD_UPDATE_DEFINITION:
@@ -523,7 +524,7 @@ class srCertificateDefinitionGUI {
 	public function updateParticipationCertificate() {
 		$this->form = new srCertParticipationCertificateFormGUI($this, $this->definition);
 		$this->form->setValuesByPost();
-		if ($this->form->saveObject()) {
+		if ($this->form->storeForm()) {
 			ilUtil::sendSuccess($this->pl->txt('msg_setting_saved'), true);
 			$this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPATION_CERTIFICATE);
 		} else {
