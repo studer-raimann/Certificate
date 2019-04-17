@@ -293,8 +293,8 @@ condition_object_type_0#:#Any learning progress relevant object
 condition_object_type_1#:#Specific Object
 condition_object_type_2#:#Object Type
 condition_status#:#.. has the following Status:
-condition_status_0#:#Completed
-condition_status_1#:#In Progress
+condition_status_1#:#Completed
+condition_status_2#:#In Progress
 usage_type#:#Usage
 usage_type_1#:#Course Completion Certificate
 usage_type_2#:#Participation Certificate
