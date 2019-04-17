@@ -19,6 +19,7 @@ class srCertificateDefinitionGUI {
 	const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
 	const CMD_DOWNLOAD_CERTIFICATES = 'downloadCertificates';
 	const CMD_PREVIEW_CERTIFICATE = 'previewCertificate';
+	const CMD_PREVIEW_PARTICIPATION_CERTIFICATE = 'previewParticipationCertificate';
 	const CMD_RETRY_GENERATION = 'retryGeneration';
 	const CMD_SET_DATE = 'setDate';
 	const CMD_SET_DATE_AND_CREATE = 'setDateAndCreate';
@@ -144,6 +145,7 @@ class srCertificateDefinitionGUI {
 					case self::CMD_CREATE_DEFINITION:
 					case self::CMD_UPDATE_PLACEHOLDERS:
 					case self::CMD_PREVIEW_CERTIFICATE:
+					case self::CMD_PREVIEW_PARTICIPATION_CERTIFICATE:
 					case self::CMD_BUILD_ACTIONS:
 					case self::CMD_SET_DATE_AND_CREATE:
 					case self::CMD_SET_DATE:
@@ -186,6 +188,26 @@ class srCertificateDefinitionGUI {
 				$this->toolbar->addButtonInstance($button);
 			} else {
 				ilUtil::sendInfo($this->pl->txt('msg_info_current_type_no_invalid_tempalte'));
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected function showPreviewParticipationCertificateInToolbar() {
+		if ($this->definition) {
+			/** @var srCertParticipationCertificate $srCertParticipationCertificate */
+			if ($srCertParticipationCertificate = srCertParticipationCertificate::find($this->definition->getId())) {
+				if (is_file($srCertParticipationCertificate->getType()->getCertificateTemplatesPath(true))) {
+					$button = ilLinkButton::getInstance();
+					$button->setCaption($this->pl->txt('preview_participation_certificate'), false);
+					$button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_PREVIEW_PARTICIPATION_CERTIFICATE));
+					$this->toolbar->addButtonInstance($button);
+				} else {
+					ilUtil::sendInfo($this->pl->txt('msg_info_current_type_no_invalid_tempalte'));
+				}
 			}
 		}
 	}
@@ -264,7 +286,7 @@ class srCertificateDefinitionGUI {
 	 */
 	public function showParticipationCertificate() {
         $this->tabs->activateSubTab(self::TAB_PARTICIPATION_CERTIFICATE);
-//        $this->showPreviewCertificateInToolbar(); // TODO: show custom preview
+        $this->showPreviewParticipationCertificateInToolbar();
 		$this->form = new srCertParticipationCertificateFormGUI($this, $this->definition);
 		$this->tpl->setContent($this->form->getHTML());
     }
@@ -365,6 +387,24 @@ class srCertificateDefinitionGUI {
         }
 		$this->showCertificates();
 	}
+
+	/**
+	 * Generate a preview certificate for the current definition and download file
+	 */
+	public function previewParticipationCertificate() {
+		$preview = new srCertificatePreview();
+		$preview->setDefinition($this->definition);
+		$preview->setUsageType(srCertificate::USAGE_TYPE_PARTICIPATION);
+		try {
+            $preview->generate();
+            $preview->download();
+        } catch (Exception $e) {
+            $this->log->log($e->getMessage(), ilLogLevel::ERROR);
+            ilUtil::sendFailure($this->pl->txt('msg_error_preview_certificate'));
+        }
+		$this->showParticipationCertificate();
+	}
+
 
 
 	/**

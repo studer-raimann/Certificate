@@ -27,6 +27,7 @@ administrate_certificates#:#Administrate Certificates
 my_certificates#:#My Certificates
 save_preview#:#Save & Preview
 preview_certificate#:#Preview Certificate
+preview_participation_certificate#:#Preview Participation Certificate
 certificate#:#Certificate
 back_to_course#:#Back to Course
 callback_email_subject#:#Certificate Callback
@@ -294,3 +295,6 @@ condition_object_type_2#:#Object Type
 condition_status#:#.. has the following Status:
 condition_status_0#:#Completed
 condition_status_1#:#In Progress
+usage_type#:#Usage
+usage_type_1#:#Course Completion Certificate
+usage_type_2#:#Participation Certificate

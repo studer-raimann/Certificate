@@ -18,6 +18,7 @@ class srCertificateTableGUI extends ilTable2GUI {
 		'firstname',
 		'lastname',
 		'crs_title',
+		'usage_type',
 		'valid_from',
 		'valid_to',
 		'file_version',
@@ -131,6 +132,16 @@ class srCertificateTableGUI extends ilTable2GUI {
 			$this->addFilterItemWithValue(new ilTextInputGUI($this->pl->txt('crs_title'), 'crs_title'));
 		}
 
+		if ($this->isColumnSelected('usage_type')) {
+			$item = new ilSelectInputGUI($this->pl->txt('usage_type'), 'usage_type');
+			$options = ['' => ''];
+			foreach (srCertificate::$usage_types as $usage_type) {
+				$options[$usage_type] = $this->pl->txt('usage_type_' . $usage_type);
+			}
+			$item->setOptions($options);
+			$this->addFilterItemWithValue($item);
+		}
+
 		if ($this->isColumnSelected('valid_from')) {
 			$item = new ilDateTimeInputGUI($this->pl->txt('valid_from'), 'valid_from');
 			//$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
@@ -196,6 +207,10 @@ class srCertificateTableGUI extends ilTable2GUI {
 
 				if ($column == 'status') {
 					$value = $this->pl->txt("cert_status_" . (int)$value);
+				}
+
+				if ($column == 'usage_type') {
+					$value = $this->pl->txt('usage_type_' . (int)$value);
 				}
 
 				// Set value

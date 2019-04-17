@@ -27,6 +27,7 @@ administrate_certificates#:#Zertifikate bearbeiten
 my_certificates#:#Meine Zertifikate
 save_preview#:#Speichern & Vorschau
 preview_certificate#:#Vorschau Zertifikat
+preview_participation_certificate#:#Vorschau Teilnahmebestätigung
 certificate#:#Zertifikat
 back_to_course#:#Zurück zum Kurs
 callback_email_subject#:#Zertifikat zurückrufen
@@ -293,3 +294,6 @@ condition_object_type_2#:#Objekttyp
 condition_status#:#.. auf folgenden Status wechselt:
 condition_status_0#:#Bearbeitet
 condition_status_1#:#In Bearbeitung
+usage_type#:#Verwendung
+usage_type_1#:#Kursabschlusszertifikat
+usage_type_2#:#Teilnahmebestätigung

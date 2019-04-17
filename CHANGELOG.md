@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.9.0]
+-Feature: Participation Certificates
+
 ## [1.8.0]
 - Feature: new placeholder 'CATEGORY_TITLE' is filled with the title of the repository category containing the certificate course
 

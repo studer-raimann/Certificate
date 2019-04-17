@@ -283,6 +283,12 @@ file_put_contents(srCertificateDigitalSignature::getPathOf(srCertificateDigitalS
 ?>
 <#22>
 <?php
+global $DIC;
 srCertParticipationCertificate::updateDB();
 srCertificate::updateDB();
+$DIC->database()->query(
+        'UPDATE ' . srCertificate::TABLE_NAME . ' 
+        SET usage_type = ' . srCertificate::USAGE_TYPE_STANDARD . ' 
+        WHERE usage_type = 0 OR usage_type IS NULL'
+);
 ?>

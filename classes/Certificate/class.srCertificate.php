@@ -18,11 +18,16 @@ class srCertificate extends ActiveRecord {
 	const STATUS_FAILED = 4;
 	const STATUS_CALLED_BACK = 5;
 
+	// timezone offets are from -39600 to +46800
+	const TIME_ZONE_CORRECTION = 39600;
+
 	const USAGE_TYPE_STANDARD = 1;
 	const USAGE_TYPE_PARTICIPATION = 2;
 
-	// timezone offets are from -39600 to +46800
-	const TIME_ZONE_CORRECTION = 39600;
+	public static $usage_types = [
+		self::USAGE_TYPE_STANDARD,
+		self::USAGE_TYPE_PARTICIPATION
+	];
 
 
 	/**
@@ -500,6 +505,9 @@ class srCertificate extends ActiveRecord {
 						break;
 					case 'crs_title':
 						$sql .= "{$and} obj_data.title LIKE " . $ilDB->quote("%{$value}%", 'text');
+						break;
+					case 'usage_type':
+						$sql .= "{$and} cert.usage_type = " . $ilDB->quote($value, 'integer');
 						break;
 					case 'definition_id':
 					case 'user_id':

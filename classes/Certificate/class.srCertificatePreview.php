@@ -70,7 +70,7 @@ class srCertificatePreview extends srCertificate {
 		if (!$this->getDefinitionId()) {
 			throw new srCertificateException("srCertificatePreview needs definition id before generating preview file");
 		}
-		$cert_type = $this->definition->getType();
+		$cert_type = $this->getCertTypeForUsageType();
 		$template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
 
 		$template_type->generate($this);

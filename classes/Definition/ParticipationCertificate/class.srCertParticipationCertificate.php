@@ -105,6 +105,13 @@ class srCertParticipationCertificate extends ActiveRecord {
 	}
 
 	/**
+	 * @return srCertificateType
+	 */
+	public function getType() {
+		return srCertificateType::find($this->getTypeId());
+	}
+
+	/**
 	 * @param int $type_id
 	 * @return static
 	 */
