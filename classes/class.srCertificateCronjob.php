@@ -104,7 +104,7 @@ class srCertificateCronjob {
         // fetch certificates which expired today (valid_to -> yesterday)
 		$freshly_expired_certs = srCertificate::where(array(
 			'active' => 1,
-			'usage' => srCertificate::USAGE_TYPE_STANDARD,
+			'usage_type' => srCertificate::USAGE_TYPE_STANDARD,
 			'valid_to' => date('Y-m-d', strtotime('yesterday')))
 		)->get();
 		/** @var srCertificate $cert */

@@ -88,12 +88,12 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 				self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionStatusType(),
 				self::PROPERTY_SUBITEMS => [
+					srCertParticipationCertificate::CONDITION_STATUS_TYPE_IN_PROGRESS => [
+						self::PROPERTY_CLASS => ilRadioOption::class
+					],
 					srCertParticipationCertificate::CONDITION_STATUS_TYPE_COMPLETED => [
 						self::PROPERTY_CLASS => ilRadioOption::class
 					],
-					srCertParticipationCertificate::CONDITION_STATUS_TYPE_IN_PROGRESS => [
-						self::PROPERTY_CLASS => ilRadioOption::class
-					]
 				]
 			]
 		];

@@ -299,7 +299,7 @@ class srCertificateDefinitionGUI {
 		$this->tabs->activateSubTab(self::TAB_SHOW_CERTIFICATES);
 		$this->showPreviewCertificateInToolbar();
 		$options = array(
-			'columns' => array( 'firstname', 'lastname', 'valid_from', 'valid_to', 'file_version', 'status' ),
+			'columns' => array( 'firstname', 'lastname', 'usage_type', 'valid_from', 'valid_to', 'file_version', 'status' ),
 			'definition_id' => $this->definition->getId(),
 			'show_filter' => false,
 		);
