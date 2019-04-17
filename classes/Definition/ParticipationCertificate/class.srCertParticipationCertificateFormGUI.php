@@ -143,7 +143,11 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 		if (parent::storeForm() === false) {
 			return false;
 		}
-		$this->srCertParticipationCertificate->store();
+		if (!$this->srCertParticipationCertificate->getTypeId()) {
+			$this->srCertParticipationCertificate->delete();
+		} else {
+			$this->srCertParticipationCertificate->store();
+		}
 		return true;
 	}
 

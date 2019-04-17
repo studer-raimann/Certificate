@@ -284,4 +284,5 @@ file_put_contents(srCertificateDigitalSignature::getPathOf(srCertificateDigitalS
 <#22>
 <?php
 srCertParticipationCertificate::updateDB();
+srCertificate::updateDB();
 ?>
