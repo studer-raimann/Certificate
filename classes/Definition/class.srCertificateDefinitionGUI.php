@@ -129,6 +129,9 @@ class srCertificateDefinitionGUI {
             case strtolower(srCertificateDefinitionFormGUI::class):
                 $this->initForm();
                 return $this->ctrl->forwardCommand($this->form);
+			case strtolower(srLPObjectsSelectorInputGUI::class):
+				$input = new srLPObjectsSelectorInputGUI();
+				return $this->ctrl->forwardCommand($input);
 			case '':
 				switch ($cmd) {
 					case self::CMD_SHOW_DEFINITION:

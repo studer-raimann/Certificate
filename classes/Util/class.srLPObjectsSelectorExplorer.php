@@ -22,6 +22,7 @@ class srLPObjectsSelectorExplorer extends ilRepositorySelectorExplorerGUI{
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_selection_gui, $a_selection_cmd,
 			$a_selection_par, $a_id);
 		$this->setRootId(filter_input(INPUT_GET, 'ref_id'));
+		$this->setSelectMode(srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_REF_IDS, true);
 	}
 
 	/**
@@ -29,8 +30,8 @@ class srLPObjectsSelectorExplorer extends ilRepositorySelectorExplorerGUI{
 	 * @return bool
 	 */
 	function isNodeVisible($a_node) {
-		$LP_items = ilCourseLP::getInstance(ilObjCourse::_lookupObjectId($this->getRootId()))->getCollectionInstance()->getPossibleItems();
-		return parent::isNodeVisible($a_node);
+		$LP_items = ilCourseLP::getInstance(ilObjCourse::_lookupObjectId($this->getRootId()))->getCollectionInstance()->getPossibleItems($this->getRootId());
+		return in_array($a_node['child'], $LP_items);
 	}
 
 

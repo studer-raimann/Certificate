@@ -7,13 +7,13 @@
  */
 class srCertParticipationCertificate extends ActiveRecord {
 
-	const TABLE_NAME = 'sr_cert_part_cert';
+	const TABLE_NAME = 'cert_parti_cert';
 
 	const F_DEFINITION_ID = 'definition_id';
 	const F_TYPE = 'type_id';
 	const F_CONDITION_OBJECT_TYPE = 'condition_object_type';
-	const F_CONDITION_OBJECT_VALUE_REF_ID = 'condition_object_value_ref_id';
-	const F_CONDITION_OBJECT_VALUE_TYPE = 'condition_object_value_type';
+	const F_CONDITION_OBJECT_VALUE_REF_IDS = 'condition_object_value_ref_ids';
+	const F_CONDITION_OBJECT_VALUE_TYPES = 'condition_object_value_types';
 	const F_CONDITION_STATUS = 'condition_status';
 
 	const CONDITION_OBJECT_TYPE_ANY = 0;
@@ -60,10 +60,10 @@ class srCertParticipationCertificate extends ActiveRecord {
 	 * @var int
 	 *
 	 * @db_has_field    true
-	 * @db_fieldtype    integer
-	 * @db_length       8
+	 * @db_fieldtype    text
+	 * @db_length       128
 	 */
-	protected $condition_object_value_ref_id;
+	protected $condition_object_value_ref_ids;
 	/**
 	 * @var String
 	 *
@@ -71,7 +71,7 @@ class srCertParticipationCertificate extends ActiveRecord {
 	 * @db_fieldtype    text
 	 * @db_length       128
 	 */
-	protected $condition_object_value_type;
+	protected $condition_object_value_types;
 	/**
 	 * @var int
 	 *
@@ -139,32 +139,32 @@ class srCertParticipationCertificate extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getConditionObjectValueRefId() {
-		return $this->condition_object_value_ref_id;
+	public function getConditionObjectValueRefIds() {
+		return $this->condition_object_value_ref_ids;
 	}
 
 	/**
-	 * @param int $condition_object_value_ref_id
+	 * @param int $condition_object_value_ref_ids
 	 * @return static
 	 */
-	public function setConditionObjectValueRefId($condition_object_value_ref_id) {
-		$this->condition_object_value_ref_id = $condition_object_value_ref_id;
+	public function setConditionObjectValueRefIds($condition_object_value_ref_ids) {
+		$this->condition_object_value_ref_ids = $condition_object_value_ref_ids;
 		return $this;
 	}
 
 	/**
 	 * @return String
 	 */
-	public function getConditionObjectValueType() {
-		return $this->condition_object_value_type;
+	public function getConditionObjectValueTypes() {
+		return $this->condition_object_value_types;
 	}
 
 	/**
-	 * @param String $condition_object_value_type
+	 * @param String $condition_object_value_types
 	 * @return static
 	 */
-	public function setConditionObjectValueType($condition_object_value_type) {
-		$this->condition_object_value_type = $condition_object_value_type;
+	public function setConditionObjectValueTypes($condition_object_value_types) {
+		$this->condition_object_value_types = $condition_object_value_types;
 		return $this;
 	}
 
@@ -182,6 +182,36 @@ class srCertParticipationCertificate extends ActiveRecord {
 	public function setConditionStatusType($condition_status_type) {
 		$this->condition_status_type = $condition_status_type;
 		return $this;
+	}
+
+	/**
+	 * @param $field_name
+	 * @return mixed
+	 */
+	public function sleep($field_name) {
+		switch ($field_name) {
+			case self::F_CONDITION_OBJECT_VALUE_TYPES:
+				return json_encode($this->getConditionObjectValueTypes());
+			case self::F_CONDITION_OBJECT_VALUE_REF_IDS:
+				return json_encode($this->getConditionObjectValueRefIds());
+			default:
+				return null;
+		}
+	}
+
+	/**
+	 * @param $field_name
+	 * @param $field_value
+	 * @return mixed
+	 */
+	public function wakeUp($field_name, $field_value) {
+		switch ($field_name) {
+			case self::F_CONDITION_OBJECT_VALUE_REF_IDS:
+			case self::F_CONDITION_OBJECT_VALUE_TYPES:
+				return json_decode($field_value, true);
+			default:
+				return null;
+		}
 	}
 
 

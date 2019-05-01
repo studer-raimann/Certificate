@@ -29,6 +29,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 		$this->srCertParticipationCertificate = srCertParticipationCertificate::findOrGetInstance($srCertificateDefinition->getId());
 		parent::__construct($parent);
 		self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . '/templates/js/participation_certificate_form.js');
+		$tst = new srLPObjectsSelectorInputGUI();
 	}
 
 
@@ -55,7 +56,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 			srCertParticipationCertificate::F_TYPE => [
 				self::PROPERTY_CLASS => ilSelectInputGUI::class,
 				self::PROPERTY_TITLE => self::plugin()->translate('cert_type'),
-				self::PROPERTY_OPTIONS => $this->getTypeInputOptions(),
+				self::PROPERTY_OPTIONS => $this->getCertTypeInputOptions(),
 				self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getTypeId(),
 			],
 			srCertParticipationCertificate::F_CONDITION_OBJECT_TYPE => [
@@ -68,34 +69,21 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 					srCertParticipationCertificate::CONDITION_OBJECT_TYPE_SPECIFIC_OBJECT => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
-							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_REF_ID => [
-								self::PROPERTY_CLASS => ilNumberInputGUI::class,
-								self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectValueRefId(),
+							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_REF_IDS => [
+								self::PROPERTY_CLASS => srLPObjectsSelectorInputGUI::class,
+								self::PROPERTY_REQUIRED => true,
+								self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectValueRefIds(),
 							]
 						]
 					],
 					srCertParticipationCertificate::CONDITION_OBJECT_TYPE_OBJECT_TYPE => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
-							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPE => [
-								self::PROPERTY_CLASS => ilSelectInputGUI::class,
-								self::PROPERTY_OPTIONS => [
-									'sess' => self::dic()->language()->txt('obj_sess'),
-									'exc' => self::dic()->language()->txt('obj_exc'),
-									'fold' => self::dic()->language()->txt('obj_fold'),
-									'grp' => self::dic()->language()->txt('obj_grp'),
-									'sahs' => self::dic()->language()->txt('obj_sahs'),
-									'lm' => self::dic()->language()->txt('obj_lm'),
-									'tst' => self::dic()->language()->txt('obj_tst'),
-									'file' => self::dic()->language()->txt('obj_file'),
-									'mcst' => self::dic()->language()->txt('obj_mcst'),
-									'htlm' => self::dic()->language()->txt('obj_htlm'),
-									'svy' => self::dic()->language()->txt('obj_svy'),
-									"prg" => self::dic()->language()->txt('obj_prg'),
-									'iass' => self::dic()->language()->txt('obj_iass'),
-									// TODO: plugin objects
-								],
-								self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectValueType(),
+							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPES => [
+								self::PROPERTY_CLASS => MultiSelectSearchInput2GUI::class,
+								self::PROPERTY_OPTIONS => $this->getObjectTypeInputOptions(),
+								self::PROPERTY_REQUIRED => true,
+								self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectValueTypes(),
 							]
 						]
 					]
@@ -141,11 +129,11 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 			case srCertParticipationCertificate::F_CONDITION_STATUS:
 				$this->srCertParticipationCertificate->setConditionStatusType($value);
 				break;
-			case srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_REF_ID:
-				$this->srCertParticipationCertificate->setConditionObjectValueRefId($value);
+			case srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_REF_IDS:
+				$this->srCertParticipationCertificate->setConditionObjectValueRefIds($value);
 				break;
-			case srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPE:
-				$this->srCertParticipationCertificate->setConditionObjectValueType($value);
+			case srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPES:
+				$this->srCertParticipationCertificate->setConditionObjectValueTypes($value);
 				break;
 			case srCertParticipationCertificate::F_CONDITION_OBJECT_TYPE:
 				$this->srCertParticipationCertificate->setConditionObjectType($value);
@@ -172,7 +160,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 	/**
 	 * @return array
 	 */
-	protected function getTypeInputOptions() {
+	protected function getCertTypeInputOptions() {
 		$types = srCertificateType::get();
 		$options = array();
 		$invalid = array();
@@ -189,12 +177,34 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 			$options[$type->getId()] = $type->getTitle();
 		}
 		if (count($invalid) && $this->isNew) {
-			ilUtil::sendInfo(sprintf($this->pl->txt('msg_info_invalid_cert_types'), implode(', ', $invalid)));
+			ilUtil::sendInfo(sprintf(self::plugin()->getPluginObject()->txt('msg_info_invalid_cert_types'), implode(', ', $invalid)));
 		}
 		asort($options);
 		if (!$this->srCertParticipationCertificate->getTypeId() || srCertificate::where(['definition_id' => $this->srCertParticipationCertificate->getDefinitionId(), 'usage_type' => srCertificate::USAGE_TYPE_PARTICIPATION])->count() == 0) {
 			array_unshift($options, self::dic()->language()->txt('inactive'));
 		}
+		return $options;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getObjectTypeInputOptions() {
+		$options = [];
+
+		// core types (lp supported)
+		foreach (['sess', 'exc', 'fold', 'grp', 'sahs', 'lm', 'tst', 'file', 'mcst', 'htlm', 'svy', 'prg', 'iass'] as $type) {
+			$options[$type] = self::dic()->language()->txt('obj_' . $type);
+		}
+
+		// repository object plugins
+		foreach (self::dic()->objDefinition()->getPlugins() as $type => $data) {
+			if (ilRepositoryObjectPluginSlot::isTypePluginWithLP($type)) {
+				self::dic()->language()->loadLanguageModule('rep_robj_' . $type);
+				$options[$type] = self::dic()->language()->txt('rep_robj_' . $type . '_obj_' . $type);
+			}
+		}
+
 		return $options;
 	}
 }
