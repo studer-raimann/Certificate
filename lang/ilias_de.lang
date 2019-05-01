@@ -292,8 +292,8 @@ condition_object_type_0#:#Beliebiges lernfortschrittsrelevantes Objekt
 condition_object_type_1#:#Spezifisches Objekt
 condition_object_type_2#:#Objekttyp
 condition_status#:#.. auf folgenden Status wechselt:
-condition_status_1#:#Bearbeitet
-condition_status_2#:#In Bearbeitung
+condition_status_1#:#In Bearbeitung
+condition_status_2#:#Bearbeitet
 usage_type#:#Verwendung
 usage_type_1#:#Kursabschlusszertifikat
 usage_type_2#:#Teilnahmebestätigung

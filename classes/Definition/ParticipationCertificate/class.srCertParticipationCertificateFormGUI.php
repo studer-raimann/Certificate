@@ -1,5 +1,6 @@
 <?php
 
+use srag\CustomInputGUIs\Certificate\MultiSelectSearchInputGUI\MultiSelectSearchInput2GUI;
 use srag\CustomInputGUIs\Certificate\PropertyFormGUI\PropertyFormGUI;
 
 /**
@@ -77,7 +78,23 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
 							srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPE => [
-								self::PROPERTY_CLASS => ilTextInputGUI::class,
+								self::PROPERTY_CLASS => ilSelectInputGUI::class,
+								self::PROPERTY_OPTIONS => [
+									'sess' => self::dic()->language()->txt('obj_sess'),
+									'exc' => self::dic()->language()->txt('obj_exc'),
+									'fold' => self::dic()->language()->txt('obj_fold'),
+									'grp' => self::dic()->language()->txt('obj_grp'),
+									'sahs' => self::dic()->language()->txt('obj_sahs'),
+									'lm' => self::dic()->language()->txt('obj_lm'),
+									'tst' => self::dic()->language()->txt('obj_tst'),
+									'file' => self::dic()->language()->txt('obj_file'),
+									'mcst' => self::dic()->language()->txt('obj_mcst'),
+									'htlm' => self::dic()->language()->txt('obj_htlm'),
+									'svy' => self::dic()->language()->txt('obj_svy'),
+									"prg" => self::dic()->language()->txt('obj_prg'),
+									'iass' => self::dic()->language()->txt('obj_iass'),
+									// TODO: plugin objects
+								],
 								self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectValueType(),
 							]
 						]
@@ -175,7 +192,9 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 			ilUtil::sendInfo(sprintf($this->pl->txt('msg_info_invalid_cert_types'), implode(', ', $invalid)));
 		}
 		asort($options);
-		array_unshift($options, self::dic()->language()->txt('inactive'));
+		if (!$this->srCertParticipationCertificate->getTypeId() || srCertificate::where(['definition_id' => $this->srCertParticipationCertificate->getDefinitionId(), 'usage_type' => srCertificate::USAGE_TYPE_PARTICIPATION])->count() == 0) {
+			array_unshift($options, self::dic()->language()->txt('inactive'));
+		}
 		return $options;
 	}
 }
