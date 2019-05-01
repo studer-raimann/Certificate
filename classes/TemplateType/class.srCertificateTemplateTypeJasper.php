@@ -45,7 +45,7 @@ class srCertificateTemplateTypeJasper extends srCertificateTemplateType {
 		if (!$this->isAvailable()) {
 			throw new ilException("Generating certificates with TemplateTypeJasper is only available if the JasperReport service is installed");
 		}
-		$template = $cert->getDefinition()->getType()->getCertificateTemplatesPath(true);
+		$template = $cert->getType()->getCertificateTemplatesPath(true);
 		// A template is required, so quit early if it does not exist for some reason
 		if (!is_file($template)) {
 			throw new srCertificateException('No template file found for cert type with id=' . $cert->getDefinition()->getType()->getId());

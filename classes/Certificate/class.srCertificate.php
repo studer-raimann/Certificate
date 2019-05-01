@@ -321,7 +321,7 @@ class srCertificate extends ActiveRecord {
 		if ($this->getStatus() == self::STATUS_PROCESSED && is_file($this->getFilePath()) && !$force) {
 			return false;
 		}
-		$cert_type = $this->getCertTypeForUsageType();
+		$cert_type = $this->getType();
 		$template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
 		$this->setStatus(self::STATUS_WORKING);
 		$this->update();
@@ -342,7 +342,15 @@ class srCertificate extends ActiveRecord {
 	 * @return srCertificateType
 	 * @throws srCertificateException
 	 */
-	public function getCertTypeForUsageType() {
+	public function getType() {
+		return srCertificateType::find($this->getTypeId());
+	}
+
+	/**
+	 * @return int
+	 * @throws srCertificateException
+	 */
+	public function getTypeId() {
 		switch ($this->getUsageType()) {
 			case self::USAGE_TYPE_STANDARD:
 				$type_id = $this->getDefinition()->getTypeId();
@@ -356,7 +364,7 @@ class srCertificate extends ActiveRecord {
 			throw new srCertificateException("Could not find certificate type for cert_id=" . $this->getId() . ", usage_type=" . $this->getUsageType());
 		}
 
-		return srCertificateType::find($type_id);
+		return $type_id;
 	}
 
 	/**
