@@ -130,7 +130,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 				$this->srCertParticipationCertificate->setConditionStatusType($value);
 				break;
 			case srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_REF_IDS:
-				$this->srCertParticipationCertificate->setConditionObjectValueRefIds($value);
+				$this->srCertParticipationCertificate->setConditionObjectValueRefIds(array_unique($value));
 				break;
 			case srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPES:
 				$this->srCertParticipationCertificate->setConditionObjectValueTypes($value);

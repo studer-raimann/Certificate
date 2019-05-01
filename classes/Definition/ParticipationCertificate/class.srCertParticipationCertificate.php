@@ -144,7 +144,7 @@ class srCertParticipationCertificate extends ActiveRecord {
 	}
 
 	/**
-	 * @param int $condition_object_value_ref_ids
+	 * @param array $condition_object_value_ref_ids
 	 * @return static
 	 */
 	public function setConditionObjectValueRefIds($condition_object_value_ref_ids) {

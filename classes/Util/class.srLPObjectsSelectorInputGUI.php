@@ -20,5 +20,4 @@ class srLPObjectsSelectorInputGUI extends ilRepositorySelector2InputGUI {
 			$this->getExplHandleCmd(), $this, "selectRepositoryItem", "root_id", "rep_exp_sel_".$a_postvar);
 	}
 
-
 }
