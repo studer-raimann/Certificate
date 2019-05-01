@@ -57,7 +57,7 @@ class srCertParticipationCertificate extends ActiveRecord {
 	 */
 	protected $condition_object_type = self::CONDITION_OBJECT_TYPE_ANY;
 	/**
-	 * @var int
+	 * @var array
 	 *
 	 * @db_has_field    true
 	 * @db_fieldtype    text
@@ -65,7 +65,7 @@ class srCertParticipationCertificate extends ActiveRecord {
 	 */
 	protected $condition_object_value_ref_ids;
 	/**
-	 * @var String
+	 * @var array
 	 *
 	 * @db_has_field    true
 	 * @db_fieldtype    text
@@ -137,7 +137,7 @@ class srCertParticipationCertificate extends ActiveRecord {
 	}
 
 	/**
-	 * @return int
+	 * @return array
 	 */
 	public function getConditionObjectValueRefIds() {
 		return $this->condition_object_value_ref_ids;
@@ -153,14 +153,14 @@ class srCertParticipationCertificate extends ActiveRecord {
 	}
 
 	/**
-	 * @return String
+	 * @return array
 	 */
 	public function getConditionObjectValueTypes() {
 		return $this->condition_object_value_types;
 	}
 
 	/**
-	 * @param String $condition_object_value_types
+	 * @param array $condition_object_value_types
 	 * @return static
 	 */
 	public function setConditionObjectValueTypes($condition_object_value_types) {
