@@ -181,7 +181,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI {
 		}
 		asort($options);
 		if (!$this->srCertParticipationCertificate->getTypeId() || srCertificate::where(['definition_id' => $this->srCertParticipationCertificate->getDefinitionId(), 'usage_type' => srCertificate::USAGE_TYPE_PARTICIPATION])->count() == 0) {
-			array_unshift($options, self::dic()->language()->txt('inactive'));
+			$options = [0 => self::dic()->language()->txt('inactive')] + $options;
 		}
 		return $options;
 	}
