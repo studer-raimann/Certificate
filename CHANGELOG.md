@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0]
+- Change: filename order changed to user_name + date + course title
+- Improvement: filename replaces umlauts with 'ae', 'ue' and 'oe'
+- Improvement: allow cyrillic characters
+- Bugfix: ILIAS_HTTP_PATH not set in cron context
+- Bugfix: fixed excel export
+
 ## [1.8.0]
 - Feature: new placeholder 'CATEGORY_TITLE' is filled with the title of the repository category containing the certificate course
 

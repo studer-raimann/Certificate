@@ -564,8 +564,8 @@ class srCertificate extends ActiveRecord {
 		$obj_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($ref_id));
 		$user_name = $this->getUser()->getLastname() . '-' . $this->getUser()->getFirstname();
 		$filename_elements = array(
-			date('Y-m-d', strtotime($this->getValidFrom())),
 			$this->sanitizeStr($user_name),
+            date('Y-m-d', strtotime($this->getValidFrom())),
 			$this->sanitizeStr($obj_title),
 		);
 		$filename = implode('-', $filename_elements);
@@ -583,9 +583,19 @@ class srCertificate extends ActiveRecord {
 	 * @return string
 	 */
 	protected function sanitizeStr($str) {
-		$str = mb_strtolower($str);
-		$str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
-		$str = preg_replace('#[^a-z0-9\-]+#', '-', $str); // Replace spaces and other unwanted characters
+        $str = mb_strtolower($str);
+        // Replace Umlaute
+        $umlauts = ["/ä/", "/ö/", "/ü/"];
+        $replace = ["ae", "oe", "ue"];
+        $str = preg_replace($umlauts, $replace, $str);
+
+        if (extension_loaded('intl')) {
+            $str = transliterator_transliterate('Any-Latin; Latin-ASCII; [\u0100-\u7fff] remove', $str);
+        } else {
+            $str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+        }
+
+        $str = preg_replace('#[^a-z0-9\-]+#', '-', $str); // Replace spaces and other unwanted characters
 		$str = preg_replace('#-{2,}#', '-', $str); // Replace multiple dashes
 
 		return $str;

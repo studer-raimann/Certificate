@@ -23,16 +23,9 @@ Please follow the installation guide of the [documentation](/doc/Documentation.p
 
 An installation and user guide is available in [the doc/Documentation.pdf](/doc/Documentation.pdf?raw=true) file.
 
-### Dependencies
-* ILIAS 5.2 or ILIAS 5.3
+### Requirements
+* ILIAS 5.3 or ILIAS 5.4
 * PHP >=5.6
-* [composer](https://getcomposer.org)
-* [srag/dic](https://packagist.org/packages/srag/dic)
-* [srag/jasperreport](https://packagist.org/packages/srag/jasperreport)
-* [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger)
-* [CertificateEvents](https://github.com/studer-raimann/CertificateEvents)
-
-Please use it for further development!
 
 ## Patches
 
