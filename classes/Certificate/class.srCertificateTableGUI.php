@@ -247,7 +247,7 @@ class srCertificateTableGUI extends ilTable2GUI {
 		$col = 0;
 		foreach ($this->columns as $column) {
 			if ($this->isColumnSelected($column)) {
-				$worksheet->writeString($row, $col, $this->pl->txt($column));
+				$worksheet->setCell($row, $col, $this->pl->txt($column));
 				$col ++;
 			}
 		}
@@ -264,7 +264,7 @@ class srCertificateTableGUI extends ilTable2GUI {
 		foreach ($this->columns as $column) {
 			if ($this->isColumnSelected($column)) {
 				$value = (is_null($a_set[$column])) ? '' : $a_set[$column];
-				$a_worksheet->write($a_row, $col, strip_tags($value));
+				$a_worksheet->setCell($a_row, $col, strip_tags($value));
 				$col ++;
 			}
 		}

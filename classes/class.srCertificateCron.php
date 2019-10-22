@@ -41,6 +41,9 @@ class srCertificateCron {
 	}
 
     public function run() {
+        if(!defined("ILIAS_HTTP_PATH")) {
+            define("ILIAS_HTTP_PATH", ilUtil::_getHttpPath());
+        }
         $srCertificateCronjob = new srCertificateCronjob();
         $srCertificateCronjob->run();
 	}
