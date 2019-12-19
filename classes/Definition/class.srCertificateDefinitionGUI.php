@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  * @version           $Id:
  * @ilCtrl_isCalledBy srCertificateDefinitionGUI: ilRouterGUI, ilUIPluginRouterGUI
- * @ilCtrl_Calls      srCertificateDefinitionGUI: srCertificateDefinitionFormGUI
+ * @ilCtrl_Calls      srCertificateDefinitionGUI: srCertificateDefinitionFormGUI, srCertParticipationCertificateFormGUI
  */
 class srCertificateDefinitionGUI {
 
@@ -19,6 +19,7 @@ class srCertificateDefinitionGUI {
 	const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
 	const CMD_DOWNLOAD_CERTIFICATES = 'downloadCertificates';
 	const CMD_PREVIEW_CERTIFICATE = 'previewCertificate';
+	const CMD_PREVIEW_PARTICIPATION_CERTIFICATE = 'previewParticipationCertificate';
 	const CMD_RETRY_GENERATION = 'retryGeneration';
 	const CMD_SET_DATE = 'setDate';
 	const CMD_SET_DATE_AND_CREATE = 'setDateAndCreate';
@@ -26,21 +27,25 @@ class srCertificateDefinitionGUI {
 	const CMD_SHOW_DEFINITION = 'showDefinition';
 	const CMD_SHOW_PARTICIPANTS = 'showParticipants';
 	const CMD_SHOW_PLACEHOLDERS = 'showPlaceholders';
+	const CMD_SHOW_PARTICIPATION_CERTIFICATE = 'showParticipationCertificate';
 	const CMD_UNDO_CALL_BACK = 'undoCallBack';
 	const CMD_UPDATE_DEFINITION = 'updateDefinition';
 	const CMD_UPDATE_PLACEHOLDERS = 'updatePlaceholders';
 	const CMD_UPDATE_PLACEHOLDERS_PREVIEW = 'updatePlaceholdersPreview';
 	const CMD_UPDATE_TYPE = 'updateType';
+	const CMD_UPDATE_PARTICIPATION_CERTIFICATE = 'updateParticipationCertificate';
 	const TAB_SHOW_CERTIFICATES = 'show_certificates';
 	const TAB_SHOW_DEFINITION = 'show_definition';
 	const TAB_SHOW_PARTICIPANTS = 'show_participants';
 	const TAB_SHOW_PLACEHOLDERS = 'show_placeholders';
+	const TAB_PARTICIPATION_CERTIFICATE = 'participation_certificate';
+
 	/**
 	 * @var ilTabsGUI
 	 */
 	protected $tabs;
 	/**
-	 * @var srCertificateDefinitionFormGUI
+	 * @var srCertificateDefinitionFormGUI | srCertParticipationCertificateFormGUI
 	 */
 	protected $form;
 	/**
@@ -85,6 +90,9 @@ class srCertificateDefinitionGUI {
 	protected $log;
 
 
+	/**
+	 * srCertificateDefinitionGUI constructor.
+	 */
 	public function __construct() {
 		global $DIC;
 		$this->ctrl = $DIC->ctrl();
@@ -106,6 +114,10 @@ class srCertificateDefinitionGUI {
 	}
 
 
+	/**
+	 * @return mixed
+	 * @throws ilCtrlException
+	 */
 	public function executeCommand() {
 		$this->checkPermission();
 		$this->initHeader();
@@ -117,12 +129,17 @@ class srCertificateDefinitionGUI {
             case strtolower(srCertificateDefinitionFormGUI::class):
                 $this->initForm();
                 return $this->ctrl->forwardCommand($this->form);
+			case strtolower(srLPObjectsSelectorInputGUI::class):
+				$input = new srLPObjectsSelectorInputGUI();
+				return $this->ctrl->forwardCommand($input);
 			case '':
 				switch ($cmd) {
 					case self::CMD_SHOW_DEFINITION:
 					case self::CMD_SHOW_PLACEHOLDERS:
 					case self::CMD_SHOW_CERTIFICATES:
 					case self::CMD_SHOW_PARTICIPANTS:
+                    case self::CMD_SHOW_PARTICIPATION_CERTIFICATE:
+                    case self::CMD_UPDATE_PARTICIPATION_CERTIFICATE:
 					case self::CMD_DOWNLOAD_CERTIFICATE:
 					case self::CMD_DOWNLOAD_CERTIFICATES:
 					case self::CMD_UPDATE_DEFINITION:
@@ -131,6 +148,7 @@ class srCertificateDefinitionGUI {
 					case self::CMD_CREATE_DEFINITION:
 					case self::CMD_UPDATE_PLACEHOLDERS:
 					case self::CMD_PREVIEW_CERTIFICATE:
+					case self::CMD_PREVIEW_PARTICIPATION_CERTIFICATE:
 					case self::CMD_BUILD_ACTIONS:
 					case self::CMD_SET_DATE_AND_CREATE:
 					case self::CMD_SET_DATE:
@@ -161,6 +179,9 @@ class srCertificateDefinitionGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	protected function showPreviewCertificateInToolbar() {
 		if ($this->definition) {
 			if (is_file($this->definition->getType()->getCertificateTemplatesPath(true))) {
@@ -170,6 +191,26 @@ class srCertificateDefinitionGUI {
 				$this->toolbar->addButtonInstance($button);
 			} else {
 				ilUtil::sendInfo($this->pl->txt('msg_info_current_type_no_invalid_tempalte'));
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected function showPreviewParticipationCertificateInToolbar() {
+		if ($this->definition) {
+			/** @var srCertParticipationCertificate $srCertParticipationCertificate */
+			if ($srCertParticipationCertificate = srCertParticipationCertificate::find($this->definition->getId())) {
+				if (is_file($srCertParticipationCertificate->getType()->getCertificateTemplatesPath(true))) {
+					$button = ilLinkButton::getInstance();
+					$button->setCaption($this->pl->txt('preview_participation_certificate'), false);
+					$button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_PREVIEW_PARTICIPATION_CERTIFICATE));
+					$this->toolbar->addButtonInstance($button);
+				} else {
+					ilUtil::sendInfo($this->pl->txt('msg_info_current_type_no_invalid_tempalte'));
+				}
 			}
 		}
 	}
@@ -244,6 +285,16 @@ class srCertificateDefinitionGUI {
 
 
 	/**
+	 *
+	 */
+	public function showParticipationCertificate() {
+        $this->tabs->activateSubTab(self::TAB_PARTICIPATION_CERTIFICATE);
+        $this->showPreviewParticipationCertificateInToolbar();
+		$this->form = new srCertParticipationCertificateFormGUI($this, $this->definition);
+		$this->tpl->setContent($this->form->getHTML());
+    }
+
+	/**
 	 * Show all certificates
 	 *
 	 */
@@ -251,7 +302,7 @@ class srCertificateDefinitionGUI {
 		$this->tabs->activateSubTab(self::TAB_SHOW_CERTIFICATES);
 		$this->showPreviewCertificateInToolbar();
 		$options = array(
-			'columns' => array( 'firstname', 'lastname', 'valid_from', 'valid_to', 'file_version', 'status' ),
+			'columns' => array( 'firstname', 'lastname', 'usage_type', 'valid_from', 'valid_to', 'file_version', 'status' ),
 			'definition_id' => $this->definition->getId(),
 			'show_filter' => false,
 		);
@@ -339,6 +390,24 @@ class srCertificateDefinitionGUI {
         }
 		$this->showCertificates();
 	}
+
+	/**
+	 * Generate a preview certificate for the current definition and download file
+	 */
+	public function previewParticipationCertificate() {
+		$preview = new srCertificatePreview();
+		$preview->setDefinition($this->definition);
+		$preview->setUsageType(srCertificate::USAGE_TYPE_PARTICIPATION);
+		try {
+            $preview->generate();
+            $preview->download();
+        } catch (Exception $e) {
+            $this->log->log($e->getMessage(), ilLogLevel::ERROR);
+            ilUtil::sendFailure($this->pl->txt('msg_error_preview_certificate'));
+        }
+		$this->showParticipationCertificate();
+	}
+
 
 
 	/**
@@ -492,6 +561,19 @@ class srCertificateDefinitionGUI {
 		$this->ctrl->redirect($this, self::CMD_SHOW_DEFINITION);
 	}
 
+	/**
+	 *
+	 */
+	public function updateParticipationCertificate() {
+		$this->form = new srCertParticipationCertificateFormGUI($this, $this->definition);
+		$this->form->setValuesByPost();
+		if ($this->form->storeForm()) {
+			ilUtil::sendSuccess($this->pl->txt('msg_setting_saved'), true);
+			$this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPATION_CERTIFICATE);
+		} else {
+			$this->tpl->setContent($this->form->getHTML());
+		}
+	}
 
 	/**
 	 * Check permission of user
@@ -519,6 +601,7 @@ class srCertificateDefinitionGUI {
 		$this->tabs->addSubTab(self::TAB_SHOW_DEFINITION, $this->pl->txt('definition_settings'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_DEFINITION));
 		if ($this->definition !== NULL) {
 			$this->tabs->addSubTab(self::TAB_SHOW_PLACEHOLDERS, $this->pl->txt('placeholders'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PLACEHOLDERS));
+			$this->tabs->addSubTab(self::TAB_PARTICIPATION_CERTIFICATE, $this->pl->txt('participation_certificate'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PARTICIPATION_CERTIFICATE));
 		}
 	}
 

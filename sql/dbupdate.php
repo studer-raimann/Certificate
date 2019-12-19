@@ -281,3 +281,14 @@ $DIC->filesystem()->storage()->createDir(srCertificateDigitalSignature::KEY_PATH
 file_put_contents(srCertificateDigitalSignature::getPathOf(srCertificateDigitalSignature::KEYTYPE_PRIVATE), $private_key);
 file_put_contents(srCertificateDigitalSignature::getPathOf(srCertificateDigitalSignature::KEYTYPE_PUBLIC), $public_key);
 ?>
+<#22>
+<?php
+global $DIC;
+srCertParticipationCertificate::updateDB();
+srCertificate::updateDB();
+$DIC->database()->query(
+        'UPDATE ' . srCertificate::TABLE_NAME . ' 
+        SET usage_type = ' . srCertificate::USAGE_TYPE_STANDARD . ' 
+        WHERE usage_type = 0 OR usage_type IS NULL'
+);
+?>

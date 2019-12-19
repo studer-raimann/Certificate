@@ -27,6 +27,7 @@ administrate_certificates#:#Administrate Certificates
 my_certificates#:#My Certificates
 save_preview#:#Save & Preview
 preview_certificate#:#Preview Certificate
+preview_participation_certificate#:#Preview Participation Certificate
 certificate#:#Certificate
 back_to_course#:#Back to Course
 callback_email_subject#:#Certificate Callback
@@ -286,3 +287,16 @@ settings#:#Settings
 diploma_confirm#:#This diploma confirms that the above named person attended the training course stated below:
 valid_until#:#Valid until
 button_start_cronjob#:#Execute Cronjob
+participation_certificate#:#Participation Certificate
+condition_object_type#:#Certificate will be created when..
+condition_object_type_0#:#Any learning progress relevant object
+condition_object_type_1#:#One of specified Objects
+condition_object_type_2#:#An Object of Type
+condition_object_value_ref_ids#:#Selected Objects
+condition_object_value_types#:#Selected Types
+condition_status#:#.. has the following Status:
+condition_status_1#:#In Progress
+condition_status_2#:#Completed
+usage_type#:#Usage
+usage_type_1#:#Course Completion Certificate
+usage_type_2#:#Participation Certificate

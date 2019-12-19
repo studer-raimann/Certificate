@@ -64,6 +64,9 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 	}
 
 
+	/**
+	 *
+	 */
 	protected function parseData() {
 		$ilCourseParticipants = new ilCourseParticipants(ilObject::_lookupObjectId($_GET['ref_id']));
 		$participant_ids = $ilCourseParticipants->getParticipants();
@@ -102,6 +105,9 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 	}
 
 
+	/**
+	 * @param array $a_set
+	 */
 	protected function fillRow($a_set) {
 		$this->tpl->setCurrentBlock('CHECKBOXES');
 		$this->tpl->setVariable('VALUE', $a_set['id']);
@@ -118,7 +124,8 @@ class srCertificateParticipantsTableGUI extends ilTable2GUI {
 				$cert = srCertificate::where(array(
 					'active' => 1,
 					'user_id' => $a_set['id'],
-					'definition_id' => $this->definition->getId()
+					'definition_id' => $this->definition->getId(),
+					'usage_type' => srCertificate::USAGE_TYPE_STANDARD,
 				))->first();
 
 				if ($cert) {

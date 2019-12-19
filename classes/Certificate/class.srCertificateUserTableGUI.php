@@ -16,7 +16,7 @@ class srCertificateUserTableGUI extends srCertificateTableGUI {
 	/**
 	 * @var array
 	 */
-	protected $columns = array( 'id', 'crs_title', 'valid_from', 'valid_to', 'file_version', 'cert_type', 'status' );
+	protected $columns = array( 'id', 'crs_title', 'usage_type', 'valid_from', 'valid_to', 'file_version', 'cert_type', 'status' );
 
 
 	/**

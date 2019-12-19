@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.0.0]
+- Feature: Participation Certificates
+
 ## [1.9.1]
 - Bugfix: signatures with long course titles didn't work
 - Change: switched from hyphen to underscore in filename
