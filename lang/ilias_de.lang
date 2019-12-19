@@ -27,6 +27,7 @@ administrate_certificates#:#Zertifikate bearbeiten
 my_certificates#:#Meine Zertifikate
 save_preview#:#Speichern & Vorschau
 preview_certificate#:#Vorschau Zertifikat
+preview_participation_certificate#:#Vorschau Teilnahmebestätigung
 certificate#:#Zertifikat
 back_to_course#:#Zurück zum Kurs
 callback_email_subject#:#Zertifikat zurückrufen
@@ -285,4 +286,16 @@ settings#:#Einstellungen
 diploma_confirm#:#Dieses Diplom bestätigt, dass die oben genannte Person an dem unten angegebenen Kurs-Trainings teilgenommen hat:
 valid_until#:#Gültig bis
 button_start_cronjob#:#Cronjob Starten
-
+participation_certificate#:#Teilnahmezertifikat
+condition_object_type#:#Zertifikat wird erstellt, wenn..
+condition_object_type_0#:#Beliebiges lernfortschrittsrelevantes Objekt
+condition_object_type_1#:#eines von spezifischen Objekten
+condition_object_type_2#:#ein Objekt vom Objekttyp
+condition_object_value_ref_ids#:#Ausgewählte Objekte
+condition_object_value_types#:#Ausgewählte Typen
+condition_status#:#.. auf folgenden Status wechselt:
+condition_status_1#:#In Bearbeitung
+condition_status_2#:#Bearbeitet
+usage_type#:#Verwendung
+usage_type_1#:#Kursabschlusszertifikat
+usage_type_2#:#Teilnahmebestätigung

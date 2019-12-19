@@ -102,8 +102,12 @@ class srCertificateCronjob {
      */
     protected function subscribeToSuccessorCourses() {
         // fetch certificates which expired today (valid_to -> yesterday)
-        $freshly_expired_certs =  srCertificate::where(array('active' => 1, 'valid_to' => date('Y-m-d', strtotime('yesterday'))))->get();
-        /** @var srCertificate $cert */
+		$freshly_expired_certs = srCertificate::where(array(
+			'active' => 1,
+			'usage_type' => srCertificate::USAGE_TYPE_STANDARD,
+			'valid_to' => date('Y-m-d', strtotime('yesterday')))
+		)->get();
+		/** @var srCertificate $cert */
         foreach ($freshly_expired_certs as $cert) {
             $successor_crs_ref_id = $cert->getDefinition()->getSuccessorCourseRefId();
             if ($successor_crs_ref_id && !ilObjCourse::_exists($successor_crs_ref_id, true)) {

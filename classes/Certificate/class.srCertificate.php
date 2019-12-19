@@ -17,8 +17,17 @@ class srCertificate extends ActiveRecord {
 	const STATUS_PROCESSED = 3;
 	const STATUS_FAILED = 4;
 	const STATUS_CALLED_BACK = 5;
+
 	// timezone offets are from -39600 to +46800
 	const TIME_ZONE_CORRECTION = 39600;
+
+	const USAGE_TYPE_STANDARD = 1;
+	const USAGE_TYPE_PARTICIPATION = 2;
+
+	public static $usage_types = [
+		self::USAGE_TYPE_STANDARD,
+		self::USAGE_TYPE_PARTICIPATION
+	];
 
 
 	/**
@@ -66,6 +75,15 @@ class srCertificate extends ActiveRecord {
 	 * @db_is_notnull   true
 	 */
 	protected $definition_id;
+	/**
+	 * @var int
+	 *
+	 * @db_has_field    true
+	 * @db_fieldtype    integer
+	 * @db_length       8
+	 * @db_is_notnull   true
+	 */
+	protected $usage_type = self::USAGE_TYPE_STANDARD;
 	/**
 	 * @var string
 	 *
@@ -243,6 +261,7 @@ class srCertificate extends ActiveRecord {
 		$certs = srCertificate::where(array(
 			'definition_id' => $this->getDefinitionId(),
 			'user_id' => $this->getUserId(),
+			'usage_type' => $this->getUsageType(),
 		))->orderBy('file_version', 'DESC');
 		$cert_last_version = $certs->first();
 		if (!is_null($cert_last_version)) {
@@ -302,7 +321,7 @@ class srCertificate extends ActiveRecord {
 		if ($this->getStatus() == self::STATUS_PROCESSED && is_file($this->getFilePath()) && !$force) {
 			return false;
 		}
-		$cert_type = $this->getDefinition()->getType();
+		$cert_type = $this->getType();
 		$template_type = srCertificateTemplateTypeFactory::getById($cert_type->getTemplateTypeId());
 		$this->setStatus(self::STATUS_WORKING);
 		$this->update();
@@ -319,6 +338,34 @@ class srCertificate extends ActiveRecord {
         }
 	}
 
+	/**
+	 * @return srCertificateType
+	 * @throws srCertificateException
+	 */
+	public function getType() {
+		return srCertificateType::find($this->getTypeId());
+	}
+
+	/**
+	 * @return int
+	 * @throws srCertificateException
+	 */
+	public function getTypeId() {
+		switch ($this->getUsageType()) {
+			case self::USAGE_TYPE_STANDARD:
+				$type_id = $this->getDefinition()->getTypeId();
+				break;
+			case self::USAGE_TYPE_PARTICIPATION:
+				$type_id = srCertParticipationCertificate::find($this->getDefinitionId())->getTypeId();
+				break;
+		}
+
+		if (!$type_id) {
+			throw new srCertificateException("Could not find certificate type for cert_id=" . $this->getId() . ", usage_type=" . $this->getUsageType());
+		}
+
+		return $type_id;
+	}
 
 	/**
 	 * Download certificate
@@ -466,6 +513,9 @@ class srCertificate extends ActiveRecord {
 						break;
 					case 'crs_title':
 						$sql .= "{$and} obj_data.title LIKE " . $ilDB->quote("%{$value}%", 'text');
+						break;
+					case 'usage_type':
+						$sql .= "{$and} cert.usage_type = " . $ilDB->quote($value, 'integer');
 						break;
 					case 'definition_id':
 					case 'user_id':
@@ -716,6 +766,20 @@ class srCertificate extends ActiveRecord {
 		}
 
 		return $this->definition;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getUsageType() {
+		return $this->usage_type;
+	}
+
+	/**
+	 * @param int $usage_type
+	 */
+	public function setUsageType($usage_type) {
+		$this->usage_type = $usage_type;
 	}
 
 

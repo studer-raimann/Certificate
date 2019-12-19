@@ -14,7 +14,7 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         's' => 
         array (
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\JasperReport\\' => 18,
+            'srag\\JasperReport\\Certificate\\' => 30,
             'srag\\DIC\\Certificate\\' => 21,
             'srag\\CustomInputGUIs\\Certificate\\' => 33,
             'setasign\\Fpdi\\' => 14,
@@ -34,7 +34,7 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\JasperReport\\' => 
+        'srag\\JasperReport\\Certificate\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/jasperreport/src',
         ),
@@ -848,6 +848,8 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         'setasign\\Fpdi\\Tcpdf\\Fpdi' => __DIR__ . '/..' . '/setasign/fpdi/src/Tcpdf/Fpdi.php',
         'setasign\\Fpdi\\Tfpdf\\FpdfTpl' => __DIR__ . '/..' . '/setasign/fpdi/src/Tfpdf/FpdfTpl.php',
         'setasign\\Fpdi\\Tfpdf\\Fpdi' => __DIR__ . '/..' . '/setasign/fpdi/src/Tfpdf/Fpdi.php',
+        'srCertParticipationCertificate' => __DIR__ . '/../..' . '/classes/Definition/ParticipationCertificate/class.srCertParticipationCertificate.php',
+        'srCertParticipationCertificateFormGUI' => __DIR__ . '/../..' . '/classes/Definition/ParticipationCertificate/class.srCertParticipationCertificateFormGUI.php',
         'srCertificate' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificate.php',
         'srCertificateAdministrationGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateAdministrationGUI.php',
         'srCertificateCallBackNotification' => __DIR__ . '/../..' . '/classes/Notification/class.srCertificateCallBackNotification.php',
@@ -904,6 +906,8 @@ class ComposerStaticInit35130d3710e679d0b90e319856199798
         'srCertificateUserGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateUserGUI.php',
         'srCertificateUserNotification' => __DIR__ . '/../..' . '/classes/Notification/class.srCertificateUserNotification.php',
         'srCertificateUserTableGUI' => __DIR__ . '/../..' . '/classes/Certificate/class.srCertificateUserTableGUI.php',
+        'srLPObjectsSelectorExplorer' => __DIR__ . '/../..' . '/classes/Util/class.srLPObjectsSelectorExplorer.php',
+        'srLPObjectsSelectorInputGUI' => __DIR__ . '/../..' . '/classes/Util/class.srLPObjectsSelectorInputGUI.php',
         'srag\\CustomInputGUIs\\Certificate\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\Certificate\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
         'srag\\CustomInputGUIs\\Certificate\\CustomInputGUIsTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIsTrait.php',
