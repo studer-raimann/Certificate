@@ -562,14 +562,14 @@ class srCertificate extends ActiveRecord {
 	protected function createFilename() {
 		$ref_id = $this->definition->getRefId();
 		$obj_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($ref_id));
-		$user_name = $this->getUser()->getLastname() . '-' . $this->getUser()->getFirstname();
+		$user_name = $this->getUser()->getLastname() . '_' . $this->getUser()->getFirstname();
 		$filename_elements = array(
 			$this->sanitizeStr($user_name),
             date('Y-m-d', strtotime($this->getValidFrom())),
 			$this->sanitizeStr($obj_title),
 		);
-		$filename = implode('-', $filename_elements);
-		$filename = rtrim($filename, '-');
+		$filename = implode('_', $filename_elements);
+		$filename = rtrim($filename, '_');
 
 		return $filename . '.pdf';
 	}

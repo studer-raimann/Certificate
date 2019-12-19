@@ -50,14 +50,25 @@ class srCertificateDigitalSignature {
         return $decrypted;
     }
 
+
     /**
      * @param $cert srCertificate
+     *
+     * @return string
      */
-    public static function getSignatureForCertificate($cert) {
-        $data = ilObjCourse::_lookupTitle(ilObjCourse::_lookupObjectId($cert->getDefinition()->getRefId())) . " - "
+    public static function getSignatureForCertificate($cert)
+    {
+        $second_part = " - "
             . $cert->getValidFrom() . " - "
-            . ($cert->getUser()->getLastname() == "-" ? "" : $cert->getUser()->getLastname() . ", ")
+            . ($cert->getUser()->getLastname() == "" ? "" : $cert->getUser()->getLastname() . ", ")
             . $cert->getUser()->getFirstname();
+        $allowed_name_length = 244 - strlen($second_part);
+        $course_name = ilObjCourse::_lookupTitle(ilObjCourse::_lookupObjectId($cert->getDefinition()->getRefId()));
+        if (strlen($course_name) > $allowed_name_length) {
+            $course_name = substr($course_name, 0, $allowed_name_length - 3) . "...";
+        }
+        $data = $course_name . $second_part;
+
         return self::encryptData($data);
     }
 

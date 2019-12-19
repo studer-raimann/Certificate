@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.9.1]
+- Bugfix: signatures with long course titles didn't work
+- Change: switched from hyphen to underscore in filename
+
 ## [1.9.0]
 - Change: filename order changed to user_name + date + course title
 - Improvement: filename replaces umlauts with 'ae', 'ue' and 'oe'
