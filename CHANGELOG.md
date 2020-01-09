@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.0.1]
+- Bugfix: fixed nl2br error (default language not set)
+
 ## [2.0.0]
 - Feature: Participation Certificates
 
