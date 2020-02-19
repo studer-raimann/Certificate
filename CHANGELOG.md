@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Bugfix: Open certficate tab crashes if course is offline
+
 ## [2.0.1]
 - Bugfix: fixed nl2br error (default language not set)
 
