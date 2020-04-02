@@ -612,6 +612,7 @@ class srCertificateDefinitionGUI {
 	 */
 	protected function initHeader() {
 		$lgui = ilObjectListGUIFactory::_getListGUIByType($this->crs->getType());
+        $lgui->initItem($this->crs->getRefId(), $this->crs->getId(), $this->crs->getTitle(), $this->crs->getDescription());
 		$this->tpl->setTitle($this->crs->getTitle());
 		$this->tpl->setDescription($this->crs->getDescription());
 		if ($this->crs->getOfflineStatus()) {

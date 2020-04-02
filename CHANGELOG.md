@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.2]
+- Bugfix: error in definition form when lp is inactive
+- Bugfix: Open certficate tab crashes if course is offline
+
 ## [2.0.1]
 - Bugfix: fixed nl2br error (default language not set)
 
