@@ -2,260 +2,248 @@
 
 /**
  * srCertificatePlaceholderValue
- *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
-class srCertificatePlaceholderValue extends ActiveRecord {
+class srCertificatePlaceholderValue extends ActiveRecord
+{
 
-	/**
-	 * MySQL Table-Name
-	 */
-	const TABLE_NAME = 'cert_placeholder_value';
+    /**
+     * MySQL Table-Name
+     */
+    const TABLE_NAME = 'cert_placeholder_value';
 
+    /**
+     * @return string
+     */
+    public function getConnectorContainerName()
+    {
+        return self::TABLE_NAME;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getConnectorContainerName() {
-		return self::TABLE_NAME;
-	}
+    /**
+     * @return string
+     * @deprecated
+     */
+    public static function returnDbTableName()
+    {
+        return self::TABLE_NAME;
+    }
 
+    /**
+     * @var int
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       8
+     * @db_is_primary   true
+     * @db_sequence     true
+     */
+    protected $id = 0;
+    /**
+     * @var int
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       8
+     */
+    protected $placeholder_id;
+    /**
+     * @var int
+     * @db_has_field    true
+     * @db_fieldtype    integer
+     * @db_length       8
+     */
+    protected $definition_id;
+    /**
+     * @var array
+     * @db_has_field    true
+     * @db_fieldtype    text
+     * @db_length       4000
+     */
+    protected $value = array();
+    /**
+     * @var srCertificatePlaceholder
+     */
+    protected $placeholder;
+    /**
+     * @var srCertificateDefinition
+     */
+    protected $definition;
+    /**
+     * @var ilCertificatePlugin
+     */
+    protected $pl;
 
-	/**
-	 * @return string
-	 * @deprecated
-	 */
-	public static function returnDbTableName() {
-		return self::TABLE_NAME;
-	}
+    public function __construct($id = 0)
+    {
+        parent::__construct($id);
+        $this->pl = ilCertificatePlugin::getInstance();
+    }
 
+    // Public
 
-	/**
-	 * @var int
-	 *
-	 * @db_has_field    true
-	 * @db_fieldtype    integer
-	 * @db_length       8
-	 * @db_is_primary   true
-	 * @db_sequence     true
-	 */
-	protected $id = 0;
-	/**
-	 * @var int
-	 *
-	 * @db_has_field    true
-	 * @db_fieldtype    integer
-	 * @db_length       8
-	 */
-	protected $placeholder_id;
-	/**
-	 * @var int
-	 *
-	 * @db_has_field    true
-	 * @db_fieldtype    integer
-	 * @db_length       8
-	 */
-	protected $definition_id;
-	/**
-	 * @var array
-	 *
-	 * @db_has_field    true
-	 * @db_fieldtype    text
-	 * @db_length       4000
-	 */
-	protected $value = array();
-	/**
-	 * @var srCertificatePlaceholder
-	 */
-	protected $placeholder;
-	/**
-	 * @var srCertificateDefinition
-	 */
-	protected $definition;
-	/**
-	 * @var ilCertificatePlugin
-	 */
-	protected $pl;
+    /**
+     * Check in the value of the placeholder is editable in the current context (crs, crs-tpl, tst...)
+     * @return bool
+     */
+    public function isEditable()
+    {
+        $ref_id = $this->getDefinition()->getRefId();
+        $object_type = ($this->pl->isCourseTemplate($ref_id)) ? 'crs-tpl' : ilObject::_lookupType($ref_id, true);
 
+        return in_array($object_type, $this->getPlaceholder()->getEditableIn());
+    }
 
-	public function __construct($id = 0) {
-		parent::__construct($id);
-		$this->pl = ilCertificatePlugin::getInstance();
-	}
+    /**
+     * Set values after reading from DB, e.g. convert from JSON to Array
+     * @param $key
+     * @param $value
+     * @return mixed|null
+     */
+    public function wakeUp($key, $value)
+    {
+        switch ($key) {
+            case 'value':
+                $value = json_decode($value, true);
+                break;
+        }
 
-	// Public
+        return $value;
+    }
 
+    /**
+     * Set values before saving to DB
+     * @param $key
+     * @return int|mixed|string
+     */
+    public function sleep($key)
+    {
+        $value = $this->{$key};
+        switch ($key) {
+            case 'value':
+                $value = json_encode($value);
+                break;
+        }
 
-	/**
-	 * Check in the value of the placeholder is editable in the current context (crs, crs-tpl, tst...)
-	 *
-	 * @return bool
-	 */
-	public function isEditable() {
-		$ref_id = $this->getDefinition()->getRefId();
-		$object_type = ($this->pl->isCourseTemplate($ref_id)) ? 'crs-tpl' : ilObject::_lookupType($ref_id, true);
-
-		return in_array($object_type, $this->getPlaceholder()->getEditableIn());
-	}
-
-
-	/**
-	 * Set values after reading from DB, e.g. convert from JSON to Array
-	 *
-	 * @param $key
-	 * @param $value
-	 *
-	 * @return mixed|null
-	 */
-	public function wakeUp($key, $value) {
-		switch ($key) {
-			case 'value':
-				$value = json_decode($value, true);
-				break;
-		}
-
-		return $value;
-	}
-
-
-	/**
-	 * Set values before saving to DB
-	 *
-	 * @param $key
-	 *
-	 * @return int|mixed|string
-	 */
-	public function sleep($key) {
-		$value = $this->{$key};
-		switch ($key) {
-			case 'value':
-				$value = json_encode($value);
-				break;
-		}
-
-		return $value;
-	}
+        return $value;
+    }
 
 
-	// Protected
+    // Protected
 
-	// Getters & Setters
+    // Getters & Setters
 
-	/**
-	 * @param \srCertificatePlaceholder $placeholder_object
-	 */
-	public function setPlaceholder($placeholder_object) {
-		$this->placeholder = $placeholder_object;
-		$this->placeholder_id = $placeholder_object->getId();
-	}
+    /**
+     * @param \srCertificatePlaceholder $placeholder_object
+     */
+    public function setPlaceholder($placeholder_object)
+    {
+        $this->placeholder = $placeholder_object;
+        $this->placeholder_id = $placeholder_object->getId();
+    }
 
+    /**
+     * @return \srCertificatePlaceholder
+     */
+    public function getPlaceholder()
+    {
+        if (is_null($this->placeholder)) {
+            $this->placeholder = srCertificatePlaceholder::find($this->getPlaceholderId());
+        }
 
-	/**
-	 * @return \srCertificatePlaceholder
-	 */
-	public function getPlaceholder() {
-		if (is_null($this->placeholder)) {
-			$this->placeholder = srCertificatePlaceholder::find($this->getPlaceholderId());
-		}
+        return $this->placeholder;
+    }
 
-		return $this->placeholder;
-	}
+    /**
+     * Get value of a language or all languages if the $lang_id parameter is omitted
+     * @param string $lang_id
+     * @return string|array
+     */
+    public function getValue($lang_id = '')
+    {
+        // TODO Do some validation
+        if ($lang_id) {
+            $value = (isset($this->value[$lang_id])) ? $this->value[$lang_id] : "";
 
+            return $value;
+        }
 
-	/**
-	 * Get value of a language or all languages if the $lang_id parameter is omitted
-	 *
-	 * @param string $lang_id
-	 *
-	 * @return string|array
-	 */
-	public function getValue($lang_id = '') {
-		// TODO Do some validation
-		if ($lang_id) {
-			$value = (isset($this->value[$lang_id])) ? $this->value[$lang_id] : "";
+        return $this->value;
+    }
 
-			return $value;
-		}
+    /**
+     * Set a value for a given language
+     * @param $value
+     * @param $lang_id
+     */
+    public function setValue($value, $lang_id = '')
+    {
+        // TODO Do some validation
+        if ($lang_id) {
+            $this->value[$lang_id] = $value;
+        } else {
+            $this->value = $value;
+        }
+    }
 
-		return $this->value;
-	}
+    /**
+     * @param int $placeholder_id
+     */
+    public function setPlaceholderId($placeholder_id)
+    {
+        $this->placeholder_id = $placeholder_id;
+    }
 
+    /**
+     * @return int
+     */
+    public function getPlaceholderId()
+    {
+        return $this->placeholder_id;
+    }
 
-	/**
-	 * Set a value for a given language
-	 *
-	 * @param $value
-	 * @param $lang_id
-	 */
-	public function setValue($value, $lang_id = '') {
-		// TODO Do some validation
-		if ($lang_id) {
-			$this->value[$lang_id] = $value;
-		} else {
-			$this->value = $value;
-		}
-	}
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * @param \srCertificateDefinition $definition
+     */
+    public function setDefinition($definition)
+    {
+        $this->definition = $definition;
+        $this->definition_id = $definition->getId();
+    }
 
-	/**
-	 * @param int $placeholder_id
-	 */
-	public function setPlaceholderId($placeholder_id) {
-		$this->placeholder_id = $placeholder_id;
-	}
+    /**
+     * @return \srCertificateDefinition
+     */
+    public function getDefinition()
+    {
+        if (is_null($this->definition)) {
+            $this->definition = srCertificateDefinition::find($this->getDefinitionId());
+        }
 
+        return $this->definition;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getPlaceholderId() {
-		return $this->placeholder_id;
-	}
+    /**
+     * @param int $definition_id
+     */
+    public function setDefinitionId($definition_id)
+    {
+        $this->definition_id = $definition_id;
+        $this->definition = srCertificateDefinition::find($definition_id);
+    }
 
-
-	/**
-	 * @return int
-	 */
-	public function getId() {
-		return $this->id;
-	}
-
-
-	/**
-	 * @param \srCertificateDefinition $definition
-	 */
-	public function setDefinition($definition) {
-		$this->definition = $definition;
-		$this->definition_id = $definition->getId();
-	}
-
-
-	/**
-	 * @return \srCertificateDefinition
-	 */
-	public function getDefinition() {
-		if (is_null($this->definition)) {
-			$this->definition = srCertificateDefinition::find($this->getDefinitionId());
-		}
-
-		return $this->definition;
-	}
-
-
-	/**
-	 * @param int $definition_id
-	 */
-	public function setDefinitionId($definition_id) {
-		$this->definition_id = $definition_id;
-		$this->definition = srCertificateDefinition::find($definition_id);
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getDefinitionId() {
-		return $this->definition_id;
-	}
+    /**
+     * @return int
+     */
+    public function getDefinitionId()
+    {
+        return $this->definition_id;
+    }
 }

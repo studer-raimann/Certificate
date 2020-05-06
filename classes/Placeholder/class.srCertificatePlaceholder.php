@@ -2,7 +2,6 @@
 
 /**
  * srCertificatePlaceholder
- *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
@@ -25,10 +24,8 @@ class srCertificatePlaceholder extends ActiveRecord
      */
     const REGEX_VALID_IDENTIFIER = '#^[A-Za-z0-9_\-]+$#';
 
-
     /**
      * @var int
-     *
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
@@ -39,7 +36,6 @@ class srCertificatePlaceholder extends ActiveRecord
 
     /**
      * @var int ID of srCertificateType where this placeholder belongs to
-     *
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
@@ -53,29 +49,23 @@ class srCertificatePlaceholder extends ActiveRecord
 
     /**
      * @var string
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       256
      */
     protected $identifier = '';
 
-
     /**
      * @var int
-     *
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       1
      */
     protected $is_mandatory = 0;
 
-
     /**
      * Max characters of value
-     *
      * @var int
-     *
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
@@ -84,21 +74,16 @@ class srCertificatePlaceholder extends ActiveRecord
 
     /**
      * Default values for each defined language
-     *
      * @var array
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       4000
      */
     protected $default_values = array();
 
-
     /**
      * Labels for each defined language
-     *
      * @var array
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       4000
@@ -107,9 +92,7 @@ class srCertificatePlaceholder extends ActiveRecord
 
     /**
      * Object types where placeholder is editable, e.g. crs,tst...
-     *
      * @var array
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       512
@@ -120,7 +103,6 @@ class srCertificatePlaceholder extends ActiveRecord
      * @var ilCertificatePlugin
      */
     protected $pl;
-
 
     public function __construct($id = 0)
     {
@@ -134,7 +116,8 @@ class srCertificatePlaceholder extends ActiveRecord
      * @param srCertificatePlaceholder $old_placeholder
      * @throws srCertificateException
      */
-    public function clonePlaceholder(srCertificatePlaceholder $old_placeholder) {
+    public function clonePlaceholder(srCertificatePlaceholder $old_placeholder)
+    {
         $this->setIdentifier($old_placeholder->getIdentifier());
         $this->setIsMandatory($old_placeholder->getIsMandatory());
         $this->setMaxCharactersValue($old_placeholder->getMaxCharactersValue());
@@ -145,7 +128,6 @@ class srCertificatePlaceholder extends ActiveRecord
 
     /**
      * Set a label for a language
-     *
      * @param string $label
      * @param string $lang e.g. de,en...
      */
@@ -154,10 +136,8 @@ class srCertificatePlaceholder extends ActiveRecord
         $this->labels[$lang] = $label;
     }
 
-
     /**
      * Set default value for a language
-     *
      * @param string $value
      * @param string $lang e.g. de,en...
      */
@@ -166,10 +146,8 @@ class srCertificatePlaceholder extends ActiveRecord
         $this->default_values[$lang] = $value;
     }
 
-
     /**
      * Get label of a language
-     *
      * @param string $lang e.g. de,en...
      * @return string
      */
@@ -186,10 +164,8 @@ class srCertificatePlaceholder extends ActiveRecord
         return '';
     }
 
-
     /**
      * Get default value for a language
-     *
      * @param string $lang e.g. de,en...
      * @return string
      */
@@ -198,10 +174,8 @@ class srCertificatePlaceholder extends ActiveRecord
         return (isset($this->default_values[$lang])) ? $this->default_values[$lang] : '';
     }
 
-
     /**
      * Set values after reading from DB, e.g. convert from JSON to Array
-     *
      * @param $key
      * @param $value
      * @return mixed|null
@@ -219,10 +193,8 @@ class srCertificatePlaceholder extends ActiveRecord
         return $value;
     }
 
-
     /**
      * Set values before saving to DB
-     *
      * @param $key
      * @return int|mixed|string
      */
@@ -252,7 +224,6 @@ class srCertificatePlaceholder extends ActiveRecord
         return self::TABLE_NAME;
     }
 
-
     public function delete()
     {
         // By deleting a placeholder, all placeholder values of existing definitions are deleted as well!
@@ -263,10 +234,8 @@ class srCertificatePlaceholder extends ActiveRecord
         parent::delete();
     }
 
-
     /**
      * Format an array of identifiers, e.g. add "[[" "]]" symbols for parsing
-     *
      * @param array $identifiers
      * @return array
      */
@@ -280,10 +249,8 @@ class srCertificatePlaceholder extends ActiveRecord
         return $identifier_formatted;
     }
 
-
     /**
      * Given an array of placeholders, format the key, e.g. add "[[" "]]" symbols for parsing
-     *
      * @param array $placeholders
      * @return array
      */
@@ -300,9 +267,7 @@ class srCertificatePlaceholder extends ActiveRecord
 
     // Protected
 
-
     // Getters & Setters
-
 
     /**
      * @return int
@@ -311,7 +276,6 @@ class srCertificatePlaceholder extends ActiveRecord
     {
         return $this->id;
     }
-
 
     /**
      * @param string $identifier
@@ -328,7 +292,6 @@ class srCertificatePlaceholder extends ActiveRecord
         $this->identifier = $identifier;
     }
 
-
     /**
      * @return string
      */
@@ -336,7 +299,6 @@ class srCertificatePlaceholder extends ActiveRecord
     {
         return $this->identifier;
     }
-
 
     /**
      * @param array $default_values
@@ -346,7 +308,6 @@ class srCertificatePlaceholder extends ActiveRecord
         $this->default_values = $default_values;
     }
 
-
     /**
      * @return array
      */
@@ -354,7 +315,6 @@ class srCertificatePlaceholder extends ActiveRecord
     {
         return $this->default_values;
     }
-
 
     /**
      * @param int $is_mandatory
@@ -364,7 +324,6 @@ class srCertificatePlaceholder extends ActiveRecord
         $this->is_mandatory = $is_mandatory;
     }
 
-
     /**
      * @return int
      */
@@ -372,7 +331,6 @@ class srCertificatePlaceholder extends ActiveRecord
     {
         return $this->is_mandatory;
     }
-
 
     /**
      * @param array $labels
@@ -382,7 +340,6 @@ class srCertificatePlaceholder extends ActiveRecord
         $this->labels = $labels;
     }
 
-
     /**
      * @return array
      */
@@ -390,7 +347,6 @@ class srCertificatePlaceholder extends ActiveRecord
     {
         return $this->labels;
     }
-
 
     /**
      * @param int $max_characters_value
@@ -400,7 +356,6 @@ class srCertificatePlaceholder extends ActiveRecord
         $this->max_characters_value = $max_characters_value;
     }
 
-
     /**
      * @return int
      */
@@ -408,7 +363,6 @@ class srCertificatePlaceholder extends ActiveRecord
     {
         return $this->max_characters_value;
     }
-
 
     /**
      * @param \srCertificateType $type
@@ -418,7 +372,6 @@ class srCertificatePlaceholder extends ActiveRecord
         $this->type = $type;
         $this->type_id = $type->getId();
     }
-
 
     /**
      * @return \srCertificateType
@@ -432,7 +385,6 @@ class srCertificatePlaceholder extends ActiveRecord
         return $this->type;
     }
 
-
     /**
      * @param array $editable_in
      */
@@ -440,7 +392,6 @@ class srCertificatePlaceholder extends ActiveRecord
     {
         $this->editable_in = $editable_in;
     }
-
 
     /**
      * @return array
@@ -450,7 +401,6 @@ class srCertificatePlaceholder extends ActiveRecord
         return $this->editable_in;
     }
 
-
     /**
      * @return int
      */
@@ -459,7 +409,6 @@ class srCertificatePlaceholder extends ActiveRecord
         return $this->type_id;
     }
 
-
     /**
      * @param int $type_id
      */
@@ -467,6 +416,5 @@ class srCertificatePlaceholder extends ActiveRecord
     {
         $this->type_id = $type_id;
     }
-
 
 }

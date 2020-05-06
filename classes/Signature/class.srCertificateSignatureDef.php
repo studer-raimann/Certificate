@@ -1,6 +1,7 @@
 <?php
 
-class srCertificateSignatureDef {
+class srCertificateSignatureDef
+{
 
-	const TABLE_NAME = 'cert_signature_def';
+    const TABLE_NAME = 'cert_signature_def';
 }

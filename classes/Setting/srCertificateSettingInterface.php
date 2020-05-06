@@ -3,22 +3,21 @@
 /**
  * Interface srCertificateSetting
  */
-interface srCertificateSettingInterface {
+interface srCertificateSettingInterface
+{
 
-	/**
-	 * @param $value
-	 */
-	public function setValue($value);
+    /**
+     * @param $value
+     */
+    public function setValue($value);
 
+    /**
+     * @return mixed
+     */
+    public function getValue();
 
-	/**
-	 * @return mixed
-	 */
-	public function getValue();
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getIdentifier();
+    /**
+     * @return mixed
+     */
+    public function getIdentifier();
 }

@@ -2,7 +2,6 @@
 
 /**
  * srCertificateCustomTypeSetting
- *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
@@ -24,7 +23,6 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
 
     /**
      * @var int
-     *
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
@@ -33,9 +31,7 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
 
     /**
      * Labels for each defined language
-     *
      * @var array
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       1204
@@ -44,7 +40,6 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
 
     /**
      * @var string
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       2048
@@ -54,7 +49,8 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
     /**
      * @param srCertificateTypeSetting $old_setting
      */
-    public function cloneSetting(srCertificateTypeSetting $old_setting) {
+    public function cloneSetting(srCertificateTypeSetting $old_setting)
+    {
         parent::cloneSetting($old_setting);
         $this->setLabel($old_setting->getLabel());
         $this->setData($old_setting->getData());
@@ -62,7 +58,6 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
 
     /**
      * Set values after reading from DB, e.g. convert from JSON to Array
-     *
      * @param $key
      * @param $value
      * @return mixed|null
@@ -77,10 +72,8 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
         return parent::wakeUp($key, $value);
     }
 
-
     /**
      * Set values before saving to DB
-     *
      * @param $key
      * @return int|mixed|string
      */
@@ -96,13 +89,14 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
         return parent::sleep($key);
     }
 
-
     public function delete()
     {
         // Delete setting on all definitions
         foreach (srCertificateDefinition::where(array('type_id' => $this->getTypeId()))->get() as $definition) {
             /** @var srCertificateDefinition $setting */
-            $setting = srCertificateCustomDefinitionSetting::where(array('definition_id' => $definition->getId(), 'identifier' => $this->getIdentifier()))->first();
+            $setting = srCertificateCustomDefinitionSetting::where(array('definition_id' => $definition->getId(),
+                                                                         'identifier' => $this->getIdentifier()
+            ))->first();
             if ($setting) {
                 $setting->delete();
             }
@@ -111,10 +105,8 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
         parent::delete();
     }
 
-
     /**
      * Set a label for a language
-     *
      * @param string $label
      * @param string $lang e.g. de,en...
      */
@@ -123,10 +115,8 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
         $this->labels[$lang] = $label;
     }
 
-
     /**
      * Get label of a language
-     *
      * @param string $lang e.g. de,en...
      * @return string
      */
@@ -143,7 +133,6 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
         return '';
     }
 
-
     /**
      * @return int
      */
@@ -152,7 +141,6 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
         return $this->setting_type_id;
     }
 
-
     /**
      * @param int $setting_type_id
      */
@@ -160,7 +148,6 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
     {
         $this->setting_type_id = $setting_type_id;
     }
-
 
     /**
      * @param bool $as_array True if data is parsed and returned as array
@@ -186,7 +173,6 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
         return $this->data;
     }
 
-
     /**
      * @param string $data
      */
@@ -194,7 +180,6 @@ class srCertificateCustomTypeSetting extends srCertificateTypeSetting
     {
         $this->data = $data;
     }
-
 
     /**
      * @param string $identifier
