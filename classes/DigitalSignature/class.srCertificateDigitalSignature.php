@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Class srCertificateDigitalSignature
- *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class srCertificateDigitalSignature {
+class srCertificateDigitalSignature
+{
 
     const KEYTYPE_PRIVATE = 'private';
     const KEYTYPE_PUBLIC = 'public';
@@ -18,7 +19,8 @@ class srCertificateDigitalSignature {
      * @return string
      * @throws ilException
      */
-    public static function getPathOf($key_type) {
+    public static function getPathOf($key_type)
+    {
         $data_dir = ILIAS_DATA_DIR . DIRECTORY_SEPARATOR . CLIENT_ID . DIRECTORY_SEPARATOR . self::KEY_PATH . DIRECTORY_SEPARATOR;
         switch ($key_type) {
             case self::KEYTYPE_PRIVATE:
@@ -34,7 +36,8 @@ class srCertificateDigitalSignature {
      * @param $data
      * @return string
      */
-    public static function encryptData($data) {
+    public static function encryptData($data)
+    {
         $key = openssl_get_privatekey('file://' . self::getPathOf(self::KEYTYPE_PRIVATE));
         openssl_private_encrypt($data, $encrypted, $key);
         return base64_encode($encrypted);
@@ -44,16 +47,15 @@ class srCertificateDigitalSignature {
      * @param $signature
      * @return mixed
      */
-    public static function decryptSignature($signature) {
+    public static function decryptSignature($signature)
+    {
         $key = openssl_get_publickey('file://' . self::getPathOf(self::KEYTYPE_PUBLIC));
         openssl_public_decrypt(base64_decode($signature), $decrypted, $key);
         return $decrypted;
     }
 
-
     /**
      * @param $cert srCertificate
-     *
      * @return string
      */
     public static function getSignatureForCertificate($cert)

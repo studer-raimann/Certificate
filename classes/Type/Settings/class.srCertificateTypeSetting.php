@@ -2,7 +2,6 @@
 
 /**
  * srCertificateTypeSetting
- *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version
  */
@@ -23,6 +22,7 @@ class srCertificateTypeSetting extends srCertificateSetting
     const IDENTIFIER_DOWNLOADABLE = 'downloadable';
     const IDENTIFIER_SCORM_TIMING = 'scorm_timing';
     const IDENTIFIER_SUCCESSOR_COURSE = 'successor_course';
+    const IDENTIFIER_SHOW_ALL_VERSIONS = 'show_all_versions';
 
     const VALIDITY_TYPE_ALWAYS = 1;
     const VALIDITY_TYPE_DATE_RANGE = 2;
@@ -31,10 +31,8 @@ class srCertificateTypeSetting extends srCertificateSetting
     const GENERATION_AUTO = 'auto';
     const GENERATION_MANUAL = 'manual';
 
-
     /**
      * @var int
-     *
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
@@ -43,14 +41,11 @@ class srCertificateTypeSetting extends srCertificateSetting
 
     /**
      * @var array
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       1204
      */
     protected $editable_in = '';
-
-
 
     public function __construct($id = 0)
     {
@@ -59,13 +54,14 @@ class srCertificateTypeSetting extends srCertificateSetting
 
     // Public
 
-
-    public function create() {
+    public function create()
+    {
         // TODO: predecessor/successor
         parent::create();
     }
 
-    public function update() {
+    public function update()
+    {
         // TODO: predecessor/successor
         parent::update();
     }
@@ -73,13 +69,13 @@ class srCertificateTypeSetting extends srCertificateSetting
     /**
      * @param srCertificateTypeSetting $old_setting
      */
-    public function cloneSetting(srCertificateTypeSetting $old_setting) {
+    public function cloneSetting(srCertificateTypeSetting $old_setting)
+    {
         $this->setEditableIn($old_setting->getEditableIn());
     }
 
     /**
      * Set values after reading from DB, e.g. convert from JSON to Array
-     *
      * @param $key
      * @param $value
      * @return mixed|null
@@ -94,10 +90,8 @@ class srCertificateTypeSetting extends srCertificateSetting
         return $value;
     }
 
-
     /**
      * Set values before saving to DB
-     *
      * @param $key
      * @return int|mixed|string
      */
@@ -111,7 +105,6 @@ class srCertificateTypeSetting extends srCertificateSetting
         }
         return $value;
     }
-
 
     /**
      * @param array $editable_in
@@ -129,7 +122,6 @@ class srCertificateTypeSetting extends srCertificateSetting
         return $this->editable_in;
     }
 
-
     /**
      * @param int $type_id
      */
@@ -145,7 +137,6 @@ class srCertificateTypeSetting extends srCertificateSetting
     {
         return $this->type_id;
     }
-
 
     /**
      * @param $validity_type
@@ -164,8 +155,10 @@ class srCertificateTypeSetting extends srCertificateSetting
             case srCertificateTypeSetting::VALIDITY_TYPE_DATE_RANGE:
                 if (is_array($value) && isset($value['dd']) && isset($value['MM'])) {
                     $value = json_encode(array('d' => $value['dd'], 'm' => $value['MM']));
-                } else if (!self::isJson($value)){
-                    $value = '';
+                } else {
+                    if (!self::isJson($value)) {
+                        $value = '';
+                    }
                 }
                 break;
         }
@@ -175,15 +168,14 @@ class srCertificateTypeSetting extends srCertificateSetting
 
     /**
      * return true if string is in json format
-     *
      * @param String $string
      * @return bool
      */
-    public static function isJson($string) {
+    public static function isJson($string)
+    {
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
     }
-
 
     /**
      * @param mixed $value
@@ -194,11 +186,11 @@ class srCertificateTypeSetting extends srCertificateSetting
         if ($value && $this->getIdentifier() == srCertificateTypeSetting::IDENTIFIER_VALIDITY) {
             /** @var srCertificateType $type */
             $type = srCertificateType::find($this->getTypeId());
-            $value = self::formatValidityBasedOnType($type->getSettingByIdentifier(self::IDENTIFIER_VALIDITY_TYPE)->getValue(), $value);
+            $value = self::formatValidityBasedOnType($type->getSettingByIdentifier(self::IDENTIFIER_VALIDITY_TYPE)->getValue(),
+                $value);
         }
 
         $this->value = $value;
     }
-
 
 }

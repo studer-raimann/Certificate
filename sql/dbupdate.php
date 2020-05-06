@@ -292,3 +292,30 @@ $DIC->database()->query(
         WHERE usage_type = 0 OR usage_type IS NULL'
 );
 ?>
+<#23>
+<?php
+$types = srCertificateType::get();
+/** @var srCertificateType $type */
+foreach ($types as $type) {
+    if (is_null($type->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SHOW_ALL_VERSIONS))) {
+        $setting = new srCertificateTypeSetting();
+        $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SHOW_ALL_VERSIONS);
+        $setting->setValue(0);
+        $setting->setEditableIn($type->getAvailableObjects());
+        $setting->setTypeId($type->getId());
+        $setting->create();
+    }
+}
+
+$definitions = srCertificateDefinition::get();
+/** @var srCertificateDefinition $def */
+foreach ($definitions as $def) {
+    if (is_null($def->getSettingByIdentifier(srCertificateTypeSetting::IDENTIFIER_SHOW_ALL_VERSIONS))) {
+        $setting = new srCertificateDefinitionSetting();
+        $setting->setIdentifier(srCertificateTypeSetting::IDENTIFIER_SHOW_ALL_VERSIONS);
+        $setting->setValue(0);
+        $setting->setDefinitionId($def->getId());
+        $setting->create();
+    }
+}
+?>

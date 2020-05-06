@@ -3,160 +3,158 @@
 
 /**
  * Class srCertificateParticipantsTableGUI
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class srCertificateParticipantsTableGUI extends ilTable2GUI {
+class srCertificateParticipantsTableGUI extends ilTable2GUI
+{
 
-	/**
-	 * All available columns
-	 *
-	 * @var array
-	 */
-	protected static $columns = array(
-		'firstname',
-		'lastname',
-		'passed_at',
-	);
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
-	/**
-	 * @var srCertificateDefinition
-	 */
-	protected $definition;
-	/**
-	 * @var ilCertificatePlugin
-	 */
-	protected $pl;
+    /**
+     * All available columns
+     * @var array
+     */
+    protected static $columns = array(
+        'firstname',
+        'lastname',
+        'passed_at',
+    );
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
+    /**
+     * @var srCertificateDefinition
+     */
+    protected $definition;
+    /**
+     * @var ilCertificatePlugin
+     */
+    protected $pl;
 
+    /**
+     * srCertificateParticipantsTableGUI constructor.
+     * @param                         $a_parent_obj
+     * @param string                  $a_parent_cmd
+     * @param srCertificateDefinition $definition
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd = "", $definition)
+    {
+        global $DIC;
+        $this->ctrl = $DIC->ctrl();
+        $this->user = $DIC->user();
+        $this->definition = $definition;
+        $this->pl = ilCertificatePlugin::getInstance();
+        $this->setPrefix('cert_par_');
+        $this->setId($definition->getId());
+        parent::__construct($a_parent_obj, $a_parent_cmd);
 
-	/**
-	 * srCertificateParticipantsTableGUI constructor.
-	 *
-	 * @param                         $a_parent_obj
-	 * @param string                  $a_parent_cmd
-	 * @param srCertificateDefinition $definition
-	 */
-	public function __construct($a_parent_obj, $a_parent_cmd = "", $definition) {
-		global $DIC;
-		$this->ctrl = $DIC->ctrl();
-		$this->user = $DIC->user();
-		$this->definition = $definition;
-		$this->pl = ilCertificatePlugin::getInstance();
-		$this->setPrefix('cert_par_');
-		$this->setId($definition->getId());
-		parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->setRowTemplate('tpl.participants_row.html', $this->pl->getDirectory());
+        $this->addColumns();
 
-		$this->setRowTemplate('tpl.participants_row.html', $this->pl->getDirectory());
-		$this->addColumns();
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
+        $this->addMultiCommand(srCertificateDefinitionGUI::CMD_SET_DATE, $this->pl->txt('set_date_and_create'));
+        $this->setSelectAllCheckbox('user_id');
 
-		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
-		$this->addMultiCommand(srCertificateDefinitionGUI::CMD_SET_DATE, $this->pl->txt('set_date_and_create'));
-		$this->setSelectAllCheckbox('user_id');
+        $this->parseData();
+    }
 
-		$this->parseData();
-	}
+    /**
+     *
+     */
+    protected function parseData()
+    {
+        $ilCourseParticipants = new ilCourseParticipants(ilObject::_lookupObjectId($_GET['ref_id']));
+        $participant_ids = $ilCourseParticipants->getParticipants();
 
+        $data = array();
+        foreach ($participant_ids as $usr_id) {
+            $user_set = array();
+            $ilObjUser = new ilObjUser($usr_id);
 
-	/**
-	 *
-	 */
-	protected function parseData() {
-		$ilCourseParticipants = new ilCourseParticipants(ilObject::_lookupObjectId($_GET['ref_id']));
-		$participant_ids = $ilCourseParticipants->getParticipants();
+            $user_set['id'] = $usr_id;
+            $user_set['firstname'] = $ilObjUser->getFirstname();
+            $user_set['lastname'] = $ilObjUser->getLastname();
 
-		$data = array();
-		foreach ($participant_ids as $usr_id) {
-			$user_set = array();
-			$ilObjUser = new ilObjUser($usr_id);
+            $data[] = $user_set;
+        }
 
-			$user_set['id'] = $usr_id;
-			$user_set['firstname'] = $ilObjUser->getFirstname();
-			$user_set['lastname'] = $ilObjUser->getLastname();
+        $this->setData($data);
+    }
 
-			$data[] = $user_set;
-		}
+    /**
+     * Add columns to table
+     */
+    protected function addColumns()
+    {
+        // Multi actions
+        $this->addColumn("", "", "1", true);
 
-		$this->setData($data);
-	}
+        // Main columns
+        foreach (self::$columns as $column) {
+            $this->addColumn($this->pl->txt($column), $column);
+        }
 
+        // Actions column
+        $this->addColumn($this->pl->txt('actions'), '', '', true);
+    }
 
-	/**
-	 * Add columns to table
-	 *
-	 */
-	protected function addColumns() {
-		// Multi actions
-		$this->addColumn("", "", "1", true);
+    /**
+     * @param array $a_set
+     */
+    protected function fillRow($a_set)
+    {
+        $this->tpl->setCurrentBlock('CHECKBOXES');
+        $this->tpl->setVariable('VALUE', $a_set['id']);
+        $this->tpl->parseCurrentBlock();
 
-		// Main columns
-		foreach (self::$columns as $column) {
-			$this->addColumn($this->pl->txt($column), $column);
-		}
+        $utc = ilCertificateConfig::getX('time_format_utc');
+        $date_function = ($utc) ? 'gmdate' : 'date';
 
-		// Actions column
-		$this->addColumn($this->pl->txt('actions'), '', '', true);
-	}
+        foreach (self::$columns as $k => $column) {
+            $value = (is_null($a_set[$column])) ? '' : $a_set[$column];
 
+            if ($column == 'passed_at') {
+                /** @var srCertificate $cert */
+                $cert = srCertificate::where(array(
+                    'active' => 1,
+                    'user_id' => $a_set['id'],
+                    'definition_id' => $this->definition->getId(),
+                    'usage_type' => srCertificate::USAGE_TYPE_STANDARD,
+                ))->first();
 
-	/**
-	 * @param array $a_set
-	 */
-	protected function fillRow($a_set) {
-		$this->tpl->setCurrentBlock('CHECKBOXES');
-		$this->tpl->setVariable('VALUE', $a_set['id']);
-		$this->tpl->parseCurrentBlock();
+                if ($cert) {
+                    $time = strtotime($cert->getValidFrom());
+                    switch ($this->user->getDateFormat()) {
+                        case ilCalendarSettings::DATE_FORMAT_DMY:
+                            $value = $date_function('d.m.Y', $time);
+                            break;
+                        case ilCalendarSettings::DATE_FORMAT_MDY:
+                            $value = $date_function('m/d/Y', $time);
+                            break;
+                    }
+                } else {
+                    $value = $this->pl->txt('not_passed_yet');
+                }
+            }
 
-		$utc = ilCertificateConfig::getX('time_format_utc');
-		$date_function = ($utc) ? 'gmdate' : 'date';
+            // Set value
+            $this->tpl->setCurrentBlock('COL');
+            $this->tpl->setVariable('VALUE', $value);
+            $this->tpl->parseCurrentBlock();
+        }
+        // Actions
+        $this->ctrl->setParameter($this->parent_obj, 'user_id', $a_set['id']);
+        $actions = new ilAdvancedSelectionListGUI();
+        $actions->setId('action_list_' . $a_set['id']);
+        $actions->setListTitle($this->pl->txt('actions'));
+        $actions->addItem($this->pl->txt('set_date_and_create'), 'setDate',
+            $this->ctrl->getLinkTarget($this->parent_obj, srCertificateDefinitionGUI::CMD_SET_DATE));
 
-		foreach (self::$columns as $k => $column) {
-			$value = (is_null($a_set[$column])) ? '' : $a_set[$column];
-
-			if ($column == 'passed_at') {
-				/** @var srCertificate $cert */
-				$cert = srCertificate::where(array(
-					'active' => 1,
-					'user_id' => $a_set['id'],
-					'definition_id' => $this->definition->getId(),
-					'usage_type' => srCertificate::USAGE_TYPE_STANDARD,
-				))->first();
-
-				if ($cert) {
-					$time = strtotime($cert->getValidFrom());
-					switch ($this->user->getDateFormat()) {
-						case ilCalendarSettings::DATE_FORMAT_DMY:
-							$value = $date_function('d.m.Y', $time);
-							break;
-						case ilCalendarSettings::DATE_FORMAT_MDY:
-							$value = $date_function('m/d/Y', $time);
-							break;
-					}
-				} else {
-					$value = $this->pl->txt('not_passed_yet');
-				}
-			}
-
-			// Set value
-			$this->tpl->setCurrentBlock('COL');
-			$this->tpl->setVariable('VALUE', $value);
-			$this->tpl->parseCurrentBlock();
-		}
-		// Actions
-		$this->ctrl->setParameter($this->parent_obj, 'user_id', $a_set['id']);
-		$actions = new ilAdvancedSelectionListGUI();
-		$actions->setId('action_list_' . $a_set['id']);
-		$actions->setListTitle($this->pl->txt('actions'));
-		$actions->addItem($this->pl->txt('set_date_and_create'), 'setDate', $this->ctrl->getLinkTarget($this->parent_obj, srCertificateDefinitionGUI::CMD_SET_DATE));
-
-		$this->tpl->setCurrentBlock('ACTIONS');
-		$this->tpl->setVariable('ACTIONS', $actions->getHTML());
-		$this->tpl->parseCurrentBlock();
-	}
+        $this->tpl->setCurrentBlock('ACTIONS');
+        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        $this->tpl->parseCurrentBlock();
+    }
 }

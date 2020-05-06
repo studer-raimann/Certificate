@@ -300,3 +300,5 @@ condition_status_2#:#Completed
 usage_type#:#Usage
 usage_type_1#:#Course Completion Certificate
 usage_type_2#:#Participation Certificate
+setting_id_show_all_versions#:#Show all certificate versions
+setting_id_show_all_versions_info#:#Show the user all versions of his certificates

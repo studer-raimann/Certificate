@@ -2,7 +2,6 @@
 
 /**
  * srCertificateSignature
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @version
  */
@@ -16,7 +15,6 @@ class srCertificateSignature extends ActiveRecord
 
     /**
      * @var int
-     *
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
@@ -27,7 +25,6 @@ class srCertificateSignature extends ActiveRecord
 
     /**
      * @var int ID of srCertificateType where this signature belongs to
-     *
      * @db_has_field    true
      * @db_fieldtype    integer
      * @db_length       8
@@ -36,7 +33,6 @@ class srCertificateSignature extends ActiveRecord
 
     /**
      * @var String suffix of file
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       256
@@ -45,7 +41,6 @@ class srCertificateSignature extends ActiveRecord
 
     /**
      * @var String first name of signatures owner
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       256
@@ -54,7 +49,6 @@ class srCertificateSignature extends ActiveRecord
 
     /**
      * @var String last name of signatures owner
-     *
      * @db_has_field    true
      * @db_fieldtype    text
      * @db_length       256
@@ -71,17 +65,16 @@ class srCertificateSignature extends ActiveRecord
      */
     protected $pl;
 
-
     public function __construct($id = 0)
     {
         parent::__construct($id);
         $this->pl = ilCertificatePlugin::getInstance();
     }
 
-
     // Public
 
-    public function cloneSignature(srCertificateSignature $old_signature) {
+    public function cloneSignature(srCertificateSignature $old_signature)
+    {
         $this->setSuffix($old_signature->getSuffix());
         $this->setFirstName($old_signature->getFirstName());
         $this->setLastName($old_signature->getLastName());
@@ -103,16 +96,14 @@ class srCertificateSignature extends ActiveRecord
 
     }
 
-
     public function download()
     {
-        ilUtil::deliverFile($this->getFilePath(true), 'signature_' . $this->getLastName() . '_' . $this->getFirstName() . '.' . $this->getSuffix());
+        ilUtil::deliverFile($this->getFilePath(true),
+            'signature_' . $this->getLastName() . '_' . $this->getFirstName() . '.' . $this->getSuffix());
     }
-
 
     /**
      * Get the path where the signature file is stored
-     *
      * @param bool $append_file True if filename should be included
      * @return string
      */
@@ -128,7 +119,6 @@ class srCertificateSignature extends ActiveRecord
 
         return $path;
     }
-
 
     /**
      * @param array $file_data
@@ -172,7 +162,6 @@ class srCertificateSignature extends ActiveRecord
         return $this->id;
     }
 
-
     /**
      * @param \srCertificateType $type
      */
@@ -181,7 +170,6 @@ class srCertificateSignature extends ActiveRecord
         $this->type = $type;
         $this->type_id = $type->getId();
     }
-
 
     /**
      * @return \srCertificateType
@@ -195,7 +183,6 @@ class srCertificateSignature extends ActiveRecord
         return $this->type;
     }
 
-
     /**
      * @return int
      */
@@ -203,7 +190,6 @@ class srCertificateSignature extends ActiveRecord
     {
         return $this->type_id;
     }
-
 
     /**
      * @param int $type_id
@@ -213,7 +199,6 @@ class srCertificateSignature extends ActiveRecord
         $this->type_id = $type_id;
     }
 
-
     /**
      * @param String $first_name
      */
@@ -221,7 +206,6 @@ class srCertificateSignature extends ActiveRecord
     {
         $this->first_name = $first_name;
     }
-
 
     /**
      * @return String
@@ -231,7 +215,6 @@ class srCertificateSignature extends ActiveRecord
         return $this->first_name;
     }
 
-
     /**
      * @param String $last_name
      */
@@ -239,7 +222,6 @@ class srCertificateSignature extends ActiveRecord
     {
         $this->last_name = $last_name;
     }
-
 
     /**
      * @return String
@@ -249,7 +231,6 @@ class srCertificateSignature extends ActiveRecord
         return $this->last_name;
     }
 
-
     /**
      * @return String
      */
@@ -257,7 +238,6 @@ class srCertificateSignature extends ActiveRecord
     {
         return $this->suffix;
     }
-
 
     /**
      * @param String $suffix

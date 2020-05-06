@@ -2,10 +2,10 @@
 
 /**
  * Class srCertificateCronjob
- *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class srCertificateCronjob {
+class srCertificateCronjob
+{
 
     /**
      * @var Ilias
@@ -35,7 +35,8 @@ class srCertificateCronjob {
     /**
      * srCertificateCronjob constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         global $DIC;
         $this->db = $DIC->database();
         $this->user = $DIC->user();
@@ -48,7 +49,8 @@ class srCertificateCronjob {
     /**
      * @throws Exception
      */
-    public function run() {
+    public function run()
+    {
         $this->generateCertificates();
         $this->subscribeToSuccessorCourses();
     }
@@ -56,7 +58,8 @@ class srCertificateCronjob {
     /**
      * @throws Exception
      */
-    protected function generateCertificates() {
+    protected function generateCertificates()
+    {
         /** @var srCertificate $cert */
         $certs = srCertificate::where(array('status' => srCertificate::STATUS_NEW))->get();
         foreach ($certs as $cert) {
@@ -68,7 +71,8 @@ class srCertificateCronjob {
             try {
                 $cert->generate();
             } catch (Exception $e) {
-                $this->log->log("Failed to generate certificate with ID {$cert->getId()}, message: " . $e->getMessage(), ilLogLevel::ERROR);
+                $this->log->log("Failed to generate certificate with ID {$cert->getId()}, message: " . $e->getMessage(),
+                    ilLogLevel::ERROR);
                 throw $e;
             }
         }
@@ -100,14 +104,16 @@ class srCertificateCronjob {
     /**
      *
      */
-    protected function subscribeToSuccessorCourses() {
+    protected function subscribeToSuccessorCourses()
+    {
         // fetch certificates which expired today (valid_to -> yesterday)
-		$freshly_expired_certs = srCertificate::where(array(
-			'active' => 1,
-			'usage_type' => srCertificate::USAGE_TYPE_STANDARD,
-			'valid_to' => date('Y-m-d', strtotime('yesterday')))
-		)->get();
-		/** @var srCertificate $cert */
+        $freshly_expired_certs = srCertificate::where(array(
+                'active' => 1,
+                'usage_type' => srCertificate::USAGE_TYPE_STANDARD,
+                'valid_to' => date('Y-m-d', strtotime('yesterday'))
+            )
+        )->get();
+        /** @var srCertificate $cert */
         foreach ($freshly_expired_certs as $cert) {
             $successor_crs_ref_id = $cert->getDefinition()->getSuccessorCourseRefId();
             if ($successor_crs_ref_id && !ilObjCourse::_exists($successor_crs_ref_id, true)) {
@@ -130,16 +136,16 @@ class srCertificateCronjob {
 
     /**
      * Get timestamp of the last_status according to LP
-     *
      * @param srCertificate $cert
-     *
      * @return int|null
      */
-    protected function getLastLPStatus(srCertificate $cert) {
+    protected function getLastLPStatus(srCertificate $cert)
+    {
         $ref_id = $cert->getDefinition()->getRefId();
         $obj_id = ilObject::_lookupObjectId($ref_id);
-        $lp_data = ilTrQuery::getObjectsDataForUser($cert->getUserId(), $obj_id, $ref_id, '', '', 0, 9999, NULL, array( 'last_access' ));
-        $last_status = NULL;
+        $lp_data = ilTrQuery::getObjectsDataForUser($cert->getUserId(), $obj_id, $ref_id, '', '', 0, 9999, null,
+            array('last_access'));
+        $last_status = null;
         foreach ($lp_data['set'] as $data) {
             if ($data['type'] == 'crs') {
                 $last_status = $data['last_access'];
@@ -147,7 +153,7 @@ class srCertificateCronjob {
             }
         }
 
-        return (int)$last_status;
+        return (int) $last_status;
     }
 
 }
