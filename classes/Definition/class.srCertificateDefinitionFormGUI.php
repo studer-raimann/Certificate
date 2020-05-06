@@ -156,6 +156,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 		$this->addItem($header);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_DEFAULT_LANG]);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_VALIDITY_TYPE]);
+        $this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_SHOW_ALL_VERSIONS]);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_GENERATION]);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE]);
 		$this->addItem($settings_inputs[srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING]);
@@ -232,6 +233,7 @@ class srCertificateDefinitionFormGUI extends ilPropertyFormGUI {
 				case srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE:
 				case srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER:
 				case srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING:
+                case srCertificateTypeSetting::IDENTIFIER_SHOW_ALL_VERSIONS:
 					$input = new ilCheckboxInputGUI($this->pl->txt("setting_id_{$identifier}"), $identifier);
 					$input->setInfo($this->pl->txt("setting_id_{$identifier}_info"));
 					$input->setValue(1);

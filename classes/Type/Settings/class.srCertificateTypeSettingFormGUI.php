@@ -220,6 +220,7 @@ class srCertificateTypeSettingFormGUI extends ilPropertyFormGUI {
 			case srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE:
 			case srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING:
 			case srCertificateTypeSetting::IDENTIFIER_NOTIFICATION_USER:
+            case srCertificateTypeSetting::IDENTIFIER_SHOW_ALL_VERSIONS:
 				$input = new ilCheckboxInputGUI($title, $name);
 				if ($this->setting->getValue()) {
 					$input->setChecked(true);

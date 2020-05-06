@@ -1,5 +1,9 @@
 # Changelog
 
+## [x]
+- Show all certificate versions definition setting
+- Add course my certificates tab
+
 ## [2.0.2]
 - Bugfix: error in definition form when lp is inactive
 - Bugfix: Open certficate tab crashes if course is offline

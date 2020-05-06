@@ -81,10 +81,20 @@ class srCertificateUserGUI extends srCertificateGUI {
 	 * @return srCertificateTableGUI
 	 */
 	protected function getTable($cmd) {
+        global $DIC;
 		$options = array();
 		if (in_array($cmd, array( self::CMD_RESET_FILTER, self::CMD_APPLY_FILTER ))) {
 			$options['build_data'] = false;
 		}
+
+        $options['show_all_versions_definition_setting'] = true;
+
+        $ref_id = intval(filter_input(INPUT_GET, 'ref_id'));
+        if (!empty($ref_id)) {
+            $options['ref_id'] = $ref_id;
+            $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $ref_id);
+            $DIC->tabs()->setBackTarget($this->pl->txt('back_to_course'), $this->ctrl->getLinkTargetByClass(ilRepositoryGUI::class));
+        }
 
 		return new srCertificateUserTableGUI($this, $cmd, $this->user, $options);
 	}
