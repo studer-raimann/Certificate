@@ -299,3 +299,5 @@ condition_status_2#:#Bearbeitet
 usage_type#:#Verwendung
 usage_type_1#:#Kursabschlusszertifikat
 usage_type_2#:#Teilnahmebestätigung
+setting_id_show_all_versions#:#Sämtliche Zertifikatsversionen anzeigen
+setting_id_show_all_versions_info#:#Zeigt dem Benutzer alle Versionen seiner Zertifikate an

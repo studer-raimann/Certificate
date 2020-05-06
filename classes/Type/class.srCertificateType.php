@@ -53,6 +53,7 @@ class srCertificateType extends ActiveRecord {
 		srCertificateTypeSetting::IDENTIFIER_DOWNLOADABLE => array( 'default_value' => 1 ),
 		srCertificateTypeSetting::IDENTIFIER_SCORM_TIMING => array( 'default_value' => 0 ),
 		srCertificateTypeSetting::IDENTIFIER_SUCCESSOR_COURSE => array( 'default_value' => '' ),
+        srCertificateTypeSetting::IDENTIFIER_SHOW_ALL_VERSIONS => array( 'default_value' => 0 ),
 	);
 	/**
 	 * @var int

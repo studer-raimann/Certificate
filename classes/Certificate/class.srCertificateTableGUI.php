@@ -83,6 +83,8 @@ class srCertificateTableGUI extends ilTable2GUI {
 			'actions' => array( 'download' ),
 			'actions_multi' => array( 'download_zip' ),
 			'build_data' => true,
+            'show_all_versions_definition_setting' => false,
+            'ref_id' => null,
 		);
 		$this->options = array_merge($_options, $options);
 		$this->setPrefix('cert_');
@@ -373,6 +375,13 @@ class srCertificateTableGUI extends ilTable2GUI {
 		if ($this->getOption('user_id')) {
 			$filters['user_id'] = $this->getOption('user_id');
 		}
+        if ($this->getOption('show_all_versions_definition_setting')) {
+            $filters['show_all_versions_definition_setting'] = true;
+            unset($filters['active']);
+        }
+        if (!empty($ref_id = $this->getOption('ref_id'))) {
+            $filters['ref_id'] = $ref_id;
+        }
 
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);

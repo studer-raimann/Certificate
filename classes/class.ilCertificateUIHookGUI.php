@@ -13,6 +13,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 
 	const TAB_CERTIFICATE = 'certificate';
+    const TAB_MY_CERTIFICATE = 'my_certificate';
 	/**
 	 * @var ilCtrl
 	 */
@@ -55,15 +56,20 @@ class ilCertificateUIHookGUI extends ilUIHookPluginGUI {
 					&& strtolower($_GET['baseClass']) === strtolower(ilRepositoryGUI::class))
 				|| strpos($_GET['target'], 'crs') === 0)) {
 			$ref_id = $_GET['ref_id'] ? $_GET['ref_id'] : array_pop(explode('_', $_GET['target']));
+            $ilTabsGUI = $a_par['tabs'];
 			// User needs write access to course to see the tab 'certificate'
 			if ($this->access->checkAccess('write', '', (int)$ref_id)) {
-				$ilTabsGUI = $a_par['tabs'];
 				$this->ctrl->setParameterByClass(srCertificateDefinitionGUI::class, 'ref_id', $_GET['ref_id']);
 				$ilTabsGUI->addTab(self::TAB_CERTIFICATE, $this->pl->txt('certificate'), $this->ctrl->getLinkTargetByClass(array(
 					ilUIPluginRouterGUI::class,
 					srCertificateDefinitionGUI::class
 				)));
 			}
+            $this->ctrl->setParameterByClass(srCertificateUserGUI::class, 'ref_id', $_GET['ref_id']);
+            $ilTabsGUI->addTab(self::TAB_MY_CERTIFICATE, $this->pl->txt('my_certificates'), $this->ctrl->getLinkTargetByClass(array(
+                ilUIPluginRouterGUI::class,
+                srCertificateUserGUI::class
+            )));
 		}
 	}
 }

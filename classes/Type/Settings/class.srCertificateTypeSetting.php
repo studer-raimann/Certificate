@@ -23,6 +23,7 @@ class srCertificateTypeSetting extends srCertificateSetting
     const IDENTIFIER_DOWNLOADABLE = 'downloadable';
     const IDENTIFIER_SCORM_TIMING = 'scorm_timing';
     const IDENTIFIER_SUCCESSOR_COURSE = 'successor_course';
+    const IDENTIFIER_SHOW_ALL_VERSIONS = 'show_all_versions';
 
     const VALIDITY_TYPE_ALWAYS = 1;
     const VALIDITY_TYPE_DATE_RANGE = 2;
