@@ -1,8 +1,8 @@
 # Changelog
 
-## [x]
-- Show all certificate versions definition setting
-- Add course my certificates tab
+## [2.1.0]
+- Feature: "Show all certificate versions" definition setting
+- Feature: Add "My Certificates" tab in courses
 
 ## [2.0.2]
 - Bugfix: error in definition form when lp is inactive
