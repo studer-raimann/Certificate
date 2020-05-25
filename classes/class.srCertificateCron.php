@@ -56,7 +56,9 @@ class srCertificateCron
 
         require_once './Services/Cron/classes/class.ilCronStartUp.php';
         $ilCronStartup = new ilCronStartUp($_SERVER['argv'][3], $_SERVER['argv'][1], $_SERVER['argv'][2]);
-        $ilCronStartup->initIlias();
+        if (method_exists($ilCronStartup, 'initIlias')) {
+            $ilCronStartup->initIlias();
+        }
         $ilCronStartup->authenticate();
 
         require_once './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Certificate/classes/class.ilCertificatePlugin.php';
