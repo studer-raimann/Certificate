@@ -1,0 +1,10 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<plugin id="cert">
+	<events>
+		<event id="Modules/Course" type="listen" />
+		<event id="Certificate/srCertificate" type="listen" />
+		<event id="create" type="raise" />
+		<event id="changeStatus" type="raise" />
+		<event id="update" type="raise" />
+	</events>
+</plugin>

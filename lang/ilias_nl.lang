@@ -289,3 +289,8 @@ usage_type_1#:#MISSING
 usage_type_2#:#MISSING
 setting_id_show_all_versions#:#MISSING
 setting_id_show_all_versions_info#:#MISSING
+certificates#:#MISSING certificates
+admin_certificates#:#MISSING admin_certificates
+certificate_types#:#MISSING certificate_types
+cron_title#:#MISSING cron_title
+cron_description#:#MISSING cron_description

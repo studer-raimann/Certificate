@@ -118,17 +118,17 @@
     },
     {
         "name": "khanamiryan/qrcode-detector-decoder",
-        "version": "1.0.2",
-        "version_normalized": "1.0.2.0",
+        "version": "1.0.3",
+        "version_normalized": "1.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/khanamiryan/php-qrcode-detector-decoder.git",
-            "reference": "a75482d3bc804e3f6702332bfda6cccbb0dfaa76"
+            "reference": "89b57f2d9939dd57394b83f6ccbd3e1a74659e34"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/khanamiryan/php-qrcode-detector-decoder/zipball/a75482d3bc804e3f6702332bfda6cccbb0dfaa76",
-            "reference": "a75482d3bc804e3f6702332bfda6cccbb0dfaa76",
+            "url": "https://api.github.com/repos/khanamiryan/php-qrcode-detector-decoder/zipball/89b57f2d9939dd57394b83f6ccbd3e1a74659e34",
+            "reference": "89b57f2d9939dd57394b83f6ccbd3e1a74659e34",
             "shasum": ""
         },
         "require": {
@@ -137,7 +137,7 @@
         "require-dev": {
             "phpunit/phpunit": "^5.7"
         },
-        "time": "2018-04-26T11:41:33+00:00",
+        "time": "2020-04-19T16:18:51+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -170,20 +170,20 @@
     },
     {
         "name": "rdpascua/jasperstarter",
-        "version": "3.3.0",
-        "version_normalized": "3.3.0.0",
+        "version": "3.6.0",
+        "version_normalized": "3.6.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/rdpascua/jasperstarter.git",
-            "reference": "03e847f651b259bb26d8cb2457b28b110734c97b"
+            "reference": "bca6b5de9eff8a9cd2d6f190c0cc65fcd6bee274"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/rdpascua/jasperstarter/zipball/03e847f651b259bb26d8cb2457b28b110734c97b",
-            "reference": "03e847f651b259bb26d8cb2457b28b110734c97b",
+            "url": "https://api.github.com/repos/rdpascua/jasperstarter/zipball/bca6b5de9eff8a9cd2d6f190c0cc65fcd6bee274",
+            "reference": "bca6b5de9eff8a9cd2d6f190c0cc65fcd6bee274",
             "shasum": ""
         },
-        "time": "2018-03-27T12:00:07+00:00",
+        "time": "2020-03-30T12:42:04+00:00",
         "bin": [
             "bin/jasperstarter"
         ],
@@ -208,36 +208,36 @@
     },
     {
         "name": "setasign/fpdi",
-        "version": "v2.2.0",
-        "version_normalized": "2.2.0.0",
+        "version": "v2.3.3",
+        "version_normalized": "2.3.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Setasign/FPDI.git",
-            "reference": "3c266002f8044f61b17329f7cd702d44d73f0f7f"
+            "reference": "50c388860a73191e010810ed57dbed795578e867"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/3c266002f8044f61b17329f7cd702d44d73f0f7f",
-            "reference": "3c266002f8044f61b17329f7cd702d44d73f0f7f",
+            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/50c388860a73191e010810ed57dbed795578e867",
+            "reference": "50c388860a73191e010810ed57dbed795578e867",
             "shasum": ""
         },
         "require": {
             "ext-zlib": "*",
             "php": "^5.6 || ^7.0"
         },
+        "conflict": {
+            "setasign/tfpdf": "<1.31"
+        },
         "require-dev": {
             "phpunit/phpunit": "~5.7",
             "setasign/fpdf": "~1.8",
-            "setasign/tfpdf": "1.25",
+            "setasign/tfpdf": "1.31",
             "tecnickcom/tcpdf": "~6.2"
         },
         "suggest": {
-            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured.",
-            "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
-            "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF.",
-            "setasign/fpdi-tfpdf": "Use this package to automatically evaluate dependencies to tFPDF."
+            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured."
         },
-        "time": "2019-01-30T14:11:19+00:00",
+        "time": "2020-04-28T12:40:35+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -267,28 +267,34 @@
             "fpdf",
             "fpdi",
             "pdf"
+        ],
+        "funding": [
+            {
+                "url": "https://tidelift.com/funding/github/packagist/setasign/fpdi",
+                "type": "tidelift"
+            }
         ]
     },
     {
         "name": "srag/custominputguis",
-        "version": "v0.19.2",
-        "version_normalized": "0.19.2.0",
+        "version": "v0.38.0",
+        "version_normalized": "0.38.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-            "reference": "4767515f350c1e51d06bc221bfe0c555754b1c08"
+            "reference": "76dc3588b2a41f14c62c12a5af57f077c75f7555"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/4767515f350c1e51d06bc221bfe0c555754b1c08",
-            "reference": "4767515f350c1e51d06bc221bfe0c555754b1c08",
+            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/76dc3588b2a41f14c62c12a5af57f077c75f7555",
+            "reference": "76dc3588b2a41f14c62c12a5af57f077c75f7555",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.6",
+            "php": ">=7.0",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2019-02-18T15:12:57+00:00",
+        "time": "2020-08-07T07:15:06+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -320,23 +326,23 @@
     },
     {
         "name": "srag/dic",
-        "version": "v0.14.12",
-        "version_normalized": "0.14.12.0",
+        "version": "v0.25.1",
+        "version_normalized": "0.25.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/DIC.git",
-            "reference": "e824df3032bfc201d68d29b1a2cc2c251d4e4b92"
+            "reference": "022cb0b92b003096380055a450597a5dbdbbe831"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/e824df3032bfc201d68d29b1a2cc2c251d4e4b92",
-            "reference": "e824df3032bfc201d68d29b1a2cc2c251d4e4b92",
+            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/022cb0b92b003096380055a450597a5dbdbbe831",
+            "reference": "022cb0b92b003096380055a450597a5dbdbbe831",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.6"
+            "php": ">=7.0"
         },
-        "time": "2019-01-28T11:49:30+00:00",
+        "time": "2020-06-09T05:30:37+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -416,23 +422,23 @@
     },
     {
         "name": "srag/librariesnamespacechanger",
-        "version": "v0.5.1",
-        "version_normalized": "0.5.1.0",
+        "version": "v0.10.2",
+        "version_normalized": "0.10.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
-            "reference": "64a1728ed926f14d6d17b70caf4ebcc3d86df717"
+            "reference": "8356263f5cb8d73ec05afa88712794fb0781711d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/64a1728ed926f14d6d17b70caf4ebcc3d86df717",
-            "reference": "64a1728ed926f14d6d17b70caf4ebcc3d86df717",
+            "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/8356263f5cb8d73ec05afa88712794fb0781711d",
+            "reference": "8356263f5cb8d73ec05afa88712794fb0781711d",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.6"
+            "php": ">=7.0"
         },
-        "time": "2019-01-22T09:19:11+00:00",
+        "time": "2020-08-05T12:50:30+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

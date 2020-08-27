@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../vendor/autoload.php';
+use srag\DIC\Certificate\DICTrait;
 
 /**
  * GUI-Class srCertificateDefinitionGUI
@@ -11,7 +12,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  */
 class srCertificateDefinitionGUI
 {
-
+    use DICTrait;
     const CMD_BUILD_ACTIONS = 'buildActions';
     const CMD_CALL_BACK = 'callBack';
     const CMD_CONFIRM_TYPE_CHANGE = 'confirmTypeChange';
@@ -124,7 +125,11 @@ class srCertificateDefinitionGUI
         $this->setSubTabs();
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
+        if (self::version()->is6()) {
+            $this->tpl->loadStandardTemplate();
+        } else {
         $this->tpl->getStandardTemplate();
+        }
         switch ($next_class) {
             case strtolower(srCertificateDefinitionFormGUI::class):
                 $this->initForm();
@@ -175,7 +180,11 @@ class srCertificateDefinitionGUI
                 }
                 break;
         }
+        if (self::version()->is6()) {
+            $this->tpl->printToStdout();
+        } else {
         $this->tpl->show();
+        }
     }
 
     /**
@@ -581,7 +590,7 @@ class srCertificateDefinitionGUI
      * Check permission of user
      * Redirect to course if permission check fails
      */
-    protected function checkPermission()
+    public function checkPermission()
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);

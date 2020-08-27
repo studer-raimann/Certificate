@@ -68,15 +68,19 @@ class srCertificateTypeGUI
     public function __construct()
     {
         $this->type = (isset($_GET['type_id'])) ? srCertificateType::find((int) $_GET['type_id']) : null;
-        self::dic()->mainTemplate()->addJavaScript(self::plugin()->getPluginObject()->getStyleSheetLocation('uihk_certificate.js'));
-        self::dic()->mainTemplate()->setTitleIcon(ilCertificatePlugin::getPluginIconImage());
     }
 
     public function executeCommand()
     {
+        self::dic()->mainTemplate()->addJavaScript(self::plugin()->getPluginObject()->getStyleSheetLocation('uihk_certificate.js'));
+        self::dic()->mainTemplate()->setTitleIcon(ilCertificatePlugin::getPluginIconImage());
         if (!$this->checkPermission()) {
             ilUtil::sendFailure(self::plugin()->translate('msg_no_permission'), true);
+            if (self::version()->is6()) {
+                self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class);
+            } else {
             self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class);
+            }
         }
 
         self::dic()->mainMenu()->setActive('none');
@@ -88,7 +92,11 @@ class srCertificateTypeGUI
             self::dic()->ctrl()->saveParameter($this, 'type_id');
             self::dic()->ctrl()->saveParameter($this, 'signature_id');
         }
+        if (self::version()->is6()) {
+            self::dic()->mainTemplate()->loadStandardTemplate();
+        } else {
         self::dic()->mainTemplate()->getStandardTemplate();
+        }
         switch ($next_class) {
             case '':
                 switch ($cmd) {
@@ -223,7 +231,11 @@ class srCertificateTypeGUI
                 }
                 break;
         }
+        if (self::version()->is6()) {
+            self::dic()->mainTemplate()->printToStdout();
+        } else {
         self::dic()->mainTemplate()->show();
+        }
     }
 
     /**
@@ -688,7 +700,7 @@ class srCertificateTypeGUI
     /**
      * Check permissions
      */
-    protected function checkPermission()
+    public function checkPermission()
     {
         $allowed_roles = ilCertificateConfig::getX('roles_administrate_certificate_types');
 

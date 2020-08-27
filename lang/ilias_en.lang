@@ -286,7 +286,6 @@ change#:#Change
 settings#:#Settings
 diploma_confirm#:#This diploma confirms that the above named person attended the training course stated below:
 valid_until#:#Valid until
-button_start_cronjob#:#Execute Cronjob
 participation_certificate#:#Participation Certificate
 condition_object_type#:#Certificate will be created when..
 condition_object_type_0#:#Any learning progress relevant object
@@ -302,3 +301,8 @@ usage_type_1#:#Course Completion Certificate
 usage_type_2#:#Participation Certificate
 setting_id_show_all_versions#:#Show all certificate versions
 setting_id_show_all_versions_info#:#Show the user all versions of his certificates
+certificates#:#Certificates
+admin_certificates#:#Administration of Certificates
+certificate_types#:#Certificate Types
+cron_title#:#Generate certificates
+cron_description#:#Generate certificates

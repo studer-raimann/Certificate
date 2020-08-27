@@ -2,10 +2,7 @@
 
 namespace srag\CustomInputGUIs\Certificate;
 
-use ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory as ProgressMeterFactoryCore;
-use srag\CustomInputGUIs\Certificate\LearningProgressPie\LearningProgressPie;
-use srag\CustomInputGUIs\Certificate\ProgressMeter\Implementation\Factory as ProgressMeterFactory;
-use srag\CustomInputGUIs\Certificate\ViewControlModeGUI\ViewControlModeGUI;
+use srag\CustomInputGUIs\Certificate\ViewControlModeUI\ViewControlModeUI;
 use srag\DIC\Certificate\DICTrait;
 
 /**
@@ -14,56 +11,45 @@ use srag\DIC\Certificate\DICTrait;
  * @package srag\CustomInputGUIs\Certificate
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
- * @internal
  */
-final class CustomInputGUIs {
+final class CustomInputGUIs
+{
 
-	use DICTrait;
-	/**
-	 * @var self
-	 */
-	protected static $instance = NULL;
+    use DICTrait;
 
-
-	/**
-	 * @return self
-	 */
-	public static function getInstance(): self {
-		if (self::$instance === NULL) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+    /**
+     * @var self|null
+     */
+    protected static $instance = null;
 
 
-	/**
-	 * @return LearningProgressPie
-	 */
-	public function learningProgressPie() {
-		return new LearningProgressPie();
-	}
+    /**
+     * CustomInputGUIs constructor
+     */
+    private function __construct()
+    {
+
+    }
 
 
-	/**
-	 * @return ProgressMeterFactoryCore|ProgressMeterFactory
-	 *
-	 * @since ILIAS 5.4
-	 */
-	public function progressMeter() {
-		if (self::version()->is54()) {
-			return new ProgressMeterFactoryCore();
-		} else {
-			return new ProgressMeterFactory();
-		}
-	}
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return ViewControlModeGUI
-	 */
-	public function viewControlModeGUI() {
-		return new ViewControlModeGUI();
-	}
+    /**
+     * @return ViewControlModeUI
+     */
+    public function viewControlMode() : ViewControlModeUI
+    {
+        return new ViewControlModeUI();
+    }
 }
