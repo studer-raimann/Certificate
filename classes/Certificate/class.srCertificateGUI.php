@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../vendor/autoload.php';
+use srag\DIC\Certificate\DICTrait;
 
 /**
  * Class srCertificateGUI
@@ -9,7 +10,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  */
 abstract class srCertificateGUI
 {
-
+    use DICTrait;
     const CMD_APPLY_FILTER = 'applyFilter';
     const CMD_BUILD_ACTIONS = 'buildActions';
     const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
@@ -46,18 +47,27 @@ abstract class srCertificateGUI
         $this->user = $DIC->user();
         $this->rbac = $DIC->rbac()->review();
         $this->pl = ilCertificatePlugin::getInstance();
-        $this->tpl->setTitleIcon(ilCertificatePlugin::getPluginIconImage());
-        $DIC["ilMainMenu"]->setActive('none');
     }
 
     public function executeCommand()
     {
+        global $DIC;
+        $this->tpl->setTitleIcon(ilCertificatePlugin::getPluginIconImage());
+        $DIC["ilMainMenu"]->setActive('none');
         if (!$this->checkPermission()) {
             ilUtil::sendFailure($this->pl->txt('msg_no_permission'), true);
+            if (self::version()->is6()) {
+                $this->ctrl->redirectByClass(ilDashboardGUI::class);
+            } else {
             $this->ctrl->redirectByClass(ilPersonalDesktopGUI::class);
+            }
         }
 
+        if (self::version()->is6()) {
+            $this->tpl->loadStandardTemplate();
+        } else {
         $this->tpl->getStandardTemplate();
+        }
 
         $cmd = $this->ctrl->getCmd(self::CMD_INDEX);
         switch ($cmd) {
@@ -83,7 +93,11 @@ abstract class srCertificateGUI
                 $this->performCommand($cmd);
         }
 
+        if (self::version()->is6()) {
+            $this->tpl->printToStdout();
+        } else {
         $this->tpl->show();
+        }
     }
 
     public function index()
@@ -145,7 +159,7 @@ abstract class srCertificateGUI
     /**
      * Check permissions
      */
-    abstract protected function checkPermission();
+    abstract public function checkPermission();
 
     /**
      * @param $cmd

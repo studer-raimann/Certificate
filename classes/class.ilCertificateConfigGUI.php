@@ -11,7 +11,6 @@ class ilCertificateConfigGUI extends ilPluginConfigGUI
     const CMD_CANCEL = 'cancel';
     const CMD_CONFIGURE = 'configure';
     const CMD_SAVE = 'save';
-    const CMD_START_CRONJOB = 'startCronjob';
 
     /**
      * @var ilCertificatePlugin
@@ -51,7 +50,6 @@ class ilCertificateConfigGUI extends ilPluginConfigGUI
         switch ($cmd) {
             case self::CMD_CONFIGURE:
             case self::CMD_SAVE:
-            case self::CMD_START_CRONJOB:
                 $this->$cmd();
                 break;
         }
@@ -96,26 +94,8 @@ class ilCertificateConfigGUI extends ilPluginConfigGUI
     /**
      *
      */
-    protected function startCronjob()
-    {
-        $cron = new srCertificateCronjob();
-        try {
-            $cron->run();
-            ilUtil::sendSuccess($this->pl->txt('msg_cronjob_success'), true);
-        } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
-        }
-        $this->configure();
-    }
-
-    /**
-     *
-     */
     protected function initToolbarButton()
     {
-        $cronjob_button = ilLinkButton::getInstance();
-        $cronjob_button->setCaption($this->pl->txt('button_start_cronjob'), false);
-        $cronjob_button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_START_CRONJOB));
-        $this->toolbar->addButtonInstance($cronjob_button);
+
     }
 }

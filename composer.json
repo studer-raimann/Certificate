@@ -26,7 +26,7 @@
     "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_PLCERTIFICATE"
   },
   "require": {
-    "php": ">=5.6",
+    "php": ">=7.0",
     "2amigos/qrcode-library": "^1.1",
     "srag/dic": ">=0.1.0",
     "srag/jasperreport": ">=0.1.0",
@@ -34,24 +34,12 @@
     "srag/custominputguis": ">=0.1.0"
   },
   "autoload": {
+    "psr-4": {
+      "srag\\Plugins\\Certificate\\": "src/"
+    },
     "classmap": [
       "./classes/",
-      "./exceptions/",
-      "../../../../../../../Services/Table",
-      "../../../../../../../Services/Form",
-      "../../../../../../../Services/UIComponent",
-      "../../../../../../../Services/Utilities",
-      "../../../../../../../Services/Link",
-      "../../../../../../../Services/Object",
-      "../../../../../../../Services/Mail",
-      "../../../../../../../Services/Tracking",
-      "../../../../../../../Services/ActiveRecord",
-      "../../../../../../../Services/Exceptions",
-      "../../../../../../../Services/Object",
-      "../../../../../../../Services/PDFGeneration",
-      "../../../../../../../Modules/Course",
-      "../../../../../../../Services/Component",
-      "../../../../../../../Services/Repository"
+      "./exceptions/"
     ]
   },
   "config": {
@@ -60,6 +48,9 @@
     "classmap-authoritative": true
   },
   "scripts": {
-    "pre-autoload-dump": "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces"
+    "pre-autoload-dump": [
+      "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
+      "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport"
+    ]
   }
 }

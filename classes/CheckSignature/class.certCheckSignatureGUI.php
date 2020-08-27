@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../vendor/autoload.php';
+use srag\DIC\Certificate\DICTrait;
 
 /**
  * GUI-Class certCheckSignatureGUI
@@ -9,7 +10,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  */
 class certCheckSignatureGUI
 {
-
+    use DICTrait;
     const CMD_DECRYPT_SIGNATURE = 'decryptSignature';
     const CMD_SHOW_FORM = 'showForm';
 
@@ -40,7 +41,11 @@ class certCheckSignatureGUI
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW_FORM);
+        if (self::version()->is6()) {
+            $this->tpl->loadStandardTemplate();
+        } else {
         $this->tpl->getStandardTemplate();
+        }
         switch ($cmd) {
             case self::CMD_SHOW_FORM:
             default:
@@ -50,7 +55,11 @@ class certCheckSignatureGUI
                 $this->decryptSignature();
                 break;
         }
+        if (self::version()->is6()) {
+            $this->tpl->printToStdout();
+        } else {
         $this->tpl->show();
+        }
     }
 
     public function showForm()
