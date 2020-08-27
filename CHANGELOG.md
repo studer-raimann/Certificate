@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [3.0.0]
 - ILIAS 6 support
 - Core main menu
 - Integrate 'CertificateEvents'
