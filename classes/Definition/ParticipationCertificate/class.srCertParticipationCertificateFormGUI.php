@@ -1,6 +1,6 @@
 <?php
 
-use srag\CustomInputGUIs\Certificate\MultiSelectSearchInputGUI\MultiSelectSearchInput2GUI;
+use srag\CustomInputGUIs\Certificate\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\Certificate\PropertyFormGUI\PropertyFormGUI;
 
 /**
@@ -37,7 +37,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI
      * @param string $key
      * @return mixed|void
      */
-    protected function getValue($key)
+    protected function getValue(string $key)
     {
 
     }
@@ -84,7 +84,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI
                         self::PROPERTY_CLASS => ilRadioOption::class,
                         self::PROPERTY_SUBITEMS => [
                             srCertParticipationCertificate::F_CONDITION_OBJECT_VALUE_TYPES => [
-                                self::PROPERTY_CLASS => MultiSelectSearchInput2GUI::class,
+                                self::PROPERTY_CLASS => MultiSelectSearchNewInputGUI::class,
                                 self::PROPERTY_OPTIONS => $this->getObjectTypeInputOptions(),
                                 self::PROPERTY_REQUIRED => true,
                                 self::PROPERTY_VALUE => $this->srCertParticipationCertificate->getConditionObjectValueTypes(),
@@ -127,7 +127,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI
      * @param string $key
      * @param mixed  $value
      */
-    protected function storeValue($key, $value)
+    protected function storeValue(string $key, $value)
     {
         switch ($key) {
             case srCertParticipationCertificate::F_TYPE:
@@ -151,7 +151,7 @@ class srCertParticipationCertificateFormGUI extends PropertyFormGUI
     /**
      * @return bool
      */
-    public function storeForm()
+    public function storeForm() : bool
     {
         if (parent::storeForm() === false) {
             return false;

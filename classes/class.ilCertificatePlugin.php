@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
-
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use srag\DIC\Certificate\DICTrait;
+use srag\Plugins\Certificate\Menu\Menu;
 /**
  * Certificate Plugin
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
@@ -9,7 +11,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
  */
 class ilCertificatePlugin extends ilUserInterfaceHookPlugin
 {
-
+    use DICTrait;
     const PLUGIN_ID = 'cert';
     const PLUGIN_NAME = 'Certificate';
     /**
@@ -150,20 +152,17 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
      */
     public function checkPreConditions()
     {
-        $exists = $this->ilPluginAdmin->exists(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
-        $active = $this->ilPluginAdmin->isActive(IL_COMP_SERVICE, 'EventHandling', 'evhk', 'CertificateEvents');
-
-        return ($exists && $active);
+        return !file_exists(__DIR__ . "/../../../../EventHandling/EventHook/CertificateEvents");
     }
 
     /**
      * Don't activate plugin if preconditions are not given
      * @return bool
      */
-    protected function beforeActivation()
+    protected function beforeUpdate()
     {
         if (!$this->checkPreConditions()) {
-            ilUtil::sendFailure("You need to install the 'CertificateEvents' plugin");
+            ilUtil::sendFailure("Please uninstall and remove legacy 'CertificateEvents' plugin from server, because it is incompatible / give conflict - It's now integrated in 'Certificate' plugin", true);
 
             return false;
         }
@@ -202,5 +201,44 @@ class ilCertificatePlugin extends ilUserInterfaceHookPlugin
         ilUtil::delDir(CLIENT_DATA_DIR . '/cert_keys');
 
         return true;
+    }
+
+
+    /**
+     * @param string $component
+     * @param string $event
+     * @param array  $parameters
+     */
+    public function handleEvent($component, $event, $parameters) {
+        // Generate certificate if course is completed
+        switch ($component) {
+            case 'Modules/Course':
+                $course = NULL;
+                if (isset($parameters['object']) && $parameters['object'] instanceof ilObjCourse) {
+                    $course = $parameters['object'];
+                } elseif (isset($parameters['obj_id'])) {
+                    $course = new ilObjCourse(array_pop(ilObject::_getAllReferences($parameters['obj_id'])));
+                }
+                if (!$course) {
+                    return;
+                }
+                $handler = new srCertificateEventsCourseHandler($course);
+                $handler->handle($event, $parameters);
+                break;
+            case 'Certificate/srCertificate':
+                $certificate = $parameters['object'];
+                $handler = new srCertificateEventsCertificateHandler($certificate);
+                $handler->handle($event, $parameters);
+                break;
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
+    {
+        return new Menu(self::dic()->dic(), $this);
     }
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## [x]
+- ILIAS 6 support
+- Core main menu
+- Integrate 'CertificateEvents'
+- Separate legacy cron job to `CertificateCron` wrapper plugin
+- Remove run cron job from plugin config (It's now possible to run in ILIAS core cron GUI)
+- Remove ILIAS 5.3 support
+- Min. PHP 7.0
+
 ## [2.1.0]
 - Feature: "Show all certificate versions" definition setting
 - Feature: Add "My Certificates" tab in courses

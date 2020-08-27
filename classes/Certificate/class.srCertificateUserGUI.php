@@ -15,8 +15,6 @@ class srCertificateUserGUI extends srCertificateGUI
     public function __construct()
     {
         parent::__construct();
-        $this->tpl->setTitle($this->pl->txt('my_certificates'));
-        $this->updateStatusFromDraftToNew();
     }
 
     /**
@@ -52,9 +50,9 @@ class srCertificateUserGUI extends srCertificateGUI
     /**
      * Check permissions
      */
-    protected function checkPermission()
+    public function checkPermission()
     {
-        return true;
+        return self::dic()->user()->getId() != ANONYMOUS_USER_ID;
     }
 
     /**
@@ -97,5 +95,17 @@ class srCertificateUserGUI extends srCertificateGUI
         }
 
         return new srCertificateUserTableGUI($this, $cmd, $this->user, $options);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function executeCommand()/*:void*/
+    {
+        $this->tpl->setTitle($this->pl->txt('my_certificates'));
+        $this->updateStatusFromDraftToNew();
+
+        parent::executeCommand();
     }
 }

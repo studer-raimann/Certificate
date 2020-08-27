@@ -19,13 +19,12 @@ class srCertificateAdministrationGUI extends srCertificateGUI
     public function __construct()
     {
         parent::__construct();
-        $this->tpl->setTitle($this->pl->txt('administrate_certificates'));
     }
 
     /**
      * Check permissions
      */
-    protected function checkPermission()
+    public function checkPermission()
     {
         $allowed_roles = ilCertificateConfig::getX('roles_administrate_certificates');
 
@@ -121,5 +120,16 @@ class srCertificateAdministrationGUI extends srCertificateGUI
 
         echo $alist->getHTML(true);
         exit;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function executeCommand()/*:void*/
+    {
+        $this->tpl->setTitle($this->pl->txt('administrate_certificates'));
+
+        parent::executeCommand();
     }
 }

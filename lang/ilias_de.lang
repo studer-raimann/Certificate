@@ -285,7 +285,6 @@ change#:#Ändern
 settings#:#Einstellungen
 diploma_confirm#:#Dieses Diplom bestätigt, dass die oben genannte Person an dem unten angegebenen Kurs-Trainings teilgenommen hat:
 valid_until#:#Gültig bis
-button_start_cronjob#:#Cronjob Starten
 participation_certificate#:#Teilnahmezertifikat
 condition_object_type#:#Zertifikat wird erstellt, wenn..
 condition_object_type_0#:#Beliebiges lernfortschrittsrelevantes Objekt
@@ -301,3 +300,8 @@ usage_type_1#:#Kursabschlusszertifikat
 usage_type_2#:#Teilnahmebestätigung
 setting_id_show_all_versions#:#Sämtliche Zertifikatsversionen anzeigen
 setting_id_show_all_versions_info#:#Zeigt dem Benutzer alle Versionen seiner Zertifikate an
+certificates#:#Zertifikate
+admin_certificates#:#Administration Zertifikate
+certificate_types#:#Zertifikatstypen
+cron_title#:#Zertifikate generieren
+cron_description#:#Zertifikate generieren
