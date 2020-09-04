@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.0.1]
+- Only show tabs if course has tabs (Hide tabs create sub object)
+
 ## [3.0.0]
 - ILIAS 6 support
 - Core main menu
